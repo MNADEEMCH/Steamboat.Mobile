@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steamboat.Mobile.App">
+	<Application.Resources>
+		<ResourceDictionary>
+            <Color x:Key="NavBackground">#23303E</Color>
+            <Color x:Key="NormalTextColor">#334046</Color>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource NormalTextColor}" />
+                <Setter Property="FontSize" Value="17" />
+            </Style>
+        </ResourceDictionary>
+	</Application.Resources>
+</Application>

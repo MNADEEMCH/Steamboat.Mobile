@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.LoginView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true" BackgroundColor="#60a7ea">
+	<ContentPage.Content>
+        <Grid RowSpacing="0" Margin="20" VerticalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Spacing="0" Margin="0,0,0,20" >
+                <Label Text="Username:" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" />
+                <Entry Text="{Binding Username}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="30"/>
+            </StackLayout>
+            <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Spacing="0" >
+                <Label Text="Password:" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" />
+                <Entry Text="{Binding Password}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="30"/>
+            </StackLayout>
+            <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Spacing="0" >
+                <Button Text="Login" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Command="{Binding LoginCommand}" />
+            </StackLayout>
+            <StackLayout Grid.Row="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Spacing="0" >
+                <Label Text="{Binding LoginResult}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+        </Grid>
+	</ContentPage.Content>
+</ContentPage>
