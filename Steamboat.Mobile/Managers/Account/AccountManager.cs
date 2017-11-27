@@ -9,9 +9,9 @@ namespace Steamboat.Mobile.Managers.Account
     {
         private IAccountService _accountService;
 
-        public AccountManager(IAccountService accountService)
+        public AccountManager(IAccountService accountService = null)
         {
-            _accountService = accountService;
+            _accountService = accountService ?? DependencyContainer.Resolve<IAccountService>();
         }
 
         public async Task<AccountInfo> Login(string username, string password)

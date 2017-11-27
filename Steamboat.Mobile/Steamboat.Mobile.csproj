@@ -38,6 +38,10 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\StatusView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -68,6 +72,10 @@
     <Compile Include="Services\Account\AccountService.cs" />
     <Compile Include="Models\Account\AccountInfo.cs" />
     <Compile Include="Models\Account\AccountLogin.cs" />
+    <Compile Include="ViewModels\StatusViewModel.cs" />
+    <Compile Include="Views\StatusView.xaml.cs">
+      <DependentUpon>StatusView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Splat">

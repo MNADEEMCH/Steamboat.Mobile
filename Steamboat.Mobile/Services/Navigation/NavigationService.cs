@@ -20,12 +20,9 @@ namespace Steamboat.Mobile.Services.Navigation
             }
         }
 
-        ViewModelBase INavigationService.PreviousPageViewModel => throw new NotImplementedException();
-
         public Task InitializeAsync()
-        {
-            throw new NotImplementedException();
-            //return NavigateToAsync<WelcomeViewModel>();
+        {            
+            return NavigateToAsync<LoginViewModel>();
         }
 
         public Task NavigateToAsync<TViewModel>() where TViewModel : ViewModelBase

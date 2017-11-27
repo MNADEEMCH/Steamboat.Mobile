@@ -1,4 +1,5 @@
-﻿using Steamboat.Mobile.Views;
+﻿using Steamboat.Mobile.Services.Navigation;
+using Steamboat.Mobile.Views;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile
@@ -9,7 +10,9 @@ namespace Steamboat.Mobile
         {
             InitializeComponent();
 
-            MainPage = new LoginView();
+            //MainPage = new LoginView();
+            var navigationService = DependencyContainer.Resolve<INavigationService>();
+            navigationService.InitializeAsync();
         }
 
         protected override void OnStart()

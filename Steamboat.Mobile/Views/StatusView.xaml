@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steamboat.Mobile.Views.StatusView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true">
+	<ContentPage.Content>
+        <Label Text="This is the status view" />
+	</ContentPage.Content>
+</ContentPage>

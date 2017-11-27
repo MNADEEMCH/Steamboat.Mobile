@@ -10,9 +10,9 @@ namespace Steamboat.Mobile.Services.Account
         private readonly IRequestProvider _requestProvider;
         private const string ApiUrlBase = "account/login";
 
-        public AccountService(IRequestProvider requestProvider)
+        public AccountService(IRequestProvider requestProvider = null)
         {
-            _requestProvider = requestProvider;
+            _requestProvider = requestProvider ?? DependencyContainer.Resolve<IRequestProvider>();
         }
 
         public async Task<AccountInfo> AccountLogin(AccountLogin loginCredentials)

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Services.Navigation;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
@@ -22,9 +23,9 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-        public LoginViewModel(IAccountManager accountManager)
+        public LoginViewModel(IAccountManager accountManager = null)
         {
-            _accountManager = accountManager;
+            _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
 
             LoginCommand = new Command(async () => await this.Login());
 
@@ -35,15 +36,16 @@ namespace Steamboat.Mobile.ViewModels
         {
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                var result = await _accountManager.Login(username, password);
-                if (result.AuthenticatedAccount == null)
-                {
-                    LoginResult = "Error";
-                }
-                else
-                {
-                    LoginResult = result.AuthenticatedAccount.FirstName + " " + result.AuthenticatedAccount.LastName;
-                }
+                //var result = await _accountManager.Login(username, password);
+                //if (result.AuthenticatedAccount == null)
+                //{
+                //    LoginResult = "Error";
+                //}
+                //else
+                //{
+                    //LoginResult = result.AuthenticatedAccount.FirstName + " " + result.AuthenticatedAccount.LastName;
+                    await NavigationService.NavigateToAsync<StatusViewModel>();
+                //}
             }
             else {
                 LoginResult = "Username and password can't be null";
