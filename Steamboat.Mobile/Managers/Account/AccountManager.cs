@@ -22,19 +22,21 @@ namespace Steamboat.Mobile.Managers.Account
         {
             try
             {
-                //var account = await _accountService.AccountLogin(new AccountLogin()
-                //{
-                //    EmailAddress = username,
-                //    Password = password
-                //});
+                var account = await _accountService.AccountLogin(new AccountLogin()
+                {
+                    EmailAddress = username,
+                    Password = password,
+                    DevicePlatform = "iOS",
+                    DeviceModel = "iPhone 8",
+                    DeviceLocalID = "123456789"
+                });
 
                 var user = App.CurrentUser == null ?
                               await _userRepository.AddUser(username) : await _userRepository.UpdateUser(App.CurrentUser.Id, App.CurrentUser.Email);
                 
                 App.CurrentUser = user;
 
-                //return account;
-                return null;
+                return account;
             }
             catch (Exception e)
             {
