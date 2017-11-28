@@ -1,4 +1,5 @@
-﻿using Steamboat.Mobile.Services.Navigation;
+﻿using Steamboat.Mobile.Models.User;
+using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Views;
 using Xamarin.Forms;
 
@@ -6,6 +7,8 @@ namespace Steamboat.Mobile
 {
     public partial class App : Application
     {
+        public static CurrentUser CurrentUser;
+
         public App()
         {
             InitializeComponent();

@@ -1,6 +1,9 @@
 ﻿using System;
 using Splat;
 using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Models.User;
+using Steamboat.Mobile.Repositories.Database;
+using Steamboat.Mobile.Repositories.User;
 using Steamboat.Mobile.Services.Account;
 using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Services.RequestProvider;
@@ -15,11 +18,21 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.RegisterConstant(new RequestProvider(), typeof(IRequestProvider));
             Locator.CurrentMutable.RegisterConstant(new NavigationService(), typeof(INavigationService));
 
+            //Services
             Locator.CurrentMutable.RegisterLazySingleton(() => new AccountService(), typeof(IAccountService));
+
+            //Repositories
+            Locator.CurrentMutable.RegisterLazySingleton(() => new UserRepository(), typeof(IUserRepository));
+
+            //Database
+            Locator.CurrentMutable.RegisterLazySingleton(() => new Database<CurrentUser>(), typeof(IDatabase<CurrentUser>));
+
+            //Managers
             Locator.CurrentMutable.RegisterLazySingleton(() => new AccountManager(), typeof(IAccountManager));
 
-            Locator.CurrentMutable.RegisterLazySingleton(() =>new LoginViewModel());
-            Locator.CurrentMutable.RegisterLazySingleton(() =>new StatusViewModel());
+            //ViewModels
+            Locator.CurrentMutable.RegisterLazySingleton(() => new LoginViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new StatusViewModel());
         }
 
         public static T Resolve<T>()

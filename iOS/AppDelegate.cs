@@ -23,6 +23,7 @@ namespace Steamboat.Mobile.iOS
         private void ResolveDependencies()
         {
             DependencyContainer.RegisterDependencies();
+            IOSDependencyContainer.RegisterDependencies();
         }
     }
 }

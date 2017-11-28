@@ -28,28 +28,41 @@ namespace Steamboat.Mobile.ViewModels
             _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
 
             LoginCommand = new Command(async () => await this.Login());
-
             LoginResult = "Try to login...";
+            Username = Task.Run(() => GetCurrentUser()).Result;
         }
 
         private async Task Login()
         {
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                //var result = await _accountManager.Login(username, password);
-                //if (result.AuthenticatedAccount == null)
-                //{
-                //    LoginResult = "Error";
-                //}
-                //else
-                //{
-                    //LoginResult = result.AuthenticatedAccount.FirstName + " " + result.AuthenticatedAccount.LastName;
+                var result = await _accountManager.Login(username, password);
+                if (result.AuthenticatedAccount == null)
+                {
+                    LoginResult = "Error";
+                }
+                else
+                {
+                    LoginResult = result.AuthenticatedAccount.FirstName + " " + result.AuthenticatedAccount.LastName;
                     await NavigationService.NavigateToAsync<StatusViewModel>();
-                //}
+                }
             }
             else {
                 LoginResult = "Username and password can't be null";
             }
+        }
+
+        private async Task<string> GetCurrentUser()
+        {
+            var user = await _accountManager.GetLocalUser();
+
+            if (user != null)
+            {
+                App.CurrentUser = user;
+                return user.Email;
+            }
+            else
+                return string.Empty;
         }
     }
 }

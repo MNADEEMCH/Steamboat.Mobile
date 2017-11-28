@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Steamboat.Mobile.Models.Account;
+using Steamboat.Mobile.Models.User;
+using Steamboat.Mobile.Repositories.User;
 using Steamboat.Mobile.Services.Account;
 
 namespace Steamboat.Mobile.Managers.Account
@@ -8,18 +10,48 @@ namespace Steamboat.Mobile.Managers.Account
     public class AccountManager : IAccountManager
     {
         private IAccountService _accountService;
+        private IUserRepository _userRepository;
 
-        public AccountManager(IAccountService accountService = null)
+        public AccountManager(IAccountService accountService = null, IUserRepository userRepository = null)
         {
             _accountService = accountService ?? DependencyContainer.Resolve<IAccountService>();
+            _userRepository = userRepository ?? DependencyContainer.Resolve<IUserRepository>();
         }
 
         public async Task<AccountInfo> Login(string username, string password)
         {
-            return await _accountService.AccountLogin(new AccountLogin(){
-                EmailAddress = username,
-                Password = password
-            });
+            try
+            {
+                //var account = await _accountService.AccountLogin(new AccountLogin()
+                //{
+                //    EmailAddress = username,
+                //    Password = password
+                //});
+
+                var user = App.CurrentUser == null ?
+                              await _userRepository.AddUser(username) : await _userRepository.UpdateUser(App.CurrentUser.Id, App.CurrentUser.Email);
+                
+                App.CurrentUser = user;
+
+                //return account;
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<CurrentUser> GetLocalUser()
+        {
+            try
+            {
+                return await _userRepository.GetCurrentUser();
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
         }
     }
 }
