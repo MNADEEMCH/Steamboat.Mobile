@@ -21,6 +21,7 @@ namespace Steamboat.Mobile.Repositories.User
             user.Email = email;
             var ins = await _database.Insert(user);
             //TODO: Check ins value and throw
+
             return user;
         }
 

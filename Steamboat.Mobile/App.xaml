@@ -2,12 +2,20 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steamboat.Mobile.App">
 	<Application.Resources>
 		<ResourceDictionary>
+            <Color x:Key="ViewBackground">#FFFFFF</Color>
             <Color x:Key="NavBackground">#23303E</Color>
+            <Color x:Key="NavTextColor">#FFFFFF</Color>
             <Color x:Key="NormalTextColor">#334046</Color>
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource NormalTextColor}" />
-                <Setter Property="FontSize" Value="17" />
+                <!--<Setter Property="FontSize" Value="17" />-->
             </Style>
+
+            <!-- FONTS -->
+            <OnPlatform x:Key="OpenSansSemiBold" x:TypeArguments="x:String" iOS="OpenSans-Semibold" Android="fonts/OpenSans-SemiBold.ttf#OpenSans-SemiBold" />
+            <OnPlatform x:Key="OpenSansRegular" x:TypeArguments="x:String" iOS="OpenSans-Regular" Android="fonts/OpenSans-Regular.ttf#OpenSans-Regular" />
+            <OnPlatform x:Key="RalewayBold" x:TypeArguments="x:String" iOS="Raleway-Bold" Android="fonts/Raleway-Bold.ttf#Raleway-Bold" />
+            
         </ResourceDictionary>
 	</Application.Resources>
 </Application>

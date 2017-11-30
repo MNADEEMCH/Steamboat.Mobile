@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using FFImageLoading.Forms.Touch;
 using Foundation;
 using UIKit;
+using UXDivers.Gorilla;
 
 namespace Steamboat.Mobile.iOS
 {
@@ -15,7 +16,12 @@ namespace Steamboat.Mobile.iOS
             global::Xamarin.Forms.Forms.Init();
 
             ResolveDependencies();
+            CachedImageRenderer.Init();
             LoadApplication(new App());
+            //LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(
+            //  new UXDivers.Gorilla.Config("Good Gorilla")
+            //    .RegisterAssembly(typeof(FFImageLoading.Forms.CachedImage).Assembly)
+            //));
 
             return base.FinishedLaunching(app, options);
         }

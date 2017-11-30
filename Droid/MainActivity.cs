@@ -7,6 +7,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using UXDivers.Gorilla;
+using FFImageLoading.Forms.Droid;
+using FFImageLoading.Svg.Forms;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -23,7 +26,12 @@ namespace Steamboat.Mobile.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             ResolveDependencies();
-            LoadApplication(new App());
+            CachedImageRenderer.Init();
+            var ignore = typeof(SvgCachedImage);
+            //LoadApplication(new App());
+            LoadApplication(UXDivers.Gorilla.Droid.Player.CreateApplication(this,
+                new UXDivers.Gorilla.Config("Good Gorilla").RegisterAssembliesFromTypes<FFImageLoading.Forms.CachedImage,FFImageLoading.Svg.Forms.SvgCachedImage>()
+            ));
         }
 
         private void ResolveDependencies()

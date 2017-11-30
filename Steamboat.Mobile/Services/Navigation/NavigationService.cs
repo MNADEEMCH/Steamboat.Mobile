@@ -21,7 +21,7 @@ namespace Steamboat.Mobile.Services.Navigation
         }
 
         public Task InitializeAsync()
-        {            
+        {     
             return NavigateToAsync<LoginViewModel>();
         }
 
