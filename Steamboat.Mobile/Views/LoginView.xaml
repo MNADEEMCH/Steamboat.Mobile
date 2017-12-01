@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Steamboat.Mobile.Views.LoginView"
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true" NavigationPage.HasNavigationBar="false"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
     BackgroundColor="{StaticResource ViewBackground}">
 	<ContentPage.Content>
         <Grid RowSpacing="0" ColumnSpacing="0">
@@ -13,11 +15,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <!--Header Image-->
-            <!--<ffimageloading:CachedImage Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="100" HeightRequest="100"
-                DownsampleToViewSize="true" Source="imgLogin.png" >
-            </ffimageloading:CachedImage>-->
-            <Image Source="imgLogin.png" Grid.Row="0" Aspect="AspectFill" />
-            <!--<BoxView Color="Aqua" />-->
+            <!--<Image Source="imgLogin.png" Grid.Row="0" Aspect="AspectFill" />-->
+            <ffimageloadingsvg:SvgCachedImage Aspect="AspectFill" Source="imgLogin.png"/>
             <!--Login-->
             <Grid Grid.Row="1" Margin="40,0">
                 <StackLayout Spacing="0" >
@@ -26,8 +25,12 @@
                     <Entry Placeholder="Email" Margin="0,24,0,0" />
                     <Entry Placeholder="Password" Margin="0,16,0,0" />
                     <Label Text="FORGOT PASSWORD" HorizontalOptions="End" FontSize="12" Margin="0,8,0,0" TextColor="#2C9FC9" FontFamily="{DynamicResource RalewayBold}" />
-                    <Button Text="LOGIN" />
-                    <Label Text="Not a member yet?" HorizontalOptions="Center" FontSize="14" FontFamily="{DynamicResource OpenSansRegular}" />
+                    <customControl:GradientRoundedButton Text="LOGIN" IOSBorderRadius="25" AndroidBorderRadius="70" 
+                    StartColor="#17EAD9" EndColor="#6078EA" TextColor="White" FontFamily="{DynamicResource RalewaySemiBold}" 
+                    HorizontalOptions="Center" HeightRequest="50" WidthRequest="175" FontSize="16" Margin="0,32,0,0" />
+                    <Grid IsVisible="false">
+                    </Grid>
+                    <Label Text="Not a member yet?" HorizontalOptions="Center" FontSize="12" FontFamily="{DynamicResource OpenSansRegular}" Margin="0,32,0,0" />
                     <Label Text="REGISTER HERE" HorizontalOptions="Center" FontSize="16" Margin="0,8,0,0" TextColor="#2C9FC9" FontFamily="{DynamicResource RalewayBold}" />
                 </StackLayout>
             </Grid>

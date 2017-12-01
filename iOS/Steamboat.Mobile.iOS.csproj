@@ -184,6 +184,7 @@
     <Folder Include="Resources\" />
     <Folder Include="Utilities\" />
     <Folder Include="Resources\Fonts\" />
+    <Folder Include="CustomRenderers\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -198,6 +199,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="IOSDependencyContainer.cs" />
     <Compile Include="Utilities\SQLiteHelper.cs" />
+    <Compile Include="CustomRenderers\GradientRoundedButtonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

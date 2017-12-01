@@ -10,6 +10,8 @@ using Android.OS;
 using UXDivers.Gorilla;
 using FFImageLoading.Forms.Droid;
 using FFImageLoading.Svg.Forms;
+using Steamboat.Mobile.Droid.CustomRenderers;
+using Steamboat.Mobile.CustomControls;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -30,7 +32,10 @@ namespace Steamboat.Mobile.Droid
             var ignore = typeof(SvgCachedImage);
             //LoadApplication(new App());
             LoadApplication(UXDivers.Gorilla.Droid.Player.CreateApplication(this,
-                new UXDivers.Gorilla.Config("Good Gorilla").RegisterAssembliesFromTypes<FFImageLoading.Forms.CachedImage,FFImageLoading.Svg.Forms.SvgCachedImage>()
+                new UXDivers.Gorilla.Config("Good Gorilla")
+                    .RegisterAssembly(typeof(FFImageLoading.Forms.CachedImage).Assembly)
+                    .RegisterAssembly(typeof(FFImageLoading.Svg.Forms.SvgCachedImage).Assembly)
+                    .RegisterAssembly(typeof(GradientRoundedButton).Assembly)
             ));
         }
 

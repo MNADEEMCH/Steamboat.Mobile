@@ -83,6 +83,7 @@
     <Compile Include="Repositories\Database\Database.cs" />
     <Compile Include="Models\EntityBase.cs" />
     <Compile Include="Models\User\CurrentUser.cs" />
+    <Compile Include="CustomControls\Renderers\GradientRoundedButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Splat">
@@ -133,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Gorilla.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
@@ -149,6 +151,8 @@
     <Folder Include="Repositories\User\" />
     <Folder Include="Repositories\Database\" />
     <Folder Include="Models\User\" />
+    <Folder Include="CustomControls\" />
+    <Folder Include="CustomControls\Renderers\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.4.0.74863\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.4.0.74863\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

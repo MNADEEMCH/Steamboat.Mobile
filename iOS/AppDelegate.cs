@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FFImageLoading.Forms.Touch;
+using FFImageLoading.Svg.Forms;
 using Foundation;
+using Steamboat.Mobile.CustomControls;
 using UIKit;
 using UXDivers.Gorilla;
 
@@ -17,11 +19,14 @@ namespace Steamboat.Mobile.iOS
 
             ResolveDependencies();
             CachedImageRenderer.Init();
-            LoadApplication(new App());
-            //LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(
-            //  new UXDivers.Gorilla.Config("Good Gorilla")
-            //    .RegisterAssembly(typeof(FFImageLoading.Forms.CachedImage).Assembly)
-            //));
+            var ignore = typeof(SvgCachedImage);
+            //LoadApplication(new App());
+            LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(
+              new UXDivers.Gorilla.Config("Good Gorilla")
+                .RegisterAssembly(typeof(FFImageLoading.Forms.CachedImage).Assembly)
+                .RegisterAssembly(typeof(FFImageLoading.Svg.Forms.SvgCachedImage).Assembly)
+                .RegisterAssembly(typeof(GradientRoundedButton).Assembly)
+            ));
 
             return base.FinishedLaunching(app, options);
         }

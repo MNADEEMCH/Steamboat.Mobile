@@ -1,0 +1,8 @@
+﻿{
+  "knownAssemblies": [
+    { "name": "FFImageLoading.Svg.Forms" },
+    { "name": "FFImageLoading.Forms" },
+    { "name": "Steamboat.Mobile" }
+    { "name": "Steamboat.Mobile.CustomControls" }
+  ]
+}

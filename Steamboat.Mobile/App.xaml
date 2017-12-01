@@ -15,6 +15,7 @@
             <OnPlatform x:Key="OpenSansSemiBold" x:TypeArguments="x:String" iOS="OpenSans-Semibold" Android="fonts/OpenSans-SemiBold.ttf#OpenSans-SemiBold" />
             <OnPlatform x:Key="OpenSansRegular" x:TypeArguments="x:String" iOS="OpenSans-Regular" Android="fonts/OpenSans-Regular.ttf#OpenSans-Regular" />
             <OnPlatform x:Key="RalewayBold" x:TypeArguments="x:String" iOS="Raleway-Bold" Android="fonts/Raleway-Bold.ttf#Raleway-Bold" />
+            <OnPlatform x:Key="RalewaySemiBold" x:TypeArguments="x:String" iOS="Raleway-SemiBold" Android="fonts/Raleway-SemiBold.ttf#Raleway-SemiBold" />
             
         </ResourceDictionary>
 	</Application.Resources>
