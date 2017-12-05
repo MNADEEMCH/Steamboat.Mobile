@@ -14,22 +14,22 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         {
             base.OnElementChanged(e);
 
-            if (Control != null)
-            {
-                var button = this.Element as GradientRoundedButton;
+            if (e.OldElement != null || e.NewElement == null)
+                return;
 
-                var startColor = Xamarin.Forms.Platform.Android.ColorExtensions.ToAndroid(button.StartColor);
-                var endColor = Xamarin.Forms.Platform.Android.ColorExtensions.ToAndroid(button.EndColor);
-                int[] colors = new int[] { startColor, endColor };
-                var gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.LeftRight, colors);
-                gradientDrawable.SetGradientType(GradientType.LinearGradient);
-                gradientDrawable.SetShape(ShapeType.Rectangle);
-                gradientDrawable.SetCornerRadius(button.AndroidBorderRadius);
-                gradientDrawable.SetStroke((int)button.BorderWidth, Android.Graphics.Color.Black);
-                Control.Background = gradientDrawable;
-                Control.StateListAnimator = null;
-                Control.Elevation = 25;
-            }
+            var button = this.Element as GradientRoundedButton;
+
+            var startColor = Xamarin.Forms.Platform.Android.ColorExtensions.ToAndroid(button.StartColor);
+            var endColor = Xamarin.Forms.Platform.Android.ColorExtensions.ToAndroid(button.EndColor);
+            int[] colors = new int[] { startColor, endColor };
+            var gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.LeftRight, colors);
+            gradientDrawable.SetGradientType(GradientType.LinearGradient);
+            gradientDrawable.SetShape(ShapeType.Rectangle);
+            gradientDrawable.SetCornerRadius(button.AndroidBorderRadius);
+            gradientDrawable.SetStroke((int)button.BorderWidth, Android.Graphics.Color.Black);
+            Control.Background = gradientDrawable;
+            Control.StateListAnimator = null;
+            Control.Elevation = 25;
         }
 
         protected override void OnDraw(Android.Graphics.Canvas canvas)

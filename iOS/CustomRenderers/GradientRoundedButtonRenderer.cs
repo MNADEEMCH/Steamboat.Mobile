@@ -34,24 +34,25 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         {
             base.OnElementChanged(e);
 
-            if (Control != null)
-            {
-                var button = this.Element as GradientRoundedButton;
+            if (e.OldElement != null || e.NewElement == null)
+                return;
 
-                var gradient = new CAGradientLayer();
-                gradient.CornerRadius = Control.Layer.CornerRadius = button.IOSBorderRadius;
-                gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
-                gradient.StartPoint = new CGPoint(0.0, 0.25);
-                gradient.EndPoint = new CGPoint(1.0, 0.5);
-                var layer = Control?.Layer.Sublayers.LastOrDefault();
+            var button = this.Element as GradientRoundedButton;
 
-                gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
-                gradient.ShadowOffset = new CGSize(0, 12);
-                gradient.ShadowOpacity = 0.5f;
-                gradient.ShadowRadius = 7;
+            var gradient = new CAGradientLayer();
+            gradient.CornerRadius = Control.Layer.CornerRadius = button.IOSBorderRadius;
+            gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
+            gradient.StartPoint = new CGPoint(0.0, 0.25);
+            gradient.EndPoint = new CGPoint(1.0, 0.5);
+            var layer = Control?.Layer.Sublayers.LastOrDefault();
 
-                Control?.Layer.InsertSublayerBelow(gradient, layer);
-            }
+            gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
+            gradient.ShadowOffset = new CGSize(0, 12);
+            gradient.ShadowOpacity = 0.5f;
+            gradient.ShadowRadius = 7;
+
+            Control?.Layer.InsertSublayerBelow(gradient, layer);
+
         }
     }
 }

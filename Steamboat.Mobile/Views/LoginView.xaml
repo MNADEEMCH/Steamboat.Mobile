@@ -8,32 +8,43 @@
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true" NavigationPage.HasNavigationBar="false"
     xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
     BackgroundColor="{StaticResource ViewBackground}">
+   
 	<ContentPage.Content>
-        <Grid RowSpacing="0" ColumnSpacing="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="144" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <!--Header Image-->
-            <!--<Image Source="imgLogin.png" Grid.Row="0" Aspect="AspectFill" />-->
-            <ffimageloadingsvg:SvgCachedImage Aspect="AspectFill" Source="imgLogin.png"/>
-            <!--Login-->
-            <Grid Grid.Row="1" Margin="40,0">
-                <StackLayout Spacing="0" >
-                    <Label Text="WELCOME TO" FontSize="12" TextColor="#B9B9B9" FontFamily="{DynamicResource RalewayBold}" />
-                    <Label Text="Momentum Health" FontSize="42" TextColor="#75889D" FontFamily="{DynamicResource RalewayBold}" />
-                    <Entry Placeholder="Email" Margin="0,24,0,0" />
-                    <Entry Placeholder="Password" Margin="0,16,0,0" />
-                    <Label Text="FORGOT PASSWORD" HorizontalOptions="End" FontSize="12" Margin="0,8,0,0" TextColor="#2C9FC9" FontFamily="{DynamicResource RalewayBold}" />
-                    <customControl:GradientRoundedButton Text="LOGIN" IOSBorderRadius="25" AndroidBorderRadius="70" 
-                    StartColor="#17EAD9" EndColor="#6078EA" TextColor="White" FontFamily="{DynamicResource RalewaySemiBold}" 
-                    HorizontalOptions="Center" HeightRequest="50" WidthRequest="175" FontSize="16" Margin="0,32,0,0" />
-                    <Grid IsVisible="false">
-                    </Grid>
-                    <Label Text="Not a member yet?" HorizontalOptions="Center" FontSize="12" FontFamily="{DynamicResource OpenSansRegular}" Margin="0,32,0,0" />
-                    <Label Text="REGISTER HERE" HorizontalOptions="Center" FontSize="16" Margin="0,8,0,0" TextColor="#2C9FC9" FontFamily="{DynamicResource RalewayBold}" />
-                </StackLayout>
+        <ScrollView>
+            <ScrollView.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                   <On Platform="iOS" Value="0,-20,0,0" />
+                   <On Platform="Android, WinPhone, Windows" Value="0,0,0,0" />
+               </OnPlatform>
+            </ScrollView.Padding>
+            <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="StartAndExpand" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="144" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <!--Header Image-->
+                <!--<Image Source="imgLogin.png" Grid.Row="0" Aspect="AspectFill" />-->
+                <ffimageloadingsvg:SvgCachedImage Aspect="AspectFill" Source="imgHeader.png"/>
+                <!--Login-->
+                <Grid Grid.Row="1" Margin="40,0">
+                    <StackLayout Spacing="0" >
+                        <Label Text="WELCOME TO" FontSize="12" TextColor="#B9B9B9" FontFamily="{DynamicResource RalewayBold}" />
+                        <Label Text="Momentum Health" FontSize="30" TextColor="#75889D" FontFamily="{DynamicResource RalewayBold}" />
+                        <!--<Entry Placeholder="Email" Margin="0,24,0,0" />-->
+                        <customControl:ImageEntry Placeholder="EMAIL" Margin="0,24,0,0" TextColor="#75889D" BorderColor="{StaticResource NormalEntryColor}" Image="icEmail.png" ImageWidth="18" ImageHeight="18" HeightRequest="40" />
+                        <!--<Entry Placeholder="Password" Margin="0,16,0,0" />-->
+                        <customControl:ImageEntry Placeholder="PASSWORD" Margin="0,16,0,0" TextColor="#75889D" BorderColor="{StaticResource NormalEntryColor}" Image="icPassword.png" ImageWidth="18" ImageHeight="18" HeightRequest="40" />
+                        <Label Text="FORGOT PASSWORD" HorizontalOptions="End" FontSize="12" Margin="0,8,0,0" TextColor="#2C9FC9" FontFamily="{DynamicResource RalewayBold}" />
+                        <customControl:GradientRoundedButton Text="LOGIN" IOSBorderRadius="25" AndroidBorderRadius="70" 
+                        StartColor="#17EAD9" EndColor="#6078EA" TextColor="White" FontFamily="{DynamicResource RalewaySemiBold}" 
+                        HorizontalOptions="Center" HeightRequest="50" WidthRequest="175" FontSize="16" Margin="0,32,0,0" />
+                        <Grid IsVisible="false">
+                        </Grid>
+                        <Label Text="Not a member yet?" HorizontalOptions="Center" FontSize="12" FontFamily="{DynamicResource OpenSansRegular}" Margin="0,32,0,0" />
+                        <Label Text="REGISTER HERE" HorizontalOptions="Center" FontSize="16" Margin="0,8,0,0" TextColor="#2C9FC9" FontFamily="{DynamicResource RalewayBold}" />
+                    </StackLayout>
+                </Grid>
             </Grid>
-        </Grid>
+        </ScrollView>
 	</ContentPage.Content>
 </ContentPage>
