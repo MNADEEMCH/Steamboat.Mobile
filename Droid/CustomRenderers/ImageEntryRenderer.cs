@@ -46,6 +46,17 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             };
         }
 
+        protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+
+            if (e.PropertyName.Equals("BorderColor"))
+            {
+                var textfield = (ImageEntry)sender;
+                Control.Background.SetColorFilter(textfield.BorderColor.ToAndroid(), PorterDuff.Mode.SrcAtop);
+            }
+        }
+
         private BitmapDrawable GetDrawable(string imageEntryImage)
         {
             var imageName = System.IO.Path.GetFileNameWithoutExtension(imageEntryImage).ToLower();

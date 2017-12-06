@@ -43,6 +43,16 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
         }
 
+        protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+
+            if(e.PropertyName.Equals("BorderColor")){
+                var element = (ImageEntry)sender;
+                Control.Layer.BorderColor = element.BorderColor.ToCGColor();
+            }
+        }
+
         private UIView GetImageView(string imagePath, int height, int width)
         {
             var uiImageView = new UIImageView(UIImage.FromBundle(imagePath))

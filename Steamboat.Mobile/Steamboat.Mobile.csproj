@@ -85,6 +85,13 @@
     <Compile Include="Models\User\CurrentUser.cs" />
     <Compile Include="CustomControls\Renderers\GradientRoundedButton.cs" />
     <Compile Include="CustomControls\Renderers\ImageEntry.cs" />
+    <Compile Include="Validations\IValidationRule.cs" />
+    <Compile Include="Validations\IValidity.cs" />
+    <Compile Include="Validations\IsNotNullOrEmptyRule.cs" />
+    <Compile Include="Validations\EmailRule.cs" />
+    <Compile Include="Validations\ValidatableObject.cs" />
+    <Compile Include="Validations\ExtendedBindableObject.cs" />
+    <Compile Include="Extensions\Converters\FirstValidationErrorConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Splat">
@@ -154,6 +161,9 @@
     <Folder Include="Models\User\" />
     <Folder Include="CustomControls\" />
     <Folder Include="CustomControls\Renderers\" />
+    <Folder Include="Validations\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Extensions\Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
