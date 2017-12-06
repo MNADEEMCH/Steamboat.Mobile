@@ -5,6 +5,7 @@ using Steamboat.Mobile.Models.User;
 using Steamboat.Mobile.Repositories.Database;
 using Steamboat.Mobile.Repositories.User;
 using Steamboat.Mobile.Services.Account;
+using Steamboat.Mobile.Services.Dialog;
 using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Services.RequestProvider;
 using Steamboat.Mobile.ViewModels;
@@ -17,6 +18,7 @@ namespace Steamboat.Mobile
         {
             Locator.CurrentMutable.RegisterConstant(new RequestProvider(), typeof(IRequestProvider));
             Locator.CurrentMutable.RegisterConstant(new NavigationService(), typeof(INavigationService));
+            Locator.CurrentMutable.RegisterConstant(new DialogService(), typeof(IDialogService));
 
             //Services
             Locator.CurrentMutable.RegisterLazySingleton(() => new AccountService(), typeof(IAccountService));

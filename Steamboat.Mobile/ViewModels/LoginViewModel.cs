@@ -47,7 +47,7 @@ namespace Steamboat.Mobile.ViewModels
                 var result = await _accountManager.Login(_username.Value, _password.Value);
                 if (result.AuthenticatedAccount == null)
                 {
-                    LoginResult = "Error";
+                    await DialogService.ShowAlertAsync("ERROR", "Titulo", "OK");
                 }
                 else
                 {

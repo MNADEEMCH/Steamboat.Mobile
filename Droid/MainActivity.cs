@@ -12,6 +12,7 @@ using FFImageLoading.Forms.Droid;
 using FFImageLoading.Svg.Forms;
 using Steamboat.Mobile.Droid.CustomRenderers;
 using Steamboat.Mobile.CustomControls;
+using Acr.UserDialogs;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -30,6 +31,7 @@ namespace Steamboat.Mobile.Droid
             ResolveDependencies();
             CachedImageRenderer.Init();
             var ignore = typeof(SvgCachedImage);
+            UserDialogs.Init(() => (Activity)Xamarin.Forms.Forms.Context);
             LoadApplication(new App());
             //LoadApplication(UXDivers.Gorilla.Droid.Player.CreateApplication(this,
             //    new UXDivers.Gorilla.Config("Good Gorilla")
