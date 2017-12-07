@@ -12,6 +12,66 @@
    <ContentPage.Resources>
         <ResourceDictionary>
             <extension:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+
+            <Style x:Key="WelcomeLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="TextColor" Value="#B9B9B9" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+
+            <Style x:Key="TitleLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="TextColor" Value="#75889D" />
+                <Setter Property="FontSize" Value="30" />
+            </Style>
+
+            <Style x:Key="EmailEntry" TargetType="customControl:ImageEntry" BasedOn="{StaticResource MainFormEntry}">
+                <Setter Property="Margin" Value="0,24,0,0" />
+                <Setter Property="Image" Value="icEmail.png" />
+                <Setter Property="Keyboard" Value="Email" />
+            </Style>
+
+            <Style x:Key="PasswordEntry" TargetType="customControl:ImageEntry" BasedOn="{StaticResource MainFormEntry}">
+                <Setter Property="Margin" Value="0,16,0,0" />
+                <Setter Property="Image" Value="icPassword.png" />
+                <Setter Property="IsPassword" Value="True" />
+            </Style>
+
+            <Style x:Key="LoginButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
+                <Setter Property="Margin" Value="0,16,0,0" />
+            </Style>           
+
+            <Style x:Key="ErrorLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="TextColor" Value="{StaticResource EntryErrorColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="0,2,0,0" />
+            </Style>
+
+            <Style x:Key="PasswordLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="TextColor" Value="{StaticResource LinkLabelColor}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Margin" Value="0,8,0,0" />
+                <Setter Property="HorizontalOptions" Value="End" />
+            </Style>
+
+            <Style x:Key="RegisterLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="TextColor" Value="{StaticResource LinkLabelColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Margin" Value="0,8,0,0" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="MemberLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="#777777" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Margin" Value="0,32,0,0" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+            
         </ResourceDictionary>
     </ContentPage.Resources>
 	<ContentPage.Content>
@@ -32,34 +92,30 @@
                 <!--LOGIN FORM-->
                 <Grid Grid.Row="1" Margin="40,0">
                     <StackLayout Spacing="0" >
-                        <Label Text="WELCOME TO" FontSize="12" TextColor="#B9B9B9" FontFamily="{DynamicResource RalewayBold}" />
-                        <Label Text="Momentum Health" FontSize="30" TextColor="#75889D" FontFamily="{DynamicResource RalewayBold}" />
-                        <customControl:ImageEntry Placeholder="EMAIL" Text="{Binding Username.Value, Mode=TwoWay}" Margin="0,24,0,0" TextColor="#75889D" BorderColor="{StaticResource NormalEntryColor}" Image="icEmail.png" ImageWidth="18" ImageHeight="18" HeightRequest="40" Keyboard="Email" >
+                        <Label Text="WELCOME TO" Style="{StaticResource WelcomeLabel}" />
+                        <Label Text="Momentum Health" Style="{StaticResource TitleLabel}" />
+                        <customControl:ImageEntry Placeholder="EMAIL" Text="{Binding Username.Value, Mode=TwoWay}" Style="{StaticResource EmailEntry}" >
                             <customControl:ImageEntry.Triggers>
                                 <DataTrigger TargetType="customControl:ImageEntry" Binding="{Binding Username.IsValid}" Value="False">
                                     <Setter Property="BorderColor" Value="{StaticResource EntryErrorColor}" />
                                 </DataTrigger>                               
                             </customControl:ImageEntry.Triggers>
                         </customControl:ImageEntry>
-                        <Label Text="{Binding Username.Errors, Converter={StaticResource FirstValidationErrorConverter}" 
-                            FontSize="14" FontFamily="{DynamicResource OpenSansSemiBold}" TextColor="{StaticResource EntryErrorColor}" Margin="0,2,0,0" />
-                        <customControl:ImageEntry Placeholder="PASSWORD" Text="{Binding Password.Value, Mode=TwoWay}" Margin="0,16,0,0" TextColor="#75889D" BorderColor="{StaticResource NormalEntryColor}" Image="icPassword.png" ImageWidth="18" ImageHeight="18" HeightRequest="40" IsPassword="true" >
+                        <Label Text="{Binding Username.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" />
+                        <customControl:ImageEntry Placeholder="PASSWORD" Text="{Binding Password.Value, Mode=TwoWay}" Style="{StaticResource PasswordEntry}" >
                             <customControl:ImageEntry.Triggers>
                                 <DataTrigger TargetType="customControl:ImageEntry" Binding="{Binding Password.IsValid}" Value="False">
                                     <Setter Property="BorderColor" Value="{StaticResource EntryErrorColor}" />
                                 </DataTrigger>                               
                             </customControl:ImageEntry.Triggers>
                         </customControl:ImageEntry>
-                        <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}" 
-                            FontSize="14" FontFamily="{DynamicResource OpenSansSemiBold}" TextColor="{StaticResource EntryErrorColor}" Margin="0,2,0,0" />
-                        <Label Text="FORGOT PASSWORD" HorizontalOptions="End" FontSize="12" Margin="0,8,0,0" TextColor="#2C9FC9" FontFamily="{DynamicResource RalewayBold}" />
-                        <customControl:GradientRoundedButton Text="LOGIN" IOSBorderRadius="25" AndroidBorderRadius="70" Command="{Binding LoginCommand}"
-                        StartColor="#17EAD9" EndColor="#6078EA" TextColor="White" FontFamily="{DynamicResource RalewaySemiBold}" 
-                        HorizontalOptions="Center" HeightRequest="50" WidthRequest="175" FontSize="16" Margin="0,32,0,0" />
-                        <Grid IsVisible="false">
-                        </Grid>
-                        <Label Text="Not a member yet?" HorizontalOptions="Center" FontSize="12" FontFamily="{DynamicResource OpenSansRegular}" Margin="0,32,0,0" />
-                        <Label Text="REGISTER HERE" HorizontalOptions="Center" FontSize="16" Margin="0,8,0,0" TextColor="#2C9FC9" FontFamily="{DynamicResource RalewayBold}" />
+                        <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" />
+                        <Label Text="FORGOT PASSWORD" Style="{StaticResource PasswordLabel}" />
+                        <customControl:GradientRoundedButton  Text="LOGIN" Command="{Binding LoginCommand}" Style="{StaticResource LoginButton}"  />
+                        <Grid IsVisible="false" > </Grid>
+                        <ActivityIndicator WidthRequest="40" HeightRequest="40" Color="Green" IsRunning="true" IsVisible="false" Margin="0,16,0,0" />
+                        <Label Text="Not a member yet?" Style="{StaticResource MemberLabel}" />
+                        <Label Text="REGISTER HERE" Style="{StaticResource RegisterLabel}" />
                     </StackLayout>
                 </Grid>
             </Grid>

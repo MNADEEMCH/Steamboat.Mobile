@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steamboat.Mobile.App">
+<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steamboat.Mobile.App"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile">
 	<Application.Resources>
 		<ResourceDictionary>
+
+            <!-- COLORS -->
             <Color x:Key="ViewBackground">#FFFFFF</Color>
             <Color x:Key="NavBackground">#23303E</Color>
             <Color x:Key="NavTextColor">#FFFFFF</Color>
@@ -9,15 +12,36 @@
             <Color x:Key="NormalEntryColor">#C5C5C5</Color> 
             <Color x:Key="EntryErrorColor">#FF6565</Color>
             <Color x:Key="LabelErrorColor">#FE7378</Color>
-            <Style TargetType="Label">
-                <Setter Property="TextColor" Value="{StaticResource NormalTextColor}" />
-            </Style>
+            <Color x:Key="LinkLabelColor">#2C9FC9</Color>
 
             <!-- FONTS -->
             <OnPlatform x:Key="OpenSansSemiBold" x:TypeArguments="x:String" iOS="OpenSans-Semibold" Android="fonts/OpenSans-SemiBold.ttf#OpenSans-SemiBold" />
             <OnPlatform x:Key="OpenSansRegular" x:TypeArguments="x:String" iOS="OpenSans-Regular" Android="fonts/OpenSans-Regular.ttf#OpenSans-Regular" />
             <OnPlatform x:Key="RalewayBold" x:TypeArguments="x:String" iOS="Raleway-Bold" Android="fonts/Raleway-Bold.ttf#Raleway-Bold" />
             <OnPlatform x:Key="RalewaySemiBold" x:TypeArguments="x:String" iOS="Raleway-SemiBold" Android="fonts/Raleway-SemiBold.ttf#Raleway-SemiBold" />
+
+             <!-- STYLES -->
+            <Style x:Key="MainFormEntry" TargetType="customControl:ImageEntry">
+                <Setter Property="ImageWidth" Value="18" />
+                <Setter Property="ImageHeight" Value="18" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="TextColor" Value="#75889D" />
+                <Setter Property="BorderColor" Value="{StaticResource NormalEntryColor}" />
+            </Style>
+
+            <Style x:Key="GradientRoundedShadowButton" TargetType="customControl:GradientRoundedButton">
+                <Setter Property="IOSBorderRadius" Value="25" />
+                <Setter Property="AndroidBorderRadius" Value="70" />
+                <Setter Property="StartColor" Value="#17EAD9" />
+                <Setter Property="EndColor" Value="#6078EA" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontFamily" Value="{DynamicResource RalewaySemiBold}" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="WidthRequest" Value="175" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Margin" Value="0,32,0,0" />
+            </Style>
             
         </ResourceDictionary>
 	</Application.Resources>
