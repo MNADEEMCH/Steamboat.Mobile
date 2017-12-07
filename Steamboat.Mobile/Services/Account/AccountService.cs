@@ -19,14 +19,7 @@ namespace Steamboat.Mobile.Services.Account
         {
             string url = "https://dev.momentumhealth.co/account/login";
 
-            try
-            {
-                var result = await _requestProvider.PostAsync<AccountInfo, AccountLogin>(url, loginCredentials);
-                return result;
-            } 
-            catch(Exception) {
-                return new AccountInfo();
-            }
+            return await _requestProvider.PostAsync<AccountInfo, AccountLogin>(url, loginCredentials);
         }
     }
 }

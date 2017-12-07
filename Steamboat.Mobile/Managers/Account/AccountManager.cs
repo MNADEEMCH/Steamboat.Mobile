@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Steamboat.Mobile.Models.Account;
 using Steamboat.Mobile.Models.User;
@@ -31,16 +32,20 @@ namespace Steamboat.Mobile.Managers.Account
                     DeviceLocalID = "123456789"
                 });
 
-                var user = App.CurrentUser == null ?
+                if (account != null)
+                {
+                    var user = App.CurrentUser == null ?
                               await _userRepository.AddUser(username) : await _userRepository.UpdateUser(App.CurrentUser.Id, App.CurrentUser.Email);
-                
-                App.CurrentUser = user;
+
+                    App.CurrentUser = user;
+                }
 
                 return account;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                Debug.WriteLine($"Error in login: {ex}");
+                throw ex;
             }
         }
 
@@ -50,7 +55,7 @@ namespace Steamboat.Mobile.Managers.Account
             {
                 return await _userRepository.GetCurrentUser();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return null;
             }

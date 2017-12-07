@@ -44,15 +44,15 @@ namespace Steamboat.Mobile.ViewModels
 
             if(isValid)
             {
-                var result = await _accountManager.Login(_username.Value, _password.Value);
-                if (result.AuthenticatedAccount == null)
+                try
                 {
-                    await DialogService.ShowAlertAsync("ERROR", "Titulo", "OK");
-                }
-                else
-                {
-                    LoginResult = result.AuthenticatedAccount.FirstName + " " + result.AuthenticatedAccount.LastName;
+                    var result = await _accountManager.Login(_username.Value, _password.Value);
                     await NavigationService.NavigateToAsync<StatusViewModel>();
+
+                }
+                catch(Exception e)
+                {
+                    await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
                 }
             }
         }

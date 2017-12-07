@@ -94,6 +94,9 @@
     <Compile Include="Extensions\Converters\FirstValidationErrorConverter.cs" />
     <Compile Include="Services\Dialog\IDialogService.cs" />
     <Compile Include="Services\Dialog\DialogService.cs" />
+    <Compile Include="Models\Error\ErrorInfo.cs" />
+    <Compile Include="Exceptions\ServiceException.cs" />
+    <Compile Include="Exceptions\ExceptionBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Splat">
@@ -173,6 +176,8 @@
     <Folder Include="Extensions\" />
     <Folder Include="Extensions\Converters\" />
     <Folder Include="Services\Dialog\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Models\Error\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
