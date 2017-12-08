@@ -35,7 +35,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                         break;
                 }
             }
-            editText.CompoundDrawablePadding = 25;
+            editText.CompoundDrawablePadding = 15;
             Control.Background.SetColorFilter(element.BorderColor.ToAndroid(), PorterDuff.Mode.SrcAtop);
 
             element.Focused += (object sender, FocusEventArgs ev) => {

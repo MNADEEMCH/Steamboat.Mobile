@@ -15,7 +15,7 @@ namespace Steamboat.Mobile.Validations
             }
 
             var str = value as string;
-            var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            var regex = new Regex(@"^([\w\.\-\+]+)@([\w\-]+)((\.(\w){2,3})+)$");
             var match = regex.Match(str);
             return match.Success;
         }

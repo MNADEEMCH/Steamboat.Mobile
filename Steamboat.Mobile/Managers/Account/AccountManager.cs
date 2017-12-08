@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Plugin.DeviceInfo;
 using Steamboat.Mobile.Models.Account;
 using Steamboat.Mobile.Models.User;
 using Steamboat.Mobile.Repositories.User;
@@ -23,13 +24,17 @@ namespace Steamboat.Mobile.Managers.Account
         {
             try
             {
+                var devicePlatform = CrossDeviceInfo.Current.Platform.ToString();
+                var deviceModel = CrossDeviceInfo.Current.Model;
+                var deviceLocalID = CrossDeviceInfo.Current.Id;
+
                 var account = await _accountService.AccountLogin(new AccountLogin()
                 {
                     EmailAddress = username,
                     Password = password,
-                    DevicePlatform = "iOS",
-                    DeviceModel = "iPhone 8",
-                    DeviceLocalID = "123456789"
+                    DevicePlatform = devicePlatform,
+                    DeviceModel = deviceModel,
+                    DeviceLocalID = deviceLocalID
                 });
 
                 if (account != null)

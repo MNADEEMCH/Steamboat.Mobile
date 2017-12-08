@@ -33,7 +33,7 @@ namespace Steamboat.Mobile.ViewModels
 
             _username = new ValidatableObject<string>();
             _password = new ValidatableObject<string>();
-            _username.Value = Task.Run(() => GetCurrentUser()).Result;
+            Username.Value = Task.Run(() => GetCurrentUser()).Result;
 
             AddValidations();
         }
