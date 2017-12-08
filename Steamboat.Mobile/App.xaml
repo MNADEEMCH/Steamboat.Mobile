@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steamboat.Mobile.App"
-    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile">
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:extensions="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile">
 	<Application.Resources>
 		<ResourceDictionary>
 
@@ -42,6 +43,9 @@
                 <Setter Property="FontSize" Value="16" />
                 <Setter Property="Margin" Value="0,32,0,0" />
             </Style>
+
+            <!--CONVERTERS-->
+            <extensions:InverseBoolConverter x:Key="InverseBoolConverter" />
             
         </ResourceDictionary>
 	</Application.Resources>

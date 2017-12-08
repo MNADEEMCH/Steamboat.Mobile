@@ -71,6 +71,14 @@
                 <Setter Property="Margin" Value="0,32,0,0" />
                 <Setter Property="HorizontalOptions" Value="Center" />
             </Style>
+
+            <Style x:Key="MainIndicator" TargetType="ActivityIndicator">
+                <Setter Property="WidthRequest" Value="40" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="Color" Value="{StaticResource LinkLabelColor}" />
+                <Setter Property="Margin" Value="0,16,0,4" />
+                <Setter Property="IsRunning" Value="true" />
+            </Style>
             
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -111,9 +119,9 @@
                         </customControl:ImageEntry>
                         <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" />
                         <Label Text="FORGOT PASSWORD" Style="{StaticResource PasswordLabel}" />
-                        <customControl:GradientRoundedButton  Text="LOGIN" Command="{Binding LoginCommand}" Style="{StaticResource LoginButton}"  />
+                        <customControl:GradientRoundedButton  Text="LOGIN" Command="{Binding LoginCommand}" Style="{StaticResource LoginButton}" IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"  />
                         <Grid IsVisible="false" > </Grid>
-                        <ActivityIndicator WidthRequest="40" HeightRequest="40" Color="Green" IsRunning="true" IsVisible="false" Margin="0,16,0,0" />
+                        <ActivityIndicator Style="{StaticResource MainIndicator}" IsVisible="{Binding IsBusy}" />
                         <Label Text="Not a member yet?" Style="{StaticResource MemberLabel}" />
                         <Label Text="REGISTER HERE" Style="{StaticResource RegisterLabel}" />
                     </StackLayout>

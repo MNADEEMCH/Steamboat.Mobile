@@ -15,12 +15,12 @@ namespace Steamboat.Mobile.ViewModels
         private IAccountManager _accountManager;
         private ValidatableObject<string> _username;
         private ValidatableObject<string> _password;
-        private string loginResult;
+        private bool isBusy;
 
         public ICommand LoginCommand { get; set; }
         public ValidatableObject<string> Username { set { SetPropertyValue(ref _username, value); } get { return _username; } }
         public ValidatableObject<string> Password { set { SetPropertyValue(ref _password, value); } get { return _password; } }
-        public string LoginResult { set { SetPropertyValue(ref loginResult, value); } get { return loginResult; } }
+        public bool IsBusy { set { SetPropertyValue(ref isBusy, value); } get { return isBusy; } }
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace Steamboat.Mobile.ViewModels
             _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
 
             LoginCommand = new Command(async () => await this.Login());
-            LoginResult = "Try to login...";
+            IsBusy = false;
 
             _username = new ValidatableObject<string>();
             _password = new ValidatableObject<string>();
@@ -39,7 +39,8 @@ namespace Steamboat.Mobile.ViewModels
         }
 
         private async Task Login()
-        {            
+        {
+            IsBusy = true;
             bool isValid = Validate();
 
             if(isValid)
@@ -48,13 +49,18 @@ namespace Steamboat.Mobile.ViewModels
                 {
                     var result = await _accountManager.Login(_username.Value, _password.Value);
                     await NavigationService.NavigateToAsync<StatusViewModel>();
-
                 }
                 catch(Exception e)
                 {
                     await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
                 }
+                finally
+                {
+                    IsBusy = false;
+                }
             }
+            else
+                IsBusy = false;
         }
 
         private async Task<string> GetCurrentUser()

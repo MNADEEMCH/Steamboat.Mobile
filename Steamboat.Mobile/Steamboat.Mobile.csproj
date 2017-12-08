@@ -97,6 +97,7 @@
     <Compile Include="Models\Error\ErrorInfo.cs" />
     <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
+    <Compile Include="Extensions\Converters\InverseBoolConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Splat">
