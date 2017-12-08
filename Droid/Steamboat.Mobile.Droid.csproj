@@ -225,7 +225,6 @@
     <AndroidResource Include="Resources\drawable\icon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\imgHeader.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\imgHeader.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\imgHeader.png" />

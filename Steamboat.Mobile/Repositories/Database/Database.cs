@@ -15,7 +15,7 @@ namespace Steamboat.Mobile.Repositories.Database
         {
             _connectionHelper = connectionHelper ?? DependencyContainer.Resolve<IConnectionHelper>();
             database = _connectionHelper.GetConnection("steamboat_db.db3");
-            Task.Run(() => { database.CreateTableAsync<T>(); });
+            Task.Run(() => { database.CreateTableAsync<T>(); }).GetAwaiter().GetResult();
         }
 
         public async Task<int> Delete(T item)
