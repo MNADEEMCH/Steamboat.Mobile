@@ -27,7 +27,7 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.RegisterLazySingleton(() => new UserRepository(), typeof(IUserRepository));
 
             //Database
-            Locator.CurrentMutable.RegisterLazySingleton(() => new Database<CurrentUser>(), typeof(IDatabase<CurrentUser>));
+            Locator.CurrentMutable.RegisterConstant(new Database<CurrentUser>(), typeof(IDatabase<CurrentUser>));
 
             //Managers
             Locator.CurrentMutable.RegisterLazySingleton(() => new AccountManager(), typeof(IAccountManager));

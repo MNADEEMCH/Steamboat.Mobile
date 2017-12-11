@@ -43,8 +43,8 @@ namespace Steamboat.Mobile.Droid
 
         private void ResolveDependencies()
         {
-            DependencyContainer.RegisterDependencies();
             AndroidDependencyContainer.RegisterDependencies();
+            DependencyContainer.RegisterDependencies();
         }
     }
 }
