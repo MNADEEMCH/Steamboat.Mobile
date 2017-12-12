@@ -255,6 +255,9 @@
     <BundleResource Include="Resources\icPassword.png" />
     <BundleResource Include="Resources\icPassword%402x.png" />
     <BundleResource Include="Resources\icPassword%403x.png" />
+    <BundleResource Include="Resources\ icLogout.png" />
+    <BundleResource Include="Resources\ icLogout%402x.png" />
+    <BundleResource Include="Resources\ icLogout%403x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />

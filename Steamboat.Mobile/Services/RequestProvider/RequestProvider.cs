@@ -27,9 +27,9 @@ namespace Steamboat.Mobile.Services.RequestProvider
             _serializerSettings.Converters.Add(new StringEnumConverter());
         }
 
-        public async Task<TResult> GetAsync<TResult>(string uri, string token = "")
+        public async Task<TResult> GetAsync<TResult>(string uri)
         {
-            HttpClient httpClient = CreateHttpClient(token);
+            HttpClient httpClient = CreateHttpClient("");
             HttpResponseMessage response = await httpClient.GetAsync(uri);
 
             await HandleResponse(response);
@@ -41,13 +41,13 @@ namespace Steamboat.Mobile.Services.RequestProvider
             return result;
         }
 
-        public async Task<TResult> PostAsync<TResult,TData>(string uri, TData data, string token = "", string header = "")
+        public async Task<TResult> PostAsync<TResult,TData>(string uri, TData data, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient(token);
+            HttpClient httpClient = CreateHttpClient("");
 
-            if (!string.IsNullOrEmpty(header))
+            if (!string.IsNullOrEmpty(sessionID))
             {
-                AddHeaderParameter(httpClient, header);
+                AddSessionID(httpClient, sessionID);
             }
 
             var json = JsonConvert.SerializeObject(data);
@@ -64,17 +64,18 @@ namespace Steamboat.Mobile.Services.RequestProvider
             return result;
         }
 
-        public async Task<TResult> PostAsync<TResult>(string uri, string data, string clientId, string clientSecret)
+        public async Task<TResult> PostAsync<TResult>(string uri, TResult data, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient(string.Empty);
+            HttpClient httpClient = CreateHttpClient("");
 
-            if (!string.IsNullOrWhiteSpace(clientId) && !string.IsNullOrWhiteSpace(clientSecret))
+            if (!string.IsNullOrEmpty(sessionID))
             {
-                AddBasicAuthenticationHeader(httpClient, clientId, clientSecret);
+                AddSessionID(httpClient, sessionID);
             }
 
-            var content = new StringContent(data);
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            var json = JsonConvert.SerializeObject(data);
+            var content = new StringContent(json, Encoding.UTF8);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response = await httpClient.PostAsync(uri, content);
 
             await HandleResponse(response);
@@ -86,13 +87,33 @@ namespace Steamboat.Mobile.Services.RequestProvider
             return result;
         }
 
-        public async Task<TResult> PutAsync<TResult>(string uri, TResult data, string token = "", string header = "")
+        public async Task<TResult> PostAsync<TResult>(string uri, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient(token);
+            HttpClient httpClient = CreateHttpClient("");
 
-            if (!string.IsNullOrEmpty(header))
+            if (!string.IsNullOrEmpty(sessionID))
             {
-                AddHeaderParameter(httpClient, header);
+                AddSessionID(httpClient, sessionID);
+            }
+
+            HttpResponseMessage response = await httpClient.PostAsync(uri, null);
+
+            await HandleResponse(response);
+            string serialized = await response.Content.ReadAsStringAsync();
+
+            TResult result = await Task.Run(() =>
+                JsonConvert.DeserializeObject<TResult>(serialized, _serializerSettings));
+
+            return result;
+        }
+
+        public async Task<TResult> PutAsync<TResult>(string uri, TResult data, string sessionID = "")
+        {
+            HttpClient httpClient = CreateHttpClient("");
+
+            if (!string.IsNullOrEmpty(sessionID))
+            {
+                AddSessionID(httpClient, sessionID);
             }
 
             var content = new StringContent(JsonConvert.SerializeObject(data));
@@ -128,7 +149,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
             return httpClient;
         }
 
-        private void AddHeaderParameter(HttpClient httpClient, string parameter)
+        private void AddSessionID(HttpClient httpClient, string parameter)
         {
             if (httpClient == null)
                 return;
@@ -136,18 +157,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
             if (string.IsNullOrEmpty(parameter))
                 return;
 
-            httpClient.DefaultRequestHeaders.Add(parameter, Guid.NewGuid().ToString());
-        }
-
-        private void AddBasicAuthenticationHeader(HttpClient httpClient, string clientId, string clientSecret)
-        {
-            if (httpClient == null)
-                return;
-
-            if (string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret))
-                return;
-
-            //httpClient.DefaultRequestHeaders.Authorization = new BasicAuthenticationHeaderValue(clientId, clientSecret);
+            httpClient.DefaultRequestHeaders.Add("Momentum-Api-SessionID", parameter);
         }
 
         private async Task HandleResponse(HttpResponseMessage response)

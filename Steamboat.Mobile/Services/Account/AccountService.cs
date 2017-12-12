@@ -8,7 +8,7 @@ namespace Steamboat.Mobile.Services.Account
     public class AccountService : IAccountService
     {
         private readonly IRequestProvider _requestProvider;
-        private const string ApiUrlBase = "account/login";
+        private const string ApiUrlBase = "https://dev.momentumhealth.co/account/";
 
         public AccountService(IRequestProvider requestProvider = null)
         {
@@ -17,9 +17,16 @@ namespace Steamboat.Mobile.Services.Account
 
         public async Task<AccountInfo> AccountLogin(AccountLogin loginCredentials)
         {
-            string url = "https://dev.momentumhealth.co/account/login";
+            string url = string.Format(ApiUrlBase + "{0}", "login");
 
             return await _requestProvider.PostAsync<AccountInfo, AccountLogin>(url, loginCredentials);
+        }
+
+        public async Task<AccountLogout> AccountLogout(string sessionId)
+        {
+            string url = string.Format(ApiUrlBase + "{0}", "logout");
+
+            return await _requestProvider.PostAsync<AccountLogout>(url, sessionID:sessionId);
         }
     }
 }

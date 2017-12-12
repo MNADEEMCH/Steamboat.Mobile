@@ -64,6 +64,10 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
+        private bool isLoading;
+
+        public bool IsLoading { get { return isLoading; } set { SetPropertyValue(ref isLoading, value); } }
+
         public ViewModelBase()
         {
             DialogService = DialogService ?? DependencyContainer.Resolve<IDialogService>();

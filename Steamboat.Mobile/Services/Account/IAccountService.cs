@@ -7,5 +7,7 @@ namespace Steamboat.Mobile.Services.Account
     public interface IAccountService
     {
         Task<AccountInfo> AccountLogin(AccountLogin loginCredentials);
+
+        Task<AccountLogout> AccountLogout(string sessionId);
     }
 }

@@ -9,6 +9,7 @@ namespace Steamboat.Mobile
     public partial class App : Application
     {
         public static CurrentUser CurrentUser;
+        public static string SessionID;
 
         public App()
         {
