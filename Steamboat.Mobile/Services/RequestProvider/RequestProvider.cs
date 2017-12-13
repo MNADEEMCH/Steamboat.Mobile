@@ -157,7 +157,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
             if (string.IsNullOrEmpty(parameter))
                 return;
 
-            httpClient.DefaultRequestHeaders.Add("Momentum-Api-SessionID", parameter);
+            httpClient.DefaultRequestHeaders.Add("Momentum-Api-Session", parameter);
         }
 
         private async Task HandleResponse(HttpResponseMessage response)
