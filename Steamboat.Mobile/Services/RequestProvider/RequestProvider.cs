@@ -158,6 +158,8 @@ namespace Steamboat.Mobile.Services.RequestProvider
                 return;
 
             httpClient.DefaultRequestHeaders.Add("Momentum-Api-Session", parameter);
+            var cookieParameter = string.Format("ASP.NET_SessionId={0};",parameter);
+            httpClient.DefaultRequestHeaders.Add("Cookie", cookieParameter);
         }
 
         private async Task HandleResponse(HttpResponseMessage response)
