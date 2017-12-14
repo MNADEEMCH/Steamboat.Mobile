@@ -43,7 +43,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
         public async Task<TResult> PostAsync<TResult,TData>(string uri, TData data, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient("");
+            HttpClient httpClient = CreateHttpClient(uri, sessionID, "");
 
             if (!string.IsNullOrEmpty(sessionID))
             {
@@ -66,7 +66,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
         public async Task<TResult> PostAsync<TResult>(string uri, TResult data, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient("");
+            HttpClient httpClient = CreateHttpClient(uri, sessionID, "");
 
             if (!string.IsNullOrEmpty(sessionID))
             {
@@ -89,7 +89,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
         public async Task<TResult> PostAsync<TResult>(string uri, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient("");
+            HttpClient httpClient = CreateHttpClient(uri, sessionID, "");
 
             if (!string.IsNullOrEmpty(sessionID))
             {
@@ -109,7 +109,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
         public async Task<TResult> PutAsync<TResult>(string uri, TResult data, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient("");
+            HttpClient httpClient = CreateHttpClient(uri, sessionID, "");
 
             if (!string.IsNullOrEmpty(sessionID))
             {
@@ -131,13 +131,27 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
         public async Task DeleteAsync(string uri, string token = "")
         {
-            HttpClient httpClient = CreateHttpClient(token);
+            HttpClient httpClient = CreateHttpClient(uri, "", "");
             await httpClient.DeleteAsync(uri);
         }
 
-        private HttpClient CreateHttpClient(string token = "")
+        private HttpClient CreateHttpClient(string uri, string sessionID = null, string token = "")
         {
-            var httpClient = new HttpClient();
+            HttpClient httpClient;
+
+            if (uri.Contains("login"))
+            {
+                httpClient = new HttpClient();
+            }
+            else
+            {
+                CookieContainer cookies = new CookieContainer();
+                HttpClientHandler handler = new HttpClientHandler();
+                cookies.Add(new Uri(uri),new Cookie("ASP.NET_SessionId", sessionID, "/", "momentumhealth.co"));
+                handler.CookieContainer = cookies;
+                httpClient = new HttpClient(handler);
+            }
+
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Add("Momentum-Api","true");
             httpClient.DefaultRequestHeaders.Add("Momentum-Api-Environment", "F5752008-E484-4691-B58A-3338A90F80AA");
@@ -158,8 +172,8 @@ namespace Steamboat.Mobile.Services.RequestProvider
                 return;
 
             httpClient.DefaultRequestHeaders.Add("Momentum-Api-Session", parameter);
-            var cookieParameter = string.Format("ASP.NET_SessionId={0};",parameter);
-            httpClient.DefaultRequestHeaders.Add("Cookie", cookieParameter);
+            //var cookieParameter = string.Format("ASP.NET_SessionId={0};",parameter);
+            //httpClient.DefaultRequestHeaders.Add("Cookie", cookieParameter);
         }
 
         private async Task HandleResponse(HttpResponseMessage response)
