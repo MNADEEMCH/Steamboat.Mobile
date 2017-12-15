@@ -29,7 +29,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
         public async Task<TResult> GetAsync<TResult>(string uri)
         {
-            HttpClient httpClient = CreateHttpClient("");
+            HttpClient httpClient = CreateHttpClient(uri);
             HttpResponseMessage response = await httpClient.GetAsync(uri);
 
             await HandleResponse(response);
@@ -43,12 +43,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
         public async Task<TResult> PostAsync<TResult,TData>(string uri, TData data, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient(uri, sessionID, "");
-
-            if (!string.IsNullOrEmpty(sessionID))
-            {
-                AddSessionID(httpClient, sessionID);
-            }
+            HttpClient httpClient = CreateHttpClient(uri, sessionID);
 
             var json = JsonConvert.SerializeObject(data);
             var content = new StringContent(json,Encoding.UTF8);
@@ -66,12 +61,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
         public async Task<TResult> PostAsync<TResult>(string uri, TResult data, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient(uri, sessionID, "");
-
-            if (!string.IsNullOrEmpty(sessionID))
-            {
-                AddSessionID(httpClient, sessionID);
-            }
+            HttpClient httpClient = CreateHttpClient(uri, sessionID);
 
             var json = JsonConvert.SerializeObject(data);
             var content = new StringContent(json, Encoding.UTF8);
@@ -89,12 +79,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
         public async Task<TResult> PostAsync<TResult>(string uri, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient(uri, sessionID, "");
-
-            if (!string.IsNullOrEmpty(sessionID))
-            {
-                AddSessionID(httpClient, sessionID);
-            }
+            HttpClient httpClient = CreateHttpClient(uri, sessionID);
 
             HttpResponseMessage response = await httpClient.PostAsync(uri, null);
 
@@ -109,12 +94,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
         public async Task<TResult> PutAsync<TResult>(string uri, TResult data, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient(uri, sessionID, "");
-
-            if (!string.IsNullOrEmpty(sessionID))
-            {
-                AddSessionID(httpClient, sessionID);
-            }
+            HttpClient httpClient = CreateHttpClient(uri, sessionID);
 
             var content = new StringContent(JsonConvert.SerializeObject(data));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -129,17 +109,17 @@ namespace Steamboat.Mobile.Services.RequestProvider
             return result;
         }
 
-        public async Task DeleteAsync(string uri, string token = "")
+        public async Task DeleteAsync(string uri, string sessionID = "")
         {
-            HttpClient httpClient = CreateHttpClient(uri, "", "");
+            HttpClient httpClient = CreateHttpClient(uri, sessionID);
             await httpClient.DeleteAsync(uri);
         }
 
-        private HttpClient CreateHttpClient(string uri, string sessionID = null, string token = "")
+        private HttpClient CreateHttpClient(string uri, string sessionID = null)
         {
             HttpClient httpClient;
 
-            if (uri.Contains("login"))
+            if (string.IsNullOrEmpty(sessionID))
             {
                 httpClient = new HttpClient();
             }
@@ -150,30 +130,14 @@ namespace Steamboat.Mobile.Services.RequestProvider
                 cookies.Add(new Uri(uri),new Cookie("ASP.NET_SessionId", sessionID, "/", "momentumhealth.co"));
                 handler.CookieContainer = cookies;
                 httpClient = new HttpClient(handler);
+                httpClient.DefaultRequestHeaders.Add("Momentum-Api-Session", sessionID);
             }
 
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Add("Momentum-Api","true");
             httpClient.DefaultRequestHeaders.Add("Momentum-Api-Environment", "F5752008-E484-4691-B58A-3338A90F80AA");
 
-            if (!string.IsNullOrEmpty(token))
-            {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
             return httpClient;
-        }
-
-        private void AddSessionID(HttpClient httpClient, string parameter)
-        {
-            if (httpClient == null)
-                return;
-
-            if (string.IsNullOrEmpty(parameter))
-                return;
-
-            httpClient.DefaultRequestHeaders.Add("Momentum-Api-Session", parameter);
-            //var cookieParameter = string.Format("ASP.NET_SessionId={0};",parameter);
-            //httpClient.DefaultRequestHeaders.Add("Cookie", cookieParameter);
         }
 
         private async Task HandleResponse(HttpResponseMessage response)

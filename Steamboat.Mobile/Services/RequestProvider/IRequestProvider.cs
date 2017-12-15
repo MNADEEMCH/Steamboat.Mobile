@@ -13,8 +13,8 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
         Task<TResult> PostAsync<TResult>(string uri, string sessionID = "");
 
-        Task<TResult> PutAsync<TResult>(string uri, TResult data, string header = "");
+        Task<TResult> PutAsync<TResult>(string uri, TResult data, string sessionID = "");
 
-        Task DeleteAsync(string uri, string token = "");
+        Task DeleteAsync(string uri, string sessionID = "");
     }
 }
