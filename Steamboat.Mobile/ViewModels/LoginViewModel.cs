@@ -33,9 +33,15 @@ namespace Steamboat.Mobile.ViewModels
 
             _username = new ValidatableObject<string>();
             _password = new ValidatableObject<string>();
-            Username.Value = Task.Run(() => GetCurrentUser()).Result;
 
             AddValidations();
+        }
+
+        public async override Task InitializeAsync(object parameter)
+        {
+            Username.Value = await GetCurrentUser();
+
+            await base.InitializeAsync(parameter);
         }
 
         private async Task Login()
