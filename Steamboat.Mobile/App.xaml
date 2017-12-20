@@ -7,7 +7,7 @@
 
             <!-- COLORS -->
             <Color x:Key="ViewBackground">#FFFFFF</Color>
-            <Color x:Key="NavBackground">#23303E</Color>
+            <Color x:Key="NavBackground">#2C9FC9</Color>
             <Color x:Key="NavTextColor">#FFFFFF</Color>
             <Color x:Key="NormalTextColor">#334046</Color>
             <Color x:Key="NormalEntryColor">#C5C5C5</Color> 
