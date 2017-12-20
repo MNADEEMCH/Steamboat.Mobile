@@ -53,8 +53,9 @@ namespace Steamboat.Mobile.ViewModels
             {
                 try
                 {
-                    var result = await _accountManager.Login(_username.Value, _password.Value);
-                    await NavigationService.NavigateToAsync<StatusViewModel>();
+                    //var result = await _accountManager.Login(_username.Value, _password.Value);
+                    //await NavigationService.NavigateToAsync<StatusViewModel>();
+                    await NavigationService.NavigateToAsync<InitPasswordViewModel>();
                     Password.Value = String.Empty;
                 }
                 catch(Exception e)

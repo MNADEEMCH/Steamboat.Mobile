@@ -20,13 +20,13 @@ namespace Steamboat.Mobile.iOS
             ResolveDependencies();
             CachedImageRenderer.Init();
             var ignore = typeof(SvgCachedImage);
-            //LoadApplication(new App());
-            LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(
-              new UXDivers.Gorilla.Config("Good Gorilla")
-                .RegisterAssembly(typeof(FFImageLoading.Forms.CachedImage).Assembly)
-                .RegisterAssembly(typeof(FFImageLoading.Svg.Forms.SvgCachedImage).Assembly)
-                .RegisterAssembly(typeof(GradientRoundedButton).Assembly)
-            ));
+            LoadApplication(new App());
+            //LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(
+            //  new UXDivers.Gorilla.Config("Good Gorilla")
+            //    .RegisterAssembly(typeof(FFImageLoading.Forms.CachedImage).Assembly)
+            //    .RegisterAssembly(typeof(FFImageLoading.Svg.Forms.SvgCachedImage).Assembly)
+            //    .RegisterAssembly(typeof(GradientRoundedButton).Assembly)
+            //));
 
             return base.FinishedLaunching(app, options);
         }

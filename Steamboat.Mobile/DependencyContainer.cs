@@ -34,6 +34,7 @@ namespace Steamboat.Mobile
 
             //ViewModels
             Locator.CurrentMutable.RegisterLazySingleton(() => new LoginViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new InitPasswordViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new StatusViewModel());
         }
 
