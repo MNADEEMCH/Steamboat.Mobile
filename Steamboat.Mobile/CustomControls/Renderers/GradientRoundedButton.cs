@@ -1,0 +1,49 @@
+﻿using System;
+using Xamarin.Forms;
+
+namespace Steamboat.Mobile.CustomControls
+{
+    public class GradientRoundedButton : Button
+    {
+        //public Color StartColor { get; set; }
+        //public Color EndColor { get; set; }
+        //public int IOSBorderRadius { get; set; }
+        //public int AndroidBorderRadius { get; set; }
+
+        public static readonly BindableProperty StartColorProperty =
+            BindableProperty.Create(nameof(StartColor), typeof(Color), typeof(GradientRoundedButton), Color.FromHex("#17EAD9"));
+
+        public static readonly BindableProperty EndColorProperty =            
+            BindableProperty.Create(nameof(EndColor), typeof(Color), typeof(GradientRoundedButton), Color.FromHex("#6078EA"));
+        
+        public static readonly BindableProperty IOSBorderRadiusProperty =
+            BindableProperty.Create(nameof(IOSBorderRadius), typeof(int), typeof(GradientRoundedButton), 25);
+
+        public static readonly BindableProperty AndroidBorderRadiusProperty =
+            BindableProperty.Create(nameof(AndroidBorderRadius), typeof(int), typeof(GradientRoundedButton), 70);
+
+        public Color StartColor
+        {
+            get { return (Color)GetValue(StartColorProperty); }
+            set { SetValue(StartColorProperty, value); }
+        }
+
+        public Color EndColor
+        {
+            get { return (Color)GetValue(EndColorProperty); }
+            set { SetValue(EndColorProperty, value); }
+        }
+
+        public int IOSBorderRadius
+        {
+            get { return (int)GetValue(IOSBorderRadiusProperty); }
+            set { SetValue(IOSBorderRadiusProperty, value); }
+        }
+
+        public int AndroidBorderRadius
+        {
+            get { return (int)GetValue(AndroidBorderRadiusProperty); }
+            set { SetValue(AndroidBorderRadiusProperty, value); }
+        }
+    }
+}

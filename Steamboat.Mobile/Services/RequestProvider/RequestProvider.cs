@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Steamboat.Mobile.Exceptions;
 using Steamboat.Mobile.Models;
 
 namespace Steamboat.Mobile.Services.RequestProvider
@@ -154,14 +155,12 @@ namespace Steamboat.Mobile.Services.RequestProvider
             if (!response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-
-                //if (response.StatusCode == HttpStatusCode.Forbidden ||
-                //    response.StatusCode == HttpStatusCode.Unauthorized)
-                //{
-                //    throw new ServiceAuthenticationException(content);
-                //}
-
-                throw new HttpRequestExceptionEx(response.StatusCode, content);
+                if(!content.Contains("<html>")){
+                    var result = await Task.Run(() => JsonConvert.DeserializeObject<Models.Error.ErrorInfo>(content, _serializerSettings));
+                    throw new ServiceException(result.Error.Message);
+                }
+                else
+                    throw new HttpRequestExceptionEx(response.StatusCode, content);
             }
         }
     }

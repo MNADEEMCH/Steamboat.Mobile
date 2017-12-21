@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Services.Navigation;
+using Steamboat.Mobile.Validations;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
@@ -11,43 +13,96 @@ namespace Steamboat.Mobile.ViewModels
         #region Properties
 
         private IAccountManager _accountManager;
-        private string username;
-        private string password;
-        private string loginResult;
+        private ValidatableObject<string> _username;
+        private ValidatableObject<string> _password;
+        private bool isBusy;
 
         public ICommand LoginCommand { get; set; }
-        public string Username { set { SetPropertyValue(ref username, value); } get { return username; } }
-        public string Password { set { SetPropertyValue(ref password, value); } get { return password; } }
-        public string LoginResult { set { SetPropertyValue(ref loginResult, value); } get { return loginResult; } }
+        public ValidatableObject<string> Username { set { SetPropertyValue(ref _username, value); } get { return _username; } }
+        public ValidatableObject<string> Password { set { SetPropertyValue(ref _password, value); } get { return _password; } }
+        public bool IsBusy { set { SetPropertyValue(ref isBusy, value); } get { return isBusy; } }
 
         #endregion
 
-        public LoginViewModel(IAccountManager accountManager)
+        public LoginViewModel(IAccountManager accountManager = null)
         {
-            _accountManager = accountManager;
+            _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
 
             LoginCommand = new Command(async () => await this.Login());
+            IsBusy = false;
 
-            LoginResult = "Try to login...";
+            _username = new ValidatableObject<string>();
+            _password = new ValidatableObject<string>();
+            Username.Value = Task.Run(() => GetCurrentUser()).Result;
+
+            AddValidations();
         }
 
         private async Task Login()
         {
-            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+            IsBusy = true;
+            bool isValid = Validate();
+
+            if(isValid)
             {
-                var result = await _accountManager.Login(username, password);
-                if (result.AuthenticatedAccount == null)
+                try
                 {
-                    LoginResult = "Error";
+                    var result = await _accountManager.Login(_username.Value, _password.Value);
+                    await NavigationService.NavigateToAsync<StatusViewModel>();
                 }
-                else
+                catch(Exception e)
                 {
-                    LoginResult = result.AuthenticatedAccount.FirstName + " " + result.AuthenticatedAccount.LastName;
+                    await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
+                }
+                finally
+                {
+                    IsBusy = false;
                 }
             }
-            else {
-                LoginResult = "Username and password can't be null";
-            }
+            else
+                IsBusy = false;
         }
+
+        private async Task<string> GetCurrentUser()
+        {
+            var user = await _accountManager.GetLocalUser();
+
+            if (user != null)
+            {
+                App.CurrentUser = user;
+                return user.Email;
+            }
+            else
+                return string.Empty;
+        }
+
+        #region Validations
+
+        private bool Validate()
+        {
+            bool isValidUser = ValidateUserName();
+            bool isValidPassword = ValidatePassword();
+
+            return isValidUser && isValidPassword;
+        }
+
+        private bool ValidateUserName()
+        {
+            return _username.Validate();
+        }
+
+        private bool ValidatePassword()
+        {
+            return _password.Validate();
+        }
+
+        private void AddValidations()
+        {
+            _username.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Enter a email" });
+            _username.Validations.Add(new EmailRule<string> { ValidationMessage = "Enter a valid email" });
+            _password.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Enter a password" });
+        }
+
+        #endregion
     }
 }

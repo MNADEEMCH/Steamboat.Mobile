@@ -1,15 +1,22 @@
-﻿using Steamboat.Mobile.Views;
+﻿using Steamboat.Mobile.Models.User;
+using Steamboat.Mobile.Services.Navigation;
+using Steamboat.Mobile.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace Steamboat.Mobile
 {
     public partial class App : Application
     {
+        public static CurrentUser CurrentUser;
+
         public App()
         {
             InitializeComponent();
 
-            MainPage = new LoginView();
+            //MainPage = new LoginView();
+            var navigationService = DependencyContainer.Resolve<INavigationService>();
+            navigationService.InitializeAsync();
         }
 
         protected override void OnStart()

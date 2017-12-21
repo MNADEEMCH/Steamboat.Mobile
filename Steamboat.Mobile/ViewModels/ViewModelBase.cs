@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Steamboat.Mobile.Services.Dialog;
+using Steamboat.Mobile.Services.Navigation;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
@@ -12,6 +14,9 @@ namespace Steamboat.Mobile.ViewModels
         #region PropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        protected readonly IDialogService DialogService;
+        protected readonly INavigationService NavigationService;
 
         protected bool SetPropertyValue<T>(ref T storageField, T newValue, Expression<Func<T>> propExpr)
         {
@@ -61,6 +66,8 @@ namespace Steamboat.Mobile.ViewModels
 
         public ViewModelBase()
         {
+            DialogService = DialogService ?? DependencyContainer.Resolve<IDialogService>();
+            NavigationService = NavigationService ?? DependencyContainer.Resolve<INavigationService>();
         }
 
         public virtual Task InitializeAsync(object navigationData)

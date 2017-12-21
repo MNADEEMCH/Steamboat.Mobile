@@ -1,7 +1,12 @@
 ﻿using System;
 using Splat;
 using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Models.User;
+using Steamboat.Mobile.Repositories.Database;
+using Steamboat.Mobile.Repositories.User;
 using Steamboat.Mobile.Services.Account;
+using Steamboat.Mobile.Services.Dialog;
+using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Services.RequestProvider;
 using Steamboat.Mobile.ViewModels;
 
@@ -11,14 +16,25 @@ namespace Steamboat.Mobile
     {
         public static void RegisterDependencies()
         {
-            //Locator.CurrentMutable.RegisterConstant(new NavigationService(), typeof(INavigationService));
-
             Locator.CurrentMutable.RegisterConstant(new RequestProvider(), typeof(IRequestProvider));
-            Locator.CurrentMutable.RegisterConstant(new AccountService(Locator.CurrentMutable.GetService<IRequestProvider>()), typeof(IAccountService));
+            Locator.CurrentMutable.RegisterConstant(new NavigationService(), typeof(INavigationService));
+            Locator.CurrentMutable.RegisterConstant(new DialogService(), typeof(IDialogService));
 
-            Locator.CurrentMutable.RegisterConstant(new AccountManager(Locator.CurrentMutable.GetService<IAccountService>()), typeof(IAccountManager));
+            //Services
+            Locator.CurrentMutable.RegisterLazySingleton(() => new AccountService(), typeof(IAccountService));
 
-            Locator.CurrentMutable.RegisterConstant(new LoginViewModel(Locator.CurrentMutable.GetService<IAccountManager>()) ,typeof(LoginViewModel));                       
+            //Repositories
+            Locator.CurrentMutable.RegisterLazySingleton(() => new UserRepository(), typeof(IUserRepository));
+
+            //Database
+            Locator.CurrentMutable.RegisterConstant(new Database<CurrentUser>(), typeof(IDatabase<CurrentUser>));
+
+            //Managers
+            Locator.CurrentMutable.RegisterLazySingleton(() => new AccountManager(), typeof(IAccountManager));
+
+            //ViewModels
+            Locator.CurrentMutable.RegisterLazySingleton(() => new LoginViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new StatusViewModel());
         }
 
         public static T Resolve<T>()
