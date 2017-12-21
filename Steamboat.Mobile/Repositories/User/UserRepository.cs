@@ -19,6 +19,7 @@ namespace Steamboat.Mobile.Repositories.User
             CurrentUser user = new CurrentUser();
             user.Id = Guid.NewGuid();
             user.Email = email;
+            var all = await _database.Select();
             var ins = await _database.Insert(user);
             //TODO: Check ins value and throw
 

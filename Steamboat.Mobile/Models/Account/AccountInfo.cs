@@ -15,6 +15,6 @@ namespace Steamboat.Mobile.Models.Account
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DateOfBirth { get; set; }
-        public string SessionID { get; set; }
+        public string Session { get; set; }
     }
 }

@@ -43,6 +43,7 @@ namespace Steamboat.Mobile.Managers.Account
                               await _userRepository.AddUser(username) : await _userRepository.UpdateUser(App.CurrentUser.Id, App.CurrentUser.Email);
 
                     App.CurrentUser = user;
+                    App.SessionID = account.AuthenticatedAccount.Session;
                 }
 
                 return account;
@@ -64,6 +65,14 @@ namespace Steamboat.Mobile.Managers.Account
             {
                 return null;
             }
+        }
+
+        public async Task<bool> Logout()
+        {
+            var res = await _accountService.AccountLogout(App.SessionID);
+            App.SessionID = null;
+
+            return res != null;
         }
     }
 }

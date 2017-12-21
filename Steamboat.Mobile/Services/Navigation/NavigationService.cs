@@ -54,9 +54,9 @@ namespace Steamboat.Mobile.Services.Navigation
 
             if (mainPage != null)
             {
-                for (int i = 0; i < mainPage.Navigation.NavigationStack.Count - 1; i++)
+                while (mainPage.Navigation.NavigationStack.Count > 1)
                 {
-                    var page = mainPage.Navigation.NavigationStack[i];
+                    var page = mainPage.Navigation.NavigationStack[0];
                     mainPage.Navigation.RemovePage(page);
                 }
             }
@@ -69,14 +69,21 @@ namespace Steamboat.Mobile.Services.Navigation
             Page page = CreatePage(viewModelType, parameter);
             NavigationPage.SetBackButtonTitle(page, string.Empty);
 
-            var navigationPage = Application.Current.MainPage as CustomNavigationView;
-            if (navigationPage != null)
+            if (page is LoginView)
             {
-                await navigationPage.PushAsync(page, true);
+                Application.Current.MainPage = new CustomNavigationView(page);
             }
             else
             {
-                Application.Current.MainPage = new CustomNavigationView(page);
+                var navigationPage = Application.Current.MainPage as CustomNavigationView;
+                if (LoginViewWasRemoved(navigationPage))
+                {
+                    await navigationPage.PushAsync(page, true);
+                }
+                else
+                {
+                    Application.Current.MainPage = new CustomNavigationView(page);
+                }
             }
 
             await (page.BindingContext as ViewModelBase).InitializeAsync(parameter);
@@ -101,6 +108,10 @@ namespace Steamboat.Mobile.Services.Navigation
 
             Page page = Activator.CreateInstance(pageType) as Page;
             return page;
+        }
+
+        private bool LoginViewWasRemoved(CustomNavigationView page){
+            return page != null && !(page.CurrentPage is LoginView);
         }
     }
 }
