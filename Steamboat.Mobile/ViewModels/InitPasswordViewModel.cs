@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Steamboat.Mobile.Validations;
 using Xamarin.Forms;
@@ -12,26 +13,71 @@ namespace Steamboat.Mobile.ViewModels
         private ValidatableObject<string> _password;
         private ValidatableObject<string> _confirm;
         private bool _buttonEnabled;
+        private bool _isBusy;
 
-        public ICommand ToggleCommand { get; set; }
+        public ICommand ValidatePasswordFocusCommand { get; set; }
+        public ICommand UpdateCommand { get; set; }
         public ValidatableObject<string> Password { set { SetPropertyValue(ref _password, value); } get { return _password; } }
         public ValidatableObject<string> Confirm { set { SetPropertyValue(ref _confirm, value); } get { return _confirm; } }
         public bool ButtonEnabled { set { SetPropertyValue(ref _buttonEnabled, value); } get { return _buttonEnabled; } }
+        public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
 
         #endregion
 
         public InitPasswordViewModel()
         {
-            ToggleCommand = new Command(() => this.Toggle());
-            ButtonEnabled = false;
-
-            Password = new ValidatableObject<string>();
-            Confirm = new ValidatableObject<string>();
+            ValidatePasswordFocusCommand = new Command(() => this.ValidatePasswordFocus());
+            UpdateCommand = new Command(async () => await this.Update());
         }
 
-        private void Toggle()
+        public async override Task InitializeAsync(object parameter)
         {
-            ButtonEnabled = !ButtonEnabled;
+            ButtonEnabled = false;
+            IsBusy = false;
+            Password = new ValidatableObject<string>();
+            Confirm = new ValidatableObject<string>();
+            AddValidations();
+
+            await base.InitializeAsync(parameter);
+        }
+
+        private async Task Update()
+        {
+            bool isValid = Validate();
+
+            try
+            {
+                ValidatePasswordAndConfirm();
+                await NavigationService.NavigateToAsync<StatusViewModel>();
+            }
+            catch (Exception e)
+            {
+                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private void ValidatePasswordAndConfirm()
+        {
+            if(!Password.Value.Equals(Confirm.Value))
+            {
+                throw new Exception("The passwords did not match. Please try again.");
+            }
+        }
+
+        private void ValidatePasswordFocus()
+        {
+            if(!string.IsNullOrEmpty(Password.Value) && !string.IsNullOrEmpty(Confirm.Value))
+            {
+                ButtonEnabled = true;
+            }
+            else
+            {
+                ButtonEnabled = false;
+            }
         }
 
         #region Validations
@@ -56,8 +102,9 @@ namespace Steamboat.Mobile.ViewModels
 
         private void AddValidations()
         {
-            _password.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Enter a password" });
-            _confirm.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Enter a password" });
+            Password.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Please enter a password" });
+            Confirm.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Please confirm your password" });
+            Password.Validations.Add(new PasswordRule<string> { ValidationMessage = "Please check the password requirements" });
         }
 
         #endregion

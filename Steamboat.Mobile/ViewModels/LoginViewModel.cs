@@ -15,12 +15,12 @@ namespace Steamboat.Mobile.ViewModels
         private IAccountManager _accountManager;
         private ValidatableObject<string> _username;
         private ValidatableObject<string> _password;
-        private bool isBusy;
+        private bool _isBusy;
 
         public ICommand LoginCommand { get; set; }
         public ValidatableObject<string> Username { set { SetPropertyValue(ref _username, value); } get { return _username; } }
         public ValidatableObject<string> Password { set { SetPropertyValue(ref _password, value); } get { return _password; } }
-        public bool IsBusy { set { SetPropertyValue(ref isBusy, value); } get { return isBusy; } }
+        public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
 
         #endregion
 

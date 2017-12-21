@@ -15,6 +15,7 @@
             <Color x:Key="LabelErrorColor">#FE7378</Color>
             <Color x:Key="LinkLabelColor">#2C9FC9</Color>
             <Color x:Key="SubtleBlueColor">#E3F4F8</Color>
+            <Color x:Key="StoneBlueColor">#75889D</Color>
 
             <!-- FONTS -->
             <OnPlatform x:Key="OpenSansSemiBold" x:TypeArguments="x:String" iOS="OpenSans-Semibold" Android="fonts/OpenSans-SemiBold.ttf#OpenSans-SemiBold" />
