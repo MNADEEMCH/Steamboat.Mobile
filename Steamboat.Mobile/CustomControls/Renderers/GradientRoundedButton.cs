@@ -5,11 +5,6 @@ namespace Steamboat.Mobile.CustomControls
 {
     public class GradientRoundedButton : Button
     {
-        //public Color StartColor { get; set; }
-        //public Color EndColor { get; set; }
-        //public int IOSBorderRadius { get; set; }
-        //public int AndroidBorderRadius { get; set; }
-
         public static readonly BindableProperty StartColorProperty =
             BindableProperty.Create(nameof(StartColor), typeof(Color), typeof(GradientRoundedButton), Color.FromHex("#17EAD9"));
 
@@ -18,6 +13,9 @@ namespace Steamboat.Mobile.CustomControls
 
         public static readonly BindableProperty DisabledColorProperty =
             BindableProperty.Create(nameof(DisabledColor), typeof(Color), typeof(GradientRoundedButton), Color.FromHex("#E3F4F8"));
+
+        public static readonly BindableProperty ActiveColorProperty =
+            BindableProperty.Create(nameof(ActiveColor), typeof(Color), typeof(GradientRoundedButton), Color.FromHex("#ADD7E1"));
 
         public static readonly BindableProperty DisabledTextColorProperty =
             BindableProperty.Create(nameof(DisabledTextColor), typeof(Color), typeof(GradientRoundedButton), Color.FromHex("#ADD7E1"));
@@ -44,6 +42,12 @@ namespace Steamboat.Mobile.CustomControls
         {
             get { return (Color)GetValue(DisabledColorProperty); }
             set { SetValue(DisabledColorProperty, value); }
+        }
+
+        public Color ActiveColor
+        {
+            get { return (Color)GetValue(ActiveColorProperty); }
+            set { SetValue(ActiveColorProperty, value); }
         }
 
         public Color DisabledTextColor

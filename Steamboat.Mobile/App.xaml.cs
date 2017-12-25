@@ -4,6 +4,7 @@ using Steamboat.Mobile.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Steamboat.Mobile
 {
     public partial class App : Application

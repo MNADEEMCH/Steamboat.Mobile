@@ -36,6 +36,13 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
             if (e.OldElement != null || e.NewElement == null)
                 return;
+            
+            if(e.NewElement != null)
+            {
+                var nativeButton = (UIButton)Control;
+                nativeButton.TouchDown += OnTouchDown;
+                nativeButton.TouchUpInside += OnTouchUpInside;
+            }
 
             var button = this.Element as GradientRoundedButton;
             var gradient = new CAGradientLayer();
@@ -46,14 +53,14 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             gradient.ShadowOpacity = 0.5f;
             gradient.ShadowRadius = 7;
 
-            if(button.IsEnabled)
-            {               
+            if (button.IsEnabled)
+            {
                 gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
                 gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
             }
             else
             {
-                gradient.Colors = new CGColor[] { button.DisabledColor.ToCGColor(), button.DisabledColor.ToCGColor()};
+                gradient.Colors = new CGColor[] { button.DisabledColor.ToCGColor(), button.DisabledColor.ToCGColor() };
                 gradient.ShadowColor = Color.FromHex("FFFFFF").ToCGColor();
             }
 
@@ -62,19 +69,21 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
             if (button.DisabledTextColor != null)
                 Control?.SetTitleColor(button.DisabledTextColor.ToUIColor(), UIControlState.Disabled);
+            
+            Control.ReverseTitleShadowWhenHighlighted = false;
         }
 
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
 
-            if(e.PropertyName.Equals("IsEnabled"))
+            if (e.PropertyName.Equals("IsEnabled"))
             {
                 var button = this.Element as GradientRoundedButton;
                 var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
 
                 if (button.IsEnabled)
-                {                   
+                {
                     gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
                     gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
                 }
@@ -85,6 +94,33 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
                 }
                 SetNativeControl(Control);
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (Control != null)
+            {
+                Control.TouchDown -= OnTouchDown;
+                Control.TouchUpInside -= OnTouchUpInside;
+            }
+
+            base.Dispose(disposing);
+        }
+
+        private void OnTouchDown(object sender, EventArgs e)
+        {
+            var button = this.Element as GradientRoundedButton;
+            var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
+            gradient.Colors = new CGColor[] { button.ActiveColor.ToCGColor(), button.ActiveColor.ToCGColor() };
+            gradient.ShadowColor = Color.FromHex("FFFFFF").ToCGColor();
+        }
+
+        private void OnTouchUpInside(object sender, EventArgs e)
+        {
+            var button = this.Element as GradientRoundedButton;
+            var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
+            gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
+            gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
         }
     }
 }

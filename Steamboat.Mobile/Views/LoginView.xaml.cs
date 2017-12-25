@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Steamboat.Mobile.Views
 {
     public partial class LoginView : ContentPage

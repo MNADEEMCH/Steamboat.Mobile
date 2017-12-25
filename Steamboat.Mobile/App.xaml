@@ -16,6 +16,7 @@
             <Color x:Key="LinkLabelColor">#2C9FC9</Color>
             <Color x:Key="SubtleBlueColor">#E3F4F8</Color>
             <Color x:Key="StoneBlueColor">#75889D</Color>
+            <Color x:Key="LightBlueColor">#ADD7E1</Color>
 
             <!-- FONTS -->
             <OnPlatform x:Key="OpenSansSemiBold" x:TypeArguments="x:String" iOS="OpenSans-Semibold" Android="fonts/OpenSans-SemiBold.ttf#OpenSans-SemiBold" />
@@ -37,6 +38,7 @@
                 <Setter Property="AndroidBorderRadius" Value="70" />
                 <Setter Property="StartColor" Value="#17EAD9" />
                 <Setter Property="EndColor" Value="#6078EA" />
+                <Setter Property="ActiveColor" Value="{StaticResource LightBlueColor}" />
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="FontFamily" Value="{DynamicResource RalewaySemiBold}" />
                 <Setter Property="HorizontalOptions" Value="Center" />
