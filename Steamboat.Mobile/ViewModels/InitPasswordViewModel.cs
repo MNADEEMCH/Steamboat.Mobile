@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Steamboat.Mobile.Managers.Account;
 using Steamboat.Mobile.Validations;
 using Xamarin.Forms;
 
@@ -14,6 +15,7 @@ namespace Steamboat.Mobile.ViewModels
         private ValidatableObject<string> _confirm;
         private bool _buttonEnabled;
         private bool _isBusy;
+        private IAccountManager _accountManager;
 
         public ICommand ValidatePasswordFocusCommand { get; set; }
         public ICommand UpdateCommand { get; set; }
@@ -24,8 +26,9 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-        public InitPasswordViewModel()
+        public InitPasswordViewModel(IAccountManager accountManager = null)
         {
+            _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
             ValidatePasswordFocusCommand = new Command(() => this.ValidatePasswordFocus());
             UpdateCommand = new Command(async () => await this.Update());
         }
@@ -48,6 +51,8 @@ namespace Steamboat.Mobile.ViewModels
             try
             {
                 ValidatePasswordAndConfirm();
+                var initPassword = await _accountManager.InitPassword(Password.Value, Confirm.Value);
+                await _accountManager.Login(initPassword.EmailAddress, initPassword.Password);
                 await NavigationService.NavigateToAsync<StatusViewModel>();
             }
             catch (Exception e)

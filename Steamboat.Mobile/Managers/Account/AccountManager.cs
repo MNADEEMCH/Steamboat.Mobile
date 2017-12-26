@@ -61,7 +61,7 @@ namespace Steamboat.Mobile.Managers.Account
             {
                 return await _userRepository.GetCurrentUser();
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }
@@ -73,6 +73,25 @@ namespace Steamboat.Mobile.Managers.Account
             App.SessionID = null;
 
             return res != null;
+        }
+
+        public async Task<AccountLogin> InitPassword(string password, string confirm)
+        {
+            try
+            {
+                var initResponse = await _accountService.AccountInitPassword(new AccountInitPassword()
+                {
+                    Password = password,
+                    RetypePassword = confirm
+                });
+
+                return initResponse;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error in login: {ex}");
+                throw ex;
+            }
         }
     }
 }

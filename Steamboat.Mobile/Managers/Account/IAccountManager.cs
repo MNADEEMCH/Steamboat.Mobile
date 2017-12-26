@@ -10,5 +10,6 @@ namespace Steamboat.Mobile.Managers.Account
         Task<AccountInfo> Login(string username, string password);
         Task<CurrentUser> GetLocalUser();
         Task<bool> Logout();
+        Task<AccountLogin> InitPassword(string password, string confirm);
     }
 }

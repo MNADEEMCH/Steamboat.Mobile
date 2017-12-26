@@ -28,5 +28,10 @@ namespace Steamboat.Mobile.Services.Account
 
             return await _requestProvider.PostAsync<AccountLogout>(url, sessionID:sessionId);
         }
+
+        public Task<AccountLogin> AccountInitPassword(AccountInitPassword passwords)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

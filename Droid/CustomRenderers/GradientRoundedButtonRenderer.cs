@@ -119,6 +119,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 colors = new int[] { startColor, endColor };
                 Control.Elevation = 25;
                 background.SetColors(colors);
+                ((IButtonController)Element)?.SendClicked();
             }
         }
     }

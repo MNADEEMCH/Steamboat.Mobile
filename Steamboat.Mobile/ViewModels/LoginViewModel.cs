@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Steamboat.Mobile.Exceptions;
 using Steamboat.Mobile.Managers.Account;
 using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Validations;
@@ -53,8 +54,12 @@ namespace Steamboat.Mobile.ViewModels
             {
                 try
                 {
-                    //var result = await _accountManager.Login(_username.Value, _password.Value);
-                    //await NavigationService.NavigateToAsync<StatusViewModel>();
+                    var result = await _accountManager.Login(_username.Value, _password.Value);
+                    await NavigationService.NavigateToAsync<StatusViewModel>();
+                    Password.Value = String.Empty;
+                }
+                catch(PasswordExpiredException)
+                {
                     await NavigationService.NavigateToAsync<InitPasswordViewModel>();
                     Password.Value = String.Empty;
                 }
