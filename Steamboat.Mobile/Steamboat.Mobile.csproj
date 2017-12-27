@@ -114,6 +114,11 @@
     <Compile Include="Helpers\ErrorCodesHelper.cs" />
     <Compile Include="Exceptions\PasswordExpiredException.cs" />
     <Compile Include="Models\Account\AccountInitPassword.cs" />
+    <Compile Include="Services\Participant\ParticipantService.cs" />
+    <Compile Include="Services\Participant\IParticipantService.cs" />
+    <Compile Include="Managers\Participant\ParticipantManager.cs" />
+    <Compile Include="Managers\Participant\IParticipantManager.cs" />
+    <Compile Include="Models\Participant\Status.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Splat">
@@ -205,6 +210,9 @@
     <Folder Include="Extensions\Behaviors\Base\" />
     <Folder Include="Extensions\Triggers\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Services\Participant\" />
+    <Folder Include="Managers\Participant\" />
+    <Folder Include="Models\Participant\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Steamboat.Mobile.Exceptions;
 using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Validations;
 using Xamarin.Forms;
@@ -14,6 +15,7 @@ namespace Steamboat.Mobile.ViewModels
         #region Properties
 
         private IAccountManager _accountManager;
+        private IParticipantManager _participantManager;
         private ValidatableObject<string> _username;
         private ValidatableObject<string> _password;
         private bool _isBusy;
@@ -25,15 +27,16 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-        public LoginViewModel(IAccountManager accountManager = null)
+        public LoginViewModel(IAccountManager accountManager = null, IParticipantManager participantManager = null)
         {
             _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
+            _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
 
             LoginCommand = new Command(async () => await this.Login());
             IsBusy = false;
 
-            _username = new ValidatableObject<string>();
-            _password = new ValidatableObject<string>();
+            Username = new ValidatableObject<string>();
+            Password = new ValidatableObject<string>();
 
             AddValidations();
         }
@@ -55,7 +58,13 @@ namespace Steamboat.Mobile.ViewModels
                 try
                 {
                     var result = await _accountManager.Login(_username.Value, _password.Value);
-                    await NavigationService.NavigateToAsync<StatusViewModel>();
+
+                    //Llamo al manager que me de los datos del dashboard
+                    var status = await _participantManager.GetStatus();
+                    //Con el resultado obtengo el VM al que navegar
+                    //Navego al VM con el resultado 1
+
+                    //await NavigationService.NavigateToAsync<StatusViewModel>();
                     Password.Value = String.Empty;
                 }
                 catch(PasswordExpiredException)

@@ -28,9 +28,9 @@ namespace Steamboat.Mobile.Services.RequestProvider
             _serializerSettings.Converters.Add(new StringEnumConverter());
         }
 
-        public async Task<TResult> GetAsync<TResult>(string uri)
+        public async Task<TResult> GetAsync<TResult>(string uri, string sessionID)
         {
-            HttpClient httpClient = CreateHttpClient(uri);
+            HttpClient httpClient = CreateHttpClient(uri, sessionID);
             HttpResponseMessage response = await httpClient.GetAsync(uri);
 
             await HandleResponse(response);
