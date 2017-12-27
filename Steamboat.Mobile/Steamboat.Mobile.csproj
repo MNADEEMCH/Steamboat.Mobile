@@ -46,6 +46,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\InterviewView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -119,6 +123,11 @@
     <Compile Include="Managers\Participant\ParticipantManager.cs" />
     <Compile Include="Managers\Participant\IParticipantManager.cs" />
     <Compile Include="Models\Participant\Status.cs" />
+    <Compile Include="Helpers\DashboardStatusHelper.cs" />
+    <Compile Include="ViewModels\InterviewViewModel.cs" />
+    <Compile Include="Views\InterviewView.xaml.cs">
+      <DependentUpon>InterviewView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Splat">

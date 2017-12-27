@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Steamboat.Mobile.Exceptions;
+using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Account;
 using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Services.Navigation;
@@ -59,12 +60,10 @@ namespace Steamboat.Mobile.ViewModels
                 {
                     var result = await _accountManager.Login(_username.Value, _password.Value);
 
-                    //Llamo al manager que me de los datos del dashboard
                     var status = await _participantManager.GetStatus();
-                    //Con el resultado obtengo el VM al que navegar
-                    //Navego al VM con el resultado 1
+                    var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.NextStepContent);
+                    await NavigationService.NavigateToAsync(viewModelType);
 
-                    //await NavigationService.NavigateToAsync<StatusViewModel>();
                     Password.Value = String.Empty;
                 }
                 catch(PasswordExpiredException)
