@@ -52,7 +52,7 @@ namespace Steamboat.Mobile.ViewModels
             {
                 ValidatePasswordAndConfirm();
                 var initPassword = await _accountManager.InitPassword(Password.Value, Confirm.Value);
-                await _accountManager.Login(initPassword.EmailAddress, initPassword.Password);
+                //await _accountManager.Login(initPassword.EmailAddress, initPassword.Password);
                 await NavigationService.NavigateToAsync<StatusViewModel>();
             }
             catch (Exception e)

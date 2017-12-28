@@ -111,6 +111,7 @@ namespace Steamboat.Mobile.Services.Navigation
         }
 
         private bool LoginViewWasRemoved(CustomNavigationView page){
+            //TODO: Could be refactored into a separate method to set a main page.
             return page != null && !(page.CurrentPage is LoginView);
         }
     }

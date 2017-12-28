@@ -83,7 +83,7 @@ namespace Steamboat.Mobile.Managers.Account
                 {
                     Password = password,
                     RetypePassword = confirm
-                });
+                }, App.SessionID);
 
                 return initResponse;
             }

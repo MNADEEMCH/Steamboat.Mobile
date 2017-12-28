@@ -16,5 +16,6 @@ namespace Steamboat.Mobile.Models.Account
         public string LastName { get; set; }
         public string DateOfBirth { get; set; }
         public string Session { get; set; }
+        public string IsPasswordExpired { get; set; }
     }
 }

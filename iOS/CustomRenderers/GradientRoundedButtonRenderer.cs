@@ -121,7 +121,6 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
             gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
             gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
-            ((IButtonController)Element)?.SendClicked();
         }
     }
 }
