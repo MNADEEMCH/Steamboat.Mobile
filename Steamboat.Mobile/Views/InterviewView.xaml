@@ -5,7 +5,8 @@
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
     xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-    BackgroundColor="{StaticResource ViewBackground}">
+    BackgroundColor="{StaticResource ViewBackground}"
+    Title="Momentum">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Logout" Icon="icLogout.png" Command="{Binding LogoutCommand}" >
             <ToolbarItem.Order>

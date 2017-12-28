@@ -25,28 +25,34 @@ namespace Steamboat.Mobile.ViewModels
 
         public InterviewViewModel()
         {
+            IsLoading = true;
             LogoutCommand = new Command(async () => await Logout());
         }
 
         public async override Task InitializeAsync(object navigationData)
         {
-            await Task.Delay(1);
-
             Status status = navigationData as Status;
-
-            if (status != null)
+            if (ValidateStatus(status))
             {
                 SurveyStep surveyStep = status.Dashboard.SurveyStep;
-                Description = surveyStep.Message;//Let's take 6 minutes to answer some questions and get to know you
+                Description = surveyStep.Message;
 
             }
             else
             {
+                //TODO: Improve handle message
+                await this.DialogService.ShowAlertAsync("Error loading", "Error", "OK");             
 
             }
 
+            IsLoading = false;
         }
-
+        private bool ValidateStatus(Status status)
+        {
+            return status != null
+                    && status.Dashboard != null
+                    && status.Dashboard.SurveyStep != null;
+        }
 
         private async Task Logout()
         {
