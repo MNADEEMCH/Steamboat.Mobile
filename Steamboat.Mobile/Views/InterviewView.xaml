@@ -23,6 +23,12 @@
             <Style x:Key="ImageContainerAbsoluteLayout" TargetType="AbsoluteLayout">
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
+            <Style x:Key="IconBackgroundImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+                <Setter Property="HeightRequest" Value="150"></Setter>
+                <Setter Property="WidthRequest" Value="150"></Setter>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0.5,0.5,-1,-1"></Setter>
+                <Setter Property="AbsoluteLayout.LayoutFlags" Value="PositionProportional"></Setter>
+            </Style>
             <Style x:Key="IconImage" TargetType="ffimageloadingsvg:SvgCachedImage">
                 <Setter Property="HeightRequest" Value="208"></Setter>
                 <Setter Property="WidthRequest" Value="208"></Setter>
@@ -78,7 +84,7 @@
                                
                     <StackLayout Style="{StaticResource MainContainerStackLayout}">
                         <AbsoluteLayout Style="{StaticResource ImageContainerAbsoluteLayout}">
-                            <ffimageloadingsvg:SvgCachedImage Source="iconBackground.png" Style="{StaticResource IconImage}"/>
+                            <ffimageloadingsvg:SvgCachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}"/>
                             <ffimageloadingsvg:SvgCachedImage Source="icInterview.png" Style="{StaticResource IconImage}"/>
                         </AbsoluteLayout>
                         
