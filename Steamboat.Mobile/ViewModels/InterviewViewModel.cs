@@ -29,24 +29,22 @@ namespace Steamboat.Mobile.ViewModels
             LogoutCommand = new Command(async () => await Logout());
         }
 
-        public async override Task InitializeAsync(object navigationData)
+        public async override Task InitializeAsync(object parameter)
         {
-            Status status = navigationData as Status;
+            Status status = parameter as Status;
             if (ValidateStatus(status))
             {
                 SurveyStep surveyStep = status.Dashboard.SurveyStep;
                 Description = surveyStep.Message;
-
             }
             else
             {
                 //TODO: Improve handle error
                 await this.DialogService.ShowAlertAsync("Error loading", "Error", "OK");             
-
             }
-
             IsLoading = false;
         }
+
         private bool ValidateStatus(Status status)
         {
             return status != null
@@ -60,11 +58,7 @@ namespace Steamboat.Mobile.ViewModels
 
             try
             {
-                //var res = await _accountManager.Logout();
-                //if (res)
-                //{
-                    await NavigationService.NavigateToAsync<LoginViewModel>();
-                //}
+              await NavigationService.NavigateToAsync<LoginViewModel>("Logout");
             }
             catch (Exception e)
             {

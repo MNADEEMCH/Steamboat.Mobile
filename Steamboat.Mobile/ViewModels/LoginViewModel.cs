@@ -44,9 +44,14 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
-            Username.Value = await GetCurrentUser();
-
-            await base.InitializeAsync(parameter);
+            if (parameter == null) { 
+                Username.Value = await GetCurrentUser();
+                await base.InitializeAsync(parameter);
+            }
+            else
+            {
+                await _accountManager.Logout();
+            }
         }
 
         private async Task Login()
