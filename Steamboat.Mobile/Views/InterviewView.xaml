@@ -20,10 +20,12 @@
             <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
                 <Setter Property="Margin" Value="16"></Setter>
             </Style>
+            <Style x:Key="ImageContainerAbsoluteLayout" TargetType="AbsoluteLayout">
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
             <Style x:Key="IconImage" TargetType="ffimageloadingsvg:SvgCachedImage">
                 <Setter Property="HeightRequest" Value="208"></Setter>
                 <Setter Property="WidthRequest" Value="208"></Setter>
-                <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="TitleContainerStackLayout" TargetType="StackLayout">
                 <Setter Property="Orientation" Value="Horizontal"></Setter>
@@ -75,7 +77,11 @@
                     </Grid.RowDefinitions>
                                
                     <StackLayout Style="{StaticResource MainContainerStackLayout}">
-                        <ffimageloadingsvg:SvgCachedImage Source="icInterview.png" Style="{StaticResource IconImage}"/>
+                        <AbsoluteLayout Style="{StaticResource ImageContainerAbsoluteLayout}">
+                            <ffimageloadingsvg:SvgCachedImage Source="ellipse.png" Style="{StaticResource IconImage}"/>
+                            <ffimageloadingsvg:SvgCachedImage Source="icInterview.png" Style="{StaticResource IconImage}"/>
+                        </AbsoluteLayout>
+                        
                         <StackLayout Style="{StaticResource TitleContainerStackLayout}">
                             <Label Text="Interview" Style="{StaticResource TitleLabel}"></Label>
                             <ffimageloadingsvg:SvgCachedImage Source="icMoreInfo.png" Style="{StaticResource MoreInfoImage}"/>
