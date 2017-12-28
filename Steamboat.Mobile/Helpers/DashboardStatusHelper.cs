@@ -23,5 +23,6 @@ namespace Steamboat.Mobile.Helpers
             else
                 throw new Exception("Status page not available");
         }
+
     }
 }

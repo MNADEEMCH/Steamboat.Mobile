@@ -5,6 +5,7 @@ using Steamboat.Mobile.Managers.Account;
 using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Validations;
 using Xamarin.Forms;
+using Steamboat.Mobile.Helpers;
 
 namespace Steamboat.Mobile.ViewModels
 {
