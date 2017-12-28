@@ -62,7 +62,7 @@ namespace Steamboat.Mobile.ViewModels
                     }
                     else
                     {
-                        await NavigationService.NavigateToAsync<StatusViewModel>();
+                        await NavigationService.NavigateToAsync<StatusViewModel>(mainPage:true);
                     }
 
                     Password.Value = String.Empty;

@@ -25,14 +25,14 @@ namespace Steamboat.Mobile.Services.Navigation
             return NavigateToAsync<LoginViewModel>();
         }
 
-        public Task NavigateToAsync<TViewModel>() where TViewModel : ViewModelBase
+        public Task NavigateToAsync<TViewModel>(bool mainPage = false) where TViewModel : ViewModelBase
         {
-            return InternalNavigateToAsync(typeof(TViewModel), null);
+            return InternalNavigateToAsync(typeof(TViewModel), null, mainPage);
         }
 
-        public Task NavigateToAsync<TViewModel>(object parameter) where TViewModel : ViewModelBase
+        public Task NavigateToAsync<TViewModel>(object parameter, bool mainPage = false) where TViewModel : ViewModelBase
         {
-            return InternalNavigateToAsync(typeof(TViewModel), parameter);
+            return InternalNavigateToAsync(typeof(TViewModel), parameter, mainPage);
         }
 
         public Task RemoveLastFromBackStackAsync()
@@ -64,7 +64,7 @@ namespace Steamboat.Mobile.Services.Navigation
             return Task.FromResult(true);
         }
 
-        private async Task InternalNavigateToAsync(Type viewModelType, object parameter)
+        private async Task InternalNavigateToAsync(Type viewModelType, object parameter, bool mainPage)
         {
             Page page = CreatePage(viewModelType, parameter);
             NavigationPage.SetBackButtonTitle(page, string.Empty);
@@ -76,13 +76,13 @@ namespace Steamboat.Mobile.Services.Navigation
             else
             {
                 var navigationPage = Application.Current.MainPage as CustomNavigationView;
-                if (LoginViewWasRemoved(navigationPage))
+                if (IsMainPage(navigationPage, mainPage))
                 {
-                    await navigationPage.PushAsync(page, true);
+                    Application.Current.MainPage = new CustomNavigationView(page);
                 }
                 else
                 {
-                    Application.Current.MainPage = new CustomNavigationView(page);
+                    await navigationPage.PushAsync(page, true);
                 }
             }
 
@@ -110,9 +110,8 @@ namespace Steamboat.Mobile.Services.Navigation
             return page;
         }
 
-        private bool LoginViewWasRemoved(CustomNavigationView page){
-            //TODO: Could be refactored into a separate method to set a main page.
-            return page != null && !(page.CurrentPage is LoginView);
+        private bool IsMainPage(CustomNavigationView page, bool mainPage){
+            return page != null && mainPage;
         }
     }
 }

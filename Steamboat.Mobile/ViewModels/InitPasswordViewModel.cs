@@ -53,7 +53,7 @@ namespace Steamboat.Mobile.ViewModels
                 ValidatePasswordAndConfirm();
                 var initPassword = await _accountManager.InitPassword(Password.Value, Confirm.Value);
                 //await _accountManager.Login(initPassword.EmailAddress, initPassword.Password);
-                await NavigationService.NavigateToAsync<StatusViewModel>();
+                await NavigationService.NavigateToAsync<StatusViewModel>(mainPage: true);
             }
             catch (Exception e)
             {
