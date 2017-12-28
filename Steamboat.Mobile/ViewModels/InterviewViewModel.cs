@@ -40,7 +40,7 @@ namespace Steamboat.Mobile.ViewModels
             }
             else
             {
-                //TODO: Improve handle message
+                //TODO: Improve handle error
                 await this.DialogService.ShowAlertAsync("Error loading", "Error", "OK");             
 
             }
