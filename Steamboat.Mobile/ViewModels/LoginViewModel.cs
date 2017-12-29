@@ -65,15 +65,17 @@ namespace Steamboat.Mobile.ViewModels
                 {
                     var result = await _accountManager.Login(_username.Value, _password.Value);
 
-                    var status = await _participantManager.GetStatus();
-                    var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.NextStepContent);
-                    await NavigationService.NavigateToAsync(viewModelType,status);
+                    if(IsPasswordExpired(result.AuthenticatedAccount.IsPasswordExpired))
+                    {
+                        await NavigationService.NavigateToAsync<InitPasswordViewModel>();
+                    }
+                    else
+                    {
+                        var status = await _participantManager.GetStatus();
+                        var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.NextStepContent);
+                        await NavigationService.NavigateToAsync(viewModelType,status, mainPage:true);
+                    }
 
-                    Password.Value = String.Empty;
-                }
-                catch(PasswordExpiredException)
-                {
-                    await NavigationService.NavigateToAsync<InitPasswordViewModel>();
                     Password.Value = String.Empty;
                 }
                 catch(Exception e)
@@ -100,6 +102,13 @@ namespace Steamboat.Mobile.ViewModels
             }
             else
                 return string.Empty;
+        }
+
+        private bool IsPasswordExpired(string passwordExpired)
+        {
+            bool res;
+            bool.TryParse(passwordExpired, out res);
+            return res;
         }
 
         #region Validations

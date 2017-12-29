@@ -10,6 +10,6 @@ namespace Steamboat.Mobile.Services.Account
 
         Task<AccountLogout> AccountLogout(string sessionId);
 
-        Task<AccountLogin> AccountInitPassword(AccountInitPassword passwords);
+        Task<AccountLogin> AccountInitPassword(AccountInitPassword passwords, string sessionId);
     }
 }
