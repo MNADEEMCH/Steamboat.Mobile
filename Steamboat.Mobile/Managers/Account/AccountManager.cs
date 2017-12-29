@@ -40,7 +40,7 @@ namespace Steamboat.Mobile.Managers.Account
                 if (account != null)
                 {
                     var user = App.CurrentUser == null ?
-                              await _userRepository.AddUser(username) : await _userRepository.UpdateUser(App.CurrentUser.Id, App.CurrentUser.Email);
+                              await _userRepository.AddUser(username) : await _userRepository.UpdateUser(App.CurrentUser.Id, username);
 
                     App.CurrentUser = user;
                     App.SessionID = account.AuthenticatedAccount.Session;
