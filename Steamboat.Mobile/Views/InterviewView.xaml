@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.InterviewView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    BackgroundColor="{StaticResource ViewBackground}"
+    Title="Momentum">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Logout" Icon="icLogout.png" Command="{Binding LogoutCommand}" >
+            <ToolbarItem.Order>
+                <OnPlatform x:TypeArguments="ToolbarItemOrder" iOS="Primary" Android="Secondary" />
+            </ToolbarItem.Order>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
+                <Setter Property="Margin" Value="16"></Setter>
+            </Style>
+            <Style x:Key="ImageContainerAbsoluteLayout" TargetType="AbsoluteLayout">
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="IconBackgroundImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+                <Setter Property="HeightRequest" Value="150"></Setter>
+                <Setter Property="WidthRequest" Value="150"></Setter>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0.5,0.5,-1,-1"></Setter>
+                <Setter Property="AbsoluteLayout.LayoutFlags" Value="PositionProportional"></Setter>
+            </Style>
+            <Style x:Key="IconImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+                <Setter Property="HeightRequest" Value="208"></Setter>
+                <Setter Property="WidthRequest" Value="208"></Setter>
+            </Style>
+            <Style x:Key="TitleContainerStackLayout" TargetType="StackLayout">
+                <Setter Property="Orientation" Value="Horizontal"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="TitleLabel"  TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="30" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="MoreInfoImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+                <Setter Property="HeightRequest" Value="24"></Setter>
+                <Setter Property="WidthRequest" Value="24"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="IndicatorLabel"  TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
+                <Setter Property="TextColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="DescriptionLabel"  TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Margin" Value="12"></Setter>
+            </Style>
+            <Style x:Key="GoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
+                <Setter Property="Margin" Value="0,5,0,0" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ScrollView Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" VerticalOptions="FillAndExpand" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="60"></RowDefinition>
+                    </Grid.RowDefinitions>
+                               
+                    <StackLayout Style="{StaticResource MainContainerStackLayout}">
+                        <AbsoluteLayout Style="{StaticResource ImageContainerAbsoluteLayout}">
+                            <ffimageloadingsvg:SvgCachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}"/>
+                            <ffimageloadingsvg:SvgCachedImage Source="icInterview.png" Style="{StaticResource IconImage}"/>
+                        </AbsoluteLayout>
+                        
+                        <StackLayout Style="{StaticResource TitleContainerStackLayout}">
+                            <Label Text="Interview" Style="{StaticResource TitleLabel}"></Label>
+                            <ffimageloadingsvg:SvgCachedImage Source="icMoreInfo.png" Style="{StaticResource MoreInfoImage}"/>
+                        </StackLayout>
+                        <Label Text="STEP  1  OF  4" Style="{StaticResource IndicatorLabel}"></Label>
+                        <Label Text="{Binding Description}" Style="{StaticResource DescriptionLabel}"></Label>
+                        <customControl:GradientRoundedButton  Text="LET'S TALK" Style="{StaticResource GoButton}"/>
+                        <Grid IsVisible="false" ></Grid>
+                    </StackLayout>
+                    <StackLayout BackgroundColor="Gray" Grid.Row="1">
+
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+            <ActivityIndicator
+            Grid.Row="0"
+            Color="{StaticResource LinkLabelColor}"
+            IsRunning="{Binding IsLoading}"  
+            IsVisible="{Binding IsLoading}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            WidthRequest="100" />
+        </Grid>
+	</ContentPage.Content>
+</ContentPage>

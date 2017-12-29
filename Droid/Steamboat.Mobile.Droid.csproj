@@ -236,6 +236,12 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icPassword.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icEmail.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icPassword.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icReenter.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icReenter.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icReenter.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icLock.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icLock.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icLock.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
@@ -244,6 +250,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\icMoreInfo.png" />
     <AndroidResource Include="Resources\drawable\splashscreen.png" />
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +265,28 @@
     <AndroidAsset Include="Assets\fonts\OpenSans-SemiBold.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\icInterview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icInterview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icInterview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icMoreInfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icMoreInfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\iconBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\iconBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\iconBackground.png" />
     <AndroidResource Include="Resources\drawable-hdpi\splashscreen.png" />
   </ItemGroup>
   <ItemGroup>

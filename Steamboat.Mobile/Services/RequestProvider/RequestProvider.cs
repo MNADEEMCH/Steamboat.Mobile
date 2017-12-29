@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Steamboat.Mobile.Exceptions;
+using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Models;
 
 namespace Steamboat.Mobile.Services.RequestProvider
@@ -27,9 +28,9 @@ namespace Steamboat.Mobile.Services.RequestProvider
             _serializerSettings.Converters.Add(new StringEnumConverter());
         }
 
-        public async Task<TResult> GetAsync<TResult>(string uri)
+        public async Task<TResult> GetAsync<TResult>(string uri, string sessionID)
         {
-            HttpClient httpClient = CreateHttpClient(uri);
+            HttpClient httpClient = CreateHttpClient(uri, sessionID);
             HttpResponseMessage response = await httpClient.GetAsync(uri);
 
             await HandleResponse(response);
@@ -145,8 +146,16 @@ namespace Steamboat.Mobile.Services.RequestProvider
             if (!response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                if(!content.Contains("<html>")){
+                if(!content.Contains("<html>")){                    
                     var result = await Task.Run(() => JsonConvert.DeserializeObject<Models.Error.ErrorInfo>(content, _serializerSettings));
+                    Type exceptionType;
+                    ErrorCodesHelper.ErrorDictionary.TryGetValue(result.Error.Code, out exceptionType);
+                    if(exceptionType != null)
+                    {
+                        var exceptionInstance = (ExceptionBase)Activator.CreateInstance(exceptionType, result.Error.Message);
+                        throw exceptionInstance;
+                    }
+
                     throw new ServiceException(result.Error.Message);
                 }
                 else

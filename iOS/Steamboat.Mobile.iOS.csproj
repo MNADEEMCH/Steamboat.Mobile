@@ -250,10 +250,7 @@
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="Utilities\" />
-    <Folder Include="Resources\Fonts\" />
-    <Folder Include="CustomRenderers\" />
+    <BundleResource Include="Resources\iconBackground.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -300,6 +297,36 @@
     <BundleResource Include="Resources\ icLogout.png" />
     <BundleResource Include="Resources\ icLogout%402x.png" />
     <BundleResource Include="Resources\ icLogout%403x.png" />
+    <BundleResource Include="Resources\ icReenter.png" />
+    <BundleResource Include="Resources\ icReenter%402x.png" />
+    <BundleResource Include="Resources\ icReenter%403x.png" />
+    <BundleResource Include="Resources\ icLock.png" />
+    <BundleResource Include="Resources\ icLock%402x.png" />
+    <BundleResource Include="Resources\ icLock%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icInterview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icInterview%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icInterview%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icMoreInfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icMoreInfo%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icMoreInfo%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\iconBackground%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\iconBackground%403x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />

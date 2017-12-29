@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Steamboat.Mobile.Exceptions;
+using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Validations;
 using Xamarin.Forms;
@@ -13,29 +16,42 @@ namespace Steamboat.Mobile.ViewModels
         #region Properties
 
         private IAccountManager _accountManager;
+        private IParticipantManager _participantManager;
         private ValidatableObject<string> _username;
         private ValidatableObject<string> _password;
-        private bool isBusy;
+        private bool _isBusy;
 
         public ICommand LoginCommand { get; set; }
         public ValidatableObject<string> Username { set { SetPropertyValue(ref _username, value); } get { return _username; } }
         public ValidatableObject<string> Password { set { SetPropertyValue(ref _password, value); } get { return _password; } }
-        public bool IsBusy { set { SetPropertyValue(ref isBusy, value); } get { return isBusy; } }
+        public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
 
         #endregion
 
-        public LoginViewModel(IAccountManager accountManager = null)
+        public LoginViewModel(IAccountManager accountManager = null, IParticipantManager participantManager = null)
         {
             _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
+            _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
 
             LoginCommand = new Command(async () => await this.Login());
             IsBusy = false;
 
-            _username = new ValidatableObject<string>();
-            _password = new ValidatableObject<string>();
-            Username.Value = Task.Run(() => GetCurrentUser()).Result;
+            Username = new ValidatableObject<string>();
+            Password = new ValidatableObject<string>();
 
             AddValidations();
+        }
+
+        public async override Task InitializeAsync(object parameter)
+        {
+            if (parameter == null) { 
+                Username.Value = await GetCurrentUser();
+                await base.InitializeAsync(parameter);
+            }
+            else
+            {
+                await _accountManager.Logout();
+            }
         }
 
         private async Task Login()
@@ -48,7 +64,16 @@ namespace Steamboat.Mobile.ViewModels
                 try
                 {
                     var result = await _accountManager.Login(_username.Value, _password.Value);
-                    await NavigationService.NavigateToAsync<StatusViewModel>();
+
+                    var status = await _participantManager.GetStatus();
+                    var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.NextStepContent);
+                    await NavigationService.NavigateToAsync(viewModelType,status);
+
+                    Password.Value = String.Empty;
+                }
+                catch(PasswordExpiredException)
+                {
+                    await NavigationService.NavigateToAsync<InitPasswordViewModel>();
                     Password.Value = String.Empty;
                 }
                 catch(Exception e)

@@ -35,6 +35,16 @@ namespace Steamboat.Mobile.Services.Navigation
             return InternalNavigateToAsync(typeof(TViewModel), parameter);
         }
 
+        public Task NavigateToAsync(Type vm)
+        {
+            return InternalNavigateToAsync(vm, null);
+        }
+
+        public Task NavigateToAsync(Type vm, object parameter)
+        {
+            return InternalNavigateToAsync(vm, parameter);
+        }
+
         public Task RemoveLastFromBackStackAsync()
         {
             var mainPage = Application.Current.MainPage as CustomNavigationView;
@@ -113,5 +123,6 @@ namespace Steamboat.Mobile.Services.Navigation
         private bool LoginViewWasRemoved(CustomNavigationView page){
             return page != null && !(page.CurrentPage is LoginView);
         }
+             
     }
 }

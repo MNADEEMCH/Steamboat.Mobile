@@ -14,6 +14,10 @@ namespace Steamboat.Mobile.Services.Navigation
 
         Task NavigateToAsync<TViewModel>(object parameter) where TViewModel : ViewModelBase;
 
+        Task NavigateToAsync(Type vm);
+
+        Task NavigateToAsync(Type vm, object parameter);
+
         Task RemoveLastFromBackStackAsync();
 
         Task RemoveBackStackAsync();

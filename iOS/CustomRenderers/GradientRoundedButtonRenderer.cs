@@ -36,23 +36,92 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
             if (e.OldElement != null || e.NewElement == null)
                 return;
+            
+            if(e.NewElement != null)
+            {
+                var nativeButton = (UIButton)Control;
+                nativeButton.TouchDown += OnTouchDown;
+                nativeButton.TouchUpInside += OnTouchUpInside;
+            }
 
             var button = this.Element as GradientRoundedButton;
-
             var gradient = new CAGradientLayer();
             gradient.CornerRadius = Control.Layer.CornerRadius = button.IOSBorderRadius;
-            gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
             gradient.StartPoint = new CGPoint(0.0, 0.25);
             gradient.EndPoint = new CGPoint(1.0, 0.5);
-            var layer = Control?.Layer.Sublayers.LastOrDefault();
-
-            gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
             gradient.ShadowOffset = new CGSize(0, 12);
             gradient.ShadowOpacity = 0.5f;
             gradient.ShadowRadius = 7;
 
+            if (button.IsEnabled)
+            {
+                gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
+                gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
+            }
+            else
+            {
+                gradient.Colors = new CGColor[] { button.DisabledColor.ToCGColor(), button.DisabledColor.ToCGColor() };
+                gradient.ShadowColor = Color.FromHex("FFFFFF").ToCGColor();
+            }
+
+            var layer = Control?.Layer.Sublayers.LastOrDefault();
             Control?.Layer.InsertSublayerBelow(gradient, layer);
 
+            if (button.DisabledTextColor != null)
+                Control?.SetTitleColor(button.DisabledTextColor.ToUIColor(), UIControlState.Disabled);
+            
+            Control.ReverseTitleShadowWhenHighlighted = false;
+        }
+
+        protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+
+            if (e.PropertyName.Equals("IsEnabled"))
+            {
+                var button = this.Element as GradientRoundedButton;
+                var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
+
+                if (button.IsEnabled)
+                {
+                    gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
+                    gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
+                }
+                else
+                {
+                    gradient.Colors = new CGColor[] { button.DisabledColor.ToCGColor(), button.DisabledColor.ToCGColor() };
+                    gradient.ShadowColor = Color.FromHex("FFFFFF").ToCGColor();
+                }
+                SetNativeControl(Control);
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (Control != null)
+            {
+                Control.TouchDown -= OnTouchDown;
+                Control.TouchUpInside -= OnTouchUpInside;
+            }
+
+            base.Dispose(disposing);
+        }
+
+        private void OnTouchDown(object sender, EventArgs e)
+        {
+            var button = this.Element as GradientRoundedButton;
+            var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
+            gradient.Colors = new CGColor[] { button.ActiveColor.ToCGColor(), button.ActiveColor.ToCGColor() };
+            gradient.ShadowColor = Color.FromHex("FFFFFF").ToCGColor();
+        }
+
+        private void OnTouchUpInside(object sender, EventArgs e)
+        {
+            var button = this.Element as GradientRoundedButton;
+            var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
+            gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
+            gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
+            ((IButtonController)Element)?.SendClicked();
         }
     }
 }
