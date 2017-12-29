@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Steamboat.Mobile.Exceptions;
+using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Validations;
 using Xamarin.Forms;
@@ -14,6 +16,7 @@ namespace Steamboat.Mobile.ViewModels
         #region Properties
 
         private IAccountManager _accountManager;
+        private IParticipantManager _participantManager;
         private ValidatableObject<string> _username;
         private ValidatableObject<string> _password;
         private bool _isBusy;
@@ -25,24 +28,30 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-        public LoginViewModel(IAccountManager accountManager = null)
+        public LoginViewModel(IAccountManager accountManager = null, IParticipantManager participantManager = null)
         {
             _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
+            _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
 
             LoginCommand = new Command(async () => await this.Login());
             IsBusy = false;
 
-            _username = new ValidatableObject<string>();
-            _password = new ValidatableObject<string>();
+            Username = new ValidatableObject<string>();
+            Password = new ValidatableObject<string>();
 
             AddValidations();
         }
 
         public async override Task InitializeAsync(object parameter)
         {
-            Username.Value = await GetCurrentUser();
-
-            await base.InitializeAsync(parameter);
+            if (parameter == null) { 
+                Username.Value = await GetCurrentUser();
+                await base.InitializeAsync(parameter);
+            }
+            else
+            {
+                await _accountManager.Logout();
+            }
         }
 
         private async Task Login()
@@ -62,7 +71,9 @@ namespace Steamboat.Mobile.ViewModels
                     }
                     else
                     {
-                        await NavigationService.NavigateToAsync<StatusViewModel>(mainPage:true);
+                        var status = await _participantManager.GetStatus();
+                        var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.NextStepContent);
+                        await NavigationService.NavigateToAsync(viewModelType,status, mainPage:true);
                     }
 
                     Password.Value = String.Empty;

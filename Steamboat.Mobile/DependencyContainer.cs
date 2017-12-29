@@ -1,12 +1,14 @@
 ﻿using System;
 using Splat;
 using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Models.User;
 using Steamboat.Mobile.Repositories.Database;
 using Steamboat.Mobile.Repositories.User;
 using Steamboat.Mobile.Services.Account;
 using Steamboat.Mobile.Services.Dialog;
 using Steamboat.Mobile.Services.Navigation;
+using Steamboat.Mobile.Services.Participant;
 using Steamboat.Mobile.Services.RequestProvider;
 using Steamboat.Mobile.ViewModels;
 
@@ -22,6 +24,7 @@ namespace Steamboat.Mobile
 
             //Services
             Locator.CurrentMutable.RegisterLazySingleton(() => new AccountService(), typeof(IAccountService));
+            Locator.CurrentMutable.RegisterLazySingleton(() => new ParticipantService(), typeof(IParticipantService));
 
             //Repositories
             Locator.CurrentMutable.RegisterLazySingleton(() => new UserRepository(), typeof(IUserRepository));
@@ -31,11 +34,12 @@ namespace Steamboat.Mobile
 
             //Managers
             Locator.CurrentMutable.RegisterLazySingleton(() => new AccountManager(), typeof(IAccountManager));
+            Locator.CurrentMutable.RegisterLazySingleton(() => new ParticipantManager(), typeof(IParticipantManager));
 
             //ViewModels
             Locator.CurrentMutable.RegisterLazySingleton(() => new LoginViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new InitPasswordViewModel());
-            Locator.CurrentMutable.RegisterLazySingleton(() => new StatusViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new InterviewViewModel());
         }
 
         public static T Resolve<T>()

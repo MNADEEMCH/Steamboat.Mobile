@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Validations;
 using Xamarin.Forms;
+using Steamboat.Mobile.Helpers;
 
 namespace Steamboat.Mobile.ViewModels
 {
@@ -16,6 +18,7 @@ namespace Steamboat.Mobile.ViewModels
         private bool _buttonEnabled;
         private bool _isBusy;
         private IAccountManager _accountManager;
+        private IParticipantManager _participantManager;
 
         public ICommand ValidatePasswordFocusCommand { get; set; }
         public ICommand UpdateCommand { get; set; }
@@ -26,9 +29,11 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-        public InitPasswordViewModel(IAccountManager accountManager = null)
+        public InitPasswordViewModel(IAccountManager accountManager = null, IParticipantManager participantManager = null)
         {
             _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
+            _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
+
             ValidatePasswordFocusCommand = new Command(() => this.ValidatePasswordFocus());
             UpdateCommand = new Command(async () => await this.Update());
         }
@@ -55,8 +60,9 @@ namespace Steamboat.Mobile.ViewModels
                 {
                     ValidatePasswordAndConfirm();
                     var initPassword = await _accountManager.InitPassword(Password.Value, Confirm.Value);
-                    //await _accountManager.Login(initPassword.EmailAddress, initPassword.Password);
-                    await NavigationService.NavigateToAsync<StatusViewModel>(mainPage: true);
+                    var status = await _participantManager.GetStatus();
+                    var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.NextStepContent);
+                    await NavigationService.NavigateToAsync(viewModelType, status, mainPage:true);
                 }
                 catch (Exception e)
                 {
