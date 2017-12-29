@@ -46,23 +46,29 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task Update()
         {
+            IsBusy = true;
             bool isValid = Validate();
 
-            try
+            if (isValid)
             {
-                ValidatePasswordAndConfirm();
-                var initPassword = await _accountManager.InitPassword(Password.Value, Confirm.Value);
-                //await _accountManager.Login(initPassword.EmailAddress, initPassword.Password);
-                await NavigationService.NavigateToAsync<StatusViewModel>(mainPage: true);
+                try
+                {
+                    ValidatePasswordAndConfirm();
+                    var initPassword = await _accountManager.InitPassword(Password.Value, Confirm.Value);
+                    //await _accountManager.Login(initPassword.EmailAddress, initPassword.Password);
+                    await NavigationService.NavigateToAsync<StatusViewModel>(mainPage: true);
+                }
+                catch (Exception e)
+                {
+                    await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
             }
-            catch (Exception e)
-            {
-                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-            }
-            finally
-            {
+            else
                 IsBusy = false;
-            }
         }
 
         private void ValidatePasswordAndConfirm()
