@@ -72,7 +72,7 @@ namespace Steamboat.Mobile.ViewModels
                     else
                     {
                         var status = await _participantManager.GetStatus();
-                        var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.NextStepContent);
+                        var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.Web.NextStepContent);
                         await NavigationService.NavigateToAsync(viewModelType,status, mainPage:true);
                     }
 
