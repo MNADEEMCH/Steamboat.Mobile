@@ -34,7 +34,7 @@ namespace Steamboat.Mobile.ViewModels
             Status status = parameter as Status;
             if (ValidateStatus(status))
             {
-                SurveyStep surveyStep = status.Dashboard.SurveyStep;
+                SurveyStep surveyStep = status.Dashboard.Web.SurveyStep;
                 Description = surveyStep.Message;
             }
             else
@@ -49,7 +49,8 @@ namespace Steamboat.Mobile.ViewModels
         {
             return status != null
                     && status.Dashboard != null
-                    && status.Dashboard.SurveyStep != null;
+                    && status.Dashboard.Web != null
+                    && status.Dashboard.Web.SurveyStep != null;
         }
 
         private async Task Logout()

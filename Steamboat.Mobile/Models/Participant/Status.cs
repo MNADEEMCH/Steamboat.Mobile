@@ -71,12 +71,27 @@ namespace Steamboat.Mobile.Models.Participant
         public string Type { get; set; }
     }
 
-    public class Dashboard
+    public class Web
     {
         public EnrollmentStep EnrollmentStep { get; set; }
         public SurveyStep SurveyStep { get; set; }
         public EvaluationStep EvaluationStep { get; set; }
         public ReportStep ReportStep { get; set; }
         public NextStepContent NextStepContent { get; set; }
+    }
+
+    public class Mobile
+    {
+        public string InterviewStep { get; set; }
+        public string SchedulingStep { get; set; }
+        public string ScreeningStep { get; set; }
+        public string ReportStep { get; set; }
+    }
+
+    public class Dashboard
+    {
+        public Mobile Mobile { get; set; }
+        public Web Web { get; set; }
+        public string OnClick { get; set; }
     }
 }
