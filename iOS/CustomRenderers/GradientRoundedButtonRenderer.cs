@@ -41,7 +41,8 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             {
                 var nativeButton = (UIButton)Control;
                 nativeButton.TouchDown += OnTouchDown;
-                nativeButton.TouchUpInside += OnTouchUpInside;
+                nativeButton.TouchUpOutside += OnTouchUp;
+                nativeButton.TouchUpInside += OnTouchUp;
             }
 
             var button = this.Element as GradientRoundedButton;
@@ -101,7 +102,8 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             if (Control != null)
             {
                 Control.TouchDown -= OnTouchDown;
-                Control.TouchUpInside -= OnTouchUpInside;
+                Control.TouchUpOutside -= OnTouchUp;
+                Control.TouchUpInside -= OnTouchUp;
             }
 
             base.Dispose(disposing);
@@ -115,7 +117,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             gradient.ShadowColor = Color.FromHex("FFFFFF").ToCGColor();
         }
 
-        private void OnTouchUpInside(object sender, EventArgs e)
+        private void OnTouchUp(object sender, EventArgs e)
         {
             var button = this.Element as GradientRoundedButton;
             var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
