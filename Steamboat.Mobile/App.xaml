@@ -6,6 +6,7 @@
 		<ResourceDictionary>
 
             <!-- COLORS -->
+            <Color x:Key="MomentumBlueColor">#2C9FC9</Color>
             <Color x:Key="ViewBackground">#FFFFFF</Color>
             <Color x:Key="NavBackground">#2C9FC9</Color>
             <Color x:Key="NavTextColor">#FFFFFF</Color>
@@ -17,6 +18,7 @@
             <Color x:Key="SubtleBlueColor">#E3F4F8</Color>
             <Color x:Key="StoneBlueColor">#75889D</Color>
             <Color x:Key="LightBlueColor">#ADD7E1</Color>
+            <Color x:Key="DarkBlueColor">#546a82</Color>
 
             <!-- FONTS -->
             <OnPlatform x:Key="OpenSansBold" x:TypeArguments="x:String" iOS="OpenSans-Bold" Android="fonts/OpenSans-Bold.ttf#OpenSans-Bold" />

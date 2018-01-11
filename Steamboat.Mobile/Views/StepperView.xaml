@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+             xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+             viewModelBase:ViewModelAutoWire.AutoWireViewModel="true" 
+             x:Class="Steamboat.Mobile.Views.StepperView">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="StepLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="10"></Setter>
+            </Style>
+            <Style x:Key="StepInactiveLabel"  BasedOn="{StaticResource StepLabel}" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}"></Setter>
+                <Setter Property="FontFamily" Value="{StaticResource OpenSansSemiBold}"></Setter>
+            </Style>
+            <Style x:Key="StepActiveLabel"  BasedOn="{StaticResource StepLabel}" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}"></Setter>
+                <Setter Property="FontFamily" Value="{StaticResource OpenSansBold}"></Setter>
+            </Style>
+            <Style x:Key="StepImage"  TargetType="Image">
+                <Setter Property="HeightRequest" Value="24"></Setter>
+                <Setter Property="WidthRequest" Value="24"></Setter>
+            </Style>
+            <Style x:Key="ProgressBar"  TargetType="customControl:ColorProgressBar">
+                <Setter Property="FilledColor" Value="{StaticResource MomentumBlueColor}"></Setter>
+                <Setter Property="EmptyColor" Value="{StaticResource SubtleBlueColor}"></Setter>
+                <Setter Property="HeightRequest" Value="5"></Setter>
+                <Setter Property="ProgressBarHeigth" Value="3"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <customControl:Stepper 
+            Steps="{Binding Steps}"
+            PreviousStep="{Binding PreviousStep}"
+            CurrentStep="{Binding CurrentStep}"
+            ReadyToInitialize ="{Binding ReadyToInitialize}"
+            ProgressBarStyle="{StaticResource ProgressBar}"
+            StepImageStyle="{StaticResource StepImage}"
+            StepInactiveLabelStyle="{StaticResource StepInactiveLabel}"   
+            StepActiveLabelStyle="{StaticResource StepActiveLabel}"  
+            SourceImgDone="icStepDone.png"
+            SourceImgActive="icStepActive.png"
+            SourceImgPending="icStepNonvisited.png"
+            ProgressLength="800"
+            HeightRequest="50"
+            HorizontalOptions="FillAndExpand"
+            Margin="55,0,55,10"></customControl:Stepper>
+    </ContentView.Content>
+</ContentView>

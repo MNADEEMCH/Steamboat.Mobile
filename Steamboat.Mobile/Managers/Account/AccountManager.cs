@@ -43,7 +43,7 @@ namespace Steamboat.Mobile.Managers.Account
                               await _userRepository.AddUser(username) : await _userRepository.UpdateUser(App.CurrentUser.Id, username);
 
                     App.CurrentUser = user;
-                    App.SessionID = account.AuthenticatedAccount.Session;
+                    App.SessionID = account.Session;
                 }
 
                 return account;

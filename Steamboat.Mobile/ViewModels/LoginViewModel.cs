@@ -50,8 +50,14 @@ namespace Steamboat.Mobile.ViewModels
             }
             else
             {
-                await _accountManager.Logout();
+                await Logout();
             }
+        }
+
+        private async Task Logout()
+        {
+            await DependencyContainer.Resolve<StepperViewModel>().Refresh();
+            await _accountManager.Logout();            
         }
 
         private async Task Login()
@@ -65,15 +71,16 @@ namespace Steamboat.Mobile.ViewModels
                 {
                     var result = await _accountManager.Login(_username.Value, _password.Value);
 
-                    if(IsPasswordExpired(result.AuthenticatedAccount.IsPasswordExpired))
+                    if(IsPasswordExpired(result.IsPasswordExpired))
                     {
                         await NavigationService.NavigateToAsync<InitPasswordViewModel>();
                     }
                     else
                     {
                         var status = await _participantManager.GetStatus();
-                        var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.Web.NextStepContent);
-                        await NavigationService.NavigateToAsync(viewModelType,status, mainPage:true);
+                        //TODO: pass viewModelType instead the hardcoded viewModel
+                        //var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.Web.NextStepContent);
+                        await NavigationService.NavigateToAsync(typeof(InterviewViewModel), status, mainPage:true);
                     }
 
                     Password.Value = String.Empty;

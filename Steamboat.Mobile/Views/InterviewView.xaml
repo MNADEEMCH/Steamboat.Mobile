@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Steamboat.Mobile.Views.InterviewView"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
@@ -97,8 +98,8 @@
                         <customControl:GradientRoundedButton  Text="LET'S TALK" Style="{StaticResource GoButton}"/>
                         <Grid IsVisible="false" ></Grid>
                     </StackLayout>
-                    <StackLayout BackgroundColor="Gray" Grid.Row="1">
-
+                    <StackLayout Grid.Row="1">
+                        <views:StepperView x:Name="Stepper"/>
                     </StackLayout>
                 </Grid>
             </ScrollView>

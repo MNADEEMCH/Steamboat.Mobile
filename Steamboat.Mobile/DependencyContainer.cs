@@ -40,6 +40,8 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.RegisterLazySingleton(() => new LoginViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new InitPasswordViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new InterviewViewModel());
+
+            Locator.CurrentMutable.RegisterLazySingleton(() => new StepperViewModel());
         }
 
         public static T Resolve<T>()

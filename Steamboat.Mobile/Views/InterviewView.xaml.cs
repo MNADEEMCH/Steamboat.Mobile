@@ -11,5 +11,10 @@ namespace Steamboat.Mobile.Views
         {
             InitializeComponent();
         }
+
+        protected override void OnDisappearing()
+        {
+            Stepper.BindingContext = null;
+        }
     }
 }

@@ -3,11 +3,6 @@ namespace Steamboat.Mobile.Models.Account
 {
     public class AccountInfo
     {
-        public AuthenticatedAccount AuthenticatedAccount { get; set; }
-    }
-
-    public class AuthenticatedAccount
-    {
         public string EmailAddress { get; set; }
         public string Role { get; set; }
         public string AuthenticatedTimestamp { get; set; }

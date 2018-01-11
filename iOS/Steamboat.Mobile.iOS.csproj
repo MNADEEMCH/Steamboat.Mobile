@@ -261,6 +261,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomRenderers\ColorProgressBarRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="IOSDependencyContainer.cs" />
@@ -327,6 +328,33 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\iconBackground%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepActive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepActive%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepActive%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepDone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepDone%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepDone%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepNonvisited.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepNonvisited%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepNonvisited%403x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />

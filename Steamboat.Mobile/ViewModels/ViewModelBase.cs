@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class ViewModelBase : BindableObject, INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         #region PropertyChanged
 
@@ -75,6 +75,11 @@ namespace Steamboat.Mobile.ViewModels
         }
 
         public virtual Task InitializeAsync(object navigationData)
+        {
+            return Task.FromResult(false);
+        }
+
+        public virtual Task Refresh()
         {
             return Task.FromResult(false);
         }

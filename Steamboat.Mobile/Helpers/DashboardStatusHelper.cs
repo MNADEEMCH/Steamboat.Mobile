@@ -11,18 +11,18 @@ namespace Steamboat.Mobile.Helpers
         {
             { "Survey" , typeof(InterviewViewModel)}
         };
-
-        public static Type GetViewModelForStatus(NextStepContent status)
-        {
-            if (!string.IsNullOrEmpty(status.Type))
-            {
-                Type vmType;
-                StatusViewModelsDictionary.TryGetValue(status.Type,out vmType);
-                return vmType;
-            }
-            else
-                throw new Exception("Status page not available");
-        }
+        //TODO: implement this method
+        //public static Type GetViewModelForStatus(NextStepContent status)
+        //{
+        //    if (!string.IsNullOrEmpty(status.Type))
+        //    {
+        //        Type vmType;
+        //        StatusViewModelsDictionary.TryGetValue(status.Type,out vmType);
+        //        return vmType;
+        //    }
+        //    else
+        //        throw new Exception("Status page not available");
+        //}
 
     }
 }

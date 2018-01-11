@@ -34,8 +34,9 @@ namespace Steamboat.Mobile.ViewModels
             Status status = parameter as Status;
             if (ValidateStatus(status))
             {
-                SurveyStep surveyStep = status.Dashboard.Web.SurveyStep;
+                SurveyStep surveyStep = status.Dashboard.SurveyStep;
                 Description = surveyStep.Message;
+                await DependencyContainer.Resolve<StepperViewModel>().InitializeAsync(status);
             }
             else
             {
@@ -49,8 +50,7 @@ namespace Steamboat.Mobile.ViewModels
         {
             return status != null
                     && status.Dashboard != null
-                    && status.Dashboard.Web != null
-                    && status.Dashboard.Web.SurveyStep != null;
+                    && status.Dashboard.SurveyStep != null;
         }
 
         private async Task Logout()
