@@ -186,6 +186,9 @@
     <Reference Include="Plugin.DeviceInfo">
       <HintPath>..\packages\Xam.Plugin.DeviceInfo.3.0.2\lib\Xamarin.iOS10\Plugin.DeviceInfo.dll</HintPath>
     </Reference>
+    <Reference Include="Xamanimation">
+      <HintPath>..\packages\Xamanimation.1.1.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamanimation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -251,6 +254,12 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\iconBackground.png" />
+    <BundleResource Include="Resources\Checkbox\off.png" />
+    <BundleResource Include="Resources\Checkbox\off%402x.png" />
+    <BundleResource Include="Resources\Checkbox\off%403x.png" />
+    <BundleResource Include="Resources\Checkbox\on.png" />
+    <BundleResource Include="Resources\Checkbox\on%402x.png" />
+    <BundleResource Include="Resources\Checkbox\on%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -268,6 +277,9 @@
     <Compile Include="Utilities\SQLiteHelper.cs" />
     <Compile Include="CustomRenderers\GradientRoundedButtonRenderer.cs" />
     <Compile Include="CustomRenderers\ImageEntryRenderer.cs" />
+    <Compile Include="CustomRenderers\CheckboxRenderer.cs" />
+    <Compile Include="Controls\CheckBoxView.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
@@ -328,6 +340,10 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\iconBackground%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
+    <Folder Include="Resources\Checkbox\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\icStepActive.png" />

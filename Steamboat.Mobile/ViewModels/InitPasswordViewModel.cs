@@ -17,6 +17,7 @@ namespace Steamboat.Mobile.ViewModels
         private ValidatableObject<string> _confirm;
         private bool _buttonEnabled;
         private bool _isBusy;
+        private bool _areConsentsAccepted;
         private IAccountManager _accountManager;
         private IParticipantManager _participantManager;
 
@@ -39,12 +40,17 @@ namespace Steamboat.Mobile.ViewModels
         }
 
         public async override Task InitializeAsync(object parameter)
-        {
+        {            
             ButtonEnabled = false;
             IsBusy = false;
             Password = new ValidatableObject<string>();
             Confirm = new ValidatableObject<string>();
             AddValidations();
+
+            if (parameter is bool)
+            {
+                _areConsentsAccepted = (bool)parameter;
+            }
 
             await base.InitializeAsync(parameter);
         }
@@ -60,10 +66,17 @@ namespace Steamboat.Mobile.ViewModels
                 {
                     ValidatePasswordAndConfirm();
                     var initPassword = await _accountManager.InitPassword(Password.Value, Confirm.Value);
-                    var status = await _participantManager.GetStatus();
-                    //TODO: pass viewModelType instead the hardcoded viewModel
-                    //var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.Web.NextStepContent);
-                    await NavigationService.NavigateToAsync(typeof(InterviewViewModel), status, mainPage:true);
+                    if (_areConsentsAccepted)
+                    {
+                        var status = await _participantManager.GetStatus();
+                        //TODO: pass viewModelType instead the hardcoded viewModel
+                        //var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.Web.NextStepContent);
+                        await NavigationService.NavigateToAsync(typeof(InterviewViewModel), status, mainPage:true);
+                    }
+                    else
+                    {
+                        await NavigationService.NavigateToAsync<ConsentsViewModel>();
+                    }                                        
                 }
                 catch (Exception e)
                 {

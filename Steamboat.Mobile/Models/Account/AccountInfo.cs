@@ -5,12 +5,13 @@ namespace Steamboat.Mobile.Models.Account
     {
         public string EmailAddress { get; set; }
         public string Role { get; set; }
-        public string AuthenticatedTimestamp { get; set; }
+        public DateTime AuthenticatedTimestamp { get; set; }
         public string Culture { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public string Session { get; set; }
-        public string IsPasswordExpired { get; set; }
+        public bool IsPasswordExpired { get; set; }
+        public bool AreConsentsAccepted { get; set; }
     }
 }

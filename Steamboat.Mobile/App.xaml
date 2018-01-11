@@ -18,7 +18,10 @@
             <Color x:Key="SubtleBlueColor">#E3F4F8</Color>
             <Color x:Key="StoneBlueColor">#75889D</Color>
             <Color x:Key="LightBlueColor">#ADD7E1</Color>
-            <Color x:Key="DarkBlueColor">#546a82</Color>
+            <Color x:Key="DarkBlueColor">#546A82</Color>
+            <Color x:Key="DarkGrayColor">#777777</Color>
+            <Color x:Key="SubtleGrayColor">#F9F9F9</Color>
+            <Color x:Key="LightGrayColor">#DEDEDE</Color>
 
             <!-- FONTS -->
             <OnPlatform x:Key="OpenSansBold" x:TypeArguments="x:String" iOS="OpenSans-Bold" Android="fonts/OpenSans-Bold.ttf#OpenSans-Bold" />
@@ -54,6 +57,7 @@
 
             <!--CONVERTERS-->
             <extensions:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <extensions:StringIsEmpty x:Key="StringIsEmpty" />
             
         </ResourceDictionary>
 	</Application.Resources>
