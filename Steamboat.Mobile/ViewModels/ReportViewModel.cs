@@ -2,15 +2,17 @@
 using Steamboat.Mobile.Models.Participant;
 using Steamboat.Mobile.Models.Stepper;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class InterviewViewModel : ViewModelBase
+    public class ReportViewModel:ViewModelBase
     {
-
         #region Properties
 
         public ICommand LogoutCommand { get; set; }
@@ -29,6 +31,20 @@ namespace Steamboat.Mobile.ViewModels
             set { SetPropertyValue(ref _message, value); }
         }
 
+        private string _detailPending;
+        public string DetailPending
+        {
+            get { return _detailPending; }
+            set { SetPropertyValue(ref _detailPending, value); }
+        }
+
+        private bool _reportReady;
+        public bool ReportReady
+        {
+            get { return _reportReady; }
+            set { SetPropertyValue(ref _reportReady, value); }
+        }
+
         private string _steps;
         public string Steps
         {
@@ -37,7 +53,7 @@ namespace Steamboat.Mobile.ViewModels
         }
         #endregion
 
-        public InterviewViewModel()
+        public ReportViewModel()
         {
             IsLoading = true;
             LogoutCommand = new Command(async () => await Logout());
@@ -48,19 +64,21 @@ namespace Steamboat.Mobile.ViewModels
             Status status = parameter as Status;
             if (ValidateStatus(status))
             {
-                SurveyStep surveyStep = status.Dashboard.SurveyStep;
+                ReportStep reportStep = status.Dashboard.ReportStep;
                 StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
 
-                Title = surveyStep.Title;
-                Message = surveyStep.Message;
+                Title = reportStep.Title;
+                Message = reportStep.Message;
+                DetailPending = "We'll let you know as soon as its ready!";
                 Steps = String.Format("STEP  {0}  OF  {1}", stepperParam.CurrentStep, stepperParam.Steps);
-
+                ReportReady = status.Dashboard.ReportStep.Status.Equals(StatusEnum.Complete);
+                
                 await DependencyContainer.Resolve<StepperViewModel>().InitializeAsync(stepperParam);
             }
             else
             {
                 //TODO: Improve handle error
-                await this.DialogService.ShowAlertAsync("Error loading", "Error", "OK");             
+                await this.DialogService.ShowAlertAsync("Error loading", "Error", "OK");
             }
             IsLoading = false;
         }
@@ -69,7 +87,7 @@ namespace Steamboat.Mobile.ViewModels
         {
             return status != null
                     && status.Dashboard != null
-                    && status.Dashboard.SurveyStep != null;
+                    && status.Dashboard.ReportStep != null;
         }
 
         private async Task Logout()
@@ -78,7 +96,7 @@ namespace Steamboat.Mobile.ViewModels
 
             try
             {
-              await NavigationService.NavigateToAsync<LoginViewModel>("Logout");
+                await NavigationService.NavigateToAsync<LoginViewModel>("Logout");
             }
             catch (Exception e)
             {

@@ -14,4 +14,5 @@ namespace Steamboat.Mobile.Models.Account
         public bool IsPasswordExpired { get; set; }
         public bool AreConsentsAccepted { get; set; }
     }
+
 }

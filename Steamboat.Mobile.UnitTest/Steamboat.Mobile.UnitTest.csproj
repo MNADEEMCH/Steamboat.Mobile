@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomControls\StepperTest.cs" />
+    <Compile Include="Helpers\DashboardStatusHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\StepperViewModelTest.cs" />
   </ItemGroup>

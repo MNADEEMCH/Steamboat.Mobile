@@ -82,9 +82,9 @@ namespace Steamboat.Mobile.ViewModels
                     else
                     {
                         var status = await _participantManager.GetStatus();
-                        //TODO: pass viewModelType instead the hardcoded viewModel
-                        //var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.Web.NextStepContent);
-                        await NavigationService.NavigateToAsync(typeof(InterviewViewModel), status, mainPage:true);
+
+                        var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status);
+                        await NavigationService.NavigateToAsync(viewModelType, status, mainPage:true);
                     }
 
                     Password.Value = String.Empty;

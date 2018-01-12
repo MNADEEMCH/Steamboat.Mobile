@@ -133,9 +133,8 @@ namespace Steamboat.Mobile.ViewModels
         private async Task NavigateToStatusView()
         {
             var status = await _participantManager.GetStatus();
-            //TODO: Fix navigation of web object
-            //var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status.Dashboard.Web.NextStepContent);
-            await NavigationService.NavigateToAsync(typeof(InterviewViewModel), status, mainPage: true);
+            var viewModelType = DashboardStatusHelper.GetViewModelForStatus(status);
+            await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
         }
 
         private void AffirmationTap()

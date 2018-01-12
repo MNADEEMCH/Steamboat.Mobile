@@ -2,15 +2,17 @@
 using Steamboat.Mobile.Models.Participant;
 using Steamboat.Mobile.Models.Stepper;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class InterviewViewModel : ViewModelBase
+    public class SchedulingViewModel : ViewModelBase
     {
-
         #region Properties
 
         public ICommand LogoutCommand { get; set; }
@@ -37,7 +39,7 @@ namespace Steamboat.Mobile.ViewModels
         }
         #endregion
 
-        public InterviewViewModel()
+        public SchedulingViewModel()
         {
             IsLoading = true;
             LogoutCommand = new Command(async () => await Logout());
@@ -48,19 +50,19 @@ namespace Steamboat.Mobile.ViewModels
             Status status = parameter as Status;
             if (ValidateStatus(status))
             {
-                SurveyStep surveyStep = status.Dashboard.SurveyStep;
+                SchedulingStep schedulingStep = status.Dashboard.SchedulingStep;
                 StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
 
-                Title = surveyStep.Title;
-                Message = surveyStep.Message;
+                Title = schedulingStep.Title;
+                Message = schedulingStep.Message;
                 Steps = String.Format("STEP  {0}  OF  {1}", stepperParam.CurrentStep, stepperParam.Steps);
-
+  
                 await DependencyContainer.Resolve<StepperViewModel>().InitializeAsync(stepperParam);
             }
             else
             {
                 //TODO: Improve handle error
-                await this.DialogService.ShowAlertAsync("Error loading", "Error", "OK");             
+                await this.DialogService.ShowAlertAsync("Error loading", "Error", "OK");
             }
             IsLoading = false;
         }
@@ -69,7 +71,7 @@ namespace Steamboat.Mobile.ViewModels
         {
             return status != null
                     && status.Dashboard != null
-                    && status.Dashboard.SurveyStep != null;
+                    && status.Dashboard.SchedulingStep != null;
         }
 
         private async Task Logout()
@@ -78,7 +80,7 @@ namespace Steamboat.Mobile.ViewModels
 
             try
             {
-              await NavigationService.NavigateToAsync<LoginViewModel>("Logout");
+                await NavigationService.NavigateToAsync<LoginViewModel>("Logout");
             }
             catch (Exception e)
             {

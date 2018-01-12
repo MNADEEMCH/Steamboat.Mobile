@@ -2,15 +2,17 @@
 using Steamboat.Mobile.Models.Participant;
 using Steamboat.Mobile.Models.Stepper;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class InterviewViewModel : ViewModelBase
+    public class ScreeningViewModel : ViewModelBase
     {
-
         #region Properties
 
         public ICommand LogoutCommand { get; set; }
@@ -35,9 +37,30 @@ namespace Steamboat.Mobile.ViewModels
             get { return _steps; }
             set { SetPropertyValue(ref _steps, value); }
         }
+
+        private string _date;
+        public string Date
+        {
+            get { return _date; }
+            set { SetPropertyValue(ref _date, value); }
+        }
+
+        private string _time;
+        public string Time
+        {
+            get { return _time; }
+            set { SetPropertyValue(ref _time, value); }
+        }
+
+        private string _address;
+        public string Address
+        {
+            get { return _address; }
+            set { SetPropertyValue(ref _address, value); }
+        }
         #endregion
 
-        public InterviewViewModel()
+        public ScreeningViewModel()
         {
             IsLoading = true;
             LogoutCommand = new Command(async () => await Logout());
@@ -48,19 +71,22 @@ namespace Steamboat.Mobile.ViewModels
             Status status = parameter as Status;
             if (ValidateStatus(status))
             {
-                SurveyStep surveyStep = status.Dashboard.SurveyStep;
+                ScreeningStep screeningStep = status.Dashboard.ScreeningStep;
                 StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
 
-                Title = surveyStep.Title;
-                Message = surveyStep.Message;
+                Title = screeningStep.Title;
+                Message = screeningStep.Message;
                 Steps = String.Format("STEP  {0}  OF  {1}", stepperParam.CurrentStep, stepperParam.Steps);
+                Date = "Tuesday,December 15th";
+                Time = "12:00 pm";
+                Address = "867 Miller Centers Suite 499 Chicago, IL 60606";
 
                 await DependencyContainer.Resolve<StepperViewModel>().InitializeAsync(stepperParam);
             }
             else
             {
                 //TODO: Improve handle error
-                await this.DialogService.ShowAlertAsync("Error loading", "Error", "OK");             
+                await this.DialogService.ShowAlertAsync("Error loading", "Error", "OK");
             }
             IsLoading = false;
         }
@@ -69,7 +95,7 @@ namespace Steamboat.Mobile.ViewModels
         {
             return status != null
                     && status.Dashboard != null
-                    && status.Dashboard.SurveyStep != null;
+                    && status.Dashboard.ScreeningStep != null;
         }
 
         private async Task Logout()
@@ -78,7 +104,7 @@ namespace Steamboat.Mobile.ViewModels
 
             try
             {
-              await NavigationService.NavigateToAsync<LoginViewModel>("Logout");
+                await NavigationService.NavigateToAsync<LoginViewModel>("Logout");
             }
             catch (Exception e)
             {
@@ -89,5 +115,6 @@ namespace Steamboat.Mobile.ViewModels
                 IsLoading = false;
             }
         }
+
     }
 }

@@ -5,7 +5,6 @@ namespace Steamboat.Mobile.Models.Participant
     public class Status
     {
         public Dashboard Dashboard { get; set; }
-    
     }
     public class SurveyStep
     {
@@ -28,7 +27,7 @@ namespace Steamboat.Mobile.Models.Participant
         public string Type { get; set; }
         public string Title { get; set; }
         public StatusEnum Status { get; set; }
-        public object Message { get; set; }
+        public string Message { get; set; }
     }
 
     public class ReportStep
@@ -36,7 +35,7 @@ namespace Steamboat.Mobile.Models.Participant
         public string Type { get; set; }
         public string Title { get; set; }
         public StatusEnum Status { get; set; }
-        public object Message { get; set; }
+        public string Message { get; set; }
     }
 
     public class Dashboard

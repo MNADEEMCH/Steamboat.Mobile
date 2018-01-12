@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="Steamboat.Mobile.Views.InterviewView"
+    x:Class="Steamboat.Mobile.Views.ScreeningView"
     xmlns:views="clr-namespace:Steamboat.Mobile.Views"
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
@@ -64,13 +64,30 @@
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="Margin" Value="12"></Setter>
             </Style>
-            <Style x:Key="GoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
-                <Setter Property="Margin" Value="0,5,0,0" />
+            <Style x:Key="ScreeningDetailsImage" TargetType="Image">
+                <Setter Property="HeightRequest" Value="24"></Setter>
+                <Setter Property="WidthRequest" Value="24"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
             </Style>
+            <Style x:Key="ScreeningDetailsGrid" TargetType="Grid">
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Margin" Value="30,0,30,12"></Setter>
+            </Style>
+            <Style x:Key="ScreeningDetailsLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}"/>
+            </Style>
+            <Style x:Key="ScreeningDetailsSeparatorBoxView" TargetType="BoxView">
+                <Setter Property="HeightRequest" Value="1"></Setter>
+                <Setter Property="Color" Value="{StaticResource LightGrayColor}"></Setter>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+            </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <Grid RowSpacing="0">
             <Grid.ColumnDefinitions>
@@ -82,20 +99,41 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="60"></RowDefinition>
                     </Grid.RowDefinitions>
-                               
+
                     <StackLayout Style="{StaticResource MainContainerStackLayout}">
                         <AbsoluteLayout Style="{StaticResource ImageContainerAbsoluteLayout}">
                             <ffimageloadingsvg:SvgCachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}"/>
-                            <ffimageloadingsvg:SvgCachedImage Source="icInterview.png" Style="{StaticResource IconImage}"/>
+                            <ffimageloadingsvg:SvgCachedImage Source="icScheduling.png" Style="{StaticResource IconImage}"/>
                         </AbsoluteLayout>
-                        
+
                         <StackLayout Style="{StaticResource TitleContainerStackLayout}">
                             <Label Text="{Binding Title}" Style="{StaticResource TitleLabel}"></Label>
                             <ffimageloadingsvg:SvgCachedImage Source="icMoreInfo.png" Style="{StaticResource MoreInfoImage}"/>
                         </StackLayout>
                         <Label Text="{Binding Steps}" Style="{StaticResource IndicatorLabel}"></Label>
                         <Label Text="{Binding Message}" Style="{StaticResource DescriptionLabel}"></Label>
-                        <customControl:GradientRoundedButton  Text="LET'S TALK" Style="{StaticResource GoButton}"/>
+                        <Grid Style="{StaticResource ScreeningDetailsGrid}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <ffimageloadingsvg:SvgCachedImage Source="icCalendar.png" Style="{StaticResource ScreeningDetailsImage}"/>
+                            <Label Text="{Binding Date}" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                            <BoxView Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource ScreeningDetailsSeparatorBoxView}"/>
+                            <ffimageloadingsvg:SvgCachedImage Source="icClock.png" Grid.Row="2" Style="{StaticResource ScreeningDetailsImage}"/>
+                            <Label Text="{Binding Time}" Grid.Row="2" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                            <BoxView Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource ScreeningDetailsSeparatorBoxView}"/>
+                            <ffimageloadingsvg:SvgCachedImage Source="icLocation.png" Grid.Row="4" Style="{StaticResource ScreeningDetailsImage}"/>
+                            <Label Text="{Binding Address}" Grid.Row="4" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                        </Grid>
+
                         <Grid IsVisible="false" ></Grid>
                     </StackLayout>
                     <views:StepperView x:Name="Stepper" Grid.Row="1"/>
@@ -110,5 +148,5 @@
             HorizontalOptions="Center"
             WidthRequest="100" />
         </Grid>
-	</ContentPage.Content>
+    </ContentPage.Content>
 </ContentPage>

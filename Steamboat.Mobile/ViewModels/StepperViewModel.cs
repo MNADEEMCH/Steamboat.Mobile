@@ -1,4 +1,4 @@
-﻿using Steamboat.Mobile.Models.Participant;
+﻿using Steamboat.Mobile.Models.Stepper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,26 +27,34 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
+        public StepperViewModel():base()
+        {
+        }
+
         public override async Task InitializeAsync(object parameter)
         {
             ReadyToInitialize = false;
-            Status status = parameter as Status;
-            if (ValidateStatus(status))
+            StepperParam stepperParam = parameter as StepperParam;
+            if (stepperParam!=null)
             {
                 if (!_stepperInitialized)
                 {
-                    Steps = GetSteps(status);
-                    CurrentStep = GetCurrentStep(status, Steps);
+                    Steps = stepperParam.Steps;
+                    CurrentStep = stepperParam.CurrentStep;
                     PreviousStep = CurrentStep;
                     _stepperInitialized = true;
                 }
                 else
                 {
                     PreviousStep = CurrentStep;
-                    CurrentStep = GetCurrentStep(status, Steps);
+                    CurrentStep = stepperParam.CurrentStep;
                 }
 
                 ReadyToInitialize = true;
+            }
+            else
+            {
+                //TODO: see how to handle when the stepper wont be loaded 
             }
             await base.InitializeAsync(true);
         }
@@ -63,37 +71,5 @@ namespace Steamboat.Mobile.ViewModels
 
         }
 
-        private bool ValidateStatus(Status status)
-        {
-            return status != null && status.Dashboard != null &&
-                status.Dashboard.SurveyStep != null &&
-                status.Dashboard.SchedulingStep != null &&
-                status.Dashboard.ScreeningStep != null &&
-                status.Dashboard.ReportStep != null;
-        }
-
-        private int GetSteps(Status status)
-        {
-            return status.Dashboard.SurveyStep.Status.Equals(StatusEnum.None) ? 3 : 4;
-        }
-
-        private int GetCurrentStep(Status status,int steps)
-        {
-            int currentStep = -1;
-            bool threeSteps = steps == 3;
-
-            if (status.Dashboard.SurveyStep.Status.Equals(StatusEnum.Pending))
-                currentStep= 1;
-            else if (status.Dashboard.SchedulingStep.Status.Equals(StatusEnum.Pending))
-                currentStep= threeSteps? 1 : 2;
-            else if (status.Dashboard.ScreeningStep.Status.Equals(StatusEnum.Pending))
-                currentStep= threeSteps ? 2 : 3;
-            else if (status.Dashboard.ReportStep.Status.Equals(StatusEnum.Pending))
-                currentStep= threeSteps ? 3 : 4;
-            else
-                currentStep = threeSteps ? 3 : 4;
-
-            return currentStep;
-        }
     }
 }
