@@ -277,6 +277,7 @@
     <Compile Include="Utilities\SQLiteHelper.cs" />
     <Compile Include="CustomRenderers\GradientRoundedButtonRenderer.cs" />
     <Compile Include="CustomRenderers\ImageEntryRenderer.cs" />
+    <Compile Include="CustomRenderers\CustomScrollViewRenderer.cs" />
     <Compile Include="CustomRenderers\CheckboxRenderer.cs" />
     <Compile Include="Controls\CheckBoxView.cs" />
     <Compile Include="Utilities\Extensions.cs" />

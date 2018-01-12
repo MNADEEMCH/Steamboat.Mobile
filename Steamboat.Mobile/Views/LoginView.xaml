@@ -83,50 +83,50 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 	<ContentPage.Content>
-        <ScrollView>
-            <ScrollView.Padding>
-                <OnPlatform x:TypeArguments="Thickness">
-                   <On Platform="iOS" Value="0,-20,0,0" />
-                   <On Platform="Android, WinPhone, Windows" Value="0,0,0,0" />
-               </OnPlatform>
-            </ScrollView.Padding>
-            <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="StartAndExpand" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="144" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <!--HEADER IMAGE-->
-                <ffimageloadingsvg:SvgCachedImage Aspect="AspectFill" Source="imgHeader.png"/>
-                <!--LOGIN FORM-->
-                <Grid Grid.Row="1" Margin="40,0">
-                    <StackLayout Spacing="0" >
-                        <Label Text="WELCOME TO" Style="{StaticResource WelcomeLabel}" />
-                        <Label Text="Momentum Health" Style="{StaticResource TitleLabel}" />
-                        <customControl:ImageEntry Placeholder="EMAIL" Text="{Binding Username.Value, Mode=TwoWay}" Style="{StaticResource EmailEntry}" >
-                            <customControl:ImageEntry.Triggers>
-                                <DataTrigger TargetType="customControl:ImageEntry" Binding="{Binding Username.IsValid}" Value="False">
-                                    <Setter Property="BorderColor" Value="{StaticResource EntryErrorColor}" />
-                                </DataTrigger>                               
-                            </customControl:ImageEntry.Triggers>
-                        </customControl:ImageEntry>
-                        <Label Text="{Binding Username.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" />
-                        <customControl:ImageEntry Placeholder="PASSWORD" Text="{Binding Password.Value, Mode=TwoWay}" Style="{StaticResource PasswordEntry}" >
-                            <customControl:ImageEntry.Triggers>
-                                <DataTrigger TargetType="customControl:ImageEntry" Binding="{Binding Password.IsValid}" Value="False">
-                                    <Setter Property="BorderColor" Value="{StaticResource EntryErrorColor}" />
-                                </DataTrigger>                               
-                            </customControl:ImageEntry.Triggers>
-                        </customControl:ImageEntry>
-                        <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" />
-                        <Label Text="FORGOT PASSWORD" Style="{StaticResource PasswordLabel}" />
-                        <customControl:GradientRoundedButton  Text="LOGIN" Command="{Binding LoginCommand}" Style="{StaticResource LoginButton}" IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"  />
-                        <Grid IsVisible="false" > </Grid>
-                        <ActivityIndicator Style="{StaticResource MainIndicator}" IsVisible="{Binding IsBusy}" />
-                        <Label Text="Not a member yet?" Style="{StaticResource MemberLabel}" />
-                        <Label Text="REGISTER HERE" Style="{StaticResource RegisterLabel}" />
-                    </StackLayout>
+         <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <ScrollView x:Name="MainScroll" Grid.Row="0" VerticalOptions="FillAndExpand">
+                <Grid RowSpacing="0" ColumnSpacing="0" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="144" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <!--HEADER IMAGE-->
+                    <ffimageloadingsvg:SvgCachedImage Aspect="AspectFill" Source="imgHeader.png"/>
+                    <!--LOGIN FORM-->
+                    <Grid Grid.Row="1" Margin="40,0">
+                        <StackLayout Spacing="0" >
+                            <Label Text="WELCOME TO" Style="{StaticResource WelcomeLabel}" />
+                            <Label Text="Momentum Health" Style="{StaticResource TitleLabel}" />
+                            <customControl:ImageEntry Placeholder="EMAIL" Text="{Binding Username.Value, Mode=TwoWay}" Style="{StaticResource EmailEntry}" >
+                                <customControl:ImageEntry.Triggers>
+                                    <DataTrigger TargetType="customControl:ImageEntry" Binding="{Binding Username.IsValid}" Value="False">
+                                        <Setter Property="BorderColor" Value="{StaticResource EntryErrorColor}" />
+                                    </DataTrigger>                               
+                                </customControl:ImageEntry.Triggers>
+                            </customControl:ImageEntry>
+                            <Label Text="{Binding Username.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" />
+                            <customControl:ImageEntry Placeholder="PASSWORD" Text="{Binding Password.Value, Mode=TwoWay}" Style="{StaticResource PasswordEntry}" >
+                                <customControl:ImageEntry.Triggers>
+                                    <DataTrigger TargetType="customControl:ImageEntry" Binding="{Binding Password.IsValid}" Value="False">
+                                        <Setter Property="BorderColor" Value="{StaticResource EntryErrorColor}" />
+                                    </DataTrigger>                               
+                                </customControl:ImageEntry.Triggers>
+                            </customControl:ImageEntry>
+                            <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" />
+                            <Label Text="FORGOT PASSWORD" Style="{StaticResource PasswordLabel}" />
+                            <customControl:GradientRoundedButton  Text="LOGIN" Command="{Binding LoginCommand}" Style="{StaticResource LoginButton}" IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"  />
+                            <Grid IsVisible="false" > </Grid>
+                            <ActivityIndicator Style="{StaticResource MainIndicator}" IsVisible="{Binding IsBusy}" />
+                            <Label Text="Not a member yet?" Style="{StaticResource MemberLabel}" />
+                            <Label Text="REGISTER HERE" Style="{StaticResource RegisterLabel}" />
+                        </StackLayout>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </ScrollView>
+            </ScrollView>
+        </Grid>
 	</ContentPage.Content>
 </ContentPage>
