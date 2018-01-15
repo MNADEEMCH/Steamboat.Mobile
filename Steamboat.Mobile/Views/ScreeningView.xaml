@@ -103,7 +103,7 @@
                     <StackLayout Style="{StaticResource MainContainerStackLayout}">
                         <AbsoluteLayout Style="{StaticResource ImageContainerAbsoluteLayout}">
                             <ffimageloadingsvg:SvgCachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}"/>
-                            <ffimageloadingsvg:SvgCachedImage Source="icScheduling.png" Style="{StaticResource IconImage}"/>
+                            <ffimageloadingsvg:SvgCachedImage Source="icScreening.png" Style="{StaticResource IconImage}"/>
                         </AbsoluteLayout>
 
                         <StackLayout Style="{StaticResource TitleContainerStackLayout}">
