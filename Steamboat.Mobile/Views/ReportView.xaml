@@ -64,19 +64,9 @@
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="Margin" Value="12"></Setter>
             </Style>
-            <Style x:Key="DetailPendingLabel"  TargetType="Label">
-                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
-                <Setter Property="FontFamily" Value="{DynamicResource OpenSansItalic}" />
-                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
-                <Setter Property="FontSize" Value="10" />
-                <Setter Property="HorizontalOptions" Value="Center"></Setter>
-                <Setter Property="Margin" Value="12"></Setter>
-                <Setter Property="IsVisible" Value="{Binding ReportReady, Converter={StaticResource InverseBoolConverter}}"></Setter>
-            </Style>
             <Style x:Key="GoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
                 <Setter Property="Margin" Value="0,5,0,0" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
-                <Setter Property="IsVisible" Value="{Binding ReportReady}"></Setter>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -105,8 +95,7 @@
                         </StackLayout>
                         <Label Text="{Binding Steps}" Style="{StaticResource IndicatorLabel}"></Label>
                         <Label Text="{Binding Message}" Style="{StaticResource DescriptionLabel}"></Label>
-                        <Label Text="{Binding DetailPending}" Style="{StaticResource DetailPendingLabel}"></Label>
-                        <customControl:GradientRoundedButton  Text="VIEW REPORT" Style="{StaticResource GoButton}"/>
+                        <customControl:GradientRoundedButton  Text="{Binding GoButtonText}" Style="{StaticResource GoButton}"/>
                         <Grid IsVisible="false" ></Grid>
                     </StackLayout>
                     <views:StepperView x:Name="Stepper" Grid.Row="1"/>

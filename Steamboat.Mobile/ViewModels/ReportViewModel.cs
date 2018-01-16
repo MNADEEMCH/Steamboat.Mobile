@@ -31,13 +31,6 @@ namespace Steamboat.Mobile.ViewModels
             set { SetPropertyValue(ref _message, value); }
         }
 
-        private string _detailPending;
-        public string DetailPending
-        {
-            get { return _detailPending; }
-            set { SetPropertyValue(ref _detailPending, value); }
-        }
-
         private bool _reportReady;
         public bool ReportReady
         {
@@ -50,6 +43,13 @@ namespace Steamboat.Mobile.ViewModels
         {
             get { return _steps; }
             set { SetPropertyValue(ref _steps, value); }
+        }
+
+        public string _goButtonText;
+        public string GoButtonText
+        {
+            get { return _goButtonText; }
+            set { SetPropertyValue(ref _goButtonText, value); }
         }
         #endregion
 
@@ -69,10 +69,10 @@ namespace Steamboat.Mobile.ViewModels
 
                 Title = reportStep.Title;
                 Message = reportStep.Message;
-                DetailPending = "We'll let you know as soon as its ready!";
                 Steps = String.Format("STEP  {0}  OF  {1}", stepperParam.CurrentStep, stepperParam.Steps);
                 ReportReady = status.Dashboard.ReportStep.Status.Equals(StatusEnum.Complete);
-                
+                GoButtonText = ReportReady ? "VIEW REPORT" : "RESUME";
+
                 await DependencyContainer.Resolve<StepperViewModel>().InitializeAsync(stepperParam);
             }
             else

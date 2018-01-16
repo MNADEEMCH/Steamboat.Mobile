@@ -38,6 +38,13 @@ namespace Steamboat.Mobile.ViewModels
             set { SetPropertyValue(ref _steps, value); }
         }
 
+        private bool _showDetails;
+        public bool ShowDetails
+        {
+            get { return _showDetails; }
+            set { SetPropertyValue(ref _showDetails, value); }
+        }
+
         private string _date;
         public string Date
         {
@@ -77,10 +84,12 @@ namespace Steamboat.Mobile.ViewModels
                 Title = screeningStep.Title;
                 Message = screeningStep.Message;
                 Steps = String.Format("STEP  {0}  OF  {1}", stepperParam.CurrentStep, stepperParam.Steps);
-                Date = "Tuesday,December 15th";
-                Time = "12:00 pm";
-                Address = "867 Miller Centers Suite 499 Chicago, IL 60606";
-
+                ShowDetails = screeningStep.Detail != null;
+                if (ShowDetails) { 
+                    Date = screeningStep.Detail.Timeslot.Date;
+                    Time = screeningStep.Detail.Timeslot.Time;
+                    Address = screeningStep.Detail.Timeslot.Location.Replace("<br/>","\n");
+                }
                 await DependencyContainer.Resolve<StepperViewModel>().InitializeAsync(stepperParam);
             }
             else

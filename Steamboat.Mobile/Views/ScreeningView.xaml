@@ -73,6 +73,7 @@
             <Style x:Key="ScreeningDetailsGrid" TargetType="Grid">
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="Margin" Value="30,0,30,12"></Setter>
+                <Setter Property="IsVisible" Value="{Binding ShowDetails}"></Setter>
             </Style>
             <Style x:Key="ScreeningDetailsLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
