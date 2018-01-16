@@ -15,25 +15,25 @@
 
             <Style x:Key="WelcomeLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
-                <Setter Property="TextColor" Value="#B9B9B9" />
+                <Setter Property="TextColor" Value="{StaticResource GrayColor}" />
                 <Setter Property="FontSize" Value="12" />
             </Style>
 
             <Style x:Key="TitleLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
-                <Setter Property="TextColor" Value="#75889D" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
                 <Setter Property="FontSize" Value="30" />
             </Style>
 
             <Style x:Key="EmailEntry" TargetType="customControl:ImageEntry" BasedOn="{StaticResource MainFormEntry}">
                 <Setter Property="Margin" Value="0,24,0,0" />
-                <Setter Property="Image" Value="icEmail.png" />
+                <Setter Property="Image" Value="icUser.png" />
                 <Setter Property="Keyboard" Value="Email" />
             </Style>
 
             <Style x:Key="PasswordEntry" TargetType="customControl:ImageEntry" BasedOn="{StaticResource MainFormEntry}">
                 <Setter Property="Margin" Value="0,16,0,0" />
-                <Setter Property="Image" Value="icPassword.png" />
+                <Setter Property="Image" Value="icLock.png" />
                 <Setter Property="IsPassword" Value="True" />
             </Style>
 
@@ -43,14 +43,14 @@
 
             <Style x:Key="ErrorLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
-                <Setter Property="TextColor" Value="{StaticResource EntryErrorColor}" />
+                <Setter Property="TextColor" Value="{StaticResource RedColor}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="Margin" Value="0,2,0,0" />
             </Style>
 
             <Style x:Key="PasswordLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
-                <Setter Property="TextColor" Value="{StaticResource LinkLabelColor}" />
+                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="FontSize" Value="12" />
                 <Setter Property="Margin" Value="0,8,0,0" />
                 <Setter Property="HorizontalOptions" Value="End" />
@@ -58,7 +58,7 @@
 
             <Style x:Key="RegisterLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
-                <Setter Property="TextColor" Value="{StaticResource LinkLabelColor}" />
+                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="FontSize" Value="16" />
                 <Setter Property="Margin" Value="0,8,0,0" />
                 <Setter Property="HorizontalOptions" Value="Center" />
@@ -66,7 +66,7 @@
 
             <Style x:Key="MemberLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
-                <Setter Property="TextColor" Value="#777777" />
+                <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}" />
                 <Setter Property="FontSize" Value="12" />
                 <Setter Property="Margin" Value="0,32,0,0" />
                 <Setter Property="HorizontalOptions" Value="Center" />
@@ -75,7 +75,7 @@
             <Style x:Key="MainIndicator" TargetType="ActivityIndicator">
                 <Setter Property="WidthRequest" Value="40" />
                 <Setter Property="HeightRequest" Value="40" />
-                <Setter Property="Color" Value="{StaticResource LinkLabelColor}" />
+                <Setter Property="Color" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="Margin" Value="0,26,0,0" />
                 <Setter Property="IsRunning" Value="true" />
             </Style>
@@ -83,13 +83,13 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 	<ContentPage.Content>
-         <Grid RowSpacing="0">
+        <Grid RowSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             
-            <ScrollView x:Name="MainScroll" Grid.Row="0" VerticalOptions="FillAndExpand">
-                <Grid RowSpacing="0" ColumnSpacing="0" >
+            <ScrollView>
+                <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="StartAndExpand" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="144" />
                         <RowDefinition Height="*" />
@@ -104,7 +104,7 @@
                             <customControl:ImageEntry Placeholder="EMAIL" Text="{Binding Username.Value, Mode=TwoWay}" Style="{StaticResource EmailEntry}" >
                                 <customControl:ImageEntry.Triggers>
                                     <DataTrigger TargetType="customControl:ImageEntry" Binding="{Binding Username.IsValid}" Value="False">
-                                        <Setter Property="BorderColor" Value="{StaticResource EntryErrorColor}" />
+                                        <Setter Property="BorderColor" Value="{StaticResource RedColor}" />
                                     </DataTrigger>                               
                                 </customControl:ImageEntry.Triggers>
                             </customControl:ImageEntry>
@@ -112,7 +112,7 @@
                             <customControl:ImageEntry Placeholder="PASSWORD" Text="{Binding Password.Value, Mode=TwoWay}" Style="{StaticResource PasswordEntry}" >
                                 <customControl:ImageEntry.Triggers>
                                     <DataTrigger TargetType="customControl:ImageEntry" Binding="{Binding Password.IsValid}" Value="False">
-                                        <Setter Property="BorderColor" Value="{StaticResource EntryErrorColor}" />
+                                        <Setter Property="BorderColor" Value="{StaticResource RedColor}" />
                                     </DataTrigger>                               
                                 </customControl:ImageEntry.Triggers>
                             </customControl:ImageEntry>

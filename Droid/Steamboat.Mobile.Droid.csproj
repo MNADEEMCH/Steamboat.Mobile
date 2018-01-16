@@ -236,18 +236,15 @@
     <AndroidResource Include="Resources\drawable-hdpi\imgHeader.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\imgHeader.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\imgHeader.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\icEmail.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\icPassword.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\icEmail.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\icPassword.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\icEmail.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\icPassword.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icReenter.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icReenter.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icReenter.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icLock.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icLock.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icLock.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icUser.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icUser.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icUser.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

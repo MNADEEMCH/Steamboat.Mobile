@@ -53,7 +53,7 @@
             <Style x:Key="MainIndicator" TargetType="ActivityIndicator">
                 <Setter Property="WidthRequest" Value="40" />
                 <Setter Property="HeightRequest" Value="40" />
-                <Setter Property="Color" Value="{StaticResource LinkLabelColor}" />
+                <Setter Property="Color" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="Margin" Value="0,0,0,30" />
                 <Setter Property="IsRunning" Value="true" />
             </Style>
@@ -117,7 +117,7 @@
             
             <ActivityIndicator
             Grid.Row="0"
-            Color="{StaticResource LinkLabelColor}"
+            Color="{StaticResource MomentumBlueColor}"
             IsRunning="{Binding IsLoading}"  
             IsVisible="{Binding IsLoading}"
             VerticalOptions="Center"

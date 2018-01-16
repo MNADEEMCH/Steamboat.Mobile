@@ -6,22 +6,19 @@
 		<ResourceDictionary>
 
             <!-- COLORS -->
-            <Color x:Key="MomentumBlueColor">#2C9FC9</Color>
             <Color x:Key="ViewBackground">#FFFFFF</Color>
             <Color x:Key="NavBackground">#2C9FC9</Color>
             <Color x:Key="NavTextColor">#FFFFFF</Color>
-            <Color x:Key="NormalTextColor">#334046</Color>
-            <Color x:Key="NormalEntryColor">#C5C5C5</Color> 
-            <Color x:Key="EntryErrorColor">#FF6565</Color>
-            <Color x:Key="LabelErrorColor">#FE7378</Color>
-            <Color x:Key="LinkLabelColor">#2C9FC9</Color>
-            <Color x:Key="SubtleBlueColor">#E3F4F8</Color>
-            <Color x:Key="StoneBlueColor">#75889D</Color>
-            <Color x:Key="LightBlueColor">#ADD7E1</Color>
             <Color x:Key="DarkBlueColor">#546A82</Color>
+            <Color x:Key="StoneBlueColor">#75889D</Color>
+            <Color x:Key="MomentumBlueColor">#2C9FC9</Color>
+            <Color x:Key="LightBlueColor">#ADD7E1</Color>
+            <Color x:Key="SubtleBlueColor">#E3F4F8</Color>
             <Color x:Key="DarkGrayColor">#777777</Color>
-            <Color x:Key="SubtleGrayColor">#F9F9F9</Color>
+            <Color x:Key="GrayColor">#B9B9B9</Color>
             <Color x:Key="LightGrayColor">#DEDEDE</Color>
+            <Color x:Key="SubtleGrayColor">#F9F9F9</Color>
+            <Color x:Key="RedColor">#FF6565</Color>
 
             <!-- FONTS -->
             <OnPlatform x:Key="OpenSansBold" x:TypeArguments="x:String" iOS="OpenSans-Bold" Android="fonts/OpenSans-Bold.ttf#OpenSans-Bold" />
@@ -34,11 +31,11 @@
             <!-- STYLES -->
             
             <Style x:Key="MainFormEntry" TargetType="customControl:ImageEntry">
-                <Setter Property="ImageWidth" Value="18" />
-                <Setter Property="ImageHeight" Value="18" />
+                <Setter Property="ImageWidth" Value="24" />
+                <Setter Property="ImageHeight" Value="24" />
                 <Setter Property="HeightRequest" Value="40" />
-                <Setter Property="TextColor" Value="#75889D" />
-                <Setter Property="BorderColor" Value="{StaticResource NormalEntryColor}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="BorderColor" Value="{StaticResource LightGrayColor}" />
             </Style>
 
             <Style x:Key="GradientRoundedShadowButton" TargetType="customControl:GradientRoundedButton">

@@ -260,6 +260,9 @@
     <BundleResource Include="Resources\Checkbox\on.png" />
     <BundleResource Include="Resources\Checkbox\on%402x.png" />
     <BundleResource Include="Resources\Checkbox\on%403x.png" />
+    <BundleResource Include="Resources\  icUser.png" />
+    <BundleResource Include="Resources\  icUser%402x.png" />
+    <BundleResource Include="Resources\  icUser%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -303,12 +306,6 @@
     <BundleResource Include="Resources\imgHeader.png" />
     <BundleResource Include="Resources\imgHeader%402x.png" />
     <BundleResource Include="Resources\imgHeader%403x.png" />
-    <BundleResource Include="Resources\icEmail.png" />
-    <BundleResource Include="Resources\icEmail%402x.png" />
-    <BundleResource Include="Resources\icEmail%403x.png" />
-    <BundleResource Include="Resources\icPassword.png" />
-    <BundleResource Include="Resources\icPassword%402x.png" />
-    <BundleResource Include="Resources\icPassword%403x.png" />
     <BundleResource Include="Resources\ icLogout.png" />
     <BundleResource Include="Resources\ icLogout%402x.png" />
     <BundleResource Include="Resources\ icLogout%403x.png" />
