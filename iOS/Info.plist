@@ -50,6 +50,8 @@
 		<string>Fonts/OpenSans-Italic.ttf</string>
 		<string>Fonts/Raleway-Bold.ttf</string>
 		<string>Fonts/Raleway-SemiBold.ttf</string>
+		<string>Fonts/Raleway-SemiBold.ttf</string>
+		<string>Fonts/Raleway-Regular.ttf</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>Momentum</string>
