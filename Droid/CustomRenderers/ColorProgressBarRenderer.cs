@@ -15,6 +15,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using System.ComponentModel;
 using Android.Graphics;
+using Android.Graphics.Drawables;
+using Android.Support.V4.Graphics.Drawable;
 
 [assembly: ExportRenderer(typeof(ColorProgressBar), typeof(ColorProgressBarRenderer))]
 namespace Steamboat.Mobile.Droid.CustomRenderers
@@ -53,11 +55,21 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             var element = Element as ColorProgressBar;
             // http://stackoverflow.com/a/29199280
 
-            Control.ProgressTintList = Android.Content.Res.ColorStateList.ValueOf(element.FilledColor.ToAndroid());
-            Control.ProgressTintMode = PorterDuff.Mode.SrcIn;
+            if (Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.Lollipop)
+            {
+                Drawable progressDrawable = DrawableCompat.Wrap(Control.ProgressDrawable);
+                DrawableCompat.SetTintList(progressDrawable, Android.Content.Res.ColorStateList.ValueOf(element.FilledColor.ToAndroid()));
+                DrawableCompat.SetTintMode(progressDrawable, PorterDuff.Mode.SrcIn);
+            }
+            else
+            {
+                Control.ProgressTintList = Android.Content.Res.ColorStateList.ValueOf(element.FilledColor.ToAndroid());
+                Control.ProgressTintMode = PorterDuff.Mode.SrcIn;
 
-            Control.ProgressBackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(element.EmptyColor.ToAndroid());
-            Control.ProgressBackgroundTintMode = PorterDuff.Mode.Overlay;
+                Control.ProgressBackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(element.EmptyColor.ToAndroid());
+                Control.ProgressBackgroundTintMode = PorterDuff.Mode.Overlay;
+            }
+            
 
             Control.ScaleY = element.ProgressBarHeigth; //Changes the height
         }

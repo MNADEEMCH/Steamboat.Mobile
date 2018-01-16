@@ -89,7 +89,7 @@
             </Grid.ColumnDefinitions>
             
             <ScrollView>
-                <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="StartAndExpand" >
+                <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="FillAndExpand" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="144" />
                         <RowDefinition Height="*" />
@@ -97,7 +97,7 @@
                     <!--HEADER IMAGE-->
                     <ffimageloadingsvg:SvgCachedImage Aspect="AspectFill" Source="imgHeader.png"/>
                     <!--LOGIN FORM-->
-                    <Grid Grid.Row="1" Margin="40,0">
+                    <Grid Grid.Row="1" Margin="40,0,40,50">
                         <StackLayout Spacing="0" >
                             <Label Text="WELCOME TO" Style="{StaticResource WelcomeLabel}" />
                             <Label Text="Momentum Health" Style="{StaticResource TitleLabel}" />
