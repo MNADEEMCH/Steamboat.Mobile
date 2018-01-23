@@ -1,27 +1,61 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
-	<dependencies>
-		<deployment identifier="iOS" />
-		<plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530" />
-	</dependencies>
-	<scenes>
-		<!--View Controller-->
-		<scene sceneID="EHf-IW-A2E">
-			<objects>
-				<viewController id="01J-lp-oVM" sceneMemberID="viewController">
-					<layoutGuides>
-						<viewControllerLayoutGuide type="top" id="Llm-lL-Icb" />
-						<viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok" />
-					</layoutGuides>
-					<view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-						<rect key="frame" x="0.0" y="0.0" width="600" height="600" />
-						<autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
-						<color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite" />
-					</view>
-				</viewController>
-				<placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder" />
-			</objects>
-			<point key="canvasLocation" x="53" y="375" />
-		</scene>
-	</scenes>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="1023" translatesAutoresizingMaskIntoConstraints="NO" image="Splashscreen/splashscreen.png">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint id="1025" firstItem="Ze5-6b-2t3" firstAttribute="trailing" secondItem="1023" secondAttribute="trailing"/>
+                            <constraint id="1026" firstItem="1023" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading"/>
+                            <constraint id="1027" firstItem="xb3-aO-Qok" firstAttribute="bottom" secondItem="1023" secondAttribute="bottom"/>
+                            <constraint id="1028" firstItem="1023" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="top"/>
+                        </constraints>
+                    </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="90" y="402"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="iconBackground.png" width="151" height="151"/>
+        <image name="Checkbox/off.png" width="24" height="24"/>
+        <image name="Checkbox/on.png" width="24" height="24"/>
+        <image name="  icUser.png" width="24" height="24"/>
+        <image name="imgHeader.png" width="375" height="153"/>
+        <image name=" icLogout.png" width="32" height="32"/>
+        <image name=" icReenter.png" width="24" height="24"/>
+        <image name=" icLock.png" width="24" height="24"/>
+        <image name="icInterview.png" width="208" height="208"/>
+        <image name="icMoreInfo.png" width="24" height="24"/>
+        <image name="icReport.png" width="208" height="208"/>
+        <image name="icScheduling.png" width="208" height="208"/>
+        <image name="icScreening.png" width="208" height="208"/>
+        <image name="icStepActive.png" width="24" height="24"/>
+        <image name="icStepDone.png" width="24" height="24"/>
+        <image name="icStepNonvisited.png" width="24" height="24"/>
+        <image name="icCalendar.png" width="24" height="24"/>
+        <image name="icClock.png" width="24" height="24"/>
+        <image name="icLocation.png" width="24" height="24"/>
+        <image name="Splashscreen/splashscreen.png" width="320" height="480"/>
+    </resources>
 </document>

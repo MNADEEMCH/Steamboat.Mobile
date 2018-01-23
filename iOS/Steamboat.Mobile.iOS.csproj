@@ -263,6 +263,9 @@
     <BundleResource Include="Resources\  icUser.png" />
     <BundleResource Include="Resources\  icUser%402x.png" />
     <BundleResource Include="Resources\  icUser%403x.png" />
+    <BundleResource Include="Resources\Splashscreen\splashscreen.png" />
+    <BundleResource Include="Resources\Splashscreen\splashscreen%402x.png" />
+    <BundleResource Include="Resources\Splashscreen\splashscreen%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -420,6 +423,9 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\icLocation%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Splashscreen\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
