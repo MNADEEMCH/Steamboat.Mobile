@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Steamboat.Mobile.Models.Participant.DispositionSteps;
 
 namespace Steamboat.Mobile.UnitTest.Helpers
 {
@@ -36,7 +37,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            Type viewModelType = DashboardStatusHelper.GetViewModelForStatus(status);
+            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(SchedulingViewModel), viewModelType);
         }
@@ -52,7 +53,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            Type viewModelType = DashboardStatusHelper.GetViewModelForStatus(status);
+            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ScreeningViewModel), viewModelType);
         }
@@ -68,7 +69,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            Type viewModelType = DashboardStatusHelper.GetViewModelForStatus(status);
+            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ReportViewModel), viewModelType);
         }
@@ -85,7 +86,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
             status.Dashboard.ReportStep.Status = StatusEnum.Complete;
 
-            Type viewModelType = DashboardStatusHelper.GetViewModelForStatus(status);
+            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ReportViewModel), viewModelType);
         }
@@ -102,7 +103,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            Type viewModelType = DashboardStatusHelper.GetViewModelForStatus(status);
+            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(InterviewViewModel), viewModelType);
         }
@@ -118,7 +119,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            Type viewModelType = DashboardStatusHelper.GetViewModelForStatus(status);
+            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(SchedulingViewModel), viewModelType);
         }
@@ -134,7 +135,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            Type viewModelType = DashboardStatusHelper.GetViewModelForStatus(status);
+            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ScreeningViewModel), viewModelType);
         }
@@ -150,7 +151,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            Type viewModelType = DashboardStatusHelper.GetViewModelForStatus(status);
+            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ReportViewModel), viewModelType);
         }
@@ -167,7 +168,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            Type viewModelType = DashboardStatusHelper.GetViewModelForStatus(status);
+            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ReportViewModel), viewModelType);
         }
@@ -181,7 +182,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard = CreateDashBoard();
             status.Dashboard.SurveyStep.Status = StatusEnum.None;
 
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(3, stepperParam.Steps);
         }
@@ -193,7 +194,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard = CreateDashBoard();
             status.Dashboard.SurveyStep.Status = StatusEnum.Pending;
 
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(4, stepperParam.Steps);
         }
@@ -210,7 +211,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(1, stepperParam.CurrentStep);
         }
@@ -226,7 +227,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(2, stepperParam.CurrentStep);
         }
@@ -242,7 +243,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(3, stepperParam.CurrentStep);
         }
@@ -259,7 +260,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(1, stepperParam.CurrentStep);
         }
@@ -275,7 +276,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(2, stepperParam.CurrentStep);
         }
@@ -291,7 +292,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(3, stepperParam.CurrentStep);
         }
@@ -307,7 +308,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(4, stepperParam.CurrentStep);
         }
@@ -324,7 +325,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
             status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
 
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(4, stepperParam.CurrentStep);
         }

@@ -61,11 +61,19 @@
     </Compile>
     <Compile Include="CustomControls\Renderers\ColorProgressBar.cs" />
     <Compile Include="CustomControls\Stepper.cs" />
+    <Compile Include="Models\Modal\ModalParam.cs" />
     <Compile Include="Models\Stepper\StepperParam.cs" />
+    <Compile Include="Services\Modal\IModalService.cs" />
+    <Compile Include="Services\Modal\ModalService.cs" />
     <Compile Include="Steamboat.MobilePage.xaml.cs">
       <DependentUpon>Steamboat.MobilePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Modals\DispositionMoreInfoModalViewModel.cs" />
+    <Compile Include="ViewModels\DispositionViewModelBase.cs" />
+    <Compile Include="ViewModels\Modals\ModalViewModelAutoWire.cs" />
+    <Compile Include="ViewModels\Modals\ModalViewModelBase.cs" />
+    <Compile Include="ViewModels\Modals\WelcomeModalViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\SchedulingViewModel.cs" />
     <Compile Include="ViewModels\ScreeningViewModel.cs" />
@@ -92,6 +100,12 @@
     <Compile Include="Models\Account\AccountInfo.cs" />
     <Compile Include="Models\Account\AccountLogin.cs" />
     <Compile Include="ViewModels\StatusViewModel.cs" />
+    <Compile Include="Views\Modals\DispositionMoreInfoModalView.xaml.cs">
+      <DependentUpon>DispositionMoreInfoModalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Modals\WelcomeModalView.xaml.cs">
+      <DependentUpon>WelcomeModalView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
@@ -143,7 +157,7 @@
     <Compile Include="Managers\Participant\ParticipantManager.cs" />
     <Compile Include="Managers\Participant\IParticipantManager.cs" />
     <Compile Include="Models\Participant\Status.cs" />
-    <Compile Include="Helpers\DashboardStatusHelper.cs" />
+    <Compile Include="Helpers\DashboardHelper.cs" />
     <Compile Include="ViewModels\InterviewViewModel.cs" />
     <Compile Include="Views\InterviewView.xaml.cs">
       <DependentUpon>InterviewView.xaml</DependentUpon>
@@ -159,8 +173,19 @@
     <Compile Include="Views\StepperView.xaml.cs">
       <DependentUpon>StepperView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Participant\DispositionSteps\SurveyStep.cs" />
+    <Compile Include="Models\Participant\DispositionSteps\SchedulingStep.cs" />
+    <Compile Include="Models\Participant\DispositionSteps\ReportStep.cs" />
+    <Compile Include="Models\Participant\DispositionSteps\ScreeningStep.cs" />
+    <Compile Include="Models\Participant\DispositionSteps\DispositionStep.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rg.Plugins.Popup.1.0.4\lib\portable-win+net45+wp8+win8+wpa81\Rg.Plugins.Popup.dll</HintPath>
+    </Reference>
+    <Reference Include="Rg.Plugins.Popup.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rg.Plugins.Popup.1.0.4\lib\portable-win+net45+wp8+win8+wpa81\Rg.Plugins.Popup.Platform.dll</HintPath>
+    </Reference>
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.2.0.0\lib\netstandard1.1\Splat.dll</HintPath>
     </Reference>
@@ -249,6 +274,21 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Modals\WelcomeModalView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Modals\DispositionMoreInfoModalView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Participant\DispositionSteps\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

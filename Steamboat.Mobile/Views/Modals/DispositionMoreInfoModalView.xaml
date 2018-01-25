@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<popup:PopupPage 
+  xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:modalViewModelBase="clr-namespace:Steamboat.Mobile.ViewModels.Modals;assembly=Steamboat.Mobile"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    modalViewModelBase:ModalViewModelAutoWire.AutoWireViewModel="True"
+	x:Class="Steamboat.Mobile.Views.Modals.DispositionMoreInfoModalView"
+    BackgroundColor="{StaticResource ModalBackground}"
+    CloseWhenBackgroundIsClicked="False">
+
+    <popup:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
+                <Setter Property="Margin" Value="30"></Setter>
+            </Style>
+            <Style x:Key="IconImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+                <Setter Property="HeightRequest" Value="208"></Setter>
+                <Setter Property="WidthRequest" Value="208"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="TitleLabel"  TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="MessageLabel"  TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource WhiteColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Margin" Value="12"></Setter>
+            </Style>
+            <Style x:Key="GoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
+                <Setter Property="Margin" Value="0,16,0,0"></Setter>
+                <Setter Property="ShadowColorEnabled" Value="Black"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </popup:PopupPage.Resources>
+
+    <popup:PopupPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ScrollView Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" VerticalOptions="FillAndExpand">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackLayout Style="{StaticResource MainContainerStackLayout}">
+
+                        <ffimageloadingsvg:SvgCachedImage Source="{Binding IconSource}" Style="{StaticResource IconImage}"/>
+
+                        <Label Text="{Binding Title}" Style="{StaticResource TitleLabel}"></Label>
+
+                        <Label Text="{Binding Message}" Style="{StaticResource MessageLabel}"></Label>
+                        
+                        <customControl:GradientRoundedButton  Text="GOT IT" Command="{Binding CloseModalCommand}" Style="{StaticResource GoButton}"/>
+                        <Grid IsVisible="false"></Grid>
+
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+            <ActivityIndicator
+                Grid.Row="0"
+                Color="{StaticResource MomentumBlueColor}"
+                IsRunning="{Binding IsLoading}"  
+                IsVisible="{Binding IsLoading}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="100" />
+        </Grid>
+    </popup:PopupPage.Content>
+
+</popup:PopupPage>

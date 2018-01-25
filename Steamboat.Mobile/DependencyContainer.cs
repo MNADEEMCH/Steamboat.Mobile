@@ -11,6 +11,8 @@ using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Services.Participant;
 using Steamboat.Mobile.Services.RequestProvider;
 using Steamboat.Mobile.ViewModels;
+using Steamboat.Mobile.Services.Modal;
+using Steamboat.Mobile.ViewModels.Modals;
 
 namespace Steamboat.Mobile
 {
@@ -20,6 +22,7 @@ namespace Steamboat.Mobile
         {
             Locator.CurrentMutable.RegisterConstant(new RequestProvider(), typeof(IRequestProvider));
             Locator.CurrentMutable.RegisterConstant(new NavigationService(), typeof(INavigationService));
+            Locator.CurrentMutable.RegisterConstant(new ModalService(), typeof(IModalService));
             Locator.CurrentMutable.RegisterConstant(new DialogService(), typeof(IDialogService));
 
             //Services
@@ -45,6 +48,10 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.RegisterLazySingleton(() => new ReportViewModel());
             Locator.CurrentMutable.Register(() => new ConsentsViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new StepperViewModel());
+
+            //ModalViewModels
+            Locator.CurrentMutable.Register(() => new DispositionMoreInfoModalViewModel());
+            Locator.CurrentMutable.Register(() => new WelcomeModalViewModel());
         }
 
         public static T Resolve<T>()

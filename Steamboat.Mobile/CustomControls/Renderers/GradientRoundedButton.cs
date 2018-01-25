@@ -26,6 +26,9 @@ namespace Steamboat.Mobile.CustomControls
         public static readonly BindableProperty AndroidBorderRadiusProperty =
             BindableProperty.Create(nameof(AndroidBorderRadius), typeof(int), typeof(GradientRoundedButton), 70);
 
+        public static readonly BindableProperty ShadowColorEnabledProperty =
+            BindableProperty.Create(nameof(ShadowColorEnabled), typeof(Color), typeof(GradientRoundedButton), Color.Default);
+
         public Color StartColor
         {
             get { return (Color)GetValue(StartColorProperty); }
@@ -66,6 +69,12 @@ namespace Steamboat.Mobile.CustomControls
         {
             get { return (int)GetValue(AndroidBorderRadiusProperty); }
             set { SetValue(AndroidBorderRadiusProperty, value); }
+        }
+
+        public Color ShadowColorEnabled
+        {
+            get { return (Color)GetValue(ShadowColorEnabledProperty); }
+            set { SetValue(ShadowColorEnabledProperty, value); }
         }
     }
 }

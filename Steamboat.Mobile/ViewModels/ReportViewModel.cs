@@ -1,6 +1,8 @@
 ﻿using Steamboat.Mobile.Helpers;
+using Steamboat.Mobile.Models.Modal;
 using Steamboat.Mobile.Models.Participant;
 using Steamboat.Mobile.Models.Stepper;
+using Steamboat.Mobile.ViewModels.Modals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,41 +10,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Steamboat.Mobile.Models.Participant.DispositionSteps;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class ReportViewModel:ViewModelBase
+    public class ReportViewModel: DispositionViewModelBase
     {
         #region Properties
-
-        public ICommand LogoutCommand { get; set; }
-
-        private string _title;
-        public string Title
-        {
-            get { return _title; }
-            set { SetPropertyValue(ref _title, value); }
-        }
-
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set { SetPropertyValue(ref _message, value); }
-        }
-
         private bool _reportReady;
         public bool ReportReady
         {
             get { return _reportReady; }
             set { SetPropertyValue(ref _reportReady, value); }
-        }
-
-        private string _steps;
-        public string Steps
-        {
-            get { return _steps; }
-            set { SetPropertyValue(ref _steps, value); }
         }
 
         public string _goButtonText;
@@ -53,59 +32,20 @@ namespace Steamboat.Mobile.ViewModels
         }
         #endregion
 
-        public ReportViewModel()
+        public ReportViewModel(StepperViewModel stepperViewModel = null) : base(stepperViewModel)
         {
             IsLoading = true;
+            IconSource= "icReport.png";
             LogoutCommand = new Command(async () => await Logout());
+            MoreInfoCommand = new Command(async () => await MoreInfo());
         }
 
-        public async override Task InitializeAsync(object parameter)
+        protected override void InitializeSpecificStep(Status status)
         {
-            Status status = parameter as Status;
-            if (ValidateStatus(status))
-            {
-                ReportStep reportStep = status.Dashboard.ReportStep;
-                StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
-
-                Title = reportStep.Title;
-                Message = reportStep.Message;
-                Steps = String.Format("STEP  {0}  OF  {1}", stepperParam.CurrentStep, stepperParam.Steps);
-                ReportReady = status.Dashboard.ReportStep.Status.Equals(StatusEnum.Complete);
-                GoButtonText = ReportReady ? "VIEW REPORT" : "RESUME";
-
-                await DependencyContainer.Resolve<StepperViewModel>().InitializeAsync(stepperParam);
-            }
-            else
-            {
-                //TODO: Improve handle error
-                await this.DialogService.ShowAlertAsync("Error loading", "Error", "OK");
-            }
-            IsLoading = false;
+            ReportStep reportStep = status.Dashboard.ReportStep;
+            ReportReady = reportStep.Status.Equals(StatusEnum.Complete);
+            GoButtonText = ReportReady ? "VIEW REPORT" : "RESUME";
         }
 
-        private bool ValidateStatus(Status status)
-        {
-            return status != null
-                    && status.Dashboard != null
-                    && status.Dashboard.ReportStep != null;
-        }
-
-        private async Task Logout()
-        {
-            IsLoading = true;
-
-            try
-            {
-                await NavigationService.NavigateToAsync<LoginViewModel>("Logout");
-            }
-            catch (Exception e)
-            {
-                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-            }
-            finally
-            {
-                IsLoading = false;
-            }
-        }
     }
 }

@@ -57,12 +57,12 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             if (button.IsEnabled)
             {
                 gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
-                gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
+                gradient.ShadowColor = button.ShadowColorEnabled.ToCGColor();
             }
             else
             {
                 gradient.Colors = new CGColor[] { button.DisabledColor.ToCGColor(), button.DisabledColor.ToCGColor() };
-                gradient.ShadowColor = Color.FromHex("FFFFFF").ToCGColor();
+                gradient.ShadowColor = Color.Transparent.ToCGColor();
             }
 
             var layer = Control?.Layer.Sublayers.LastOrDefault();
@@ -86,12 +86,12 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
                 if (button.IsEnabled)
                 {
                     gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
-                    gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
+                    gradient.ShadowColor = button.ShadowColorEnabled.ToCGColor();
                 }
                 else
                 {
                     gradient.Colors = new CGColor[] { button.DisabledColor.ToCGColor(), button.DisabledColor.ToCGColor() };
-                    gradient.ShadowColor = Color.FromHex("FFFFFF").ToCGColor();
+                    gradient.ShadowColor = Color.Transparent.ToCGColor();
                 }
                 SetNativeControl(Control);
             }
@@ -114,7 +114,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             var button = this.Element as GradientRoundedButton;
             var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
             gradient.Colors = new CGColor[] { button.ActiveColor.ToCGColor(), button.ActiveColor.ToCGColor() };
-            gradient.ShadowColor = Color.FromHex("FFFFFF").ToCGColor();
+            gradient.ShadowColor = Color.Transparent.ToCGColor();
         }
 
         private void OnTouchUp(object sender, EventArgs e)
@@ -122,7 +122,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             var button = this.Element as GradientRoundedButton;
             var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
             gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
-            gradient.ShadowColor = Color.FromHex("9EC8CA").ToCGColor();
+            gradient.ShadowColor = button.ShadowColorEnabled.ToCGColor();
         }
     }
 }

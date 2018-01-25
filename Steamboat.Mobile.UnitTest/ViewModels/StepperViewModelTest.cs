@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Steamboat.Mobile.Models.Participant.DispositionSteps;
 
 namespace Steamboat.Mobile.UnitTest.ViewModels
 {
@@ -43,7 +44,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             Status status = new Status();
             status.Dashboard = CreateDashBoard();
             status.Dashboard.SurveyStep.Status = StatusEnum.None;
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 
@@ -58,7 +59,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             Status status = new Status();
             status.Dashboard = CreateDashBoard();
             status.Dashboard.SurveyStep.Status = StatusEnum.Pending;
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 
@@ -77,7 +78,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             status.Dashboard.SchedulingStep.Status = StatusEnum.Pending;
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 
@@ -96,7 +97,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 
@@ -115,7 +116,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
             status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 
@@ -135,7 +136,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             status.Dashboard.SchedulingStep.Status = StatusEnum.Pending;
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 
@@ -154,7 +155,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             status.Dashboard.SchedulingStep.Status = StatusEnum.Pending;
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 
@@ -173,7 +174,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 
@@ -192,7 +193,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
             status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 
@@ -211,7 +212,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
             status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 
@@ -249,7 +250,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             status.Dashboard.SchedulingStep.Status = StatusEnum.Pending;
             status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-            StepperParam stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 
@@ -260,7 +261,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
             status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
             status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-            stepperParam = DashboardStatusHelper.GetStepperParameter(status);
+            stepperParam = DashboardHelper.GetStepperParameter(status);
 
             await stepperViewModel.InitializeAsync(stepperParam);
 

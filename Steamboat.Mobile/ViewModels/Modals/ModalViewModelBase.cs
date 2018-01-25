@@ -1,23 +1,22 @@
-﻿using System;
+﻿using Steamboat.Mobile.Services.Modal;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
-using Steamboat.Mobile.Services.Dialog;
-using Steamboat.Mobile.Services.Navigation;
-using Xamarin.Forms;
-using Steamboat.Mobile.Services.Modal;
 
-namespace Steamboat.Mobile.ViewModels
+
+namespace Steamboat.Mobile.ViewModels.Modals
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ModalViewModelBase: INotifyPropertyChanged
     {
         #region PropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-        protected readonly IDialogService DialogService;
-        protected readonly INavigationService NavigationService;
         protected readonly IModalService ModalService;
 
         protected bool SetPropertyValue<T>(ref T storageField, T newValue, Expression<Func<T>> propExpr)
@@ -70,21 +69,19 @@ namespace Steamboat.Mobile.ViewModels
 
         public bool IsLoading { get { return isLoading; } set { SetPropertyValue(ref isLoading, value); } }
 
-        public ViewModelBase()
+        public ModalViewModelBase()
         {
-            DialogService = DialogService ?? DependencyContainer.Resolve<IDialogService>();
-            NavigationService = NavigationService ?? DependencyContainer.Resolve<INavigationService>();
             ModalService = ModalService ?? DependencyContainer.Resolve<IModalService>();
         }
 
-        public virtual Task InitializeAsync(object navigationData)
+        public virtual Task InitializeAsync(object parameter)
         {
             return Task.FromResult(false);
         }
 
-        public virtual Task Refresh()
+        protected async Task CloseModal()
         {
-            return Task.FromResult(false);
+            await ModalService.PopAsync();
         }
     }
 }
