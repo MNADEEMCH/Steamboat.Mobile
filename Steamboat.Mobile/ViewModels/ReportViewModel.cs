@@ -36,8 +36,6 @@ namespace Steamboat.Mobile.ViewModels
         {
             IsLoading = true;
             IconSource= "icReport.png";
-            LogoutCommand = new Command(async () => await Logout());
-            MoreInfoCommand = new Command(async () => await MoreInfo());
         }
 
         protected override void InitializeSpecificStep(Status status)

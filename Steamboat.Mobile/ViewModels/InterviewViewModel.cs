@@ -16,8 +16,6 @@ namespace Steamboat.Mobile.ViewModels
         {
             IsLoading = true;
             IconSource = "icInterview.png";
-            LogoutCommand = new Command(async () => await Logout());
-            MoreInfoCommand = new Command(async () => await MoreInfo());
         }
 
     }

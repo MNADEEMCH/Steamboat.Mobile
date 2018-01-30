@@ -36,7 +36,7 @@ namespace Steamboat.Mobile.Managers.Participant
             try
             {
                 var consents = await _participantService.GetConsents(App.SessionID);
-                consents.Sort((x,y) => x.ConsentID.CompareTo(y.ConsentID));
+                consents.Sort((x, y) => x.ConsentID.CompareTo(y.ConsentID));
                 return consents;
             }
             catch (Exception ex)
@@ -52,15 +52,58 @@ namespace Steamboat.Mobile.Managers.Participant
             {
                 var completed = new CompletedConsents();
                 completed.ParticipantConsents = completedConsents.Select(x => new ConsentResponse
-                { 
+                {
                     ConsentID = x.ConsentID,
                     ParticpantID = x.ParticpantID,
                     IsAccepted = x.IsAccepted,
                     IsRejected = x.IsRejected
                 }).ToList();
 
-                var consents = await _participantService.SendConsents(completed ,App.SessionID);
+                var consents = await _participantService.SendConsents(completed, App.SessionID);
                 return consents;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error in login: {ex}");
+                throw ex;
+            }
+        }
+
+        public async Task<List<Event>> GetEvents()
+        {
+            try
+            {
+                List<Event> events = await _participantService.GetEvents(App.SessionID);
+                events.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+                return events;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error getting events: {ex}");
+                throw ex;
+            }
+        }
+
+        public async Task<Appointment> ConfirmEvent(int eventId, int eventTimeSlotId)
+        {
+            try
+            {
+                return await _participantService.ConfirmEvent(eventId,eventTimeSlotId,App.SessionID);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error at confirm events: {ex}");
+                throw ex;
+            }
+        }
+
+        public async Task<List<EventTime>> GetEventTimes(int eventId)
+        {
+            try
+            {
+                var eventTimes = await _participantService.GetEventTimes(eventId, App.SessionID);
+                eventTimes.Sort((x, y) => x.Start.CompareTo(y.Start));
+                return eventTimes;
             }
             catch (Exception ex)
             {

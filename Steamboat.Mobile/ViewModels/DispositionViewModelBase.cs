@@ -67,6 +67,8 @@ namespace Steamboat.Mobile.ViewModels
         {
 
             _stepperViewModel = stepperViewModel ?? DependencyContainer.Resolve<StepperViewModel>();
+            LogoutCommand = new Command(async () => await Logout());
+            MoreInfoCommand = new Command(async () => await MoreInfo());
         }
 
         public async override Task InitializeAsync(object parameter)

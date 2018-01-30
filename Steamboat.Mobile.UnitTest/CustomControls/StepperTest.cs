@@ -43,7 +43,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
             stepper.Steps = 3;
             stepper.PreviousStep = 1;
             stepper.CurrentStep = 1;
-            stepper.ReadyToInitialize = true;
+            stepper.InitializeExcecute = 1;
+            stepper.RefreshExcecute = 1;
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -72,7 +73,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
             stepper.Steps = 3;
             stepper.PreviousStep = 2;
             stepper.CurrentStep = 2;
-            stepper.ReadyToInitialize = true;
+            stepper.InitializeExcecute = 1;
+            stepper.RefreshExcecute = 1;
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -101,7 +103,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
             stepper.Steps = 3;
             stepper.PreviousStep = 3;
             stepper.CurrentStep = 3;
-            stepper.ReadyToInitialize = true;
+            stepper.InitializeExcecute = 1;
+            stepper.RefreshExcecute = 1;
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -131,7 +134,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
             stepper.Steps = 4;
             stepper.PreviousStep = 1;
             stepper.CurrentStep = 1;
-            stepper.ReadyToInitialize = true;
+            stepper.InitializeExcecute = 1;
+            stepper.RefreshExcecute = 1;
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -162,7 +166,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
             stepper.Steps = 4;
             stepper.PreviousStep = 2;
             stepper.CurrentStep = 2;
-            stepper.ReadyToInitialize = true;
+            stepper.InitializeExcecute = 1;
+            stepper.RefreshExcecute = 1;
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -194,7 +199,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
             stepper.Steps = 4;
             stepper.PreviousStep = 3;
             stepper.CurrentStep = 3;
-            stepper.ReadyToInitialize = true;
+            stepper.InitializeExcecute = 1;
+            stepper.RefreshExcecute = 1;
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -226,7 +232,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
             stepper.Steps = 4;
             stepper.PreviousStep = 4;
             stepper.CurrentStep = 4;
-            stepper.ReadyToInitialize = true;
+            stepper.InitializeExcecute = 1;
+            stepper.RefreshExcecute = 1;
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;

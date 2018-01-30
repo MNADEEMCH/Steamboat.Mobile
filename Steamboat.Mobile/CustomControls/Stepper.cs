@@ -23,21 +23,40 @@ namespace Steamboat.Mobile.CustomControls
         public List<Image> StepsProgressImages { get { return _stepsProgressImages; } }
         public List<Label> StepsProgressLabels { get { return _stepsProgressLabels; } }
 
-        public static BindableProperty ReadyToInitializeProperty =
-           BindableProperty.Create(nameof(ReadyToInitialize), typeof(bool), typeof(Stepper), false, BindingMode.TwoWay, propertyChanged: HandleReadyToInitializePropertyChanged);
-        public static void HandleReadyToInitializePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        public static BindableProperty InitializeExcecuteProperty =
+            BindableProperty.Create(nameof(InitializeExcecute), typeof(int), typeof(Stepper), 0, BindingMode.TwoWay, propertyChanged: HandleInitializeExecutePropertyChanged);
+        public static void HandleInitializeExecutePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var stepper = (Stepper)bindable;
-            stepper.ReadyToInitialize = (bool)newValue;
-            if(stepper.ReadyToInitialize)
+            stepper.InitializeExcecute = (int)newValue;
+            if(stepper.InitializeExcecute!=0)
                 stepper.Initialize();
         }
-        public bool ReadyToInitialize
+        public int InitializeExcecute
         {
-            get { return (bool)GetValue(ReadyToInitializeProperty); }
+            get { return (int)GetValue(InitializeExcecuteProperty); }
             set
             {
-                SetValue(ReadyToInitializeProperty, value);
+                SetValue(InitializeExcecuteProperty, value);
+            }
+        }
+
+        public static BindableProperty RefreshExcecuteProperty =
+            BindableProperty.Create(nameof(RefreshExcecute), typeof(int), typeof(Stepper), 0, BindingMode.TwoWay, propertyChanged: HandleRefreshExecutePropertyChanged);
+        public static void HandleRefreshExecutePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var stepper = (Stepper)bindable;
+            stepper.RefreshExcecute = (int)newValue;
+            if (stepper.RefreshExcecute != 0)
+                stepper.Refresh();
+
+        }
+        public int RefreshExcecute
+        {
+            get { return (int)GetValue(RefreshExcecuteProperty); }
+            set
+            {
+                SetValue(RefreshExcecuteProperty, value);
             }
         }
 
@@ -203,60 +222,62 @@ namespace Steamboat.Mobile.CustomControls
 
         public void Initialize()
         {
-            AddSteps();
-            SetProgressByStep(PreviousStep);
-            ProgressFromStepToStep(PreviousStep, CurrentStep);   
+            if (Steps > 0)
+                AddSteps();
+
+        }
+        public void Refresh(){
+            ProgressFromStepToStep(PreviousStep, CurrentStep);
         }
 
         private void AddSteps()
         {
-            if (Steps > 0)
+
+            _stepsProgressImages = new List<Image>();
+            _stepsProgressLabels = new List<Label>();
+            if (Steps == 4)
             {
-                _stepsProgressImages = new List<Image>();
-                _stepsProgressLabels = new List<Label>();
-                if (Steps == 4)
-                {
-                    string imgSource = GetImageSourceForStep(PreviousStep, 1);
-                    AddStepImage(imgSource, 0);
-                    AddStepLabel("INTERVIEW", 0, -28);
+                string imgSource = GetImageSourceForStep(PreviousStep, 1);
+                AddStepImage(imgSource, 0);
+                AddStepLabel("INTERVIEW", 0, -28);
 
-                    imgSource = GetImageSourceForStep(PreviousStep, 2);
-                    AddStepImage(imgSource, 0.33);
-                    AddStepLabel("SCHEDULING", 0.33, -33);
+                imgSource = GetImageSourceForStep(PreviousStep, 2);
+                AddStepImage(imgSource, 0.33);
+                AddStepLabel("SCHEDULING", 0.33, -33);
 
-                    imgSource = GetImageSourceForStep(PreviousStep, 3);
-                    AddStepImage(imgSource, 0.66);
-                    AddStepLabel("SCREENING", 0.66, -28);
+                imgSource = GetImageSourceForStep(PreviousStep, 3);
+                AddStepImage(imgSource, 0.66);
+                AddStepLabel("SCREENING", 0.66, -28);
 
-                    imgSource = GetImageSourceForStep(PreviousStep, 4);
-                    AddStepImage(imgSource, 1);
-                    AddStepLabel("REPORT", 1, -19);
-                }
-                else if (Steps == 3)
-                {
-                    string imgSource = GetImageSourceForStep(PreviousStep, 1);
-                    AddStepImage(imgSource, 0);
-                    AddStepLabel("SCHEDULING", 0, -33);
-
-                    imgSource = GetImageSourceForStep(PreviousStep, 2);
-                    AddStepImage(imgSource, 0.5);
-                    AddStepLabel("SCREENING", 0.5, -30);
-
-                    imgSource = GetImageSourceForStep(PreviousStep, 3);
-                    AddStepImage(imgSource, 1);
-                    AddStepLabel("REPORT", 1, -19);
-                }
+                imgSource = GetImageSourceForStep(PreviousStep, 4);
+                AddStepImage(imgSource, 1);
+                AddStepLabel("REPORT", 1, -19);
             }
+            else if (Steps == 3)
+            {
+                string imgSource = GetImageSourceForStep(PreviousStep, 1);
+                AddStepImage(imgSource, 0);
+                AddStepLabel("SCHEDULING", 0, -33);
+
+                imgSource = GetImageSourceForStep(PreviousStep, 2);
+                AddStepImage(imgSource, 0.5);
+                AddStepLabel("SCREENING", 0.5, -30);
+
+                imgSource = GetImageSourceForStep(PreviousStep, 3);
+                AddStepImage(imgSource, 1);
+                AddStepLabel("REPORT", 1, -19);
+            }
+
         }
-        private void SetProgressByStep(int step)
-        {
-            _colorProgressBar.Progress = GetProgressForStep(Steps, step);
-            GetLabelByStep(step).Style = StepActiveLabelStyle;
-        }
+
         private async void ProgressFromStepToStep(int fromStep, int toStep)
         {
-            GetLabelByStep(fromStep).Style = StepInactiveLabelStyle;
-            GetLabelByStep(toStep).Style = StepActiveLabelStyle;
+            _colorProgressBar.Progress = GetProgressForStep(Steps, fromStep);
+            Label labelFrom = GetLabelByStep(fromStep);
+            Label labelTo = GetLabelByStep(toStep);
+
+            labelFrom.Style = StepInactiveLabelStyle;
+            labelTo.Style = StepActiveLabelStyle;
 
             while (fromStep < toStep)
             {

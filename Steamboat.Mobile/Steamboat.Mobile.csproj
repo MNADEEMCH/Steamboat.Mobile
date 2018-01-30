@@ -54,11 +54,20 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\SchedulingTimeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SchedulingConfirmationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\CustomListView.cs" />
     <Compile Include="CustomControls\Renderers\ColorProgressBar.cs" />
     <Compile Include="CustomControls\Stepper.cs" />
     <Compile Include="Models\Modal\ModalParam.cs" />
@@ -75,6 +84,7 @@
     <Compile Include="ViewModels\Modals\ModalViewModelBase.cs" />
     <Compile Include="ViewModels\Modals\WelcomeModalViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
+    <Compile Include="ViewModels\SchedulingEventDateViewModel.cs" />
     <Compile Include="ViewModels\SchedulingViewModel.cs" />
     <Compile Include="ViewModels\ScreeningViewModel.cs" />
     <Compile Include="ViewModels\StepperViewModel.cs" />
@@ -108,6 +118,9 @@
     </Compile>
     <Compile Include="Views\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SchedulingEventDateView.xaml.cs">
+      <DependentUpon>SchedulingEventDateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SchedulingView.xaml.cs">
       <DependentUpon>SchedulingView.xaml</DependentUpon>
@@ -173,11 +186,30 @@
     <Compile Include="Views\StepperView.xaml.cs">
       <DependentUpon>StepperView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SchedulingTimeView.xaml.cs">
+      <DependentUpon>SchedulingTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\SchedulingTimeViewModel.cs" />
+    <Compile Include="Models\Participant\Event.cs" />
+    <Compile Include="Models\Participant\EventTime.cs" />
+    <Compile Include="Models\Participant\EventDate.cs" />
+    <Compile Include="ViewModels\SchedulingConfirmationViewModel.cs" />
+    <Compile Include="Views\SchedulingConfirmationView.xaml.cs">
+      <DependentUpon>SchedulingConfirmationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Participant\Appointment.cs" />
+    <Compile Include="CustomControls\Renderers\CustomFrame.cs" />
+    <Compile Include="CustomControls\DataGrid.cs" />
+    <Compile Include="Helpers\ObservableExtension.cs" />
+    <Compile Include="Helpers\EventTimeHelper.cs" />
+    <Compile Include="CustomControls\Renderers\WrappedButton.cs" />
+    <Compile Include="Extensions\Converters\EventDateConverter.cs" />
     <Compile Include="Models\Participant\DispositionSteps\SurveyStep.cs" />
     <Compile Include="Models\Participant\DispositionSteps\SchedulingStep.cs" />
     <Compile Include="Models\Participant\DispositionSteps\ReportStep.cs" />
     <Compile Include="Models\Participant\DispositionSteps\ScreeningStep.cs" />
     <Compile Include="Models\Participant\DispositionSteps\DispositionStep.cs" />
+    <Compile Include="Models\NavigationParameters\EventParameter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -276,6 +308,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Views\SchedulingEventDateView.xaml">
+    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Views\Modals\WelcomeModalView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -289,6 +327,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Participant\DispositionSteps\" />
+    <Folder Include="Models\NavigationParameters\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.121934\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

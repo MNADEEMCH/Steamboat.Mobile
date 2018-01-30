@@ -45,6 +45,13 @@ namespace Steamboat.Mobile.Services.Navigation
             return InternalNavigateToAsync(vm, parameter, mainPage);
         }
 
+        public async Task PopAsync()
+        {
+            var navigationPage = Application.Current.MainPage as CustomNavigationView;
+            await navigationPage.PopAsync();
+            await (navigationPage.CurrentPage.BindingContext as ViewModelBase).Refresh();
+        }
+
         public Task RemoveLastFromBackStackAsync()
         {
             var mainPage = Application.Current.MainPage as CustomNavigationView;

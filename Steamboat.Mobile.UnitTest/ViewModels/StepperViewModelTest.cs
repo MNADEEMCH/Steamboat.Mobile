@@ -33,7 +33,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             StepperViewModel stepperViewModel = new StepperViewModel();
             await stepperViewModel.InitializeAsync(null);
 
-            Assert.AreEqual(false, stepperViewModel.ReadyToInitialize);
+            Assert.AreEqual(0, stepperViewModel.InitializeExcecute);
         }
 
         [Test]
@@ -228,14 +228,14 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
             stepperViewModel.Steps = 4;
             stepperViewModel.PreviousStep = 3;
             stepperViewModel.CurrentStep = 4;
-            stepperViewModel.ReadyToInitialize = true;
+            stepperViewModel.InitializeExcecute = 1;
 
             await stepperViewModel.Refresh();
 
             Assert.AreEqual(0, stepperViewModel.Steps);
             Assert.AreEqual(0, stepperViewModel.PreviousStep);
             Assert.AreEqual(0, stepperViewModel.CurrentStep);
-            Assert.AreEqual(false, stepperViewModel.ReadyToInitialize);
+            Assert.AreEqual(0, stepperViewModel.InitializeExcecute);
         }
 
         [Test]

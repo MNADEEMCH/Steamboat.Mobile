@@ -20,21 +20,41 @@ namespace Steamboat.Mobile.Services.Participant
         {
             string url = string.Format(ApiUrlBase + "{0}", "dashboard");
 
-            return await _requestProvider.GetAsync<Status>(url, sessionId);        
+            return await _requestProvider.GetAsync<Status>(url, sessionId);
         }
 
         public async Task<List<Consent>> GetConsents(string sessionId)
         {
             string url = string.Format(ApiUrlBase + "{0}", "consent");
 
-            return await _requestProvider.GetAsync<List<Consent>>(url, sessionId);   
+            return await _requestProvider.GetAsync<List<Consent>>(url, sessionId);
         }
 
         public async Task<List<Consent>> SendConsents(CompletedConsents completedConsents, string sessionId)
         {
             string url = string.Format(ApiUrlBase + "{0}", "consent");
 
-            return await _requestProvider.PostAsync<List<Consent>,CompletedConsents>(url, completedConsents, sessionId);
+            return await _requestProvider.PostAsync<List<Consent>, CompletedConsents>(url, completedConsents, sessionId);
+        }
+
+        public async Task<List<EventTime>> GetEventTimes(int eventId, string sessionID)
+        {
+            string url = string.Format(ApiUrlBase + "{0}/{1}", "event", eventId);
+
+            return await _requestProvider.GetAsync<List<EventTime>>(url, sessionID);
+        }
+
+        public async Task<List<Event>> GetEvents(string sessionId){
+
+            string url = string.Format(ApiUrlBase + "{0}", "event");
+            return await _requestProvider.GetAsync<List<Event>>(url, sessionId);
+        }
+
+        public async Task<Appointment> ConfirmEvent(int eventId,int eventTimeSlotId,string sessionId)
+        {
+
+            string url = string.Format(ApiUrlBase + "{0}/{1}/{2}", "event", eventId, eventTimeSlotId);
+            return await _requestProvider.PostAsync<Appointment>(url, sessionId);
         }
     }
 }

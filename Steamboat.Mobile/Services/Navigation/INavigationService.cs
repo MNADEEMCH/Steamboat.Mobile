@@ -18,6 +18,8 @@ namespace Steamboat.Mobile.Services.Navigation
 
         Task NavigateToAsync(Type vm, object parameter, bool mainPage = false);
 
+        Task PopAsync();
+
         Task RemoveLastFromBackStackAsync();
 
         Task RemoveBackStackAsync();

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.SchedulingTimeView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:extensions="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile"
+    BackgroundColor="{StaticResource ViewBackground}"
+    Title="Pick a time">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <extensions:EventDateConverter x:Key="EventDate" />
+            <Style x:Key="HeaderLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="BackgroundColor" Value="{StaticResource SubtleBlueColor}" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+
+            <Style x:Key="DateLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="Margin" Value="0,14" />
+            </Style>
+
+            <Style x:Key="DataGrid" TargetType="customControl:DataGrid">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="Margin" Value="0,0,0,20" />
+            </Style>            
+
+            <Style x:Key="TimeButton" TargetType="customControl:WrappedButton">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="HeightRequest" Value="64" />
+                <Setter Property="WidthRequest" Value="80" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="BorderColor" Value="{StaticResource LightGrayColor}" />
+                <Style.Triggers>
+                    <Trigger TargetType="customControl:WrappedButton" Property="IsEnabled" Value="False">
+                        <Setter Property="BorderWidth" Value="0" />
+                    </Trigger>
+                    <Trigger TargetType="customControl:WrappedButton" Property="Active" Value="True">
+                        <Setter Property="BorderColor" Value="{StaticResource MomentumBlueColor}" />
+                        <Setter Property="BorderWidth" Value="3" />
+                    </Trigger>
+                </Style.Triggers>                
+            </Style>
+            
+        </ResourceDictionary>
+    </ContentPage.Resources>
+	<ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <!--MAIN FORM-->
+            <Grid Grid.Row="0" RowSpacing="0" ColumnSpacing="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <Label Grid.Row="0" Text="When can you attend the screening?" Style="{StaticResource HeaderLabel}" />
+                                    
+                <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand" Padding="25,0" >
+                    <Grid VerticalOptions="Start" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                    
+                        <Label Grid.Row="0" Text="{Binding EventDate}" Style="{StaticResource DateLabel}" />
+                        
+                        <customControl:DataGrid Grid.Row="1" Style="{StaticResource DataGrid}" DataSource="{Binding EventTimeList}" Columns="4" 
+                            SelectedCommand="{Binding SelectTimeCommand}" SeparatorColor="{StaticResource LightGrayColor}" >
+                            <customControl:DataGrid.DataTemplate>
+                                <DataTemplate>
+                                    <customControl:WrappedButton Text="{Binding Start, Converter={StaticResource EventDate}}}" Padding="2"
+                                    Active="{Binding IsActive}" IsEnabled="{Binding IsAvailable}" Style="{StaticResource TimeButton}" />
+                                </DataTemplate>
+                            </customControl:DataGrid.DataTemplate>
+                        </customControl:DataGrid>
+                    </Grid>
+                </ScrollView>                
+            </Grid>
+            
+            <ActivityIndicator
+            Grid.Row="0"
+            Color="{StaticResource MomentumBlueColor}"
+            IsRunning="{Binding IsLoading}"  
+            IsVisible="{Binding IsLoading}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            WidthRequest="100" />
+        </Grid>
+	</ContentPage.Content>
+</ContentPage>

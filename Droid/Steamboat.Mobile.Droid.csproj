@@ -227,6 +227,8 @@
     <Compile Include="CustomRenderers\ImageEntryRenderer.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="CustomRenderers\CheckboxRenderer.cs" />
+    <Compile Include="CustomRenderers\CustomFrameRender.cs" />
+    <Compile Include="CustomRenderers\WrappedButtonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
@@ -255,6 +257,9 @@
     <AndroidResource Include="Resources\drawable-hdpi\icUser.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icUser.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icUser.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icLocationDisabled.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icLocationDisabled.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icLocationDisabled.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
@@ -389,6 +394,33 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\icStepNonvisited.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\icCalendarDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\icChevron.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\icClockDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icChevron.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icCalendarDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icClockDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icChevron.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icCalendarDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\icClockDisabled.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\icImago.png" />

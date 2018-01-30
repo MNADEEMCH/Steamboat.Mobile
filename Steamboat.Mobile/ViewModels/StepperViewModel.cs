@@ -11,8 +11,11 @@ namespace Steamboat.Mobile.ViewModels
     {
         #region Properties
 
-        private bool _readyToInitialize;
-        public bool ReadyToInitialize { set { SetPropertyValue(ref _readyToInitialize, value); } get { return _readyToInitialize; } }
+        private int _initializeExcecute;
+        public int InitializeExcecute { set { SetPropertyValue(ref _initializeExcecute, value); } get { return _initializeExcecute; } }
+
+        private int _refreshExcecute;
+        public int RefreshExcecute { set { SetPropertyValue(ref _refreshExcecute, value); } get { return _refreshExcecute; } }
 
         private int _previousStep;
         public int PreviousStep { set { SetPropertyValue(ref _previousStep, value); } get { return _previousStep; } }
@@ -33,7 +36,6 @@ namespace Steamboat.Mobile.ViewModels
 
         public override async Task InitializeAsync(object parameter)
         {
-            ReadyToInitialize = false;
             StepperParam stepperParam = parameter as StepperParam;
             if (stepperParam!=null)
             {
@@ -43,14 +45,15 @@ namespace Steamboat.Mobile.ViewModels
                     CurrentStep = stepperParam.CurrentStep;
                     PreviousStep = CurrentStep;
                     _stepperInitialized = true;
+                    InitializeExcecute++;
                 }
                 else
                 {
                     PreviousStep = CurrentStep;
                     CurrentStep = stepperParam.CurrentStep;
-                }
 
-                ReadyToInitialize = true;
+                }
+                RefreshExcecute++;
             }
             else
             {
@@ -67,7 +70,8 @@ namespace Steamboat.Mobile.ViewModels
             CurrentStep = 0;
             Steps = 0;
             _stepperInitialized = false;
-            ReadyToInitialize = false;
+            InitializeExcecute = 0;
+            RefreshExcecute = 0;
 
         }
 

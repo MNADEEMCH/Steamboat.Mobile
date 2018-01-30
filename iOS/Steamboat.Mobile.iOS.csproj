@@ -28,7 +28,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
-    <CodesignProvision>MomentumHealt Provisioning Profile Dev</CodesignProvision>
+    <CodesignProvision></CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -272,6 +272,9 @@
     <BundleResource Include="Resources\  icUser.png" />
     <BundleResource Include="Resources\  icUser%402x.png" />
     <BundleResource Include="Resources\  icUser%403x.png" />
+    <BundleResource Include="Resources\icLocationDisabled.png" />
+    <BundleResource Include="Resources\icLocationDisabled%402x.png" />
+    <BundleResource Include="Resources\icLocationDisabled%403x.png" />
     <BundleResource Include="Resources\Splashscreen\splashscreen.png" />
     <BundleResource Include="Resources\Splashscreen\splashscreen%402x.png" />
     <BundleResource Include="Resources\Splashscreen\splashscreen%403x.png" />
@@ -298,6 +301,8 @@
     <Compile Include="CustomRenderers\CheckboxRenderer.cs" />
     <Compile Include="Controls\CheckBoxView.cs" />
     <Compile Include="Utilities\Extensions.cs" />
+    <Compile Include="CustomRenderers\CustomFrameRenderer.cs" />
+    <Compile Include="CustomRenderers\WrappedButtonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
@@ -433,6 +438,33 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\icLocation%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icCalendarDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icCalendarDisabled%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icCalendarDisabled%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icChevron.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icChevron%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icChevron%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icClockDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icClockDisabled%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icClockDisabled%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\icImago.png" />
