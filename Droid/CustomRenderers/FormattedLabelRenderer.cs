@@ -24,6 +24,22 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             UpdateFormattedText();
         }
 
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+
+            if (e.PropertyName == Label.FormattedTextProperty.PropertyName ||
+                e.PropertyName == Label.TextProperty.PropertyName ||
+                e.PropertyName == Label.FontAttributesProperty.PropertyName ||
+                e.PropertyName == Label.FontProperty.PropertyName ||
+                e.PropertyName == Label.FontSizeProperty.PropertyName ||
+                e.PropertyName == Label.FontFamilyProperty.PropertyName ||
+                e.PropertyName == Label.TextColorProperty.PropertyName)
+            {
+                UpdateFormattedText();
+            }
+        }
+
         private void UpdateFormattedText()
         {
             if (Element?.FormattedText == null)
@@ -47,22 +63,6 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 }
             }
             Control.TextFormatted = ss;
-        }
-
-        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            base.OnElementPropertyChanged(sender, e);
-
-            if (e.PropertyName == Label.FormattedTextProperty.PropertyName ||
-                e.PropertyName == Label.TextProperty.PropertyName ||
-                e.PropertyName == Label.FontAttributesProperty.PropertyName ||
-                e.PropertyName == Label.FontProperty.PropertyName ||
-                e.PropertyName == Label.FontSizeProperty.PropertyName ||
-                e.PropertyName == Label.FontFamilyProperty.PropertyName ||
-                e.PropertyName == Label.TextColorProperty.PropertyName)
-            {
-                UpdateFormattedText();
-            }
         }
     }
 

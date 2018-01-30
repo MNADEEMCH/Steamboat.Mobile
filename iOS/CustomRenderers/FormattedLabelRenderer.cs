@@ -11,6 +11,12 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 {
     public class FormattedLabelRenderer : LabelRenderer
     {
+        protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
+        {
+            base.OnElementChanged(e);
+            UpdateFormattedText();
+        }
+
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
@@ -25,24 +31,6 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             {
                 UpdateFormattedText();
             }
-        }
-
-        private static string GetFontName(string fontFamily, FontAttributes fontAttributes)
-        {
-            var postfix = "-Regular";
-            var bold = fontAttributes.HasFlag(FontAttributes.Bold);
-            var italic = fontAttributes.HasFlag(FontAttributes.Italic);
-            if (bold && italic) { postfix = "-BoldItalic"; }
-            else if (bold) { postfix = "-Bold"; }
-            else if (italic) { postfix = "-Italic"; }
-
-            return fontFamily + postfix;
-        }
-
-        protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
-        {
-            base.OnElementChanged(e);
-            UpdateFormattedText();
         }
 
         private void UpdateFormattedText()
@@ -87,6 +75,18 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             font = UIFont.FromName(newName, font.PointSize);
             text.RemoveAttribute(UIStringAttributeKey.Font, range);
             text.AddAttribute(UIStringAttributeKey.Font, font, range);
+        }
+
+        private static string GetFontName(string fontFamily, FontAttributes fontAttributes)
+        {
+            var postfix = "-Regular";
+            var bold = fontAttributes.HasFlag(FontAttributes.Bold);
+            var italic = fontAttributes.HasFlag(FontAttributes.Italic);
+            if (bold && italic) { postfix = "-BoldItalic"; }
+            else if (bold) { postfix = "-Bold"; }
+            else if (italic) { postfix = "-Italic"; }
+
+            return fontFamily + postfix;
         }
 
         private static void FixBackground(NSMutableAttributedString text)
