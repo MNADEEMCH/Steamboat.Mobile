@@ -58,9 +58,8 @@
             </Style>
             <Style x:Key="DescriptionLabel"  TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
-                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="FontFamily" Value="OpenSans" />
                 <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
-                <Setter Property="FontSize" Value="14" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="Margin" Value="12"></Setter>
             </Style>
@@ -98,7 +97,7 @@
                             </ffimageloadingsvg:SvgCachedImage>
                         </StackLayout>
                         <Label Text="{Binding Steps}" Style="{StaticResource IndicatorLabel}"></Label>
-                        <Label Text="{Binding Message}" Style="{StaticResource DescriptionLabel}"></Label>
+                        <customControl:FormattedLabel FormattedText="{Binding Message}" Style="{StaticResource DescriptionLabel}"></customControl:FormattedLabel>
                         <customControl:GradientRoundedButton  Text="PICK A TIME" Style="{StaticResource GoButton}" Command="{Binding OpenSchedulingCommand}" />
                         <Grid IsVisible="false" ></Grid>
                     </StackLayout>

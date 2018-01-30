@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Steamboat.Mobile.Views.InterviewView"
     xmlns:views="clr-namespace:Steamboat.Mobile.Views"
@@ -58,9 +58,8 @@
             </Style>
             <Style x:Key="DescriptionLabel"  TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
-                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="FontFamily" Value="OpenSans" />
                 <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
-                <Setter Property="FontSize" Value="14" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="Margin" Value="12"></Setter>
             </Style>
@@ -98,7 +97,7 @@
                             </ffimageloadingsvg:SvgCachedImage>
                         </StackLayout>
                         <Label Text="{Binding Steps}" Style="{StaticResource IndicatorLabel}"></Label>
-                        <Label Text ="{Binding Message}" Style="{StaticResource DescriptionLabel}"></Label>
+                        <customControl:FormattedLabel FormattedText ="{Binding Message}" Style="{StaticResource DescriptionLabel}"></customControl:FormattedLabel>
                         <customControl:GradientRoundedButton  Text="LET'S TALK" Style="{StaticResource GoButton}"/>
                         <Grid IsVisible="false" ></Grid>
                     </StackLayout>

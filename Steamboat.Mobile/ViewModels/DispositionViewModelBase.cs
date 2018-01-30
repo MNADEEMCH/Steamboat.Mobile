@@ -41,8 +41,8 @@ namespace Steamboat.Mobile.ViewModels
             set { SetPropertyValue(ref _title, value); }
         }
 
-        private string _message;
-        public string Message
+        private FormattedString _message;
+        public FormattedString Message
         {
             get { return _message; }
             set { SetPropertyValue(ref _message, value); }
@@ -117,7 +117,7 @@ namespace Steamboat.Mobile.ViewModels
             StepperParam stepperParam = await InitializeStepper(status);
 
             Title = dispositionStep.Title;
-            Message = dispositionStep.Message;
+            Message = await HandleTextFormat(dispositionStep.Message);
             Steps = String.Format("STEP  {0}  OF  {1}", stepperParam.CurrentStep, stepperParam.Steps);
 
             InitializeSpecificStep(status);
@@ -190,7 +190,7 @@ namespace Steamboat.Mobile.ViewModels
 
 
         private async Task<FormattedString> HandleTextFormat(string text)
-        {   //TODO: Spans not styling well
+        {   //TODO: Set FontSize in xaml
             FormattedString formattedString = new FormattedString();
 
             try
@@ -213,7 +213,8 @@ namespace Steamboat.Mobile.ViewModels
                             formattedString.Spans.Add(new Span()
                             {
                                 Text = pieces[0],
-                                FontAttributes = (boldDetected ? FontAttributes.Bold : FontAttributes.None)
+                                FontAttributes = (boldDetected ? FontAttributes.Bold : FontAttributes.None),
+                                FontSize=14
                             });
                         }
                         else
@@ -221,7 +222,8 @@ namespace Steamboat.Mobile.ViewModels
                             formattedString.Spans.Add(new Span()
                             {
                                 Text = pieces[0],
-                                FontAttributes = FontAttributes.None
+                                FontAttributes = FontAttributes.None,
+                                FontSize=14
                             });
                         }
                         boldDetected = !boldDetected && pieces.Length == 2;

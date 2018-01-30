@@ -303,6 +303,7 @@
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="CustomRenderers\CustomFrameRenderer.cs" />
     <Compile Include="CustomRenderers\WrappedButtonRenderer.cs" />
+    <Compile Include="CustomRenderers\FormattedLabelRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
