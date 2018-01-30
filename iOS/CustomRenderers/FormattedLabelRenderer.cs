@@ -32,7 +32,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         private void UpdateFormattedText()
         {
             var text = Control?.AttributedText as NSMutableAttributedString;
-            if (text == null)
+            if (text == null || Element==null)
                 return;
 
             var fontFamily = Element.FontFamily;
