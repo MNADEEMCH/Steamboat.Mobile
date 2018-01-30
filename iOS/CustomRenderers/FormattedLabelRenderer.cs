@@ -11,9 +11,25 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 {
     public class FormattedLabelRenderer : LabelRenderer
     {
+        protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+
+            if (e.PropertyName == Label.FormattedTextProperty.PropertyName ||
+                e.PropertyName == Label.TextProperty.PropertyName ||
+                e.PropertyName == Label.FontAttributesProperty.PropertyName ||
+                e.PropertyName == Label.FontProperty.PropertyName ||
+                e.PropertyName == Label.FontSizeProperty.PropertyName ||
+                e.PropertyName == Label.FontFamilyProperty.PropertyName ||
+                e.PropertyName == Label.TextColorProperty.PropertyName)
+            {
+                UpdateFormattedText();
+            }
+        }
+
         private static string GetFontName(string fontFamily, FontAttributes fontAttributes)
         {
-            var postfix = "";
+            var postfix = "-Regular";
             var bold = fontAttributes.HasFlag(FontAttributes.Bold);
             var italic = fontAttributes.HasFlag(FontAttributes.Italic);
             if (bold && italic) { postfix = "-BoldItalic"; }
@@ -32,7 +48,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         private void UpdateFormattedText()
         {
             var text = Control?.AttributedText as NSMutableAttributedString;
-            if (text == null || Element==null)
+            if (text == null || Element == null)
                 return;
 
             var fontFamily = Element.FontFamily;
@@ -95,20 +111,5 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             return fontName;
         }
 
-        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            base.OnElementPropertyChanged(sender, e);
-
-            if (e.PropertyName == Label.FormattedTextProperty.PropertyName ||
-                e.PropertyName == Label.TextProperty.PropertyName ||
-                e.PropertyName == Label.FontAttributesProperty.PropertyName ||
-                e.PropertyName == Label.FontProperty.PropertyName ||
-                e.PropertyName == Label.FontSizeProperty.PropertyName ||
-                e.PropertyName == Label.FontFamilyProperty.PropertyName ||
-                e.PropertyName == Label.TextColorProperty.PropertyName)
-            {
-                UpdateFormattedText();
-            }
-        }
     }
 }
