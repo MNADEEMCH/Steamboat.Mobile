@@ -54,6 +54,7 @@
     <Compile Include="Helpers\DashboardStatusHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\StepperViewModelTest.cs" />
+    <Compile Include="Helpers\EventTimeHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
