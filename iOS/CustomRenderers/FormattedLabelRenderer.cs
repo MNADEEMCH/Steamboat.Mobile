@@ -33,6 +33,11 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             }
         }
 
+        public override void Draw(CoreGraphics.CGRect rect)
+        {
+            base.Draw(rect);
+        }
+
         private void UpdateFormattedText()
         {
             var text = Control?.AttributedText as NSMutableAttributedString;
@@ -75,6 +80,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             font = UIFont.FromName(newName, font.PointSize);
             text.RemoveAttribute(UIStringAttributeKey.Font, range);
             text.AddAttribute(UIStringAttributeKey.Font, font, range);
+
         }
 
         private static string GetFontName(string fontFamily, FontAttributes fontAttributes)
