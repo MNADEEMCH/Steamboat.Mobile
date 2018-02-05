@@ -5,7 +5,7 @@
     xmlns:modalViewModelBase="clr-namespace:Steamboat.Mobile.ViewModels.Modals;assembly=Steamboat.Mobile"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
-    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     modalViewModelBase:ModalViewModelAutoWire.AutoWireViewModel="True"
 	x:Class="Steamboat.Mobile.Views.Modals.DispositionMoreInfoModalView"
     BackgroundColor="{StaticResource ModalBackground}"
@@ -16,7 +16,7 @@
             <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
                 <Setter Property="Margin" Value="30"></Setter>
             </Style>
-            <Style x:Key="IconImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+            <Style x:Key="IconImage" TargetType="ffimageloading:CachedImage">
                 <Setter Property="HeightRequest" Value="208"></Setter>
                 <Setter Property="WidthRequest" Value="208"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
@@ -55,14 +55,14 @@
                     </Grid.RowDefinitions>
                     <StackLayout Style="{StaticResource MainContainerStackLayout}">
 
-                        <ffimageloadingsvg:SvgCachedImage Source="{Binding IconSource}" Style="{StaticResource IconImage}"/>
+                        <ffimageloading:CachedImage Source="{Binding IconSource}" Style="{StaticResource IconImage}"/>
 
                         <Label Text="{Binding Title}" Style="{StaticResource TitleLabel}"></Label>
 
                         <Label Text="{Binding Message}" Style="{StaticResource MessageLabel}"></Label>
                         
                         <customControl:GradientRoundedButton  Text="GOT IT" Command="{Binding CloseModalCommand}" Style="{StaticResource GoButton}"/>
-                        <Grid IsVisible="false"></Grid>
+                        <Grid IsVisible="false" />
 
                     </StackLayout>
                 </Grid>

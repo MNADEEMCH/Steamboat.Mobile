@@ -5,7 +5,7 @@
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     x:Class="Steamboat.Mobile.Views.SchedulingConfirmationView"
-    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     Title="Confirm your screening">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -20,7 +20,7 @@
             <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
                 <Setter Property="Margin" Value="20,30,20,0"></Setter>
             </Style>
-            <Style x:Key="ScreeningDetailsImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+            <Style x:Key="ScreeningDetailsImage" TargetType="ffimageloading:CachedImage">
                 <Setter Property="HeightRequest" Value="24"></Setter>
                 <Setter Property="WidthRequest" Value="24"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
@@ -87,18 +87,18 @@
                                 <RowDefinition Height="1"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <ffimageloadingsvg:SvgCachedImage Source="icCalendarDisabled.png" Style="{StaticResource ScreeningDetailsImage}"/>
+                            <ffimageloading:CachedImage Source="icCalendarDisabled.png" Style="{StaticResource ScreeningDetailsImage}"/>
                             <Label Text="{Binding Date}" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
                             <BoxView Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource ScreeningDetailsSeparatorBoxView}"/>
-                            <ffimageloadingsvg:SvgCachedImage Source="icClockDisabled.png" Grid.Row="2" Style="{StaticResource ScreeningDetailsImage}"/>
+                            <ffimageloading:CachedImage Source="icClockDisabled.png" Grid.Row="2" Style="{StaticResource ScreeningDetailsImage}"/>
                             <Label Text="{Binding Time}" Grid.Row="2" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
                             <BoxView Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource ScreeningDetailsSeparatorBoxView}"/>
-                            <ffimageloadingsvg:SvgCachedImage Source="icLocationDisabled.png" Grid.Row="4" Style="{StaticResource ScreeningDetailsImage}"/>
+                            <ffimageloading:CachedImage Source="icLocationDisabled.png" Grid.Row="4" Style="{StaticResource ScreeningDetailsImage}"/>
                             <Label Text="{Binding Address}" Grid.Row="4" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
                         </Grid>
                     
                         <customControl:GradientRoundedButton  Text="YES, CONFIRM" Style="{StaticResource GoButton}" Command="{Binding ConfirmEventCommand}" />
-                        <Grid IsVisible="false"></Grid>
+                        <Grid IsVisible="false" />
                         <ActivityIndicator Style="{StaticResource MainIndicator}" IsVisible="{Binding IsBusy}" />
 
                         <Label Text="NO, EDIT" Style="{StaticResource NoEditLabel}">

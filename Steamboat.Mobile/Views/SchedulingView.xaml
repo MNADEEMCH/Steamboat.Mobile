@@ -5,7 +5,7 @@
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
-    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     BackgroundColor="{StaticResource ViewBackground}"
     Title="Momentum">
     <ContentPage.ToolbarItems>
@@ -24,13 +24,13 @@
             <Style x:Key="ImageContainerAbsoluteLayout" TargetType="AbsoluteLayout">
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
-            <Style x:Key="IconBackgroundImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+            <Style x:Key="IconBackgroundImage" TargetType="ffimageloading:CachedImage">
                 <Setter Property="HeightRequest" Value="150"></Setter>
                 <Setter Property="WidthRequest" Value="150"></Setter>
                 <Setter Property="AbsoluteLayout.LayoutBounds" Value="0.5,0.5,-1,-1"></Setter>
                 <Setter Property="AbsoluteLayout.LayoutFlags" Value="PositionProportional"></Setter>
             </Style>
-            <Style x:Key="IconImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+            <Style x:Key="IconImage" TargetType="ffimageloading:CachedImage">
                 <Setter Property="HeightRequest" Value="208"></Setter>
                 <Setter Property="WidthRequest" Value="208"></Setter>
             </Style>
@@ -44,7 +44,7 @@
                 <Setter Property="FontSize" Value="30" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
-            <Style x:Key="MoreInfoImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+            <Style x:Key="MoreInfoImage" TargetType="ffimageloading:CachedImage">
                 <Setter Property="HeightRequest" Value="24"></Setter>
                 <Setter Property="WidthRequest" Value="24"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
@@ -85,22 +85,22 @@
 
                     <StackLayout Style="{StaticResource MainContainerStackLayout}">
                         <AbsoluteLayout Style="{StaticResource ImageContainerAbsoluteLayout}">
-                            <ffimageloadingsvg:SvgCachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}"/>
-                            <ffimageloadingsvg:SvgCachedImage Source="{Binding IconSource}" Style="{StaticResource IconImage}"/>
+                            <ffimageloading:CachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}"/>
+                            <ffimageloading:CachedImage Source="{Binding IconSource}" Style="{StaticResource IconImage}"/>
                         </AbsoluteLayout>
 
                         <StackLayout Style="{StaticResource TitleContainerStackLayout}">
                             <Label Text="{Binding Title}" Style="{StaticResource TitleLabel}"></Label>
-                            <ffimageloadingsvg:SvgCachedImage Source="icMoreInfo.png" Style="{StaticResource MoreInfoImage}">
-                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            <ffimageloading:CachedImage Source="icMoreInfo.png" Style="{StaticResource MoreInfoImage}">
+                                <ffimageloading:CachedImage.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding MoreInfoCommand}"/>
-                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
-                            </ffimageloadingsvg:SvgCachedImage>
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
                         </StackLayout>
                         <Label Text="{Binding Steps}" Style="{StaticResource IndicatorLabel}"></Label>
                         <Label Text="{Binding Message}" Style="{StaticResource DescriptionLabel}"></Label>
                         <customControl:GradientRoundedButton  Text="PICK A TIME" Style="{StaticResource GoButton}" Command="{Binding OpenSchedulingCommand}" />
-                        <Grid IsVisible="false" ></Grid>
+                        <Grid IsVisible="false" />
                     </StackLayout>
                     <views:StepperView x:Name="Stepper" Grid.Row="1"/>
                 </Grid>

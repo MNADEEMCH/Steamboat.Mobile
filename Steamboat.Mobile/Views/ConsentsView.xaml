@@ -109,7 +109,7 @@
                     </Grid>
                     <customControl:GradientRoundedButton Text="CONTINUE" Command="{Binding ContinueCommand}" Style="{StaticResource SuperButton}" 
                          IsEnabled="{Binding IsEnabled}" IsVisible="{Binding IsFirstCheck}" />
-                        <Grid IsVisible="false" > </Grid>
+                        <Grid IsVisible="false" />
                     <ActivityIndicator Style="{StaticResource MainIndicator}" IsVisible="{Binding IsBusy}" />
                 </StackLayout>
                 
