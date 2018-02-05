@@ -21,7 +21,7 @@ namespace Steamboat.Mobile.Services.Navigation
         }
 
         public Task InitializeAsync()
-        {     
+        {
             return NavigateToAsync<LoginViewModel>();
         }
 
@@ -45,11 +45,28 @@ namespace Steamboat.Mobile.Services.Navigation
             return InternalNavigateToAsync(vm, parameter, mainPage);
         }
 
-        public async Task PopAsync()
+        public async Task PopAsync(object pages)
         {
             var navigationPage = Application.Current.MainPage as CustomNavigationView;
-            await navigationPage.PopAsync();
-            await (navigationPage.CurrentPage.BindingContext as ViewModelBase).Refresh();
+            if (pages != null)
+            {
+                int numberOfPages = 0;
+                if (int.TryParse(pages.ToString(), out numberOfPages))
+                {
+                    for (int i = 0; i < numberOfPages; i++)
+                    {
+                        if (i == numberOfPages - 1)
+                            await navigationPage.PopAsync();
+                        else
+                            await RemoveLastFromBackStackAsync();
+                    }
+                }
+            }
+            else
+            {
+                await navigationPage.PopAsync();
+            }
+            //await (navigationPage.CurrentPage.BindingContext as ViewModelBase).Refresh();
         }
 
         public Task RemoveLastFromBackStackAsync()
@@ -127,9 +144,10 @@ namespace Steamboat.Mobile.Services.Navigation
             return page;
         }
 
-        private bool IsMainPage(CustomNavigationView page, bool mainPage){
+        private bool IsMainPage(CustomNavigationView page, bool mainPage)
+        {
             return page != null && mainPage;
         }
-             
+
     }
 }

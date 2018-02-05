@@ -82,7 +82,7 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task Edit()
         {
-            await NavigationService.PopAsync();
+            await NavigationService.PopAsync(2);
         }
     }
 }

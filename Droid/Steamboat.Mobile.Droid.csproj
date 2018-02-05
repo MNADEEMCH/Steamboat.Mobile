@@ -236,6 +236,7 @@
     <Compile Include="CustomRenderers\CheckboxRenderer.cs" />
     <Compile Include="CustomRenderers\CustomFrameRender.cs" />
     <Compile Include="CustomRenderers\WrappedButtonRenderer.cs" />
+    <Compile Include="CustomRenderers\LinkButtonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
