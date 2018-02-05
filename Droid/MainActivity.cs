@@ -29,9 +29,8 @@ namespace Steamboat.Mobile.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             ResolveDependencies();
-            CachedImageRenderer.Init();
+            CachedImageRenderer.Init(true);
             var ignore = typeof(SvgCachedImage);
-            UserDialogs.Init(() => (Activity)Xamarin.Forms.Forms.Context);
             LoadApplication(new App());
             //LoadApplication(UXDivers.Gorilla.Droid.Player.CreateApplication(this,
             //    new UXDivers.Gorilla.Config("Good Gorilla")
