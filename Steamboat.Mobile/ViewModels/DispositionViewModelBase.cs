@@ -18,14 +18,11 @@ namespace Steamboat.Mobile.ViewModels
     {
         #region properties
 
-        private StepperViewModel _stepperViewModel
-        {
-            get;
-            set;
-        }
+        private StepperViewModel _stepperViewModel;
 
         public ICommand LogoutCommand { get; set; }
         public ICommand MoreInfoCommand { get; set; }
+        public ICommand MainActionCommand { get; set; }
 
         private string _iconSource;
         public string IconSource
@@ -69,6 +66,7 @@ namespace Steamboat.Mobile.ViewModels
             _stepperViewModel = stepperViewModel ?? DependencyContainer.Resolve<StepperViewModel>();
             LogoutCommand = new Command(async () => await Logout());
             MoreInfoCommand = new Command(async () => await MoreInfo());
+            MainActionCommand = new Command(async () => await MainAction());
         }
 
         public async override Task InitializeAsync(object parameter)
@@ -258,6 +256,8 @@ namespace Steamboat.Mobile.ViewModels
                 IsLoading = false;
             }
         }
+
+        protected abstract Task MainAction();
 
         protected virtual void InitializeSpecificStep(Status status)
         {

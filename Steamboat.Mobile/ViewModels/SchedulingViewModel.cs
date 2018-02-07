@@ -15,21 +15,14 @@ namespace Steamboat.Mobile.ViewModels
 {
     public class SchedulingViewModel : DispositionViewModelBase
     {
-        #region Properties
-
-        public ICommand OpenSchedulingCommand { get; set; }
-
-        #endregion
-
         public SchedulingViewModel(StepperViewModel stepperViewModel = null) : base(stepperViewModel)
         {
             IsLoading = true;
             //TODO: Change image source to XAML
             IconSource = "icScheduling.png";
-            OpenSchedulingCommand = new Command(async () => await OpenScheduling());
         }
 
-        private async Task OpenScheduling()
+        protected override async Task MainAction()
         {
             await NavigationService.NavigateToAsync<SchedulingEventDateViewModel>();
         }

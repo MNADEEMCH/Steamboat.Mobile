@@ -79,5 +79,10 @@ namespace Steamboat.Mobile.ViewModels
             }
         }
 
+        protected override async Task MainAction()
+        {
+
+        }
+
     }
 }

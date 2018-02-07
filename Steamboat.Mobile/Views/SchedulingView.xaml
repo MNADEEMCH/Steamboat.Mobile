@@ -64,7 +64,7 @@
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="Margin" Value="12"></Setter>
             </Style>
-            <Style x:Key="GoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
+            <Style x:Key="MainActionButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
                 <Setter Property="Margin" Value="0,5,0,0" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
@@ -99,7 +99,7 @@
                         </StackLayout>
                         <Label Text="{Binding Steps}" Style="{StaticResource IndicatorLabel}"></Label>
                         <Label Text="{Binding Message}" Style="{StaticResource DescriptionLabel}"></Label>
-                        <customControl:GradientRoundedButton  Text="PICK A TIME" Style="{StaticResource GoButton}" Command="{Binding OpenSchedulingCommand}" />
+                        <customControl:GradientRoundedButton  Text="PICK A TIME" Style="{StaticResource MainActionButton}" Command="{Binding MainActionCommand}" />
                         <Grid IsVisible="false" />
                     </StackLayout>
                     <views:StepperView x:Name="Stepper" Grid.Row="1"/>

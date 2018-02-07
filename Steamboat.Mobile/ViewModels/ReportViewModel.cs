@@ -18,18 +18,11 @@ namespace Steamboat.Mobile.ViewModels
     {
         #region Properties
         private bool _reportReady;
-        public bool ReportReady
-        {
-            get { return _reportReady; }
-            set { SetPropertyValue(ref _reportReady, value); }
-        }
+        private string _mainActionButtonText;
 
-        public string _goButtonText;
-        public string GoButtonText
-        {
-            get { return _goButtonText; }
-            set { SetPropertyValue(ref _goButtonText, value); }
-        }
+        public bool ReportReady{get { return _reportReady; }set { SetPropertyValue(ref _reportReady, value); }}
+
+        public string MainActionButtonText{get { return _mainActionButtonText; }set { SetPropertyValue(ref _mainActionButtonText, value); }}
         #endregion
 
         public ReportViewModel(StepperViewModel stepperViewModel = null) : base(stepperViewModel)
@@ -41,8 +34,16 @@ namespace Steamboat.Mobile.ViewModels
         protected override void InitializeSpecificStep(Status status)
         {
             ReportStep reportStep = status.Dashboard.ReportStep;
-            ReportReady = reportStep.Status.Equals(StatusEnum.Complete);
-            GoButtonText = ReportReady ? "VIEW REPORT" : "RESUME";
+            //TODO: Remove this hardcoded value
+            ReportReady = true;//reportStep.Status.Equals(StatusEnum.Complete);
+            MainActionButtonText = ReportReady ? "VIEW REPORT" : "RESUME";
+        }
+
+        protected override async Task MainAction(){
+            
+            if (ReportReady)
+                await NavigationService.NavigateToAsync<ReportDetailsViewModel>();
+
         }
 
     }

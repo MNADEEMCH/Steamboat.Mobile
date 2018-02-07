@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.ReportDetailsView"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    BackgroundColor="{StaticResource ViewBackground}"
+    Title="Your Report">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Logout" Icon="icLogout.png" Command="{Binding LogoutCommand}" >
+            <ToolbarItem.Order>
+                <OnPlatform x:TypeArguments="ToolbarItemOrder" iOS="Primary" Android="Secondary" />
+            </ToolbarItem.Order>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <customControl:WebViewer IsVisible="{Binding WebViewLoadedSucessfully}" 
+                Uri="{Binding WebViewReportUri}" 
+                Cookies="{Binding WebViewCookies}" 
+                Headers="{Binding WebViewHeaders}"
+                LoadFinishedCommand="{Binding LoadFinishedCommand}"
+                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+
+            <ActivityIndicator
+            Grid.Row="0"
+            Color="{StaticResource MomentumBlueColor}"
+            IsRunning="{Binding IsLoading}"  
+            IsVisible="{Binding IsLoading}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            WidthRequest="100" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -46,6 +46,7 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.RegisterLazySingleton(() => new SchedulingViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new ScreeningViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new ReportViewModel());
+            Locator.CurrentMutable.Register(() => new ReportDetailsViewModel());
             Locator.CurrentMutable.Register(() => new ConsentsViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new StepperViewModel());
             Locator.CurrentMutable.Register(() => new SchedulingTimeViewModel());

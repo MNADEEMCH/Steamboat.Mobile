@@ -18,5 +18,10 @@ namespace Steamboat.Mobile.ViewModels
             IconSource = "icInterview.png";
         }
 
+        protected override async Task MainAction()
+        {
+            
+        }
+
     }
 }
