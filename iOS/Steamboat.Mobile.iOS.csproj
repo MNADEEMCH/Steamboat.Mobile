@@ -282,6 +282,9 @@
     <BundleResource Include="Resources\Splashscreen\splashscreen.png" />
     <BundleResource Include="Resources\Splashscreen\splashscreen%402x.png" />
     <BundleResource Include="Resources\Splashscreen\splashscreen%403x.png" />
+    <BundleResource Include="Resources\icEdit.png" />
+    <BundleResource Include="Resources\icEdit%402x.png" />
+    <BundleResource Include="Resources\icEdit%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

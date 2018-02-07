@@ -1,4 +1,5 @@
 ﻿using System;
+using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
@@ -13,6 +14,12 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
     public class ImageEntryRenderer : EntryRenderer
     {
         ImageEntry element;
+
+        public ImageEntryRenderer(Context context) : base(context)
+        {
+
+        }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {
             base.OnElementChanged(e);

@@ -23,8 +23,9 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 {
     public class ColorProgressBarRenderer : ProgressBarRenderer
     {
-        public ColorProgressBarRenderer()
+        public ColorProgressBarRenderer(Context context) : base(context)
         {
+
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.ProgressBar> e)

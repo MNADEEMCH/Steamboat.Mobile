@@ -45,13 +45,20 @@
                 <Setter Property="BackgroundColor" Value="White" />
                 <Setter Property="BorderColor" Value="{StaticResource LightGrayColor}" />
                 <Style.Triggers>
-                    <Trigger TargetType="customControl:WrappedButton" Property="IsEnabled" Value="False">
-                        <Setter Property="BorderWidth" Value="0" />
-                    </Trigger>
-                    <Trigger TargetType="customControl:WrappedButton" Property="Active" Value="True">
+                    <MultiTrigger TargetType="customControl:WrappedButton" >
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding IsActive}" Value="True" />
+                        </MultiTrigger.Conditions>
                         <Setter Property="BorderColor" Value="{StaticResource MomentumBlueColor}" />
                         <Setter Property="BorderWidth" Value="3" />
-                    </Trigger>
+                    </MultiTrigger>
+                    <MultiTrigger TargetType="customControl:WrappedButton" >
+                        <MultiTrigger.Conditions>                            
+                            <BindingCondition Binding="{Binding IsActive}" Value="False" />
+                            <BindingCondition Binding="{Binding IsAvailable}" Value="False" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="BorderWidth" Value="0" />
+                    </MultiTrigger> 
                 </Style.Triggers>                
             </Style>
             

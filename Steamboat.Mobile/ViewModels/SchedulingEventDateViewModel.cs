@@ -20,6 +20,7 @@ namespace Steamboat.Mobile.ViewModels
         private IParticipantManager _participantManager;
         private EventDate _prevEventListItemSelected;
         private ObservableCollection<EventDate> _schedulingEventDate;
+        private EventParameter _rescheduleEvent;
 
         public ObservableCollection<EventDate> SchedulingEventDate { get { return _schedulingEventDate; } set { SetPropertyValue(ref _schedulingEventDate, value); } }
         public ICommand CommandEventSelected { get; set; }
@@ -32,6 +33,39 @@ namespace Steamboat.Mobile.ViewModels
 
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
             CommandEventSelected = new Command(async (selectedevent) => await EventSelected(selectedevent));
+        }
+
+        public async override Task InitializeAsync(object parameter)
+        {
+            try
+            {
+                await LoadEvents();
+
+                var selectedEvent = parameter as EventParameter;
+                if (selectedEvent != null)
+                {
+                    SetSelectedItem(selectedEvent);
+                }
+            }
+            catch (Exception ex)
+            {
+                await DialogService.ShowAlertAsync(ex.Message, "Error", "OK");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private void SetSelectedItem(EventParameter selectedEvent)
+        {
+            _rescheduleEvent = selectedEvent;
+            var listEvent = SchedulingEventDate.FirstOrDefault(e => e.Id.ToString() == selectedEvent.RescheduleEvent.RescheduleEventId);
+            if (listEvent != null)
+            {
+                _prevEventListItemSelected = listEvent;
+                listEvent.IsActive = true;
+            }
         }
 
         private async Task EventSelected(object selectedevent)
@@ -47,23 +81,12 @@ namespace Steamboat.Mobile.ViewModels
 
                 var navigationParameter = new EventParameter();
                 navigationParameter.EventDate = SelectedEvent;
-                await NavigationService.NavigateToAsync<SchedulingTimeViewModel>(navigationParameter);
-            }
-        }
+                if (_rescheduleEvent != null)
+                {
+                    navigationParameter.RescheduleEvent = _rescheduleEvent.RescheduleEvent;
+                }
 
-        public async override Task InitializeAsync(object parameter)
-        {
-            try
-            {
-                await LoadEvents();
-            }
-            catch (Exception ex)
-            {
-                await DialogService.ShowAlertAsync(ex.Message, "Error", "OK");
-            }
-            finally
-            { 
-                IsLoading = false; 
+                await NavigationService.NavigateToAsync<SchedulingTimeViewModel>(navigationParameter);
             }
         }
 
@@ -87,7 +110,7 @@ namespace Steamboat.Mobile.ViewModels
                 FullAddress = e.FullAddress.Replace("<br/>", "\n"),
                 Distance = String.Format("{0}, miles", e.Distance.ToString("0.0")),
                 Date = e.Start.ToString("dddd, MMMM d", CultureInfo.InvariantCulture),
-                Time = String.Format("{0} to {1}", e.Start.ToString("h:mm tt", CultureInfo.InvariantCulture).ToLower(), 
+                Time = String.Format("{0} to {1}", e.Start.ToString("h:mm tt", CultureInfo.InvariantCulture).ToLower(),
                                      e.Finish.ToString("h:mm tt", CultureInfo.InvariantCulture).ToLower())
             };
         }

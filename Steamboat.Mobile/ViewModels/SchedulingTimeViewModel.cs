@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -43,14 +44,38 @@ namespace Steamboat.Mobile.ViewModels
             var selectedEvent = parameter as EventParameter;
             if (selectedEvent != null)
             {
-                _eventParameter = selectedEvent;
-                EventDate = _eventParameter.EventDate.Date;
-                var eventId = selectedEvent.EventDate.Id;
-                var list = await _participantManager.GetEventTimes(eventId);
-                EventTimeList = EventTimeHelper.GetList(list);
+                await LoadEventTimeslots(selectedEvent);
             }
 
             IsLoading = false;
+        }
+
+        private async Task LoadEventTimeslots(EventParameter selectedEvent)
+        {
+            _eventParameter = selectedEvent;
+            EventDate = _eventParameter.EventDate.Date;
+            var eventId = selectedEvent.EventDate.Id;
+            var list = await _participantManager.GetEventTimes(eventId);
+
+            if (_eventParameter.RescheduleEvent != null)
+            {
+                SetSelectedItem(selectedEvent, list);
+            }
+
+            EventTimeList = EventTimeHelper.GetList(list);
+        }
+
+        private void SetSelectedItem(EventParameter selectedEvent, List<EventTime> list)
+        {
+            var selectedElement = list.FirstOrDefault(t => t.ID.ToString() == _eventParameter.RescheduleEvent.RescheduleTimeId
+                                || CompareStartTimesDifferentEvents(t.Start, _eventParameter.RescheduleEvent.RescheduleStartTime,
+                                                                    selectedEvent.EventDate.Id, selectedEvent.RescheduleEvent.RescheduleEventId));
+            if (selectedElement != null)
+            {
+                selectedElement.IsActive = true;
+                selectedElement.IsAvailable = false;
+                _prevEventTime = selectedElement;
+            }
         }
 
         private async Task SelectTime(object param)
@@ -67,6 +92,11 @@ namespace Steamboat.Mobile.ViewModels
                 _eventParameter.EventTime = selected;
                 await NavigationService.NavigateToAsync<SchedulingConfirmationViewModel>(_eventParameter);
             }
+        }
+
+        private bool CompareStartTimesDifferentEvents(DateTime start, string rescheduleStartTime, int selectedId, string rescheduleId)
+        {
+            return DateTime.Parse(rescheduleStartTime).TimeOfDay.Equals(start.TimeOfDay) && selectedId.ToString().Equals(rescheduleId);
         }
     }
 }

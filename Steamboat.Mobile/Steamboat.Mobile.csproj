@@ -211,6 +211,7 @@
     <Compile Include="Models\Participant\DispositionSteps\DispositionStep.cs" />
     <Compile Include="Models\NavigationParameters\EventParameter.cs" />
     <Compile Include="CustomControls\Renderers\LinkButton.cs" />
+    <Compile Include="Models\Participant\RescheduleEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

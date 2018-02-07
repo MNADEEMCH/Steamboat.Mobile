@@ -14,9 +14,10 @@ namespace Steamboat.Mobile.Models.Participant.DispositionSteps
 
     public class Timeslot
     {
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
         public string Time { get; set; }
         public string Location { get; set; }
-
+        public string ID { get; set; }
+        public string EventID { get; set; }
     }
 }

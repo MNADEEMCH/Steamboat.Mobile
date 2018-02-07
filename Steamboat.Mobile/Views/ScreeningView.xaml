@@ -19,7 +19,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
-                <Setter Property="Margin" Value="16"></Setter>
+                <Setter Property="Margin" Value="16,16,16,0"></Setter>
             </Style>
             <Style x:Key="ImageContainerAbsoluteLayout" TargetType="AbsoluteLayout">
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
@@ -48,7 +48,7 @@
                 <Setter Property="HeightRequest" Value="24"></Setter>
                 <Setter Property="WidthRequest" Value="24"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
-                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="Start"></Setter>
             </Style>
             <Style x:Key="IndicatorLabel"  TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
@@ -62,28 +62,47 @@
                 <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
-                <Setter Property="Margin" Value="12"></Setter>
+                <Setter Property="Margin" Value="12,12,12,8"></Setter>
             </Style>
             <Style x:Key="ScreeningDetailsImage" TargetType="Image">
-                <Setter Property="HeightRequest" Value="24"></Setter>
-                <Setter Property="WidthRequest" Value="24"></Setter>
+                <Setter Property="HeightRequest" Value="20"></Setter>
+                <Setter Property="WidthRequest" Value="20"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
-                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="Start"></Setter>
             </Style>
             <Style x:Key="ScreeningDetailsGrid" TargetType="Grid">
-                <Setter Property="HorizontalOptions" Value="Center"></Setter>
-                <Setter Property="Margin" Value="30,0,30,12"></Setter>
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+                <Setter Property="Margin" Value="16,16,0,16"></Setter>
                 <Setter Property="IsVisible" Value="{Binding ShowDetails}"></Setter>
             </Style>
+            <Style x:Key="GridFrame" TargetType="customControl:CustomFrame">
+                <Setter Property="IsActive" Value="False"></Setter>
+                <Setter Property="HasShadow" Value="False"></Setter>
+                <Setter Property="Padding" Value="0"></Setter>
+                <Setter Property="Margin" Value="10,0"></Setter>
+                <Setter Property="OutlineColor" Value="{StaticResource LightGrayColor}"></Setter>
+            </Style>
             <Style x:Key="ScreeningDetailsLabel" TargetType="Label">
-                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
                 <Setter Property="FontSize" Value="14" />
-                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}"/>
+                <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}"/>
             </Style>
             <Style x:Key="ScreeningDetailsSeparatorBoxView" TargetType="BoxView">
                 <Setter Property="HeightRequest" Value="1"></Setter>
                 <Setter Property="Color" Value="{StaticResource LightGrayColor}"></Setter>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+            </Style>
+            <Style x:Key="EditCancelButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewaySemiBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="Margin" Value="0" />
             </Style>
 
         </ResourceDictionary>
@@ -95,13 +114,13 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ScrollView Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" VerticalOptions="FillAndExpand" >
-                <Grid>
+                <Grid RowSpacing="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="60"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <StackLayout Style="{StaticResource MainContainerStackLayout}">
+                    <StackLayout Grid.Row="0" Style="{StaticResource MainContainerStackLayout}">
                         <AbsoluteLayout Style="{StaticResource ImageContainerAbsoluteLayout}">
                             <ffimageloading:CachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}"/>
                             <ffimageloading:CachedImage Source="{Binding IconSource}" Style="{StaticResource IconImage}"/>
@@ -115,32 +134,40 @@
                                 </ffimageloading:CachedImage.GestureRecognizers>
                             </ffimageloading:CachedImage>
                         </StackLayout>
+                        
                         <Label Text="{Binding Steps}" Style="{StaticResource IndicatorLabel}"></Label>
                         <Label Text ="{Binding Message}" Style="{StaticResource DescriptionLabel}"></Label>
-                        <Grid Style="{StaticResource ScreeningDetailsGrid}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="1"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="1"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <ffimageloading:CachedImage Source="icCalendar.png" Style="{StaticResource ScreeningDetailsImage}"/>
-                            <Label Text="{Binding Date}" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
-                            <BoxView Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource ScreeningDetailsSeparatorBoxView}"/>
-                            <ffimageloading:CachedImage Source="icClock.png" Grid.Row="2" Style="{StaticResource ScreeningDetailsImage}"/>
-                            <Label Text="{Binding Time}" Grid.Row="2" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
-                            <BoxView Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource ScreeningDetailsSeparatorBoxView}"/>
-                            <ffimageloading:CachedImage Source="icLocation.png" Grid.Row="4" Style="{StaticResource ScreeningDetailsImage}"/>
-                            <Label Text="{Binding Address}" Grid.Row="4" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
-                        </Grid>
+                        <customControl:CustomFrame Style="{StaticResource GridFrame}" CornerRadius="5" >
+                            <Grid Style="{StaticResource ScreeningDetailsGrid}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <ffimageloading:CachedImage Grid.Row="0" Grid.Column="0" Source="icCalendarDisabled.png" Style="{StaticResource ScreeningDetailsImage}"/>
+                                <Label Text="{Binding Date}" Grid.Row="0" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                                <ffimageloading:CachedImage Grid.Row="1" Grid.Column="0" Source="icClockDisabled.png" Style="{StaticResource ScreeningDetailsImage}"/>
+                                <Label Text="{Binding Time}" Grid.Row="1" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                                <ffimageloading:CachedImage Grid.Row="2" Grid.Column="0" Source="icLocationDisabled.png" Style="{StaticResource ScreeningDetailsImage}" />
+                                <Label Text="{Binding Address}" Grid.Row="2" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                            </Grid>
+                        </customControl:CustomFrame>
 
-                        <Grid IsVisible="false" />
+                        <Grid Margin="12,0" HorizontalOptions="Center" RowSpacing="0" ColumnSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ffimageloading:CachedImage Grid.Column="0" Source="icEdit.png" Style="{StaticResource ScreeningDetailsImage}" VerticalOptions="Center"/>
+                            <customControl:LinkButton Grid.Column="1" Text="EDIT/CANCEL APPOINTMENT" Style="{StaticResource EditCancelButton}" Command="{Binding RescheduleCommand}" />
+                        </Grid>
+                        
                     </StackLayout>
+
                     <views:StepperView x:Name="Stepper" Grid.Row="1"/>
                 </Grid>
             </ScrollView>

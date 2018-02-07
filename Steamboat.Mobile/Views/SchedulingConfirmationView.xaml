@@ -46,7 +46,7 @@
                 <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
             </Style>
             <Style x:Key="NoEditButton" TargetType="customControl:LinkButton">
-                <Setter Property="FontFamily" Value="{DynamicResource RelawayBold}" />
+                <Setter Property="FontFamily" Value="{DynamicResource RalewaySemiBold}" />
                 <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
                 <Setter Property="FontSize" Value="16" />

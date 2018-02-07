@@ -21,6 +21,7 @@
 
 using System;
 using System.ComponentModel;
+using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
 using Steamboat.Mobile.CustomControls;
@@ -34,6 +35,11 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
     public class CheckboxRenderer : ViewRenderer<Checkbox, Android.Widget.CheckBox>
     {
         private ColorStateList defaultTextColor;
+
+        public CheckboxRenderer(Context context) : base(context)
+        {
+
+        }
 
         /// <summary>
         /// Called when [element changed].

@@ -4,12 +4,20 @@ using Xamarin.Forms.Platform.Android;
 using Android.Graphics;
 using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.Droid.CustomRenderers;
+using Android.Content;
 
 [assembly: ExportRenderer(typeof(CustomFrame), typeof(CustomFrameRenderer))]
 namespace Steamboat.Mobile.Droid.CustomRenderers
 {
-    public class CustomFrameRenderer : Xamarin.Forms.Platform.Android.FrameRenderer
+    public class CustomFrameRenderer : FrameRenderer
     {
+        Context _localContext;
+
+        public CustomFrameRenderer(Context context) : base(context)
+        {
+            _localContext = context;
+        }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             base.OnElementChanged(e);
@@ -17,7 +25,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             if (e.OldElement != null || e.NewElement == null)
                 return;
 
-            Invalidate();//Force draw
+            Invalidate(); //Force draw
         }
 
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -45,8 +53,8 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             using (Paint.Style style = Paint.Style.Stroke)
             using (var rect = new RectF(0, 0, width, height))
             {
-                float rx = Forms.Context.ToPixels(element.CornerRadius);
-                float ry = Forms.Context.ToPixels(element.CornerRadius);
+                float rx = _localContext.ToPixels(element.CornerRadius);
+                float ry = _localContext.ToPixels(element.CornerRadius);
                 path.AddRoundRect(rect, rx, ry, direction);
 
                 Android.Graphics.Color borderColor = element.IsActive?

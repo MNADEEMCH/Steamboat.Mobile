@@ -9,7 +9,7 @@ namespace Steamboat.Mobile.CustomControls
             BindableProperty.Create(nameof(Padding), typeof(Thickness), typeof(WrappedButton), default(Thickness));
 
         public static readonly BindableProperty ActiveProperty =
-            BindableProperty.Create(nameof(Active), typeof(bool), typeof(Checkbox), false, BindingMode.TwoWay);
+            BindableProperty.Create(nameof(Active), typeof(bool), typeof(WrappedButton), false, BindingMode.TwoWay);
 
         public Thickness Padding
         {

@@ -7,5 +7,6 @@ namespace Steamboat.Mobile.Models.NavigationParameters
     {
         public EventDate EventDate { get; set; }
         public EventTime EventTime { get; set; }
+        public RescheduleEvent RescheduleEvent { get; set; }
     }
 }

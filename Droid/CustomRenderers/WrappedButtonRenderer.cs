@@ -1,4 +1,5 @@
 ﻿using System;
+using Android.Content;
 using Android.Support.V4.View;
 using Android.Views;
 using Steamboat.Mobile.CustomControls;
@@ -11,6 +12,11 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 {
     public class WrappedButtonRenderer : ButtonRenderer
     {
+        public WrappedButtonRenderer(Context context) : base(context)
+        {
+
+        }
+
         protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Button> e)
         {
             base.OnElementChanged(e);

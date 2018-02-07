@@ -6,12 +6,18 @@ using Steamboat.Mobile.Droid.CustomRenderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android.AppCompat;
 using Android.Support.V4.View;
+using Android.Content;
 
 [assembly: ExportRenderer(typeof(GradientRoundedButton), typeof(GradientRoundedButtonRenderer))]
 namespace Steamboat.Mobile.Droid.CustomRenderers
 {
     public class GradientRoundedButtonRenderer : ButtonRenderer
     {
+        public GradientRoundedButtonRenderer(Context context) : base(context)
+        {
+
+        }
+
         protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Button> e)
         {
             base.OnElementChanged(e);
