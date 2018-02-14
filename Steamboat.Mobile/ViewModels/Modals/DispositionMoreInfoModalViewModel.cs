@@ -1,20 +1,12 @@
 ﻿using Steamboat.Mobile.Models.Modal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.Forms;
+
 
 namespace Steamboat.Mobile.ViewModels.Modals
 {
     public class DispositionMoreInfoModalViewModel:ModalViewModelBase
     {
         #region Properties
-
-        public ICommand CloseModalCommand { get; set; }
-
         private string _iconSource;
         public string IconSource
         {
@@ -37,10 +29,9 @@ namespace Steamboat.Mobile.ViewModels.Modals
         }
         #endregion
 
-        public DispositionMoreInfoModalViewModel()
+        public DispositionMoreInfoModalViewModel():base()
         {
-            IsLoading = true;
-            CloseModalCommand = new Command(async () => await CloseModal());
+            
         }
 
         public override Task InitializeAsync(object parameter)

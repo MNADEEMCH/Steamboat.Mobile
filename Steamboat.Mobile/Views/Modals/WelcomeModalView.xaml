@@ -42,9 +42,8 @@
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="Margin" Value="12"></Setter>
             </Style>
-            <Style x:Key="GoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
+            <Style x:Key="GoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
                 <Setter Property="Margin" Value="10,16,10,0" />
-                <Setter Property="ShadowColorEnabled" Value="{StaticResource GrayColor}" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
             </Style>
         </ResourceDictionary>

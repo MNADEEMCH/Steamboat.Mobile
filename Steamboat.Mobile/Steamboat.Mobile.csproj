@@ -54,7 +54,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\SchedulingTimeView.xaml">
+    <EmbeddedResource Include="Views\SchedulingEventTimeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -63,6 +63,10 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ReportDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Modals\ScreeningCancelConfirmationModalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -191,9 +195,9 @@
       <DependentUpon>StepperView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SchedulingTimeView.xaml.cs">
-      <DependentUpon>SchedulingTimeView.xaml</DependentUpon>
+      <DependentUpon>SchedulingEventTimeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\SchedulingTimeViewModel.cs" />
+    <Compile Include="ViewModels\SchedulingEventTimeViewModel.cs" />
     <Compile Include="Models\Participant\Event.cs" />
     <Compile Include="Models\Participant\EventTime.cs" />
     <Compile Include="Models\Participant\EventDate.cs" />
@@ -222,6 +226,11 @@
     <Compile Include="CustomControls\Renderers\LinkButton.cs" />
     <Compile Include="Helpers\WebViewRendererHelper.cs" />
     <Compile Include="Models\Participant\RescheduleEvent.cs" />
+    <Compile Include="Views\Modals\ScreeningCancelConfirmationModalView.xaml.cs">
+      <DependentUpon>ScreeningCancelConfirmationModalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Modals\ScreeningCancelConfirmationModalViewModel.cs" />
+    <Compile Include="ViewModels\SchedulingEventAppointmentModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

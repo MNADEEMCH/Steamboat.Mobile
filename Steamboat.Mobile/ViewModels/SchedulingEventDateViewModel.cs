@@ -1,9 +1,7 @@
 ﻿using Steamboat.Mobile.Models.Participant;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
 using Steamboat.Mobile.Managers.Participant;
@@ -13,25 +11,19 @@ using Steamboat.Mobile.Models.NavigationParameters;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class SchedulingEventDateViewModel : ViewModelBase
+    public class SchedulingEventDateViewModel : SchedulingEventAppointmentModelBase
     {
         #region Properties
-
-        private IParticipantManager _participantManager;
         private EventDate _prevEventListItemSelected;
         private ObservableCollection<EventDate> _schedulingEventDate;
         private EventParameter _rescheduleEvent;
 
         public ObservableCollection<EventDate> SchedulingEventDate { get { return _schedulingEventDate; } set { SetPropertyValue(ref _schedulingEventDate, value); } }
         public ICommand CommandEventSelected { get; set; }
-
         #endregion
 
-        public SchedulingEventDateViewModel(IParticipantManager participantManager = null)
+        public SchedulingEventDateViewModel(IParticipantManager participantManager = null):base(participantManager)
         {
-            IsLoading = true;
-
-            _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
             CommandEventSelected = new Command(async (selectedevent) => await EventSelected(selectedevent));
         }
 
@@ -39,13 +31,15 @@ namespace Steamboat.Mobile.ViewModels
         {
             try
             {
-                await LoadEvents();
-
                 var selectedEvent = parameter as EventParameter;
-                if (selectedEvent != null)
-                {
+                var isAnySelectedEvent = selectedEvent != null;
+                var isRescheduling = isAnySelectedEvent&&selectedEvent.RescheduleEvent!=null;
+
+                ShowCancelAppointment = isRescheduling;
+                SchedullingEventTitle = isRescheduling ? "Edit appointment":"Pick a place";
+                await LoadEvents();
+                if (isAnySelectedEvent)
                     SetSelectedItem(selectedEvent);
-                }
             }
             catch (Exception ex)
             {
@@ -54,6 +48,18 @@ namespace Steamboat.Mobile.ViewModels
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        private async Task LoadEvents()
+        {
+            var events = await _participantManager.GetEvents();
+
+            SchedulingEventDate = new ObservableCollection<EventDate>();
+            foreach (Event e in events)
+            {
+                var eventToAdd = ConvertEventToEventListItem(e);
+                SchedulingEventDate.Add(eventToAdd);
             }
         }
 
@@ -86,21 +92,11 @@ namespace Steamboat.Mobile.ViewModels
                     navigationParameter.RescheduleEvent = _rescheduleEvent.RescheduleEvent;
                 }
 
-                await NavigationService.NavigateToAsync<SchedulingTimeViewModel>(navigationParameter);
+                await NavigationService.NavigateToAsync<SchedulingEventTimeViewModel>(navigationParameter);
             }
         }
 
-        private async Task LoadEvents()
-        {
-            var events = await _participantManager.GetEvents();
 
-            SchedulingEventDate = new ObservableCollection<EventDate>();
-            foreach (Event e in events)
-            {
-                var eventToAdd = ConvertEventToEventListItem(e);
-                SchedulingEventDate.Add(eventToAdd);
-            }
-        }
 
         private EventDate ConvertEventToEventListItem(Event e)
         {

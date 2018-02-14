@@ -287,6 +287,9 @@
     <BundleResource Include="Resources\icEdit.png" />
     <BundleResource Include="Resources\icEdit%402x.png" />
     <BundleResource Include="Resources\icEdit%403x.png" />
+    <BundleResource Include="Resources\icDelete.png" />
+    <BundleResource Include="Resources\icDelete%402x.png" />
+    <BundleResource Include="Resources\icDelete%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

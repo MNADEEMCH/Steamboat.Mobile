@@ -3,10 +3,10 @@ namespace Steamboat.Mobile.Models.Participant.DispositionSteps
 {
     public class ScreeningStep: DispositionStep
     {
-        public Detail Detail { get; set; }
+        public ScreeningDetail Detail { get; set; }
     }
 
-    public class Detail
+    public class ScreeningDetail
     {
         public Timeslot Timeslot { get; set; }
     }

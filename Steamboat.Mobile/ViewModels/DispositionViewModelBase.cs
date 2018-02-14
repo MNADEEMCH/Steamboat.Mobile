@@ -75,11 +75,8 @@ namespace Steamboat.Mobile.ViewModels
             {
 
                 Status status = parameter as Status;
-
                 IsStatusValid(status);
-
                 DispositionStep dispositionStep = DashboardHelper.GetDispositionStep(status);
-
                 IsDispositionStepValid(dispositionStep);
 
                 await InitializeDispositionStep(status, dispositionStep);
@@ -129,9 +126,19 @@ namespace Steamboat.Mobile.ViewModels
         private async Task<StepperParam> InitializeStepper(Status status)
         {
             StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
-            await InitializeStepper(stepperParam);
+            await _stepperViewModel.InitializeAsync(stepperParam);
             return stepperParam;
 
+        }
+
+        private void InitializeModalMoreInfo(DispositionStep dispositionStep)
+        {
+            ModalMoreInfo = new ModalParam()
+            {
+                IconSource = IconSource,
+                Title = dispositionStep.InformationTitle,
+                Message = dispositionStep.InformationMessage.Replace("<br/>", "\n")
+            };
         }
 
         private void ShowNotifications(Status status)
@@ -145,8 +152,6 @@ namespace Steamboat.Mobile.ViewModels
                 });
             }
         }
-
-
         private ModalParam IsAnyNotificationToShow(Status status)
         {
             ModalParam modalParam = null;
@@ -166,24 +171,6 @@ namespace Steamboat.Mobile.ViewModels
             }
 
             return modalParam;
-        }
-
-
-        private void InitializeModalMoreInfo(DispositionStep dispositionStep)
-        {
-            ModalMoreInfo = new ModalParam()
-            {
-                IconSource = IconSource,
-                Title = dispositionStep.InformationTitle,
-                Message = dispositionStep.InformationMessage.Replace("<br/>", "\n")
-            };
-        }
-
-
-
-        private async Task InitializeStepper(StepperParam stepperParam)
-        {
-            await _stepperViewModel.InitializeAsync(stepperParam);
         }
 
 

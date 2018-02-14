@@ -31,6 +31,7 @@ namespace Steamboat.Mobile.Droid
             ResolveDependencies();
             CachedImageRenderer.Init(true);
             var ignore = typeof(SvgCachedImage);
+            UserDialogs.Init(this);
             LoadApplication(new App());
             //LoadApplication(UXDivers.Gorilla.Droid.Player.CreateApplication(this,
             //    new UXDivers.Gorilla.Config("Good Gorilla")

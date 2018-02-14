@@ -10,11 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Steamboat.Mobile.Models.Participant.DispositionSteps;
 
 namespace Steamboat.Mobile.ViewModels
 {
     public class SchedulingViewModel : DispositionViewModelBase
     {
+
+        #region Properties
+
+        private bool _mainButtonVisible;
+
+        public bool MainButtonVisible { set { SetPropertyValue(ref _mainButtonVisible, value); } get { return _mainButtonVisible; } } 
+        
+        #endregion
+
         public SchedulingViewModel(StepperViewModel stepperViewModel = null) : base(stepperViewModel)
         {
             IsLoading = true;
@@ -26,5 +36,12 @@ namespace Steamboat.Mobile.ViewModels
         {
             await NavigationService.NavigateToAsync<SchedulingEventDateViewModel>();
         }
+
+        protected override void InitializeSpecificStep(Status status)
+        {
+            SchedulingStep schedulingStep = status.Dashboard.SchedulingStep;
+            MainButtonVisible = schedulingStep.Detail != null && schedulingStep.Detail.EventCount > 0;
+        }
+
     }
 }

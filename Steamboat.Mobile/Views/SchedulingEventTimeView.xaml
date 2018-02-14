@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="Steamboat.Mobile.Views.SchedulingTimeView"
+    x:Class="Steamboat.Mobile.Views.SchedulingEventTimeView"
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
     xmlns:extensions="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile"
     BackgroundColor="{StaticResource ViewBackground}"
-    Title="Pick a time">
+    Title="{Binding SchedullingEventTitle}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <extensions:EventDateConverter x:Key="EventDate" />
+             <Style x:Key="MainFormGrid" TargetType="Grid">
+                <Setter Property="RowSpacing" Value="0" />
+                <Setter Property="ColumnSpacing" Value="0" />
+                <Setter Property="IsVisible" Value="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+            </Style>
             <Style x:Key="HeaderLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
                 <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
@@ -26,7 +31,7 @@
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="VerticalTextAlignment" Value="Center" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
-                <Setter Property="Margin" Value="0,14" />
+                <Setter Property="Margin" Value="0,0,0,14" />
             </Style>
 
             <Style x:Key="DataGrid" TargetType="customControl:DataGrid">
@@ -61,7 +66,24 @@
                     </MultiTrigger> 
                 </Style.Triggers>                
             </Style>
-            
+            <Style x:Key="FooterStackLayout" TargetType="StackLayout">
+                <Setter Property="BackgroundColor" Value="{StaticResource SubtleGrayColor}" />
+                <Setter Property="HorizontalOptions" Value="Fill" />
+                <Setter Property="IsVisible" Value="{Binding ShowCancelAppointment}" />
+            </Style>
+            <Style x:Key="CancelAppointmentLinkButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,10" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 	<ContentPage.Content>
@@ -70,15 +92,16 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <!--MAIN FORM-->
-            <Grid Grid.Row="0" RowSpacing="0" ColumnSpacing="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" >
+            <Grid Grid.Row="0" Style="{StaticResource MainFormGrid}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
                 <Label Grid.Row="0" Text="When can you attend the screening?" Style="{StaticResource HeaderLabel}" />
                                     
-                <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand" Padding="25,0" >
+                <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand" Padding="20">
                     <Grid VerticalOptions="Start" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -97,7 +120,12 @@
                             </customControl:DataGrid.DataTemplate>
                         </customControl:DataGrid>
                     </Grid>
-                </ScrollView>                
+                </ScrollView>  
+                <StackLayout Grid.Row="2" Style="{StaticResource FooterStackLayout}">               
+                    <customControl:LinkButton Style="{StaticResource CancelAppointmentLinkButton}"
+                        Command="{Binding CancelAppointmentConfirmCommand}"
+                        Text="CANCEL APPOINTMENT" Image="icDelete.png"/>               
+                </StackLayout>
             </Grid>
             
             <ActivityIndicator

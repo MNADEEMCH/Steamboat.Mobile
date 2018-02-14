@@ -40,7 +40,7 @@
                 <Setter Property="Color" Value="{StaticResource LightGrayColor}"></Setter>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
             </Style>
-            <Style x:Key="GoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
+            <Style x:Key="MainActionButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
                 <Setter Property="Margin" Value="0,20,0,10" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
@@ -57,7 +57,7 @@
                 <Setter Property="BorderRadius" Value="0" />
                 <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
             </Style>
-            <Style x:Key="MainIndicator" TargetType="ActivityIndicator">
+            <Style x:Key="MainActionIndicator" TargetType="ActivityIndicator">
                 <Setter Property="WidthRequest" Value="40" />
                 <Setter Property="HeightRequest" Value="40" />
                 <Setter Property="Color" Value="{StaticResource MomentumBlueColor}" />
@@ -103,11 +103,11 @@
                             <Label Text="{Binding Address}" Grid.Row="4" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
                         </Grid>
                     
-                        <customControl:GradientRoundedButton  Text="YES, CONFIRM" Style="{StaticResource GoButton}" Command="{Binding ConfirmEventCommand}" />
+                        <customControl:GradientRoundedButton  Text="YES, CONFIRM" Style="{StaticResource MainActionButton}" Command="{Binding ConfirmEventCommand}" />
                         <Grid IsVisible="false" />
-                        <ActivityIndicator Style="{StaticResource MainIndicator}" IsVisible="{Binding IsBusy}" />
+                        <ActivityIndicator Style="{StaticResource MainActionIndicator}" IsVisible="{Binding IsBusy}" />
 
-                    <customControl:LinkButton Text="NO, EDIT" Style="{StaticResource NoEditButton}" Command="{Binding NoEditCommand}" />
+                        <customControl:LinkButton Text="NO, EDIT" Style="{StaticResource NoEditButton}" Command="{Binding NoEditCommand}" />
                     
                 </StackLayout>            
             </Grid>         

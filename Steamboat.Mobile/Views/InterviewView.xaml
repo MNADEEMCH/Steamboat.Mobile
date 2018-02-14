@@ -64,7 +64,7 @@
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="Margin" Value="12"></Setter>
             </Style>
-            <Style x:Key="MainActionButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
+            <Style x:Key="MainActionButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
                 <Setter Property="Margin" Value="0,5,0,0" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>

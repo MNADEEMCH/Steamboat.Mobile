@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,14 +12,13 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class SchedulingTimeViewModel : ViewModelBase
+    public class SchedulingEventTimeViewModel : SchedulingEventAppointmentModelBase
     {
         #region Properties
 
         private bool _buttonEnabled;
         private string _eventDate;
         private ObservableCollection<ObservableCollection<EventTime>> _eventTimeList;
-        private IParticipantManager _participantManager;
         private EventTime _prevEventTime;
         private EventParameter _eventParameter;
 
@@ -31,7 +29,7 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-        public SchedulingTimeViewModel(IParticipantManager participantManager = null)
+        public SchedulingEventTimeViewModel(IParticipantManager participantManager = null):base(participantManager)
         {
             IsLoading = true;
 
@@ -42,26 +40,28 @@ namespace Steamboat.Mobile.ViewModels
         public async override Task InitializeAsync(object parameter)
         {
             var selectedEvent = parameter as EventParameter;
-            if (selectedEvent != null)
-            {
+            var isAnySelectedEvent = selectedEvent != null;
+            var isRescheduling = selectedEvent.RescheduleEvent != null;
+
+            ShowCancelAppointment = isRescheduling;
+            SchedullingEventTitle = isRescheduling ? "Edit appointment" : "Pick a time";
+
+            if (isAnySelectedEvent)
                 await LoadEventTimeslots(selectedEvent);
-            }
 
             IsLoading = false;
         }
 
         private async Task LoadEventTimeslots(EventParameter selectedEvent)
         {
-            _eventParameter = selectedEvent;
-            EventDate = _eventParameter.EventDate.Date;
             var eventId = selectedEvent.EventDate.Id;
             var list = await _participantManager.GetEventTimes(eventId);
+            bool isRescheduling = selectedEvent.RescheduleEvent != null;
 
-            if (_eventParameter.RescheduleEvent != null)
-            {
+            _eventParameter = selectedEvent;
+            EventDate = selectedEvent.EventDate.Date;
+            if (isRescheduling)
                 SetSelectedItem(selectedEvent, list);
-            }
-
             EventTimeList = EventTimeHelper.GetList(list);
         }
 
@@ -98,5 +98,6 @@ namespace Steamboat.Mobile.ViewModels
         {
             return DateTime.Parse(rescheduleStartTime).TimeOfDay.Equals(start.TimeOfDay) && selectedId.ToString().Equals(rescheduleId);
         }
+
     }
 }

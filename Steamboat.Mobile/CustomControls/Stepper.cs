@@ -30,7 +30,8 @@ namespace Steamboat.Mobile.CustomControls
             var stepper = (Stepper)bindable;
             stepper.InitializeExcecute = (int)newValue;
             if(stepper.InitializeExcecute!=0)
-                stepper.Initialize();
+                stepper.DrawStepper();
+            stepper.InitializeExcecute = 0;
         }
         public int InitializeExcecute
         {
@@ -38,25 +39,6 @@ namespace Steamboat.Mobile.CustomControls
             set
             {
                 SetValue(InitializeExcecuteProperty, value);
-            }
-        }
-
-        public static BindableProperty RefreshExcecuteProperty =
-            BindableProperty.Create(nameof(RefreshExcecute), typeof(int), typeof(Stepper), 0, BindingMode.TwoWay, propertyChanged: HandleRefreshExecutePropertyChanged);
-        public static void HandleRefreshExecutePropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var stepper = (Stepper)bindable;
-            stepper.RefreshExcecute = (int)newValue;
-            if (stepper.RefreshExcecute != 0)
-                stepper.Refresh();
-
-        }
-        public int RefreshExcecute
-        {
-            get { return (int)GetValue(RefreshExcecuteProperty); }
-            set
-            {
-                SetValue(RefreshExcecuteProperty, value);
             }
         }
 
@@ -220,13 +202,8 @@ namespace Steamboat.Mobile.CustomControls
             _colorProgressBar.Style = ProgressBarStyle;
         }
 
-        public void Initialize()
-        {
-            if (Steps > 0)
-                AddSteps();
-
-        }
-        public void Refresh(){
+        public void DrawStepper(){
+            AddSteps();
             ProgressFromStepToStep(PreviousStep, CurrentStep);
         }
 
@@ -237,35 +214,49 @@ namespace Steamboat.Mobile.CustomControls
             _stepsProgressLabels = new List<Label>();
             if (Steps == 4)
             {
-                string imgSource = GetImageSourceForStep(PreviousStep, 1);
+                int step = 1;
+                string imgSource = GetImageSourceForStep(PreviousStep, step);
+                Style labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 0);
-                AddStepLabel("INTERVIEW", 0, -28);
+                AddStepLabel(labelStyle,"INTERVIEW", 0, -28);
 
-                imgSource = GetImageSourceForStep(PreviousStep, 2);
+                step = 2;
+                imgSource = GetImageSourceForStep(PreviousStep, step);
+                labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 0.33);
-                AddStepLabel("SCHEDULING", 0.33, -33);
+                AddStepLabel(labelStyle,"SCHEDULING", 0.33, -33);
 
-                imgSource = GetImageSourceForStep(PreviousStep, 3);
+                step = 3;
+                imgSource = GetImageSourceForStep(PreviousStep, step);
+                labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 0.66);
-                AddStepLabel("SCREENING", 0.66, -28);
+                AddStepLabel(labelStyle,"SCREENING", 0.66, -28);
 
-                imgSource = GetImageSourceForStep(PreviousStep, 4);
+                step = 4;
+                imgSource = GetImageSourceForStep(PreviousStep, step);
+                labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 1);
-                AddStepLabel("REPORT", 1, -19);
+                AddStepLabel(labelStyle,"REPORT", 1, -19);
             }
             else if (Steps == 3)
             {
-                string imgSource = GetImageSourceForStep(PreviousStep, 1);
+                int step = 1;
+                string imgSource = GetImageSourceForStep(PreviousStep, step);
+                Style labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 0);
-                AddStepLabel("SCHEDULING", 0, -33);
+                AddStepLabel(labelStyle,"SCHEDULING", 0, -33);
 
-                imgSource = GetImageSourceForStep(PreviousStep, 2);
+                step = 2;
+                imgSource = GetImageSourceForStep(PreviousStep, step);
+                labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 0.5);
-                AddStepLabel("SCREENING", 0.5, -30);
+                AddStepLabel(labelStyle,"SCREENING", 0.5, -30);
 
-                imgSource = GetImageSourceForStep(PreviousStep, 3);
+                step = 3;
+                imgSource = GetImageSourceForStep(PreviousStep, step);
+                labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 1);
-                AddStepLabel("REPORT", 1, -19);
+                AddStepLabel(labelStyle,"REPORT", 1, -19);
             }
 
         }
@@ -273,6 +264,15 @@ namespace Steamboat.Mobile.CustomControls
         private async void ProgressFromStepToStep(int fromStep, int toStep)
         {
             _colorProgressBar.Progress = GetProgressForStep(Steps, fromStep);
+
+            if (fromStep < toStep)
+                await DrawProgress(fromStep, toStep);
+            else if(fromStep > toStep)
+                await DrawUnprogress(fromStep, toStep);
+                
+        }
+
+        private async Task DrawProgress(int fromStep, int toStep){
             Label labelFrom = GetLabelByStep(fromStep);
             Label labelTo = GetLabelByStep(toStep);
 
@@ -283,6 +283,24 @@ namespace Steamboat.Mobile.CustomControls
             {
                 GetImageByStep(fromStep).Source = GetImageSourceForStep(toStep, fromStep);
                 fromStep++;
+                var progressTo = GetProgressForStep(Steps, fromStep);
+                await _colorProgressBar.ProgressTo(progressTo, (uint)ProgressLength, Easing.SinOut);
+            }
+
+            GetImageByStep(toStep).Source = GetImageSourceForStep(toStep, fromStep);
+        }
+
+        private async Task DrawUnprogress(int fromStep, int toStep){
+            Label labelFrom = GetLabelByStep(fromStep);
+            Label labelTo = GetLabelByStep(toStep);
+
+            labelFrom.Style = StepInactiveLabelStyle;
+            labelTo.Style = StepActiveLabelStyle;
+
+            while (fromStep > toStep)
+            {
+                GetImageByStep(fromStep).Source = GetImageSourceForStep(toStep,fromStep);
+                fromStep--;
                 var progressTo = GetProgressForStep(Steps, fromStep);
                 await _colorProgressBar.ProgressTo(progressTo, (uint)ProgressLength, Easing.SinOut);
             }
@@ -319,10 +337,10 @@ namespace Steamboat.Mobile.CustomControls
             return (stepperWith * stepperXRelativePercentage) - imageHalfSize;
         }
 
-        private void AddStepLabel(string label, double parentXRelativePercentage, double constantForLabel)
+        private void AddStepLabel(Style labelStyle, string label, double parentXRelativePercentage, double constantForLabel)
         {
             Label stepLabel = new Label();
-            stepLabel.Style = StepInactiveLabelStyle;
+            stepLabel.Style = labelStyle;
             stepLabel.Text = label;
 
             this.Children.Add(stepLabel,

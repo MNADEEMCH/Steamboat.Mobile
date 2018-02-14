@@ -36,7 +36,6 @@
             PreviousStep="{Binding PreviousStep}"
             CurrentStep="{Binding CurrentStep}"
             InitializeExcecute="{Binding InitializeExcecute}"
-            RefreshExcecute ="{Binding RefreshExcecute}"
             ProgressBarStyle="{StaticResource ProgressBar}"
             StepImageStyle="{StaticResource StepImage}"
             StepInactiveLabelStyle="{StaticResource StepInactiveLabel}"   

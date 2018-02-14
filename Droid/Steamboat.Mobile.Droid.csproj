@@ -272,6 +272,9 @@
     <AndroidResource Include="Resources\drawable-hdpi\icEdit.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icEdit.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icEdit.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icDelete.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icDelete.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icDelete.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

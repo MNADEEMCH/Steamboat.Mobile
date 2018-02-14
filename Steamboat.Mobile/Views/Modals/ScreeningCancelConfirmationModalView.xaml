@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<popup:PopupPage  xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:modalViewModelBase="clr-namespace:Steamboat.Mobile.ViewModels.Modals;assembly=Steamboat.Mobile"
+    x:Class="Steamboat.Mobile.Views.Modals.ScreeningCancelConfirmationModalView"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    modalViewModelBase:ModalViewModelAutoWire.AutoWireViewModel="True"
+    BackgroundColor="{StaticResource ModalBackground}"
+    CloseWhenBackgroundIsClicked="False">
+
+    <popup:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MsgLabel"  TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource RalewaySemiBold}" />
+                <Setter Property="TextColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="End"></Setter>
+                <Setter Property="Margin" Value="30,0,30,20" />
+            </Style>
+            <Style x:Key="ButtonsStackLayout"  TargetType="StackLayout">
+                <Setter Property="Spacing" Value="16"></Setter>
+                <Setter Property="Margin" Value="0,20,0,0" />
+            </Style>
+            <Style x:Key="DeleteButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource RedGradientButton}">
+                <Setter Property="Margin" Value="60,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="ShadowColorEnabled" Value="Black"></Setter>
+                <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
+            </Style>
+            <Style x:Key="GoBackButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource WhiteColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
+            </Style>
+            <Style x:Key="MainActionIndicator" TargetType="ActivityIndicator">
+                <Setter Property="WidthRequest" Value="40" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="Color" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="IsRunning" Value="true" />
+                <Setter Property="IsVisible" Value="{Binding IsBusy}"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </popup:PopupPage.Resources>
+    
+	<popup:PopupPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ScrollView Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" VerticalOptions="FillAndExpand">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Text="Are you sure you want to cancel your screening appointment?" Style="{StaticResource MsgLabel}"></Label>        
+                    <StackLayout Grid.Row="1" Style="{StaticResource ButtonsStackLayout}">
+                        <customControl:GradientRoundedButton Text="YES, DELETE" Command="{Binding CancelAppointmentCommand}" Style="{StaticResource DeleteButton}"/>
+                        <Grid IsVisible="false" />
+                        <customControl:LinkButton  Text="NO, GO BACK" Style="{StaticResource GoBackButton}" Command="{Binding CloseModalCommand}" />
+                        <ActivityIndicator Style="{StaticResource MainActionIndicator}" IsVisible="{Binding IsBusy}" /> 
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+            <ActivityIndicator
+                Grid.Row="0"
+                Color="{StaticResource MomentumBlueColor}"
+                IsRunning="{Binding IsLoading}"  
+                IsVisible="{Binding IsLoading}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="100" />
+        </Grid>
+	</popup:PopupPage.Content>
+    
+</popup:PopupPage>

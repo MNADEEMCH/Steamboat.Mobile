@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.Views
 {
-    public partial class SchedulingTimeView : ContentPage
+    public partial class SchedulingEventTimeView : ContentPage
     {
-        public SchedulingTimeView()
+        public SchedulingEventTimeView()
         {
             InitializeComponent();
         }

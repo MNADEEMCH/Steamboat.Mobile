@@ -50,6 +50,11 @@ namespace Steamboat.Mobile.Services.Participant
             return await _requestProvider.GetAsync<List<Event>>(url, sessionId);
         }
 
+        public async Task<List<Event>> CancelEvent(string sessionId){
+            string url = string.Format(ApiUrlBase + "{0}", "event/cancel");
+            return await _requestProvider.PostAsync<List<Event>>(url, sessionId);
+        }
+
         public async Task<Appointment> ConfirmEvent(int eventId,int eventTimeSlotId,string sessionId)
         {
 

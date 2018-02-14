@@ -239,7 +239,7 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
         }
 
         [Test]
-        public async Task StepperViewModel_Initialize_AlreadyInitialized()
+        public async Task StepperViewModel_Initialize_AlreadyInitializedMoveForwards()
         {
             StepperViewModel stepperViewModel = new StepperViewModel();
 
@@ -267,6 +267,38 @@ namespace Steamboat.Mobile.UnitTest.ViewModels
 
             Assert.AreEqual(1, stepperViewModel.PreviousStep);
             Assert.AreEqual(4, stepperViewModel.CurrentStep);
+
+        }
+
+        [Test]
+        public async Task StepperViewModel_Initialize_AlreadyInitializedMoveBack()
+        {
+            StepperViewModel stepperViewModel = new StepperViewModel();
+
+            Status status = new Status();
+            status.Dashboard = CreateDashBoard();
+
+            status.Dashboard.SurveyStep.Status = StatusEnum.Complete;
+            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
+            status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
+            status.Dashboard.ReportStep.Status = StatusEnum.Complete;
+            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
+
+            await stepperViewModel.InitializeAsync(stepperParam);
+
+            status = new Status();
+            status.Dashboard = CreateDashBoard();
+
+            status.Dashboard.SurveyStep.Status = StatusEnum.Pending;
+            status.Dashboard.SchedulingStep.Status = StatusEnum.Pending;
+            status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
+            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
+            stepperParam = DashboardHelper.GetStepperParameter(status);
+
+            await stepperViewModel.InitializeAsync(stepperParam);
+
+            Assert.AreEqual(4, stepperViewModel.PreviousStep);
+            Assert.AreEqual(1, stepperViewModel.CurrentStep);
 
         }
 

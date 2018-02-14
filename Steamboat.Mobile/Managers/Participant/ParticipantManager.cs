@@ -97,6 +97,19 @@ namespace Steamboat.Mobile.Managers.Participant
             }
         }
 
+        public async Task<List<Event>> CancelEvent()
+        {
+            try
+            {
+                return await _participantService.CancelEvent(App.SessionID);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error at confirm events: {ex}");
+                throw ex;
+            }
+        }
+
         public async Task<List<EventTime>> GetEventTimes(int eventId)
         {
             try

@@ -49,13 +49,14 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.Register(() => new ReportDetailsViewModel());
             Locator.CurrentMutable.Register(() => new ConsentsViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new StepperViewModel());
-            Locator.CurrentMutable.Register(() => new SchedulingTimeViewModel());
+            Locator.CurrentMutable.Register(() => new SchedulingEventTimeViewModel());
             Locator.CurrentMutable.Register(() => new SchedulingEventDateViewModel());            
             Locator.CurrentMutable.Register(() => new SchedulingConfirmationViewModel()); 
 
             //ModalViewModels
             Locator.CurrentMutable.Register(() => new DispositionMoreInfoModalViewModel());
             Locator.CurrentMutable.Register(() => new WelcomeModalViewModel());
+            Locator.CurrentMutable.Register(() => new ScreeningCancelConfirmationModalViewModel());
         }
 
         public static T Resolve<T>()

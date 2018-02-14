@@ -37,7 +37,7 @@
                 <Setter Property="IsPassword" Value="True" />
             </Style>
 
-            <Style x:Key="LoginButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
+            <Style x:Key="LoginButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
                 <Setter Property="Margin" Value="0,16,0,0" />
             </Style>           
 

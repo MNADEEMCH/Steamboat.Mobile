@@ -6,7 +6,7 @@
              xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="Steamboat.Mobile.Views.SchedulingEventDateView"
-             Title="Pick a place"
+             Title="{Binding SchedullingEventTitle}"
              BackgroundColor="{StaticResource ViewBackground}">
 
     <ContentPage.Resources>
@@ -94,6 +94,24 @@
                 <Setter Property="WidthRequest" Value="24"></Setter>
                 <Setter Property="VerticalOptions" Value="Center" />
             </Style>
+            <Style x:Key="FooterStackLayout" TargetType="StackLayout">
+                <Setter Property="BackgroundColor" Value="{StaticResource SubtleGrayColor}" />
+                <Setter Property="HorizontalOptions" Value="Fill" />
+                <Setter Property="IsVisible" Value="{Binding ShowCancelAppointment}" />
+            </Style>
+             <Style x:Key="CancelAppointmentLinkButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,10" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -105,6 +123,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Text="Which location/day works best for you?" Style="{StaticResource HeaderLabel}" />
@@ -155,12 +174,14 @@
 
                     <customControl:CustomListView.Footer>
                         <Grid HeightRequest="20" />
-                    </customControl:CustomListView.Footer>
-                    
-                </customControl:CustomListView>
-                
-            </Grid>
-            
+                    </customControl:CustomListView.Footer>               
+                </customControl:CustomListView> 
+                <StackLayout Grid.Row="2"  Style="{StaticResource FooterStackLayout}">               
+                    <customControl:LinkButton Style="{StaticResource CancelAppointmentLinkButton}"
+                    Command="{Binding CancelAppointmentConfirmCommand}" 
+                    Text="CANCEL APPOINTMENT" Image="icDelete.png"/>
+                </StackLayout>
+            </Grid>  
             <ActivityIndicator
             Grid.Row="0"
             Color="{StaticResource MomentumBlueColor}"

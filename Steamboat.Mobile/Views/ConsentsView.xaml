@@ -46,7 +46,7 @@
                 <Setter Property="FontSize" Value="12" />
             </Style>
 
-            <Style x:Key="SuperButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource GradientRoundedShadowButton}">
+            <Style x:Key="SuperButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
                 <Setter Property="Margin" Value="0,0,0,20" />
             </Style>
 

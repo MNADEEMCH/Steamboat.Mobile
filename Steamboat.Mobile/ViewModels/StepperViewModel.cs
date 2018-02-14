@@ -14,9 +14,6 @@ namespace Steamboat.Mobile.ViewModels
         private int _initializeExcecute;
         public int InitializeExcecute { set { SetPropertyValue(ref _initializeExcecute, value); } get { return _initializeExcecute; } }
 
-        private int _refreshExcecute;
-        public int RefreshExcecute { set { SetPropertyValue(ref _refreshExcecute, value); } get { return _refreshExcecute; } }
-
         private int _previousStep;
         public int PreviousStep { set { SetPropertyValue(ref _previousStep, value); } get { return _previousStep; } }
 
@@ -39,27 +36,36 @@ namespace Steamboat.Mobile.ViewModels
             StepperParam stepperParam = parameter as StepperParam;
             if (stepperParam!=null)
             {
+
                 if (!_stepperInitialized)
                 {
-                    Steps = stepperParam.Steps;
-                    CurrentStep = stepperParam.CurrentStep;
-                    PreviousStep = CurrentStep;
-                    _stepperInitialized = true;
-                    InitializeExcecute++;
+                    InitializeStepper(stepperParam.Steps, stepperParam.CurrentStep);
                 }
                 else
                 {
-                    PreviousStep = CurrentStep;
-                    CurrentStep = stepperParam.CurrentStep;
-
+                    RefreshStepper(stepperParam.CurrentStep);
                 }
-                RefreshExcecute++;
+
             }
             else
             {
                 //TODO: see how to handle when the stepper wont be loaded 
             }
             await base.InitializeAsync(true);
+        }
+
+        private void InitializeStepper(int steps, int currentStep){
+            Steps = steps;
+            CurrentStep = currentStep;
+            PreviousStep = CurrentStep;
+            _stepperInitialized = true;
+            InitializeExcecute++;
+        }
+
+        private void RefreshStepper(int currentStep){
+            PreviousStep = CurrentStep;
+            CurrentStep = currentStep;
+            InitializeExcecute++;
         }
 
         public override async Task Refresh()
@@ -71,8 +77,6 @@ namespace Steamboat.Mobile.ViewModels
             Steps = 0;
             _stepperInitialized = false;
             InitializeExcecute = 0;
-            RefreshExcecute = 0;
-
         }
 
     }
