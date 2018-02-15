@@ -47,7 +47,10 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
             var button = this.Element as GradientRoundedButton;
 
+            var bounds = new CGRect(0, 0, button.Width, button.Height);
+
             var gradientEnabled = new CAGradientLayer();
+            gradientEnabled.Bounds = bounds;
             gradientEnabled.CornerRadius = Control.Layer.CornerRadius = button.IOSBorderRadius;
             gradientEnabled.StartPoint = new CGPoint(0.0, 0.25);
             gradientEnabled.EndPoint = new CGPoint(1.0, 0.5);
@@ -58,6 +61,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             gradientEnabled.ShadowColor = button.ShadowColorEnabled.ToCGColor();
 
             var gradientDisabled = new CAGradientLayer();
+            gradientDisabled.Bounds = bounds;
             gradientDisabled.CornerRadius = Control.Layer.CornerRadius = button.IOSBorderRadius;
             gradientDisabled.StartPoint = new CGPoint(0.0, 0.25);
             gradientDisabled.EndPoint = new CGPoint(1.0, 0.5);
@@ -77,8 +81,6 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             UIImage imageDisabled = UIGraphics.GetImageFromCurrentImageContext();
             UIGraphics.EndImageContext();
 
-            var layer = Control?.Layer.Sublayers.LastOrDefault();
-
 
             Control?.SetBackgroundImage(imageEnabled,UIControlState.Normal);
             Control?.SetBackgroundImage(imageDisabled, UIControlState.Disabled);
@@ -89,6 +91,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             Control.ReverseTitleShadowWhenHighlighted = false;
         }
 
+      
 
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
