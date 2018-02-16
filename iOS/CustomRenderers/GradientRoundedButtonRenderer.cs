@@ -21,11 +21,19 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             if (e.OldElement != null || e.NewElement == null)
                 return;
 
+            if (e.NewElement != null)
+            {
+                var nativeButton = (UIButton)Control;
+                nativeButton.TouchDown += OnTouchDown;
+                nativeButton.TouchUpOutside += OnTouchUp;
+                nativeButton.TouchUpInside += OnTouchUp;
+            }
+
             var button = this.Element as GradientRoundedButton;
 
             if (button.DisabledTextColor != null)
                 Control?.SetTitleColor(button.DisabledTextColor.ToUIColor(), UIControlState.Disabled);
-            
+
             Control.ReverseTitleShadowWhenHighlighted = false;
         }
 
@@ -72,7 +80,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             shadowLayer.Bounds = ShadowBounds;
             shadowLayer.CornerRadius = Control.Layer.CornerRadius = BorderRadius;
             shadowLayer.ShadowOffset = new CGSize(0, 12);
-            shadowLayer.ShadowOpacity = 0.5f;
+            shadowLayer.ShadowOpacity = 0.7f;
             shadowLayer.ShadowRadius = 7;
             shadowLayer.ShadowColor = ShadowColor.ToCGColor();
             shadowLayer.ZPosition = -5;
@@ -96,6 +104,32 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             UIGraphics.EndImageContext();
 
             return image;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (Control != null)
+            {
+                Control.TouchDown -= OnTouchDown;
+                Control.TouchUpOutside -= OnTouchUp;
+                Control.TouchUpInside -= OnTouchUp;
+            }
+
+            base.Dispose(disposing);
+        }
+
+        private void OnTouchDown(object sender, EventArgs e)
+        {
+            var button = this.Element as GradientRoundedButton;
+            var shadowLayer = Control?.Layer.Sublayers[0] as CALayer;
+            shadowLayer.ShadowColor = Color.Transparent.ToCGColor();
+        }
+
+        private void OnTouchUp(object sender, EventArgs e)
+        {
+            var button = this.Element as GradientRoundedButton;
+            var shadowLayer = Control?.Layer.Sublayers[0] as CALayer;
+            shadowLayer.ShadowColor = button.ShadowColorEnabled.ToCGColor();
         }
 
 
