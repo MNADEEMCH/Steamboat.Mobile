@@ -13,22 +13,6 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 {
     public class GradientRoundedButtonRenderer : ButtonRenderer
     {
-        public override CGRect Frame
-        {
-            get
-            {
-                return base.Frame;
-            }
-            set
-            {
-                if (value.Width > 0 && value.Height > 0)
-                {
-                    foreach (var layer in Control?.Layer.Sublayers.Where(layer => layer is CAGradientLayer))
-                        layer.Frame = new CGRect(0, 0, value.Width, value.Height);
-                }
-                base.Frame = value;
-            }
-        }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Button> e)
         {
@@ -36,54 +20,8 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
             if (e.OldElement != null || e.NewElement == null)
                 return;
-            
-            if(e.NewElement != null)
-            {
-                var nativeButton = (UIButton)Control;
-                nativeButton.TouchDown += OnTouchDown;
-                nativeButton.TouchUpOutside += OnTouchUp;
-                nativeButton.TouchUpInside += OnTouchUp;
-            }
 
             var button = this.Element as GradientRoundedButton;
-
-            var bounds = new CGRect(0, 0, button.Width, button.Height);
-
-            var gradientEnabled = new CAGradientLayer();
-            gradientEnabled.Bounds = bounds;
-            gradientEnabled.CornerRadius = Control.Layer.CornerRadius = button.IOSBorderRadius;
-            gradientEnabled.StartPoint = new CGPoint(0.0, 0.25);
-            gradientEnabled.EndPoint = new CGPoint(1.0, 0.5);
-            gradientEnabled.ShadowOffset = new CGSize(0, 12);
-            gradientEnabled.ShadowOpacity = 0.5f;
-            gradientEnabled.ShadowRadius = 7;
-            gradientEnabled.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
-            gradientEnabled.ShadowColor = button.ShadowColorEnabled.ToCGColor();
-
-            var gradientDisabled = new CAGradientLayer();
-            gradientDisabled.Bounds = bounds;
-            gradientDisabled.CornerRadius = Control.Layer.CornerRadius = button.IOSBorderRadius;
-            gradientDisabled.StartPoint = new CGPoint(0.0, 0.25);
-            gradientDisabled.EndPoint = new CGPoint(1.0, 0.5);
-            gradientDisabled.ShadowOffset = new CGSize(0, 12);
-            gradientDisabled.ShadowOpacity = 0.5f;
-            gradientDisabled.ShadowRadius = 7;
-            gradientDisabled.Colors = new CGColor[] { button.DisabledColor.ToCGColor(), button.DisabledColor.ToCGColor() };
-            gradientDisabled.ShadowColor = button.ShadowColorEnabled.ToCGColor();
-
-            UIGraphics.BeginImageContext(gradientEnabled.Bounds.Size);
-            gradientEnabled.RenderInContext(UIGraphics.GetCurrentContext());
-            UIImage imageEnabled = UIGraphics.GetImageFromCurrentImageContext();
-            UIGraphics.EndImageContext();
-
-            UIGraphics.BeginImageContext(gradientDisabled.Bounds.Size);
-            gradientDisabled.RenderInContext(UIGraphics.GetCurrentContext());
-            UIImage imageDisabled = UIGraphics.GetImageFromCurrentImageContext();
-            UIGraphics.EndImageContext();
-
-
-            Control?.SetBackgroundImage(imageEnabled,UIControlState.Normal);
-            Control?.SetBackgroundImage(imageDisabled, UIControlState.Disabled);
 
             if (button.DisabledTextColor != null)
                 Control?.SetTitleColor(button.DisabledTextColor.ToUIColor(), UIControlState.Disabled);
@@ -91,57 +29,75 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             Control.ReverseTitleShadowWhenHighlighted = false;
         }
 
-      
-
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
 
-            /*if (e.PropertyName.Equals("IsEnabled"))
-            {
-                var button = this.Element as GradientRoundedButton;
-                var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
-
-                if (button.IsEnabled)
-                {
-                    gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
-                    gradient.ShadowColor = button.ShadowColorEnabled.ToCGColor();
-                }
-                else
-                {
-                    gradient.Colors = new CGColor[] { button.DisabledColor.ToCGColor(), button.DisabledColor.ToCGColor() };
-                    gradient.ShadowColor = Color.Transparent.ToCGColor();
-                }
-                SetNativeControl(Control);
-            }*/
+            SetNeedsDisplay();//Force draw but only once when all elements change
         }
 
-        protected override void Dispose(bool disposing)
+
+        public override void Draw(CGRect rect)
         {
-            if (Control != null)
-            {
-                Control.TouchDown -= OnTouchDown;
-                Control.TouchUpOutside -= OnTouchUp;
-                Control.TouchUpInside -= OnTouchUp;
-            }
+            base.Draw(rect);
 
-            base.Dispose(disposing);
+            var button = this.Element as GradientRoundedButton;
+            var buttonBounds = new CGRect(0, 0, button.Width, button.Height);
+            var shadowBounds = new CGRect(0, 0, button.Width - 1, button.Height - 1);
+
+            var shadowLayer = GetShadowForLayer(button.ActiveColor,
+                                                    button.ShadowColorEnabled,
+                                                    shadowBounds,
+                                                    button.IOSBorderRadius);
+            
+            var imageNormal = GetGradientBackgroundImage(button.StartColor,
+                                                             button.EndColor,
+                                                             buttonBounds,
+                                                             button.IOSBorderRadius);
+            var imageDisabled = GetGradientBackgroundImage(button.ActiveColor,
+                                                               button.ActiveColor,
+                                                               buttonBounds,
+                                                               button.IOSBorderRadius);
+
+            Control?.Layer.InsertSublayer(shadowLayer, 0);
+            Control?.SetBackgroundImage(imageNormal, UIControlState.Normal);
+            Control?.SetBackgroundImage(imageDisabled, UIControlState.Disabled);
+
         }
 
-        private void OnTouchDown(object sender, EventArgs e)
-        {
-            /*var button = this.Element as GradientRoundedButton;
-            var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
-            gradient.Colors = new CGColor[] { button.ActiveColor.ToCGColor(), button.ActiveColor.ToCGColor() };
-            gradient.ShadowColor = Color.Transparent.ToCGColor();*/
+        private CALayer GetShadowForLayer(Color ShadowBackgroundColor,Color ShadowColor, CGRect ShadowBounds, int BorderRadius){
+
+            var shadowLayer = new CALayer();
+            shadowLayer.BackgroundColor = ShadowBackgroundColor.ToCGColor();
+            shadowLayer.Bounds = ShadowBounds;
+            shadowLayer.CornerRadius = Control.Layer.CornerRadius = BorderRadius;
+            shadowLayer.ShadowOffset = new CGSize(0, 12);
+            shadowLayer.ShadowOpacity = 0.5f;
+            shadowLayer.ShadowRadius = 7;
+            shadowLayer.ShadowColor = ShadowColor.ToCGColor();
+            shadowLayer.ZPosition = -5;
+            shadowLayer.Position = new CGPoint(ShadowBounds.Width / 2, ShadowBounds.Height / 2);
+
+            return shadowLayer;
         }
 
-        private void OnTouchUp(object sender, EventArgs e)
-        {
-            /*var button = this.Element as GradientRoundedButton;
-            var gradient = Control?.Layer.Sublayers[0] as CAGradientLayer;
-            gradient.Colors = new CGColor[] { button.StartColor.ToCGColor(), button.EndColor.ToCGColor() };
-            gradient.ShadowColor = button.ShadowColorEnabled.ToCGColor();*/
+        private UIImage GetGradientBackgroundImage(Color StartColor,Color EndColor,CGRect GradientBounds,int BorderRadius){
+
+            var gradientLayer = new CAGradientLayer();
+            gradientLayer.Bounds = GradientBounds;
+            gradientLayer.CornerRadius = Control.Layer.CornerRadius = BorderRadius;
+            gradientLayer.StartPoint = new CGPoint(0.0, 0.25);
+            gradientLayer.EndPoint = new CGPoint(1.0, 0.5);
+            gradientLayer.Colors = new CGColor[] { StartColor.ToCGColor(), EndColor.ToCGColor() };
+
+            UIGraphics.BeginImageContext(gradientLayer.Bounds.Size);
+            gradientLayer.RenderInContext(UIGraphics.GetCurrentContext());
+            UIImage image = UIGraphics.GetImageFromCurrentImageContext();
+            UIGraphics.EndImageContext();
+
+            return image;
         }
+
+
     }
 }
