@@ -20,6 +20,7 @@
         <ResourceDictionary>
             <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
                 <Setter Property="Margin" Value="16"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="ImageContainerAbsoluteLayout" TargetType="AbsoluteLayout">
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>

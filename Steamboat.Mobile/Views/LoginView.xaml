@@ -94,13 +94,13 @@
                 <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="FillAndExpand" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <!--HEADER IMAGE-->
                     <customControl:ResizableImage Style="{StaticResource HeaderImage}" Source="imgHeader.png"/>
                     <!--LOGIN FORM-->
                     <Grid Grid.Row="1" Margin="40,0,40,50">
-                        <StackLayout Spacing="0" >
+                        <StackLayout Spacing="0" VerticalOptions="Center">
                             <Label Text="WELCOME TO" Style="{StaticResource WelcomeLabel}" />
                             <Label Text="Momentum Health" Style="{StaticResource TitleLabel}" />
                             <customControl:ImageEntry Placeholder="EMAIL" Text="{Binding Username.Value, Mode=TwoWay}" Style="{StaticResource EmailEntry}" >
