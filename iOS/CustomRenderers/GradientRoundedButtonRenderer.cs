@@ -42,6 +42,15 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
+            if (e.PropertyName.Equals("IsEnabled") && _shadowLayer!=null)
+            {
+                var button = this.Element as GradientRoundedButton;
+
+                if (button.IsEnabled)
+                    _shadowLayer.ShadowColor = button.ShadowColorEnabled.ToCGColor();
+                else
+                    _shadowLayer.ShadowColor = Color.Transparent.ToCGColor();
+            }
             SetNeedsDisplay();//Force draw but only once when all elements properties change
         }
 
@@ -57,21 +66,26 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
                 var shadowBounds = new CGRect(0, 0, button.Width - 1, button.Height - 1);
 
                 _shadowLayer = GetShadowForLayer(button.ActiveColor,
-                                                        button.ShadowColorEnabled,
-                                                        shadowBounds,
-                                                        button.IOSBorderRadius);
+                                                 button.IsEnabled? button.ShadowColorEnabled:Color.Transparent,
+                                                 shadowBounds,
+                                                 button.IOSBorderRadius);
                 
                 var imageNormal = GetGradientBackgroundImage(button.StartColor,
                                                                  button.EndColor,
                                                                  buttonBounds,
                                                                  button.IOSBorderRadius);
-                var imageDisabled = GetGradientBackgroundImage(button.ActiveColor,
-                                                                   button.ActiveColor,
+                var imageTaped = GetGradientBackgroundImage(button.ActiveColor,
+                                                               button.ActiveColor,
+                                                                   buttonBounds,
+                                                                   button.IOSBorderRadius);
+                var imageDisabled = GetGradientBackgroundImage(button.DisabledColor,
+                                                               button.DisabledColor,
                                                                    buttonBounds,
                                                                    button.IOSBorderRadius);
 
                 Control?.Layer.InsertSublayer(_shadowLayer, 0);
                 Control?.SetBackgroundImage(imageNormal, UIControlState.Normal);
+                Control?.SetBackgroundImage(imageTaped, UIControlState.Highlighted);
                 Control?.SetBackgroundImage(imageDisabled, UIControlState.Disabled);
 
                 _alreadyDrawed = true;
