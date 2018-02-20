@@ -6,30 +6,15 @@
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
     xmlns:extension="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile"
-    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true" 
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true" NavigationPage.HasNavigationBar="false"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    BackgroundColor="{StaticResource ViewBackground}"
-    Title="Momentum">
-    <ContentPage.NavigationPage.HasNavigationBar>
-       <OnIdiom x:TypeArguments="x:Boolean">
-            <OnIdiom.Phone>false</OnIdiom.Phone>
-            <OnIdiom.Tablet>false</OnIdiom.Tablet>
-       </OnIdiom>
-    </ContentPage.NavigationPage.HasNavigationBar>
+    BackgroundColor="{StaticResource ViewBackground}">
    <ContentPage.Resources>
         <ResourceDictionary>
             <extension:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
-
-            <Style x:Key="HeaderImage" TargetType="ffimageloading:CachedImage">
+            <Style x:Key="HeaderImage" TargetType="customControl:ResizableImage">
                 <Setter Property="Aspect" Value="AspectFill" />
-                <Setter Property="IsVisible">
-                    <Setter.Value>
-                        <OnIdiom x:TypeArguments="x:Boolean">
-                            <OnIdiom.Phone>true</OnIdiom.Phone>
-                            <OnIdiom.Tablet>true</OnIdiom.Tablet>
-                        </OnIdiom>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="HeigthFactor" Value="2.45" />
             </Style>
             <Style x:Key="WelcomeLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
@@ -112,7 +97,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <!--HEADER IMAGE-->
-                    <ffimageloading:CachedImage Style="{StaticResource HeaderImage}" Source="imgHeader.png"/>
+                    <customControl:ResizableImage Style="{StaticResource HeaderImage}" Source="imgHeader.png"/>
                     <!--LOGIN FORM-->
                     <Grid Grid.Row="1" Margin="40,0,40,50">
                         <StackLayout Spacing="0" >

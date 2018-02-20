@@ -231,6 +231,7 @@
     </Compile>
     <Compile Include="ViewModels\Modals\ScreeningCancelConfirmationModalViewModel.cs" />
     <Compile Include="ViewModels\SchedulingEventAppointmentModelBase.cs" />
+    <Compile Include="CustomControls\ResizableImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
