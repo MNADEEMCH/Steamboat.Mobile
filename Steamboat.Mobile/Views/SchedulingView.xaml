@@ -18,8 +18,17 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+             <Style x:Key="MainGrid"  TargetType="Grid">
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>16</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,16,80,16</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
-                <Setter Property="Margin" Value="16"></Setter>
                 <Setter Property="VerticalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="ImageContainerAbsoluteLayout" TargetType="AbsoluteLayout">
@@ -79,10 +88,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ScrollView Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" VerticalOptions="FillAndExpand" >
-                <Grid>
+                <Grid Style="{StaticResource MainGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="60"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <StackLayout Style="{StaticResource MainContainerStackLayout}">

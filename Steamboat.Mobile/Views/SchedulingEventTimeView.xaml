@@ -16,6 +16,20 @@
                 <Setter Property="ColumnSpacing" Value="0" />
                 <Setter Property="IsVisible" Value="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
             </Style>
+            <Style x:Key="TimeSlotsScrollView"  TargetType="ScrollView">
+                <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>20</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,20</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="TimeSlotsGrid"  TargetType="Grid">
+                <Setter Property="VerticalOptions" Value="Start" />
+            </Style>
             <Style x:Key="HeaderLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
                 <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
@@ -101,8 +115,8 @@
                 
                 <Label Grid.Row="0" Text="When can you attend the screening?" Style="{StaticResource HeaderLabel}" />
                                     
-                <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand" Padding="20">
-                    <Grid VerticalOptions="Start" >
+                <ScrollView Grid.Row="1" Style="{StaticResource TimeSlotsScrollView}">
+                    <Grid Style="{StaticResource TimeSlotsGrid}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />

@@ -26,7 +26,14 @@
             </Style>
             <Style x:Key="ViewCellFrame" TargetType="customControl:CustomFrame">
                 <Setter Property="Padding" Value="1"></Setter>
-                <Setter Property="Margin" Value="25,5,25,5"></Setter>
+                <Setter Property="Margin">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>25,5,25,5</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,5,80,5</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
                 <Setter Property="CornerRadius" Value="2"></Setter>
                 <Setter Property="OutlineColor" Value="{StaticResource LightGrayColor}"></Setter>
                 <Setter Property="ActiveOutlineColor" Value="{StaticResource MomentumBlueColor}"></Setter>

@@ -13,8 +13,18 @@
 
     <popup:PopupPage.Resources>
         <ResourceDictionary>
+            <Style x:Key="MainGrid"  TargetType="Grid">
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>30</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,30</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
-                <Setter Property="Margin" Value="30"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="IconImage" TargetType="ffimageloading:CachedImage">
                 <Setter Property="HeightRequest" Value="208"></Setter>
@@ -49,7 +59,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ScrollView Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" VerticalOptions="FillAndExpand">
-                <Grid>
+                <Grid Style="{StaticResource MainGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>

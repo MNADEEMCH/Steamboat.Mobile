@@ -11,6 +11,16 @@
 
     <popup:PopupPage.Resources>
         <ResourceDictionary>
+            <Style x:Key="MainGrid"  TargetType="Grid">
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>0</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,0</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style x:Key="MsgLabel"  TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
                 <Setter Property="FontFamily" Value="{DynamicResource RalewaySemiBold}" />
@@ -58,7 +68,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ScrollView Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" VerticalOptions="FillAndExpand">
-                <Grid>
+                <Grid Style="{StaticResource MainGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />

@@ -16,6 +16,18 @@
                 <Setter Property="Aspect" Value="AspectFill" />
                 <Setter Property="HeigthFactor" Value="2.45" />
             </Style>
+            
+            <Style x:Key="MainGrid"  TargetType="Grid">
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>40,0,40,50</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,0,80,50</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
             <Style x:Key="WelcomeLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
                 <Setter Property="TextColor" Value="{StaticResource GrayColor}" />
@@ -91,7 +103,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ScrollView>
-                <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="FillAndExpand" >
+                <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -99,7 +111,7 @@
                     <!--HEADER IMAGE-->
                     <customControl:ResizableImage Style="{StaticResource HeaderImage}" Source="imgHeader.png"/>
                     <!--LOGIN FORM-->
-                    <Grid Grid.Row="1" Margin="40,0,40,50">
+                    <Grid Grid.Row="1" Style="{StaticResource MainGrid}">
                         <StackLayout Spacing="0" VerticalOptions="Center">
                             <Label Text="WELCOME TO" Style="{StaticResource WelcomeLabel}" />
                             <Label Text="Momentum Health" Style="{StaticResource TitleLabel}" />

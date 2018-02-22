@@ -46,6 +46,6 @@
             ProgressLength="800"
             HeightRequest="50"
             HorizontalOptions="FillAndExpand"
-            Margin="55,0,55,10"></customControl:Stepper>
+            Margin="30,5,30,0"></customControl:Stepper>
     </ContentView.Content>
 </ContentView>

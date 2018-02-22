@@ -18,7 +18,14 @@
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
             </Style>
             <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
-                <Setter Property="Margin" Value="20,30,20,0"></Setter>
+                 <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>20,30,20,0</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,30,80,0</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
             </Style>
             <Style x:Key="ScreeningDetailsImage" TargetType="ffimageloading:CachedImage">
                 <Setter Property="HeightRequest" Value="24"></Setter>
