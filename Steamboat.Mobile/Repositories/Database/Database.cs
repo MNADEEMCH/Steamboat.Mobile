@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using SQLite;
 using Steamboat.Mobile.Models;
@@ -18,25 +19,39 @@ namespace Steamboat.Mobile.Repositories.Database
             Task.Run(() => { database.CreateTableAsync<T>(); });
         }
 
-        public async Task<int> Delete(T item)
-        {
-            return await database.DeleteAsync(item);
-        }
-
-        public async Task<T> GetFirst()
-        {
-            return await database.Table<T>().FirstOrDefaultAsync();
-        }
-
         public async Task<int> Insert(T item)
         {
             return await database.InsertAsync(item);
         }
 
-        public async Task<List<T>> Select()
+        public async Task<int> Delete(T item)
         {
-            AsyncTableQuery<T> tb = database.Table<T>();
-            return await tb.ToListAsync();
+            return await database.DeleteAsync(item);
+        }
+
+        public async Task<int> Update(T item)
+        {
+            var list = new List<T>() { item };
+            return await database.UpdateAllAsync(list);
+        }
+
+        public async Task<T> GetFirst(Expression<Func<T, bool>> predicate = null)
+        {
+            var tb = database.Table<T>();
+            if(predicate!=null)
+                return await tb.Where(predicate).FirstOrDefaultAsync();
+            else
+                return await tb.FirstOrDefaultAsync();
+        }
+
+        public async Task<List<T>> Select(Expression<Func<T, bool>> predicate=null)
+        {
+            var tb = database.Table<T>();
+
+            if (predicate != null)
+                return await tb.Where(predicate).ToListAsync();
+            else
+                return await tb.ToListAsync();
         }
 
         public async Task<T> Select(Guid identifier)
@@ -46,10 +61,10 @@ namespace Steamboat.Mobile.Repositories.Database
             return await item.FirstAsync();
         }
 
-        public async Task<int> Update(T item)
+        public async Task<T> GetWhere(Expression<Func<T, bool>> predicate)
         {
-            var list = new List<T>() { item };
-            return await database.UpdateAllAsync(list);
+            return await database.Table<T>().Where(predicate).FirstOrDefaultAsync();
         }
+
     }
 }

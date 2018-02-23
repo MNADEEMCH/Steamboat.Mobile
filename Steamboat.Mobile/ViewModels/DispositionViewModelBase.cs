@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Steamboat.Mobile.Models.Participant.DispositionSteps;
+using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Models.User;
 
 namespace Steamboat.Mobile.ViewModels
 {
@@ -18,6 +20,7 @@ namespace Steamboat.Mobile.ViewModels
     {
         #region properties
 
+        private IAccountManager _accountManager;
         private StepperViewModel _stepperViewModel;
 
         public ICommand LogoutCommand { get; set; }
@@ -60,9 +63,9 @@ namespace Steamboat.Mobile.ViewModels
         }
         #endregion
 
-        public DispositionViewModelBase(StepperViewModel stepperViewModel = null)
+        public DispositionViewModelBase(StepperViewModel stepperViewModel = null, AccountManager accountManager = null)
         {
-
+            _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
             _stepperViewModel = stepperViewModel ?? DependencyContainer.Resolve<StepperViewModel>();
             LogoutCommand = new Command(async () => await Logout());
             MoreInfoCommand = new Command(async () => await MoreInfo());
@@ -82,9 +85,9 @@ namespace Steamboat.Mobile.ViewModels
                 await InitializeDispositionStep(status, dispositionStep);
 
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                await this.DialogService.ShowAlertAsync(ex.Message, "Error", "OK");
+                await this.DialogService.ShowAlertAsync(e.Message, "Error", "OK");
             }
             finally
             {
@@ -99,7 +102,6 @@ namespace Steamboat.Mobile.ViewModels
                 throw new Exception("Error loading status");
 
         }
-
         private void IsDispositionStepValid(DispositionStep dispositionStep)
         {
             if (dispositionStep==null)
@@ -119,7 +121,7 @@ namespace Steamboat.Mobile.ViewModels
 
             InitializeModalMoreInfo(dispositionStep);
 
-            ShowNotifications(status);
+            await ShowAndStoreAlert(status);
 
         }
 
@@ -141,36 +143,62 @@ namespace Steamboat.Mobile.ViewModels
             };
         }
 
-        private void ShowNotifications(Status status)
+        private async Task ShowAndStoreAlert(Status status)
         {
-            ModalParam modalParamToShowMessage = IsAnyNotificationToShow(status);
-            if (modalParamToShowMessage != null)
+            Alert alertToShow = await IsAnyAlertToShow(status);
+
+            if (alertToShow != null)
             {
+                ModalParam modalToShow = CreateModalParam(alertToShow);
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await ModalService.PushAsync<WelcomeModalViewModel>(modalParamToShowMessage);
+                    await ModalService.PushAsync<WelcomeModalViewModel>(modalToShow);
                 });
+                await _accountManager.AddUserAlert(App.CurrentUser.Email,alertToShow.ID);
             }
         }
-        private ModalParam IsAnyNotificationToShow(Status status)
+        private async Task<Alert> IsAnyAlertToShow(Status status)
         {
-            ModalParam modalParam = null;
+            Alert alertToShow = null;
+            bool isAnyAlertOnStatusDashboard = status != null &&
+                                               status.Dashboard != null && 
+                                               status.Dashboard.Alert != null;
 
-            if (status != null
-                && status.Dashboard != null
-                && status.Dashboard.Notifications != null
-                && status.Dashboard.Notifications.Count > 0)
+            if (isAnyAlertOnStatusDashboard)
             {
-                Notification notification = status.Dashboard.Notifications.First();
-                modalParam = new ModalParam()
-                {
-                    Title = notification.Title,
-                    Message = notification.Message.Replace("<br/>", "\n"),
-                    ButtonText = notification.ButtonText,
-                };
+                Alert alert = status.Dashboard.Alert;
+                bool userAlreadySawTheAlert = await UserAlreadySawTheAlert(alert);
+                if (!userAlreadySawTheAlert)
+                    alertToShow = alert;
+
             }
 
-            return modalParam;
+            return alertToShow;
+        }
+        private async Task<bool> UserAlreadySawTheAlert(Alert alert){
+
+            bool userAlreadySawTheAlert = false;
+
+            try
+            {
+                UserAlerts userAlerts = await _accountManager.GetUserAlerts(App.CurrentUser.Email);
+                userAlreadySawTheAlert = userAlerts != null && userAlerts.AlertsIds.Contains(alert.ID);
+            }
+            catch (Exception e)
+            {
+                await this.DialogService.ShowAlertAsync(e.Message, "Error", "OK");
+            }
+
+            return userAlreadySawTheAlert;
+        }
+        private ModalParam CreateModalParam(Alert alert){
+
+            return new ModalParam()
+            {
+                Title = alert.Title,
+                Message = alert.Message.Replace("<br/>", "\n"),
+                ButtonText = alert.ButtonText,
+            };
         }
 
 
@@ -219,7 +247,6 @@ namespace Steamboat.Mobile.ViewModels
             }
             return formattedString;
         }
-
 
         protected async Task MoreInfo()
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Plugin.DeviceInfo;
@@ -6,6 +7,7 @@ using Steamboat.Mobile.Models.Account;
 using Steamboat.Mobile.Models.User;
 using Steamboat.Mobile.Repositories.User;
 using Steamboat.Mobile.Services.Account;
+using System.Linq;
 
 namespace Steamboat.Mobile.Managers.Account
 {
@@ -13,11 +15,15 @@ namespace Steamboat.Mobile.Managers.Account
     {
         private IAccountService _accountService;
         private IUserRepository _userRepository;
+        private IUserAlertRepository _userAlertRepository;
 
-        public AccountManager(IAccountService accountService = null, IUserRepository userRepository = null)
+        public AccountManager(IAccountService accountService = null, 
+                              IUserRepository userRepository = null,
+                              IUserAlertRepository userAlertRepository = null)
         {
             _accountService = accountService ?? DependencyContainer.Resolve<IAccountService>();
             _userRepository = userRepository ?? DependencyContainer.Resolve<IUserRepository>();
+            _userAlertRepository = userAlertRepository ?? DependencyContainer.Resolve<IUserAlertRepository>();
         }
 
         public async Task<AccountInfo> Login(string username, string password)
@@ -92,6 +98,40 @@ namespace Steamboat.Mobile.Managers.Account
                 Debug.WriteLine($"Error in login: {ex}");
                 throw ex;
             }
+        }
+
+        public async Task<int> AddUserAlert(string username,int alertId)
+        {
+            try{
+                return await _userAlertRepository.AddUserAlert(new UserAlert{UserName=username,AlertId=alertId});
+            }
+            catch(Exception ex){
+                Debug.WriteLine($"Error in login: {ex}");
+                throw ex;
+            }
+        }
+
+        public async Task<UserAlerts> GetUserAlerts(string username)
+        {
+            UserAlerts userAlerts = null;
+
+            try
+            {
+                var userAlertItems = await _userAlertRepository.GetUserAlert(username);
+                if (userAlertItems != null)
+                    userAlerts = userAlertItems.GroupBy(x => x.UserName)
+                                           .Select(g => new UserAlerts()
+                                           {  AlertsIds = g.Select(x=>x.AlertId).ToList(),
+                                              UserName = g.Key as string
+                                           }).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error in login: {ex}");
+                throw ex;
+            }
+
+            return userAlerts;
         }
     }
 }

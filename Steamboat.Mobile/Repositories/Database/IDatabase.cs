@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Steamboat.Mobile.Models;
 
@@ -11,12 +12,13 @@ namespace Steamboat.Mobile.Repositories.Database
 
         Task<int> Delete(T item);
 
-        Task<List<T>> Select();
+        Task<int> Update(T item);
+
+        Task<T> GetFirst(Expression<Func<T, bool>> predicate=null);
+
+        Task<List<T>> Select(Expression<Func<T, bool>> predicate=null);
 
         Task<T> Select(Guid identifier);
 
-        Task<T> GetFirst();
-
-        Task<int> Update(T item);
     }
 }
