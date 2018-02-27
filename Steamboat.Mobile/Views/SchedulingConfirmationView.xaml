@@ -7,7 +7,7 @@
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     x:Class="Steamboat.Mobile.Views.SchedulingConfirmationView"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    Title="Confirm your screening">
+    Title="Confirm">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="HeaderLabel" TargetType="Label">
@@ -18,39 +18,72 @@
                 <Setter Property="VerticalTextAlignment" Value="Center" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
             </Style>
-            <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
-                 <Setter Property="Padding">
-                    <Setter.Value>
-                        <OnIdiom x:TypeArguments="Thickness">
-                            <OnIdiom.Phone>20,30,20,0</OnIdiom.Phone>    
-                            <OnIdiom.Tablet>80,30,80,0</OnIdiom.Tablet>    
-                        </OnIdiom> 
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style x:Key="ScreeningDetailsImage" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="24"></Setter>
-                <Setter Property="WidthRequest" Value="24"></Setter>
-                <Setter Property="HorizontalOptions" Value="Center"></Setter>
-                <Setter Property="VerticalOptions" Value="Center"></Setter>
-            </Style>
-            <Style x:Key="ScreeningDetailsGrid" TargetType="Grid">
-                <Setter Property="HorizontalOptions" Value="Center"></Setter>
-                <Setter Property="Margin" Value="30,0,30,12"></Setter>
-            </Style>
-            <Style x:Key="ScreeningDetailsLabel" TargetType="Label">
+            <Style x:Key="MainLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}"/>
             </Style>
+            <Style x:Key="MainGrid"  TargetType="Grid">
+                 <Setter Property="VerticalOptions" Value="Center"></Setter>
+                 <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>20,0</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,0</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ScreeningDetailsTitle" BasedOn="{StaticResource MainLabel}" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,0,0,10" />
+            </Style>
+            <Style x:Key="GridFrame" TargetType="customControl:CustomFrame">
+                <Setter Property="IsActive" Value="False"></Setter>
+                <Setter Property="HasShadow" Value="False"></Setter>
+                <Setter Property="Margin" Value="10,10"></Setter>
+                <Setter Property="OutlineColor" Value="{StaticResource LightGrayColor}"></Setter>
+                <Setter Property="CornerRadius" Value="5"></Setter>
+                <Setter Property="DefaultBorderWidth">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <OnPlatform.iOS>1.0</OnPlatform.iOS>
+                            <OnPlatform.Android>2.0</OnPlatform.Android>
+                        </OnPlatform>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ScreeningDetailsGrid" TargetType="Grid">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+            </Style>
+            <Style x:Key="ScreeningDetailsImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="24"></Setter>
+                <Setter Property="WidthRequest" Value="24"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+            </Style>
             <Style x:Key="ScreeningDetailsSeparatorBoxView" TargetType="BoxView">
-                <Setter Property="HeightRequest" Value="1"></Setter>
+                <Setter Property="HeightRequest" Value="0.5"></Setter>
                 <Setter Property="Color" Value="{StaticResource LightGrayColor}"></Setter>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
             </Style>
             <Style x:Key="MainActionButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
-                <Setter Property="Margin" Value="0,20,0,10" />
-                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Margin">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>40,10</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>0,10</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="HorizontalOptions">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="LayoutOptions">
+                            <OnIdiom.Phone>FillAndExpand</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>Center</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="WidthRequest" Value="350" />
                 <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
             </Style>
             <Style x:Key="NoEditButton" TargetType="customControl:LinkButton">
@@ -69,7 +102,7 @@
                 <Setter Property="WidthRequest" Value="40" />
                 <Setter Property="HeightRequest" Value="40" />
                 <Setter Property="Color" Value="{StaticResource MomentumBlueColor}" />
-                <Setter Property="Margin" Value="0,25" />
+                <Setter Property="Margin" Value="0,29" />
                 <Setter Property="IsRunning" Value="true" />
             </Style>
         </ResourceDictionary>
@@ -85,10 +118,15 @@
                     <RowDefinition Height="32"/>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-
-                <Label Grid.Row="0" Text="CONFIRM YOUR RESERVATION" Style="{StaticResource HeaderLabel}" />
-                <StackLayout Grid.Row="1" Style="{StaticResource MainContainerStackLayout}">
-                    
+                <Label Grid.Row="0" Text="CONFIRM YOUR SCREENING" Style="{StaticResource HeaderLabel}" />
+                <Grid Grid.Row="1" Style="{StaticResource MainGrid}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="98" />
+                    </Grid.RowDefinitions>
+                    <Label Text="Is this information right?" Style="{StaticResource ScreeningDetailsTitle}"/>   
+                    <customControl:CustomFrame Grid.Row="1" Style="{StaticResource GridFrame}">
                         <Grid Style="{StaticResource ScreeningDetailsGrid}" RowSpacing="15">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
@@ -102,22 +140,22 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <ffimageloading:CachedImage Source="icCalendarDisabled.png" Style="{StaticResource ScreeningDetailsImage}"/>
-                            <Label Text="{Binding Date}" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                            <Label Text="{Binding Date}" Grid.Column="1" Style="{StaticResource MainLabel}"/>
                             <BoxView Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource ScreeningDetailsSeparatorBoxView}"/>
                             <ffimageloading:CachedImage Source="icClockDisabled.png" Grid.Row="2" Style="{StaticResource ScreeningDetailsImage}"/>
-                            <Label Text="{Binding Time}" Grid.Row="2" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                            <Label Text="{Binding Time}" Grid.Row="2" Grid.Column="1" Style="{StaticResource MainLabel}"/>
                             <BoxView Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource ScreeningDetailsSeparatorBoxView}"/>
                             <ffimageloading:CachedImage Source="icLocationDisabled.png" Grid.Row="4" Style="{StaticResource ScreeningDetailsImage}"/>
-                            <Label Text="{Binding Address}" Grid.Row="4" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                            <Label Text="{Binding Address}" Grid.Row="4" Grid.Column="1" Style="{StaticResource MainLabel}"/>
                         </Grid>
-                    
-                        <customControl:GradientRoundedButton  Text="YES, CONFIRM" Style="{StaticResource MainActionButton}" Command="{Binding ConfirmEventCommand}" />
+                    </customControl:CustomFrame>
+                    <StackLayout Grid.Row="2">
+                        <customControl:GradientRoundedButton Text="YES, CONFIRM" Style="{StaticResource MainActionButton}" Command="{Binding ConfirmEventCommand}" />
                         <Grid IsVisible="false" />
                         <ActivityIndicator Style="{StaticResource MainActionIndicator}" IsVisible="{Binding IsBusy}" />
-
                         <customControl:LinkButton Text="NO, EDIT" Style="{StaticResource NoEditButton}" Command="{Binding NoEditCommand}" />
-                    
-                </StackLayout>            
+                    </StackLayout>
+                </Grid>            
             </Grid>         
             <ActivityIndicator
             Grid.Row="0"

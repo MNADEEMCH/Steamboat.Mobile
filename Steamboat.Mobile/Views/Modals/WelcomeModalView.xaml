@@ -53,8 +53,23 @@
                 <Setter Property="Margin" Value="12"></Setter>
             </Style>
             <Style x:Key="GoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
-                <Setter Property="Margin" Value="10,16,10,0" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="Margin">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>10,16,10,0</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>0,16,0,0</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="HorizontalOptions">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="LayoutOptions">
+                            <OnIdiom.Phone>FillAndExpand</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>Center</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="WidthRequest" Value="350" />
             </Style>
         </ResourceDictionary>
     </popup:PopupPage.Resources>

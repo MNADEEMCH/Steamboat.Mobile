@@ -35,8 +35,23 @@
                 <Setter Property="Margin" Value="0,20,0,0" />
             </Style>
             <Style x:Key="DeleteButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource RedGradientButton}">
-                <Setter Property="Margin" Value="60,0" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="Margin">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>60,0</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>0</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="HorizontalOptions">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="LayoutOptions">
+                            <OnIdiom.Phone>FillAndExpand</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>Center</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="WidthRequest" Value="350" />
                 <Setter Property="ShadowColorEnabled" Value="Black"></Setter>
                 <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
             </Style>

@@ -34,7 +34,7 @@
                         </OnIdiom> 
                     </Setter.Value>
                 </Setter>
-                <Setter Property="CornerRadius" Value="2"></Setter>
+                <Setter Property="CornerRadius" Value="5"></Setter>
                 <Setter Property="OutlineColor" Value="{StaticResource LightGrayColor}"></Setter>
                 <Setter Property="ActiveOutlineColor" Value="{StaticResource MomentumBlueColor}"></Setter>
                 <Setter Property="HasShadow" Value="False"></Setter>

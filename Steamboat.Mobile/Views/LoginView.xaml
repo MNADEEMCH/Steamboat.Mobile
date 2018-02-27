@@ -109,7 +109,14 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <!--HEADER IMAGE-->
-                    <customControl:ResizableImage Style="{StaticResource HeaderImage}" Source="imgHeader.png"/>
+                    <customControl:ResizableImage Style="{StaticResource HeaderImage}">
+                        <customControl:ResizableImage.Source>
+                            <OnIdiom x:TypeArguments="ImageSource">
+                                <OnIdiom.Phone>imgHeader.png</OnIdiom.Phone>    
+                                <OnIdiom.Tablet>imgHeaderTablet.png</OnIdiom.Tablet>    
+                            </OnIdiom> 
+                        </customControl:ResizableImage.Source>
+                    </customControl:ResizableImage>
                     <!--LOGIN FORM-->
                     <Grid Grid.Row="1" Style="{StaticResource MainGrid}">
                         <StackLayout Spacing="0" VerticalOptions="Center">

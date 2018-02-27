@@ -293,6 +293,9 @@
     <BundleResource Include="Resources\icDelete.png" />
     <BundleResource Include="Resources\icDelete%402x.png" />
     <BundleResource Include="Resources\icDelete%403x.png" />
+    <BundleResource Include="Resources\imgHeaderTablet.png" />
+    <BundleResource Include="Resources\imgHeaderTablet%402x.png" />
+    <BundleResource Include="Resources\imgHeaderTablet%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
