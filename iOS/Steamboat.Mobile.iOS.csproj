@@ -287,6 +287,9 @@
     <BundleResource Include="Resources\icEdit.png" />
     <BundleResource Include="Resources\icEdit%402x.png" />
     <BundleResource Include="Resources\icEdit%403x.png" />
+    <BundleResource Include="Resources\icLogo.png" />
+    <BundleResource Include="Resources\icLogo%402x.png" />
+    <BundleResource Include="Resources\icLogo%403x.png" />
     <BundleResource Include="Resources\icDelete.png" />
     <BundleResource Include="Resources\icDelete%402x.png" />
     <BundleResource Include="Resources\icDelete%403x.png" />
@@ -317,6 +320,7 @@
     <Compile Include="CustomRenderers\WrappedButtonRenderer.cs" />
     <Compile Include="CustomRenderers\WebViewerRenderer.cs" />
     <Compile Include="CustomRenderers\LinkButtonRenderer.cs" />
+    <Compile Include="CustomRenderers\CustomNavigationViewRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

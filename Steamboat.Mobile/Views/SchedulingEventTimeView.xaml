@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Steamboat.Mobile.Views.SchedulingEventTimeView"
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
     xmlns:extensions="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile"
@@ -113,7 +114,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
-                <Label Grid.Row="0" Text="When can you attend the screening?" Style="{StaticResource HeaderLabel}" />
+                <Label Grid.Row="0" Text="CHOOSE A TIME" Style="{StaticResource HeaderLabel}" />
                                     
                 <ScrollView Grid.Row="1" Style="{StaticResource TimeSlotsScrollView}">
                     <Grid Style="{StaticResource TimeSlotsGrid}">
@@ -152,4 +153,4 @@
             WidthRequest="100" />
         </Grid>
 	</ContentPage.Content>
-</ContentPage>
+</views:CustomContentPage>

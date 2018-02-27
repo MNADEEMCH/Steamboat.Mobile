@@ -6,7 +6,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Steamboat.Mobile.Views
 {
-    public partial class InitPasswordView : ContentPage
+    public partial class InitPasswordView : CustomContentPage
     {
         public InitPasswordView()
         {

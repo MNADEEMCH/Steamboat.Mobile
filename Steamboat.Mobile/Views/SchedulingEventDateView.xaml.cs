@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace Steamboat.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SchedulingEventDateView : ContentPage
+    public partial class SchedulingEventDateView : CustomContentPage
     {
         public SchedulingEventDateView()
         {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     x:Class="Steamboat.Mobile.Views.SchedulingConfirmationView"
@@ -85,7 +86,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Text="Is this information right?" Style="{StaticResource HeaderLabel}" />
+                <Label Grid.Row="0" Text="CONFIRM YOUR RESERVATION" Style="{StaticResource HeaderLabel}" />
                 <StackLayout Grid.Row="1" Style="{StaticResource MainContainerStackLayout}">
                     
                         <Grid Style="{StaticResource ScreeningDetailsGrid}" RowSpacing="15">
@@ -128,4 +129,4 @@
             WidthRequest="100" />
         </Grid>
 	</ContentPage.Content>
-</ContentPage>
+</views:CustomContentPage>

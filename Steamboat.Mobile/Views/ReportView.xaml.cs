@@ -9,7 +9,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Steamboat.Mobile.Views
 {
-    public partial class ReportView : ContentPage
+    public partial class ReportView : CustomContentPage
     {
         public ReportView()
         {

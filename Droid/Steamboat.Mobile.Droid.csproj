@@ -238,6 +238,7 @@
     <Compile Include="CustomRenderers\WrappedButtonRenderer.cs" />
     <Compile Include="CustomRenderers\WebViewRenderer.cs" />
     <Compile Include="CustomRenderers\LinkButtonRenderer.cs" />
+    <Compile Include="CustomRenderers\CustomNavigationViewRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
@@ -272,6 +273,9 @@
     <AndroidResource Include="Resources\drawable-hdpi\icEdit.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icEdit.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icEdit.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icLogo.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icLogo.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icLogo.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icDelete.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icDelete.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icDelete.png" />

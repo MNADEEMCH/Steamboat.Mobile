@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Steamboat.Mobile.Views.SchedulingView"
-    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    BackgroundColor="{StaticResource ViewBackground}"
-    Title="Momentum">
+    BackgroundColor="{StaticResource ViewBackground}" Title="Scheduling">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Logout" Icon="icLogout.png" Command="{Binding LogoutCommand}" >
             <ToolbarItem.Order>
@@ -126,4 +125,4 @@
             WidthRequest="100" />
         </Grid>
     </ContentPage.Content>
-</ContentPage>
+</views:CustomContentPage>

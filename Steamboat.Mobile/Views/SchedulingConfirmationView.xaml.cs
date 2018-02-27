@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.Views
 {
-    public partial class SchedulingConfirmationView : ContentPage
+    public partial class SchedulingConfirmationView : CustomContentPage
     {
         public SchedulingConfirmationView()
         {

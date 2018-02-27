@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.Views
 {
-    public partial class InterviewView : ContentPage
+    public partial class InterviewView : CustomContentPage
     {
         public InterviewView()
         {

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steamboat.Mobile.Views.ConsentsView" 
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.ConsentsView" 
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile" 
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
     xmlns:extension="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
-    BackgroundColor="{StaticResource ViewBackground}">
+    BackgroundColor="{StaticResource ViewBackground}"
+    Title="Consents">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="HeaderLabel" TargetType="Label">
@@ -147,4 +151,4 @@
             WidthRequest="100" />
         </Grid>
     </ContentPage.Content>
-</ContentPage>
+</views:CustomContentPage>

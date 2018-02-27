@@ -9,7 +9,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Steamboat.Mobile.Views
 {
-    public partial class SchedulingView : ContentPage
+    public partial class SchedulingView : CustomContentPage
     {
         public SchedulingView()
         {

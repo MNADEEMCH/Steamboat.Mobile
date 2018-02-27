@@ -9,7 +9,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Steamboat.Mobile.Views
 {
-    public partial class ScreeningView : ContentPage
+    public partial class ScreeningView : CustomContentPage
     {
         public ScreeningView()
         {

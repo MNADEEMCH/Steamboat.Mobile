@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
-             viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
-             xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             x:Class="Steamboat.Mobile.Views.SchedulingEventDateView"
-             Title="{Binding SchedullingEventTitle}"
-             BackgroundColor="{StaticResource ViewBackground}">
-
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="Steamboat.Mobile.Views.SchedulingEventDateView"
+    Title="Pick a place"
+    BackgroundColor="{StaticResource ViewBackground}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="HeaderLabel" TargetType="Label">
@@ -133,7 +133,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Text="Which location/day works best for you?" Style="{StaticResource HeaderLabel}" />
+                <Label Grid.Row="0" Text="CHOOSE A DATE AND LOCATION" Style="{StaticResource HeaderLabel}" />
                 <customControl:CustomListView Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding SchedulingEventDate}" Command="{Binding CommandEventSelected}"
                     Style="{StaticResource SchedulingEventDateListView}">
 
@@ -199,4 +199,4 @@
             WidthRequest="100" />
         </Grid>
     </ContentPage.Content>
-</ContentPage>
+</views:CustomContentPage>

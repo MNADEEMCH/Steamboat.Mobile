@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.Views
 {
-    public partial class ConsentsView : ContentPage
+    public partial class ConsentsView : CustomContentPage
     {
         public ConsentsView()
         {
