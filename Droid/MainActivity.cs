@@ -14,6 +14,7 @@ using Steamboat.Mobile.Droid.CustomRenderers;
 using Steamboat.Mobile.CustomControls;
 using Acr.UserDialogs;
 using Microsoft.AppCenter.Push;
+using Microsoft.AppCenter;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -53,6 +54,7 @@ namespace Steamboat.Mobile.Droid
                 // Send the notification summary to debug output
                 System.Diagnostics.Debug.WriteLine(summary);
             };
+            AppCenter.Start("9296455d-1464-48bd-9e68-806e6df4a570",typeof(Push));
             LoadApplication(new App());
             //LoadApplication(UXDivers.Gorilla.Droid.Player.CreateApplication(this,
             //    new UXDivers.Gorilla.Config("Good Gorilla")
@@ -73,5 +75,6 @@ namespace Steamboat.Mobile.Droid
             base.OnNewIntent(intent);
             Push.CheckLaunchedFromNotification(this, intent);
         }
+
     }
 }

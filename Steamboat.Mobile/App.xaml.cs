@@ -26,9 +26,9 @@ namespace Steamboat.Mobile
 
         protected override void OnStart()
         {
-            AppCenter.Start("android=9296455d-1464-48bd-9e68-806e6df4a570;"+
-                            "ios=fc7b539c-ea85-4448-b7d3-bdb479134d5a",
-                  typeof(Push));
+            //AppCenter.Start("android=9296455d-1464-48bd-9e68-806e6df4a570;"+
+            //                "ios=fc7b539c-ea85-4448-b7d3-bdb479134d5a",
+            //      typeof(Push));
 
 
         }
