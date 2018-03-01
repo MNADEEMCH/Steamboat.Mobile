@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.AppCenter.Push;
 using Steamboat.Mobile.Exceptions;
 using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Account;
