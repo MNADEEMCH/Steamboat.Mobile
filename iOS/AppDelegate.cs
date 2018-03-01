@@ -61,7 +61,7 @@ namespace Steamboat.Mobile.iOS
             DependencyContainer.RegisterDependencies();
         }
 
-        /*public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+        public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
             Push.RegisteredForRemoteNotifications(deviceToken);
         }
@@ -83,6 +83,6 @@ namespace Steamboat.Mobile.iOS
                 completionHandler?.Invoke(UIBackgroundFetchResult.NoData);
             }
         }
-        */
+
     }
 }
