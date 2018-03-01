@@ -4,6 +4,7 @@ using System.Linq;
 using FFImageLoading.Forms.Touch;
 using FFImageLoading.Svg.Forms;
 using Foundation;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Push;
 using Steamboat.Mobile.CustomControls;
 using UIKit;
@@ -42,6 +43,7 @@ namespace Steamboat.Mobile.iOS
                 // Send the notification summary to debug output
                 System.Diagnostics.Debug.WriteLine(summary);
             };
+            AppCenter.Start("fc7b539c-ea85-4448-b7d3-bdb479134d5a", typeof(Push));
             LoadApplication(new App());
             //LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(
             //  new UXDivers.Gorilla.Config("Good Gorilla")
@@ -59,7 +61,7 @@ namespace Steamboat.Mobile.iOS
             DependencyContainer.RegisterDependencies();
         }
 
-        public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+        /*public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
             Push.RegisteredForRemoteNotifications(deviceToken);
         }
@@ -81,5 +83,6 @@ namespace Steamboat.Mobile.iOS
                 completionHandler?.Invoke(UIBackgroundFetchResult.NoData);
             }
         }
+        */
     }
 }
