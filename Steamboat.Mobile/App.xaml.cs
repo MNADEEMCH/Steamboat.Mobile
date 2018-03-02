@@ -26,9 +26,30 @@ namespace Steamboat.Mobile
 
         protected override void OnStart()
         {
-            //AppCenter.Start("android=9296455d-1464-48bd-9e68-806e6df4a570;"+
-            //                "ios=fc7b539c-ea85-4448-b7d3-bdb479134d5a",
-            //      typeof(Push));
+            Push.PushNotificationReceived += (sender, e) => {
+
+                // Add the notification message and title to the message
+                var summary = $"Push notification received:" +
+                                    $"\n\tNotification title: {e.Title}" +
+                                    $"\n\tMessage: {e.Message}";
+
+                // If there is custom data associated with the notification,
+                // print the entries
+                if (e.CustomData != null)
+                {
+                    summary += "\n\tCustom data:\n";
+                    foreach (var key in e.CustomData.Keys)
+                    {
+                        summary += $"\t\t{key} : {e.CustomData[key]}\n";
+                    }
+                }
+
+                // Send the notification summary to debug output
+                System.Diagnostics.Debug.WriteLine(summary);
+            };
+            AppCenter.Start("android=9296455d-1464-48bd-9e68-806e6df4a570;"+
+                            "ios=fc7b539c-ea85-4448-b7d3-bdb479134d5a",
+                  typeof(Push));
 
 
         }
@@ -42,5 +63,6 @@ namespace Steamboat.Mobile
         {
             // Handle when your app resumes
         }
+
     }
 }
