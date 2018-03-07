@@ -87,7 +87,7 @@ namespace Steamboat.Mobile.ViewModels
             }
             catch (Exception e)
             {
-                await this.DialogService.ShowAlertAsync(e.Message, "Error", "OK");
+                //await this.DialogService.ShowAlertAsync(e.Message, "Error", "OK");
             }
             finally
             {

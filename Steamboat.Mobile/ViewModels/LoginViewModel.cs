@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Push;
 using Steamboat.Mobile.Exceptions;
 using Steamboat.Mobile.Helpers;
@@ -21,11 +22,13 @@ namespace Steamboat.Mobile.ViewModels
         private ValidatableObject<string> _username;
         private ValidatableObject<string> _password;
         private bool _isBusy;
+        private string _messageFromPush;
 
         public ICommand LoginCommand { get; set; }
         public ValidatableObject<string> Username { set { SetPropertyValue(ref _username, value); } get { return _username; } }
         public ValidatableObject<string> Password { set { SetPropertyValue(ref _password, value); } get { return _password; } }
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
+        public string MessageFromPush { set { SetPropertyValue(ref _messageFromPush, value); } get { return _messageFromPush; } }
 
         #endregion
 
@@ -45,6 +48,8 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
+            var installId = await AppCenter.GetInstallIdAsync();
+            MessageFromPush = App.pruebaPushNotMessage;
             if (parameter == null) { 
                 Username.Value = await GetCurrentUser();
                 await base.InitializeAsync(parameter);

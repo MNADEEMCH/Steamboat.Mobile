@@ -22,13 +22,30 @@ namespace Steamboat.Mobile.iOS
             ResolveDependencies();
             CachedImageRenderer.Init();
             var ignore = typeof(SvgCachedImage);
-            LoadApplication(new App());
+
+            if (options != null && options.Keys != null && options.Keys.Count() != 0 && options.ContainsKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")))
+            {
+                NSDictionary UIApplicationLaunchOptionsRemoteNotificationKey = options.ObjectForKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")) as NSDictionary;
+
+                NSError error;
+                var json = NSJsonSerialization.Serialize(UIApplicationLaunchOptionsRemoteNotificationKey,NSJsonWritingOptions.SortedKeys,out error);
+
+                //var keys = string.Join(",",UIApplicationLaunchOptionsRemoteNotificationKey.Keys.ToList() );
+                //var values = string.Join(",", UIApplicationLaunchOptionsRemoteNotificationKey.Values.ToList())
+
+                LoadApplication(new App(json.ToString()));
+            }
+            else
+                LoadApplication(new App());
+
             //LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(
             //  new UXDivers.Gorilla.Config("Good Gorilla")
             //    .RegisterAssembly(typeof(FFImageLoading.Forms.CachedImage).Assembly)
             //    .RegisterAssembly(typeof(FFImageLoading.Svg.Forms.SvgCachedImage).Assembly)
             //    .RegisterAssembly(typeof(GradientRoundedButton).Assembly)
             //));
+
+
 
             return base.FinishedLaunching(app, options);
         }

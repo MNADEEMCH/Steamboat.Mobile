@@ -18,9 +18,12 @@ using Microsoft.AppCenter;
 
 namespace Steamboat.Mobile.Droid
 {
-    [Activity(Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme",ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(LaunchMode=Android.Content.PM.LaunchMode.SingleTask, Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme",ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        public static string extra;
+
+
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -33,7 +36,22 @@ namespace Steamboat.Mobile.Droid
             var ignore = typeof(SvgCachedImage);
             UserDialogs.Init(this);
             Push.SetSenderId("340794934070");
-            LoadApplication(new App());
+
+            if(false){
+                LoadApplication(new App("SI"));
+            }
+            else{
+                LoadApplication(new App());
+            }
+            /*var a = new PushReceiver();
+            var b = a.GetResultExtras(true);
+            if (b != null)
+            {
+                var c = b.ToString();
+                LoadApplication(new App(c));
+            }
+            else
+                LoadApplication(new App());*/
             //LoadApplication(UXDivers.Gorilla.Droid.Player.CreateApplication(this,
             //    new UXDivers.Gorilla.Config("Good Gorilla")
             //        .RegisterAssembly(typeof(FFImageLoading.Forms.CachedImage).Assembly)
@@ -46,6 +64,12 @@ namespace Steamboat.Mobile.Droid
         {
             AndroidDependencyContainer.RegisterDependencies();
             DependencyContainer.RegisterDependencies();
+        }
+
+        protected override void OnNewIntent(Android.Content.Intent intent)
+        {
+            base.OnNewIntent(intent);
+            Push.CheckLaunchedFromNotification(this, intent);
         }
 
     }

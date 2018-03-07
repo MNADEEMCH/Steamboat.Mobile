@@ -37,7 +37,16 @@ namespace Steamboat.Mobile.Droid
 
             await Task.Delay(1000); // Simulate a bit of startup work.
 
-            StartActivity(new Intent(this, typeof(MainActivity)));
+            var intent = new Intent(this, typeof(MainActivity));
+
+            if (this.Intent.Extras != null)
+            {
+                //intent.Extras.PutBoolean("algo",true);
+                MainActivity.extra = string.Join(",", this.Intent.Extras.KeySet().ToList());
+                //MainActivity.extra = this.Intent.Extras.ContainsKey("google.message_id") ? this.Intent.Extras.GetString("google.message_id"):"";
+            }
+
+            StartActivity(intent);
 
         }
 

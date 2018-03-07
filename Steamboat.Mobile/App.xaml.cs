@@ -2,6 +2,7 @@
 using Microsoft.AppCenter.Push;
 using Steamboat.Mobile.Models.User;
 using Steamboat.Mobile.Services.Navigation;
+using Steamboat.Mobile.ViewModels;
 using Steamboat.Mobile.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,12 +14,12 @@ namespace Steamboat.Mobile
     {
         public static CurrentUser CurrentUser;
         public static string SessionID;
+        public static string pruebaPushNotMessage;
 
-        public App()
+        public App(string fromPush="NO")
         {
             InitializeComponent();
-
-
+            pruebaPushNotMessage = fromPush;
             //MainPage = new LoginView();
             var navigationService = DependencyContainer.Resolve<INavigationService>();
             navigationService.InitializeAsync();
@@ -44,14 +45,23 @@ namespace Steamboat.Mobile
                     }
                 }
 
+                pruebaPushNotMessage = e.Message;
+                var navigationService = DependencyContainer.Resolve<INavigationService>();
+                navigationService.NavigateToAsync<ReportViewModel>();
+
                 // Send the notification summary to debug output
                 System.Diagnostics.Debug.WriteLine(summary);
             };
+
             AppCenter.Start("android=9296455d-1464-48bd-9e68-806e6df4a570;"+
                             "ios=fc7b539c-ea85-4448-b7d3-bdb479134d5a",
                   typeof(Push));
 
+            var customProperty = new CustomProperties();
+            customProperty.Set("App Version", AppCenter.SdkVersion);
+            customProperty.Set("Empresa", "policia");
 
+            AppCenter.SetCustomProperties(customProperty);
         }
 
         protected override void OnSleep()
