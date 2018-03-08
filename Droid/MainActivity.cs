@@ -36,7 +36,6 @@ namespace Steamboat.Mobile.Droid
             var ignore = typeof(SvgCachedImage);
             UserDialogs.Init(this);
             Push.SetSenderId("340794934070");
-
             if(false){
                 LoadApplication(new App("SI"));
             }

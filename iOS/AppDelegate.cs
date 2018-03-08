@@ -19,6 +19,9 @@ namespace Steamboat.Mobile.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
+            UIUserNotificationSettings settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Badge, null);
+            UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+
             ResolveDependencies();
             CachedImageRenderer.Init();
             var ignore = typeof(SvgCachedImage);

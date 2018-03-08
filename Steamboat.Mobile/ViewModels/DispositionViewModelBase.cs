@@ -13,6 +13,7 @@ using Xamarin.Forms;
 using Steamboat.Mobile.Models.Participant.DispositionSteps;
 using Steamboat.Mobile.Managers.Account;
 using Steamboat.Mobile.Models.User;
+using Badge.Plugin;
 
 namespace Steamboat.Mobile.ViewModels
 {
@@ -83,6 +84,8 @@ namespace Steamboat.Mobile.ViewModels
                 IsDispositionStepValid(dispositionStep);
 
                 await InitializeDispositionStep(status, dispositionStep);
+               
+                CrossBadge.Current.SetBadge(0);
 
             }
             catch (Exception e)

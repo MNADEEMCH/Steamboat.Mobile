@@ -233,6 +233,12 @@
     <Reference Include="Microsoft.AppCenter.Push">
       <HintPath>..\packages\Microsoft.AppCenter.Push.1.4.0\lib\MonoAndroid403\Microsoft.AppCenter.Push.dll</HintPath>
     </Reference>
+    <Reference Include="Badge.Plugin.Abstractions">
+      <HintPath>..\packages\Xam.Plugin.Badge.1.0.0.0\lib\MonoAndroid10\Badge.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Badge.Plugin">
+      <HintPath>..\packages\Xam.Plugin.Badge.1.0.0.0\lib\MonoAndroid10\Badge.Plugin.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomRenderers\ColorProgressBarRenderer.cs" />
