@@ -11,6 +11,7 @@ namespace Steamboat.Mobile
     {
         public static CurrentUser CurrentUser;
         public static string SessionID;
+        public static string PruebaPush;
 
         public App()
         {

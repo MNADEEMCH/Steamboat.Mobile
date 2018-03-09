@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Media;
+using Android.Support.V7.App;
 using Firebase.Messaging;
 
 namespace Steamboat.Mobile.Droid
@@ -24,18 +25,20 @@ namespace Steamboat.Mobile.Droid
         {
             var intent = new Intent(this, typeof(MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
-            foreach (string key in data.Keys)
+            intent.PutExtra("saracatanga", "siseor");
+            /*foreach (string key in data.Keys)
             {
                 intent.PutExtra(key, data[key]);
-            }
+            }*/
+
             var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
 
-            var defaultSoundUri = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
-            var notificationBuilder = new Notification.Builder(this)
+            var notificationBuilder = new NotificationCompat.Builder(this)
                 .SetContentTitle("FCM Message")
                 .SetContentText(messageBody)
                 .SetAutoCancel(true)
-                .SetSound(defaultSoundUri)
+                
+                .SetNumber(1)                                             
                 .SetContentIntent(pendingIntent);
 
             var notificationManager = NotificationManager.FromContext(this);

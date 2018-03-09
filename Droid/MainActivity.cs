@@ -18,10 +18,12 @@ using Android.Gms.Common;
 using Firebase.Messaging;
 using Firebase.Iid;
 using Android.Util;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Steamboat.Mobile.Droid
 {
-    [Activity(Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme",ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(LaunchMode=LaunchMode.SingleTop, Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme",ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
@@ -32,9 +34,19 @@ namespace Steamboat.Mobile.Droid
             base.OnCreate(bundle);
 
             IsPlayServicesAvailable();
-            if(this.Intent!=null && this.Intent.Extras!=null){
 
+            //VER COMO LEVANTAR EL PENDING INTENT, YA QUE LO QUE SE CARGA EN EL POPUP DE LA NOTIFICACION ES UN PENDING INTENT
+            if(this.Intent!=null && this.Intent.Extras!=null){
+                
+                Bundle extras = this.Intent.Extras;
+                Dictionary<string, object> data = extras.KeySet()
+                                                        .ToDictionary<string, string, object>(key => key, key => extras.Get(key));
+
+                App.PruebaPush = string.Join(",",data.Keys.ToList());
+                App.PruebaPush = "entroo";
             }
+
+
             if(FirebaseInstanceId.Instance.Token!=null)
                 Log.Debug("Token", FirebaseInstanceId.Instance.Token);
             FirebaseMessaging.Instance.SubscribeToTopic("news");
@@ -80,5 +92,24 @@ namespace Steamboat.Mobile.Droid
             AndroidDependencyContainer.RegisterDependencies();
             DependencyContainer.RegisterDependencies();
         }
-    }
+
+		protected override void OnNewIntent(Intent intent)
+		{
+            /*if (intent != null && intent.Extras != null)
+            {
+
+                Bundle extras = intent.Extras;
+                Dictionary<string, object> data = extras.KeySet()
+                                                        .ToDictionary<string, string, object>(key => key, key => extras.Get(key));
+
+                App.PruebaPush = string.Join(",", data.Keys.ToList());
+                App.PruebaPush = "entroo";
+                this.Intent = intent;
+            }*/
+
+            base.OnNewIntent(intent);
+
+		}
+
+	}
 }
