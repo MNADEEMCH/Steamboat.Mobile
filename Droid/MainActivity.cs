@@ -23,7 +23,7 @@ using System.Linq;
 
 namespace Steamboat.Mobile.Droid
 {
-    [Activity(LaunchMode=LaunchMode.SingleTop, Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme",ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(LaunchMode = LaunchMode.SingleTop, Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme",ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
@@ -34,18 +34,15 @@ namespace Steamboat.Mobile.Droid
             base.OnCreate(bundle);
 
             IsPlayServicesAvailable();
+            if (this.Intent != null && this.Intent.Extras != null)
+            {
 
-            //VER COMO LEVANTAR EL PENDING INTENT, YA QUE LO QUE SE CARGA EN EL POPUP DE LA NOTIFICACION ES UN PENDING INTENT
-            if(this.Intent!=null && this.Intent.Extras!=null){
-                
                 Bundle extras = this.Intent.Extras;
                 Dictionary<string, object> data = extras.KeySet()
                                                         .ToDictionary<string, string, object>(key => key, key => extras.Get(key));
 
-                App.PruebaPush = string.Join(",",data.Keys.ToList());
-                App.PruebaPush = "entroo";
+                App.PruebaPush = string.Join(",", data.Keys.ToList());
             }
-
 
             if(FirebaseInstanceId.Instance.Token!=null)
                 Log.Debug("Token", FirebaseInstanceId.Instance.Token);
@@ -66,25 +63,15 @@ namespace Steamboat.Mobile.Droid
             //));
         }
 
-        public bool IsPlayServicesAvailable()
+		protected override void OnResume()
+		{
+            base.OnResume();
+		}
+
+		public bool IsPlayServicesAvailable()
         {
             int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
-            if (resultCode != ConnectionResult.Success)
-            {
-                /*if (GoogleApiAvailability.Instance.IsUserResolvableError(resultCode))
-                    msgText.Text = GoogleApiAvailability.Instance.GetErrorString(resultCode);
-                else
-                {
-                    msgText.Text = "This device is not supported";
-                    Finish();
-                }*/
-                return false;
-            }
-            else
-            {
-                //msgText.Text = "Google Play Services is available.";
-                return true;
-            }
+            return resultCode == ConnectionResult.Success;
         }
 
         private void ResolveDependencies()
@@ -95,20 +82,7 @@ namespace Steamboat.Mobile.Droid
 
 		protected override void OnNewIntent(Intent intent)
 		{
-            /*if (intent != null && intent.Extras != null)
-            {
-
-                Bundle extras = intent.Extras;
-                Dictionary<string, object> data = extras.KeySet()
-                                                        .ToDictionary<string, string, object>(key => key, key => extras.Get(key));
-
-                App.PruebaPush = string.Join(",", data.Keys.ToList());
-                App.PruebaPush = "entroo";
-                this.Intent = intent;
-            }*/
-
             base.OnNewIntent(intent);
-
 		}
 
 	}

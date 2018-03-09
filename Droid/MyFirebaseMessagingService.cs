@@ -25,20 +25,17 @@ namespace Steamboat.Mobile.Droid
         {
             var intent = new Intent(this, typeof(MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
-            intent.PutExtra("saracatanga", "siseor");
-            /*foreach (string key in data.Keys)
+
+            foreach (string key in data.Keys)
             {
                 intent.PutExtra(key, data[key]);
-            }*/
+            }
 
-            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
+            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.UpdateCurrent);
 
             var notificationBuilder = new NotificationCompat.Builder(this)
-                .SetContentTitle("FCM Message")
                 .SetContentText(messageBody)
                 .SetAutoCancel(true)
-                
-                .SetNumber(1)                                             
                 .SetContentIntent(pendingIntent);
 
             var notificationManager = NotificationManager.FromContext(this);

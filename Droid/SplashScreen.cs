@@ -36,8 +36,11 @@ namespace Steamboat.Mobile.Droid
         {
 
             await Task.Delay(1000); // Simulate a bit of startup work.
-
-            StartActivity(new Intent(this, typeof(MainActivity)));
+            Intent intent = new Intent(this, typeof(MainActivity));
+            if(this.Intent!=null&&this.Intent.Extras!=null)
+                intent.PutExtras(this.Intent.Extras);
+            
+            StartActivity(intent);
 
         }
 
