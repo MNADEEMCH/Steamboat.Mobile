@@ -26,6 +26,25 @@ namespace Steamboat.Mobile.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
+            //IN ORDER TO SET BADGE
+            UIUserNotificationSettings settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Badge, null);
+            UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+
+            //TO MODIFY BADGE FROM APP
+            //UIApplication.SharedApplication.ApplicationIconBadgeNumber = badge;
+
+            //TO READ THE PUSH NOT WHEN THE APP WAS CLOSED
+            if (options != null && options.Keys != null && options.Keys.Count() != 0 && options.ContainsKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")))
+            {
+                NSDictionary UIApplicationLaunchOptionsRemoteNotificationKey = options.ObjectForKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")) as NSDictionary;
+                NSError error;
+                var json = NSJsonSerialization.Serialize(UIApplicationLaunchOptionsRemoteNotificationKey, NSJsonWritingOptions.SortedKeys, out error);
+                App.PruebaPush = json.ToString();
+            }
+
+            //SEE WHAT IS THIS FOR
+            Messaging.SharedInstance.Delegate = this;
+
             RegisterForPushNotifications();
 
             ResolveDependencies();
@@ -96,6 +115,42 @@ namespace Steamboat.Mobile.iOS
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
             //new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "OK", null).Show();
+        }
+
+
+        // iOS 9 <=, fire when recieve notification foreground
+        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        {
+            Messaging.SharedInstance.AppDidReceiveMessage(userInfo);
+
+            // Generate custom event
+
+            NSString[] keys = { new NSString("Event_type") };
+            NSObject[] values = { new NSString("Recieve_Notification") };
+            var parameters = NSDictionary<NSString, NSObject>.FromObjectsAndKeys(keys, values, keys.Length);
+
+            // Send custom event
+            Firebase.Analytics.Analytics.LogEvent("CustomEvent", parameters);
+
+            if (application.ApplicationState == UIApplicationState.Active)
+            {
+                System.Diagnostics.Debug.WriteLine(userInfo);
+                var aps_d = userInfo["aps"] as NSDictionary;
+                var alert_d = aps_d["alert"] as NSDictionary;
+                var body = alert_d["body"] as NSString;
+                var title = alert_d["title"] as NSString;
+            }
+            App.PruebaPush = "recive en background/foreground";
+
+        }
+
+        // iOS 10, fire when recieve notification foreground
+        [Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
+        public void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+        {
+            System.Console.WriteLine(notification.Request.Content.UserInfo);
+            var title = notification.Request.Content.Title;
+            var body = notification.Request.Content.Body;
         }
 
         private void ResolveDependencies()
