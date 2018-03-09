@@ -14,6 +14,11 @@ using Steamboat.Mobile.Droid.CustomRenderers;
 using Steamboat.Mobile.CustomControls;
 using Acr.UserDialogs;
 
+using Android.Gms.Common;
+using Firebase.Messaging;
+using Firebase.Iid;
+using Android.Util;
+
 namespace Steamboat.Mobile.Droid
 {
     [Activity(Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme",ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -25,6 +30,14 @@ namespace Steamboat.Mobile.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
+
+            IsPlayServicesAvailable();
+            if(this.Intent!=null && this.Intent.Extras!=null){
+
+            }
+            if(FirebaseInstanceId.Instance.Token!=null)
+                Log.Debug("Token", FirebaseInstanceId.Instance.Token);
+            FirebaseMessaging.Instance.SubscribeToTopic("news");
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
@@ -39,6 +52,27 @@ namespace Steamboat.Mobile.Droid
             //        .RegisterAssembly(typeof(FFImageLoading.Svg.Forms.SvgCachedImage).Assembly)
             //        .RegisterAssembly(typeof(GradientRoundedButton).Assembly)
             //));
+        }
+
+        public bool IsPlayServicesAvailable()
+        {
+            int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
+            if (resultCode != ConnectionResult.Success)
+            {
+                /*if (GoogleApiAvailability.Instance.IsUserResolvableError(resultCode))
+                    msgText.Text = GoogleApiAvailability.Instance.GetErrorString(resultCode);
+                else
+                {
+                    msgText.Text = "This device is not supported";
+                    Finish();
+                }*/
+                return false;
+            }
+            else
+            {
+                //msgText.Text = "Google Play Services is available.";
+                return true;
+            }
         }
 
         private void ResolveDependencies()

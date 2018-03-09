@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "340794934070",
+    "firebase_url": "https://momentumhealthpoc.firebaseio.com",
+    "project_id": "momentumhealthpoc",
+    "storage_bucket": "momentumhealthpoc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340794934070:android:0ef295a77fb35829",
+        "android_client_info": {
+          "package_name": "com.MomentumHealth.Steamboat_Mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "340794934070-jlthpqj1q2d66ajqm3g1s14ufquel48m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq3bkJW-5WRVTBOWiNLGm6PA11JZnm4aA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
