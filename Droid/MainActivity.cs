@@ -21,6 +21,7 @@ using Android.Util;
 using System.Collections.Generic;
 using System.Linq;
 using ME.Leolin.Shortcutbadger;
+using Steamboat.Mobile.Models.NavigationParameters;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -34,6 +35,8 @@ namespace Steamboat.Mobile.Droid
 
             base.OnCreate(bundle);
 
+            PushNotificationParameter pushNotificationParameter = null;
+
             IsPlayServicesAvailable();
             if (this.Intent != null && this.Intent.Extras != null)
             {
@@ -42,10 +45,10 @@ namespace Steamboat.Mobile.Droid
                 Dictionary<string, object> data = extras.KeySet()
                                                         .ToDictionary<string, string, object>(key => key, key => extras.Get(key));
 
-                App.PruebaPush = string.Join(",", data.Keys.ToList());
+                pushNotificationParameter = new PushNotificationParameter(){PruebaPush=string.Join(",", data.Keys.ToList())};
 
                 //TO MODIFY BADGE FROM APP
-                ShortcutBadger.ApplyCount(this.ApplicationContext, 1);
+                //ShortcutBadger.ApplyCount(this.ApplicationContext, 1);
             }
 
             if(FirebaseInstanceId.Instance.Token!=null)
@@ -58,7 +61,7 @@ namespace Steamboat.Mobile.Droid
             CachedImageRenderer.Init(true);
             var ignore = typeof(SvgCachedImage);
             UserDialogs.Init(this);
-            LoadApplication(new App());
+            LoadApplication(new App(pushNotificationParameter));
             //LoadApplication(UXDivers.Gorilla.Droid.Player.CreateApplication(this,
             //    new UXDivers.Gorilla.Config("Good Gorilla")
             //        .RegisterAssembly(typeof(FFImageLoading.Forms.CachedImage).Assembly)

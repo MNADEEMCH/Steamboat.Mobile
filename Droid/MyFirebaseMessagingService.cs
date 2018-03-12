@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Media;
 using Android.Support.V7.App;
 using Firebase.Messaging;
+using Steamboat.Mobile.Models.NavigationParameters;
+using System.Linq;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -14,14 +17,14 @@ namespace Steamboat.Mobile.Droid
     {
         const string TAG = "MyFirebaseMsgService";
 
-        public override void OnMessageReceived(RemoteMessage message)
+        public async override void OnMessageReceived(RemoteMessage message)
         {
             Android.Util.Log.Debug(TAG, "From: " + message.From);
             Android.Util.Log.Debug(TAG, "Notification Message Body: " + message.GetNotification().Body);
-            SendNotification(message.GetNotification().Body, message.Data);
+            await SendNotification(message.GetNotification().Body, message.Data);
         }
 
-        void SendNotification(string messageBody, IDictionary<string, string> data)
+        public async Task SendNotification(string messageBody, IDictionary<string, string> data)
         {
             var intent = new Intent(this, typeof(MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
@@ -40,6 +43,9 @@ namespace Steamboat.Mobile.Droid
 
             var notificationManager = NotificationManager.FromContext(this);
             notificationManager.Notify(0, notificationBuilder.Build());
+
+            var pushNotificationParameter = new PushNotificationParameter() { PruebaPush = string.Join(",", data.Keys.ToList()) };
+            await App.HandlePushNotification(pushNotificationParameter);
         }
     }
 }

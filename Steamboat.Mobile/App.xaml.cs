@@ -1,4 +1,7 @@
-﻿using Steamboat.Mobile.Models.User;
+﻿using System.Threading.Tasks;
+using Steamboat.Mobile.Managers;
+using Steamboat.Mobile.Models.NavigationParameters;
+using Steamboat.Mobile.Models.User;
 using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Views;
 using Xamarin.Forms;
@@ -11,15 +14,20 @@ namespace Steamboat.Mobile
     {
         public static CurrentUser CurrentUser;
         public static string SessionID;
-        public static string PruebaPush;
 
-        public App()
+        public static IApplicationManager _applicationManager;
+
+        public App(PushNotificationParameter pushNotificationParameter=null)
         {
             InitializeComponent();
 
-            //MainPage = new LoginView();
-            var navigationService = DependencyContainer.Resolve<INavigationService>();
-            navigationService.InitializeAsync();
+            _applicationManager = _applicationManager ?? DependencyContainer.Resolve<IApplicationManager>();
+            _applicationManager.InitializeApplication(pushNotificationParameter);
+        }
+
+        public static async Task HandlePushNotification(PushNotificationParameter pushNotificationParameter){
+
+            await _applicationManager.HandlePushNotification(pushNotificationParameter);
         }
 
         protected override void OnStart()

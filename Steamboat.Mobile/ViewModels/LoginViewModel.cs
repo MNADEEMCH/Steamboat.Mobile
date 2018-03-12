@@ -47,7 +47,6 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
-            PushKeys = App.PruebaPush;
             if (parameter == null) { 
                 Username.Value = await GetCurrentUser();
                 await base.InitializeAsync(parameter);

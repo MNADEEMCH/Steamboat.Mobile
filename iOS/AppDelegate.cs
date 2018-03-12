@@ -6,6 +6,7 @@ using FFImageLoading.Svg.Forms;
 using Firebase.CloudMessaging;
 using Foundation;
 using Steamboat.Mobile.CustomControls;
+using Steamboat.Mobile.Models.NavigationParameters;
 using UIKit;
 using UserNotifications;
 using UXDivers.Gorilla;
@@ -32,14 +33,14 @@ namespace Steamboat.Mobile.iOS
 
             //TO MODIFY BADGE FROM APP
             //UIApplication.SharedApplication.ApplicationIconBadgeNumber = badge;
-
+            PushNotificationParameter pushNotificationParameter = null;
             //TO READ THE PUSH NOT WHEN THE APP WAS CLOSED
             if (options != null && options.Keys != null && options.Keys.Count() != 0 && options.ContainsKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")))
             {
                 NSDictionary UIApplicationLaunchOptionsRemoteNotificationKey = options.ObjectForKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")) as NSDictionary;
                 NSError error;
                 var json = NSJsonSerialization.Serialize(UIApplicationLaunchOptionsRemoteNotificationKey, NSJsonWritingOptions.SortedKeys, out error);
-                App.PruebaPush = json.ToString();
+                pushNotificationParameter = new PushNotificationParameter(){PruebaPush=json.ToString()};
             }
 
             //SEE WHAT IS THIS FOR
@@ -51,7 +52,7 @@ namespace Steamboat.Mobile.iOS
             CachedImageRenderer.Init();
             var ignore = typeof(SvgCachedImage);
 
-            LoadApplication(new App());
+            LoadApplication(new App(pushNotificationParameter));
             //LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(
             //  new UXDivers.Gorilla.Config("Good Gorilla")
             //    .RegisterAssembly(typeof(FFImageLoading.Forms.CachedImage).Assembly)
@@ -119,7 +120,7 @@ namespace Steamboat.Mobile.iOS
 
 
         // iOS 9 <=, fire when recieve notification foreground
-        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        public async override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
             Messaging.SharedInstance.AppDidReceiveMessage(userInfo);
 
@@ -140,17 +141,21 @@ namespace Steamboat.Mobile.iOS
                 var body = alert_d["body"] as NSString;
                 var title = alert_d["title"] as NSString;
             }
-            App.PruebaPush = "recive en background/foreground";
 
+            var pushNotificationParameter = new PushNotificationParameter() { PruebaPush="recive en background/foreground" };
+            await App.HandlePushNotification(pushNotificationParameter);
         }
 
         // iOS 10, fire when recieve notification foreground
         [Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
-        public void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+        public async void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
         {
             System.Console.WriteLine(notification.Request.Content.UserInfo);
             var title = notification.Request.Content.Title;
             var body = notification.Request.Content.Body;
+
+            var pushNotificationParameter = new PushNotificationParameter() { PruebaPush = "recive en background/foreground" };
+            await App.HandlePushNotification(pushNotificationParameter);
         }
 
         private void ResolveDependencies()

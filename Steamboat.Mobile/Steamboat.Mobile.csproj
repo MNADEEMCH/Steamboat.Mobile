@@ -235,6 +235,9 @@
     <Compile Include="Repositories\User\UserAlertRepository.cs" />
     <Compile Include="Repositories\User\IUserAlertRepository.cs" />
     <Compile Include="Models\User\UserAlerts.cs" />
+    <Compile Include="Managers\ApplicationManager.cs" />
+    <Compile Include="Models\NavigationParameters\PushNotificationParameter.cs" />
+    <Compile Include="Managers\IApplicationManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
