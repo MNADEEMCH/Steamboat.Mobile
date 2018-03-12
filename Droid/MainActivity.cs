@@ -20,6 +20,7 @@ using Firebase.Iid;
 using Android.Util;
 using System.Collections.Generic;
 using System.Linq;
+using ME.Leolin.Shortcutbadger;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -42,6 +43,9 @@ namespace Steamboat.Mobile.Droid
                                                         .ToDictionary<string, string, object>(key => key, key => extras.Get(key));
 
                 App.PruebaPush = string.Join(",", data.Keys.ToList());
+
+                //TO MODIFY BADGE FROM APP
+                ShortcutBadger.ApplyCount(this.ApplicationContext, 1);
             }
 
             if(FirebaseInstanceId.Instance.Token!=null)
