@@ -1,8 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steamboat.Mobile.Views.Survey.SurveyLabelView">
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.Survey.SurveyLabelView"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="40"></Setter>
+                <Setter Property="WidthRequest" Value="40"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="LabelBubbleStack" TargetType="customControl:BubbleStack">
+                <Setter Property="BorderColor" Value="White" />
+                <Setter Property="BorderRadius" Value="12" />
+                <Setter Property="FillColor" Value="White" />
+                <Setter Property="IsLabel" Value="True" />
+                <Style.Triggers>
+                     <DataTrigger TargetType="customControl:BubbleStack" Binding="{Binding IsFirstQuestion}" Value="True">
+                        <Setter Property="Margin" Value="0,18,0,0" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="TextLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
 	<ContentView.Content>
-        <Frame OutlineColor="Transparent" HasShadow="False" BackgroundColor="White" Padding="2">
-            <Label x:Name="MainLabel" Text="{Binding Text}" />
-        </Frame>
+
+        <Grid Margin="0,0,0,8" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ffimageloading:CachedImage Grid.Column="0" Source="imgMomentumProfile.png" Style="{StaticResource MomentumImage}" IsVisible="{Binding IsFirstQuestion}" />
+            <customControl:BubbleStack Grid.Column="1" Style="{StaticResource LabelBubbleStack}">
+                <Label x:Name="MainLabel" Text="{Binding Text}" Style="{StaticResource TextLabel}" Margin="24,16,12,16"  />
+            </customControl:BubbleStack>
+            <Grid IsVisible="false" />
+        </Grid>
 	</ContentView.Content>
 </ContentView>

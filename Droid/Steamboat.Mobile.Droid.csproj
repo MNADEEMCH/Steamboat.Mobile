@@ -239,6 +239,7 @@
     <Compile Include="CustomRenderers\WebViewRenderer.cs" />
     <Compile Include="CustomRenderers\LinkButtonRenderer.cs" />
     <Compile Include="CustomRenderers\CustomNavigationViewRenderer.cs" />
+    <Compile Include="CustomRenderers\BubbleStackRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
@@ -282,6 +283,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\imgHeaderTablet.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\imgHeaderTablet.png" />
     <AndroidResource Include="Resources\drawable-hdpi\imgHeaderTablet.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgMomentumProfile.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgMomentumProfile.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgMomentumProfile.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

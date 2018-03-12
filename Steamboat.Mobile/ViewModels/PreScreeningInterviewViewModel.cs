@@ -32,7 +32,7 @@ namespace Steamboat.Mobile.ViewModels
         {
             IsLoading = true;
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
-            SelectAnswerCommand = new Command(async (selectedAnswer)=> await AnswerSelected(selectedAnswer));
+            SelectAnswerCommand = new Command(async (selectedAnswer) => await AnswerSelected(selectedAnswer));
 
             _questionIndex = 0;
             SurveyQuestions = new ObservableCollection<Question>();
@@ -43,10 +43,10 @@ namespace Steamboat.Mobile.ViewModels
             _localQuestions = await _participantManager.GetSurvey();
             IsLoading = false;
 
-            await ContinueSurvey();
+            await ContinueSurvey(true);
         }
 
-        private async Task ContinueSurvey()
+        private async Task ContinueSurvey(bool isFirstQuestion)
         {
             Question currentQuestion;
             var shouldBreak = false;
@@ -55,7 +55,9 @@ namespace Steamboat.Mobile.ViewModels
                 currentQuestion = _localQuestions.ElementAt(_questionIndex);
                 if (currentQuestion.IsEnabled)
                 {
+                    currentQuestion.IsFirstQuestion = isFirstQuestion;
                     SurveyQuestions.Add(currentQuestion);
+
                     await Task.Delay(1000);
                     if (!currentQuestion.Type.Equals(SurveyHelper.LabelType))
                     {
@@ -67,18 +69,19 @@ namespace Steamboat.Mobile.ViewModels
                 }
 
                 _questionIndex++;
+                isFirstQuestion = false;
                 if (shouldBreak)
                     break;
             }
         }
 
         private async Task AnswerSelected(object selectedAnswer)
-        {            
+        {
             var answer = selectedAnswer as Answers;
             var lastQuestion = SurveyQuestions.Last();
             lastQuestion.IsComplete = true;
             await AddRejoinder(answer);
-            await ContinueSurvey();
+            await ContinueSurvey(false);
         }
 
         private async Task AddRejoinder(Answers answer)
@@ -87,6 +90,7 @@ namespace Steamboat.Mobile.ViewModels
             rejoinder.Type = SurveyHelper.LabelType;
             rejoinder.IsAnswer = false;
             rejoinder.Text = answer.AlternateText;
+            rejoinder.IsFirstQuestion = true;
             SurveyQuestions.Add(rejoinder);
             await Task.Delay(1000);
         }

@@ -8,7 +8,7 @@
     xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
-    BackgroundColor="{StaticResource ViewBackground}"
+    BackgroundColor="{StaticResource SubtleGrayColor}"
     Title="Interview">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -37,8 +37,9 @@
                 
                 <Label Grid.Row="0" Text="INTERVIEW" Style="{StaticResource HeaderLabel}" />
                                     
-                <ScrollView x:Name="ScreeningScrollView" Grid.Row="1" Orientation="Vertical" >
-                    <customControl:RepeaterControl ItemsSource="{Binding SurveyQuestions}" ItemTemplate="{StaticResource QuestionTemplateSelector}" ItemCreated="Handle_ItemCreated"
+                <ScrollView x:Name="ScreeningScrollView" Grid.Row="1" Orientation="Vertical" Padding="16,0" >
+                    <customControl:RepeaterControl 
+                        ItemsSource="{Binding SurveyQuestions}" ItemTemplate="{StaticResource QuestionTemplateSelector}" ItemCreated="Handle_ItemCreated"
                         HorizontalOptions="Fill" VerticalOptions="StartAndExpand" />
                 </ScrollView>
             </Grid>

@@ -117,7 +117,7 @@ namespace Steamboat.Mobile.CustomControls
         }
 
         private void OnItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {            
+        {
             var children = Children;
             if (e.NewItems != null)
             {
@@ -125,7 +125,7 @@ namespace Steamboat.Mobile.CustomControls
                 {
                     var view = InflateView(item);
                     children.Add(view);
-                    NotifyItemAdded(view,item);
+                    NotifyItemAdded(view, item);
                     ScrollToBottom(view);
                 }
             }
@@ -135,14 +135,15 @@ namespace Steamboat.Mobile.CustomControls
         {
             var repeater = view.Parent as RepeaterControl;
             var scroll = repeater?.Parent as ScrollView;
-            if(scroll != null)
+            if (scroll != null)
             {
-                Device.BeginInvokeOnMainThread(async () => {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
                     var currentHeight = scroll.Height;
                     var height = scroll.Content.Height;
 
-                    if(height > currentHeight)
-                        await scroll.ScrollToAsync(0, height-currentHeight+10, true);
+                    if (height > currentHeight)
+                        await scroll.ScrollToAsync(0, height - currentHeight + 10, true);
                     else
                         await Task.FromResult(true);
                 });
