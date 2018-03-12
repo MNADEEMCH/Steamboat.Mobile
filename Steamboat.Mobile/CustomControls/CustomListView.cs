@@ -27,7 +27,7 @@ namespace Steamboat.Mobile.CustomControls
 
         #endregion
 
-        public CustomListView():base(ListViewCachingStrategy.RecycleElement)
+        public CustomListView()
         {
 
             this.ItemSelected += CustomListView_ItemSelected;

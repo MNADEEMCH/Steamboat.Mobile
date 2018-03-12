@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Steamboat.Mobile.Models.Participant;
+using Steamboat.Mobile.Models.Participant.Survey;
 
 namespace Steamboat.Mobile.Services.Participant
 {
@@ -14,5 +15,6 @@ namespace Steamboat.Mobile.Services.Participant
         Task<Appointment> ConfirmEvent(int eventId, int eventTimeSlotId, string sessionId);
         Task<List<Event>> CancelEvent(string sessionId);
         Task<List<EventTime>> GetEventTimes(int eventId, string sessionID);
+        Task<SurveyRequest> GetSurvey(string sessionID);
     }
 }

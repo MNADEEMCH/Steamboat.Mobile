@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="SelectOneView"
+    x:Class="Steamboat.Mobile.Views.Survey.SurveySelectOneView"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:survey="clr-namespace:Steamboat.Mobile.Views.Survey;assembly=Steamboat.Mobile">
+    <ContentView.Content>
+        <Frame OutlineColor="Transparent" HasShadow="False" BackgroundColor="{StaticResource MomentumBlueColor}" Padding="2" Margin="10,0,50,0">
+            <customControl:RepeaterControl ItemsSource="{Binding Answers}" >
+                <customControl:RepeaterControl.ItemTemplate>
+                    <DataTemplate>
+                        <customControl:WrappedButton Text="{Binding Text}" Padding="2" Active="true" HorizontalOptions="FillAndExpand" BorderWidth="1" Margin="2" 
+                            BorderColor="White" TextColor="White" Command="{Binding Path=ParentBindingContext.SelectAnswerCommand, Source={x:Reference SelectOneView}}" 
+                        CommandParameter="{Binding .}" />
+                    </DataTemplate>
+                </customControl:RepeaterControl.ItemTemplate>
+            </customControl:RepeaterControl>
+        </Frame>
+	</ContentView.Content>
+</ContentView>

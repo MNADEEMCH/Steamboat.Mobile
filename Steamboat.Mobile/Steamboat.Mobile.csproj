@@ -70,6 +70,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\PreScreeningInterviewView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Survey\SurveyLabelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Survey\SurveySelectOneView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -235,6 +247,21 @@
     <Compile Include="Repositories\User\UserAlertRepository.cs" />
     <Compile Include="Repositories\User\IUserAlertRepository.cs" />
     <Compile Include="Models\User\UserAlerts.cs" />
+    <Compile Include="Views\PreScreeningInterviewView.xaml.cs">
+      <DependentUpon>PreScreeningInterviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\PreScreeningInterviewViewModel.cs" />
+    <Compile Include="Models\Participant\Survey\SurveyRequest.cs" />
+    <Compile Include="Models\BindableBase.cs" />
+    <Compile Include="CustomControls\Survey\SurveyTemplateSelector.cs" />
+    <Compile Include="Helpers\SurveyHelper.cs" />
+    <Compile Include="CustomControls\RepeaterControl.cs" />
+    <Compile Include="Views\Survey\SurveyLabelView.xaml.cs">
+      <DependentUpon>SurveyLabelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Survey\SurveySelectOneView.xaml.cs">
+      <DependentUpon>SurveySelectOneView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -353,6 +380,9 @@
   <ItemGroup>
     <Folder Include="Models\Participant\DispositionSteps\" />
     <Folder Include="Models\NavigationParameters\" />
+    <Folder Include="Models\Participant\Survey\" />
+    <Folder Include="CustomControls\Survey\" />
+    <Folder Include="Views\Survey\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

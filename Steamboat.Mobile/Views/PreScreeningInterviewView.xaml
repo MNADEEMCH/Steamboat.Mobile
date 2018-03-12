@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.PreScreeningInterviewView"
+    x:Name="PreScreeningInterviewView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:surveyControl="clr-namespace:Steamboat.Mobile.CustomControls.Survey;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    BackgroundColor="{StaticResource ViewBackground}"
+    Title="Interview">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <surveyControl:SurveyTemplateSelector x:Key="QuestionTemplateSelector" />
+            <Style x:Key="HeaderLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="BackgroundColor" Value="{StaticResource SubtleBlueColor}" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+	<ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <!--MAIN FORM-->
+            <Grid Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <Label Grid.Row="0" Text="INTERVIEW" Style="{StaticResource HeaderLabel}" />
+                                    
+                <ScrollView x:Name="ScreeningScrollView" Grid.Row="1" Orientation="Vertical" >
+                    <customControl:RepeaterControl ItemsSource="{Binding SurveyQuestions}" ItemTemplate="{StaticResource QuestionTemplateSelector}" ItemCreated="Handle_ItemCreated"
+                        HorizontalOptions="Fill" VerticalOptions="StartAndExpand" />
+                </ScrollView>
+            </Grid>
+            
+            <ActivityIndicator
+            Grid.Row="0"
+            Color="{StaticResource MomentumBlueColor}"
+            IsRunning="{Binding IsLoading}"  
+            IsVisible="{Binding IsLoading}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            WidthRequest="100" />
+        </Grid>
+	</ContentPage.Content>
+</views:CustomContentPage>

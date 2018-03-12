@@ -46,6 +46,7 @@ namespace Steamboat.Mobile.ViewModels
         {
             if (parameter == null) { 
                 Username.Value = await GetCurrentUser();
+                Password.Value = "Passw0rd";
                 await base.InitializeAsync(parameter);
             }
             else

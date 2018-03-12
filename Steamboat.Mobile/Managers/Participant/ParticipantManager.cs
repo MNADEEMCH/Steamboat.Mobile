@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Steamboat.Mobile.Models.Participant;
+using Steamboat.Mobile.Models.Participant.Survey;
 using Steamboat.Mobile.Services.Participant;
 
 namespace Steamboat.Mobile.Managers.Participant
@@ -121,6 +122,20 @@ namespace Steamboat.Mobile.Managers.Participant
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error in login: {ex}");
+                throw ex;
+            }
+        }
+
+        public async Task<List<Question>> GetSurvey()
+        {
+            try
+            {
+                var survey = await _participantService.GetSurvey(App.SessionID);
+                return survey.QuestionGroup.Questions;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error getting the survey: {ex}");
                 throw ex;
             }
         }

@@ -22,7 +22,7 @@ namespace Steamboat.Mobile.ViewModels
 
         public bool ReportReady{get { return _reportReady; }set { SetPropertyValue(ref _reportReady, value); }}
 
-        public string MainActionButtonText{get { return _mainActionButtonText; }set { SetPropertyValue(ref _mainActionButtonText, value); }}
+        public string MainActionButtonText { get { return _mainActionButtonText; } set { SetPropertyValue(ref _mainActionButtonText, value); } }
         #endregion
 
         public ReportViewModel(StepperViewModel stepperViewModel = null) : base(stepperViewModel)

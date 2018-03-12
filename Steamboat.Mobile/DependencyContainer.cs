@@ -52,8 +52,9 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.Register(() => new ConsentsViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new StepperViewModel());
             Locator.CurrentMutable.Register(() => new SchedulingEventTimeViewModel());
-            Locator.CurrentMutable.Register(() => new SchedulingEventDateViewModel());            
-            Locator.CurrentMutable.Register(() => new SchedulingConfirmationViewModel()); 
+            Locator.CurrentMutable.Register(() => new SchedulingEventDateViewModel());
+            Locator.CurrentMutable.Register(() => new SchedulingConfirmationViewModel());
+            Locator.CurrentMutable.Register(() => new PreScreeningInterviewViewModel());
 
             //ModalViewModels
             Locator.CurrentMutable.Register(() => new DispositionMoreInfoModalViewModel());

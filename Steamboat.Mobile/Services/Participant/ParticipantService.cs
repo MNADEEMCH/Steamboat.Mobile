@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Steamboat.Mobile.Models.Participant;
+using Steamboat.Mobile.Models.Participant.Survey;
 using Steamboat.Mobile.Services.RequestProvider;
 
 namespace Steamboat.Mobile.Services.Participant
@@ -60,6 +61,12 @@ namespace Steamboat.Mobile.Services.Participant
 
             string url = string.Format(ApiUrlBase + "{0}/{1}/{2}", "event", eventId, eventTimeSlotId);
             return await _requestProvider.PostAsync<Appointment>(url, sessionId);
+        }
+
+        public async Task<SurveyRequest> GetSurvey(string sessionId)
+        {
+            string url = string.Format(ApiUrlBase + "{0}", "survey");
+            return await _requestProvider.GetAsync<SurveyRequest>(url, sessionId);
         }
     }
 }

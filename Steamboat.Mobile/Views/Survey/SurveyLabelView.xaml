@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steamboat.Mobile.Views.Survey.SurveyLabelView">
+	<ContentView.Content>
+        <Frame OutlineColor="Transparent" HasShadow="False" BackgroundColor="White" Padding="2">
+            <Label x:Name="MainLabel" Text="{Binding Text}" />
+        </Frame>
+	</ContentView.Content>
+</ContentView>

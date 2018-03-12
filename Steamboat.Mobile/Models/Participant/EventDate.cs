@@ -15,6 +15,7 @@ namespace Steamboat.Mobile.Models.Participant
         public string Time { get; set; }
         public bool IsActive { set { if (_isActive != value) { _isActive = value; RaisePropertyChanged(); } } get { return _isActive; } }
 
+        //TODO: Use BindableBase
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         protected void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
