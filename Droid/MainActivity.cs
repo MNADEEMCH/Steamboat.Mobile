@@ -48,7 +48,7 @@ namespace Steamboat.Mobile.Droid
                 pushNotificationParameter = new PushNotificationParameter(){PruebaPush=string.Join(",", data.Keys.ToList())};
 
                 //TO MODIFY BADGE FROM APP
-                //ShortcutBadger.ApplyCount(this.ApplicationContext, 1);
+                ShortcutBadger.ApplyCount(this.ApplicationContext, 0);
             }
 
             if(FirebaseInstanceId.Instance.Token!=null)
