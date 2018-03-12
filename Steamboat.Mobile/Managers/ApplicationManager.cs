@@ -21,13 +21,13 @@ namespace Steamboat.Mobile.Managers
             var navigationService = DependencyContainer.Resolve<INavigationService>();
             await navigationService.InitializeAsync();
             await this.DialogService.ShowAlertAsync(pushNotificationParameter.PruebaPush, "PUSH-INI", "OK");
-            ApplicationManager.IsInitialized = true;
+            //ApplicationManager.IsInitialized = true;
         }
 
         public async Task HandlePushNotification(PushNotificationParameter pushNotificationParameter)
         {   
-            if(ApplicationManager.IsInitialized)
-                await this.DialogService.ShowAlertAsync(pushNotificationParameter.PruebaPush, "PUSH-HANDLE", "OK");
+            //if(ApplicationManager.IsInitialized)
+            await this.DialogService.ShowAlertAsync(pushNotificationParameter.PruebaPush, "PUSH-HANDLE", "OK");
         }
 
 
