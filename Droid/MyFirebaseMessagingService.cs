@@ -22,8 +22,11 @@ namespace Steamboat.Mobile.Droid
         {
             Android.Util.Log.Debug(TAG, "From: " + message.From);
             Android.Util.Log.Debug(TAG, "Notification Message Body: " + message.GetNotification().Body);
-            ShortcutBadger.ApplyCount(this, 1);
+
+            //ShortcutBadger.ApplyCount(this, 1);
             var pushNotificationParameter = new PushNotificationParameter() { PruebaPush = string.Join(",", message.Data.Keys.ToList()) };
+
+
             Task.Run(async()=>await App.HandlePushNotification(pushNotificationParameter));
             SendNotification(message.GetNotification().Body, message.Data);
         }
@@ -31,6 +34,7 @@ namespace Steamboat.Mobile.Droid
         public void SendNotification(string messageBody, IDictionary<string, string> data)
         {
             var intent = new Intent(this, typeof(MainActivity));
+            intent.AddFlags(ActivityFlags.SingleTop);
             intent.AddFlags(ActivityFlags.ClearTop);
 
             foreach (string key in data.Keys)

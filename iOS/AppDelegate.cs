@@ -16,13 +16,6 @@ namespace Steamboat.Mobile.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IUNUserNotificationCenterDelegate, Firebase.CloudMessaging.IMessagingDelegate
     {
-
-        public void DidRefreshRegistrationToken(Messaging messaging, string fcmToken)
-        {
-            System.Diagnostics.Debug.WriteLine($"FCM Token: {fcmToken}");
-        }
-
-
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
@@ -33,15 +26,8 @@ namespace Steamboat.Mobile.iOS
 
             //TO MODIFY BADGE FROM APP
             //UIApplication.SharedApplication.ApplicationIconBadgeNumber = badge;
-            PushNotificationParameter pushNotificationParameter = null;
-            //TO READ THE PUSH NOT WHEN THE APP WAS CLOSED
-            if (options != null && options.Keys != null && options.Keys.Count() != 0 && options.ContainsKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")))
-            {
-                NSDictionary UIApplicationLaunchOptionsRemoteNotificationKey = options.ObjectForKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")) as NSDictionary;
-                NSError error;
-                var json = NSJsonSerialization.Serialize(UIApplicationLaunchOptionsRemoteNotificationKey, NSJsonWritingOptions.SortedKeys, out error);
-                pushNotificationParameter = new PushNotificationParameter(){PruebaPush=json.ToString()};
-            }
+
+            PushNotificationParameter pushNotificationParameter = CreatePushNotificationParameter(options);
 
             //SEE WHAT IS THIS FOR
             Messaging.SharedInstance.Delegate = this;
@@ -61,6 +47,21 @@ namespace Steamboat.Mobile.iOS
             //));
 
             return base.FinishedLaunching(app, options);
+        }
+
+        private PushNotificationParameter CreatePushNotificationParameter(NSDictionary options)
+        {
+            PushNotificationParameter pushNotificationParameter = null;
+            //TO READ THE PUSH NOT WHEN THE APP WAS CLOSED
+            if (options != null && options.Keys != null && options.Keys.Count() != 0 && options.ContainsKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")))
+            {
+                NSDictionary UIApplicationLaunchOptionsRemoteNotificationKey = options.ObjectForKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")) as NSDictionary;
+                NSError error;
+                var json = NSJsonSerialization.Serialize(UIApplicationLaunchOptionsRemoteNotificationKey, NSJsonWritingOptions.SortedKeys, out error);
+                pushNotificationParameter = new PushNotificationParameter() { PruebaPush = json.ToString() };
+            }
+
+            return pushNotificationParameter;
         }
 
         public void RegisterForPushNotifications(){
@@ -118,6 +119,10 @@ namespace Steamboat.Mobile.iOS
             //new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "OK", null).Show();
         }
 
+        public void DidRefreshRegistrationToken(Messaging messaging, string fcmToken)
+        {
+            System.Diagnostics.Debug.WriteLine($"FCM Token: {fcmToken}");
+        }
 
         // iOS 9 <=, fire when recieve notification foreground
         public async override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
@@ -142,8 +147,9 @@ namespace Steamboat.Mobile.iOS
                 var title = alert_d["title"] as NSString;
             }
 
-            var pushNotificationParameter = new PushNotificationParameter() { PruebaPush="recive en background/foreground" };
+            var pushNotificationParameter = new PushNotificationParameter() { PruebaPush = "recive en background/foreground" };
             await App.HandlePushNotification(pushNotificationParameter);
+
         }
 
         // iOS 10, fire when recieve notification foreground

@@ -39,8 +39,8 @@ namespace Steamboat.Mobile.Droid
 
             IsPlayServicesAvailable();
 
-            PushNotificationParameter pushNotificationParameter = createPushNotificationParameter();
-
+            PushNotificationParameter pushNotificationParameter = CreatePushNotificationParameter();
+            newIntent = false;
             if (pushNotificationParameter != null)
             {
                 //TO MODIFY BADGE FROM APP
@@ -72,20 +72,26 @@ namespace Steamboat.Mobile.Droid
 		{
             base.OnResume();
 
-            PushNotificationParameter pushNotificationParameter = createPushNotificationParameter();
-
-            if (pushNotificationParameter != null)
+            if (newIntent)
             {
-                //TO MODIFY BADGE FROM APP
-                ShortcutBadger.ApplyCount(this.ApplicationContext, 0);
-                await App.HandlePushNotification(pushNotificationParameter);
+                PushNotificationParameter pushNotificationParameter = CreatePushNotificationParameter();
+
+                if (pushNotificationParameter != null)
+                {
+                    //TO MODIFY BADGE FROM APP
+                    //ShortcutBadger.ApplyCount(this.ApplicationContext, 0);
+                    await App.HandlePushNotification(pushNotificationParameter);
+
+                }
+
+                newIntent = false;
             }
 		}
 
-        private PushNotificationParameter createPushNotificationParameter(){
+        private PushNotificationParameter CreatePushNotificationParameter(){
 
             PushNotificationParameter pushNotificationParameter = null;
-            if (newIntent && this.Intent != null && this.Intent.Extras != null)
+            if (this.Intent != null && this.Intent.Extras != null)
             {
 
                 Bundle extras = this.Intent.Extras;
@@ -93,8 +99,6 @@ namespace Steamboat.Mobile.Droid
                                                         .ToDictionary<string, string, object>(key => key, key => extras.Get(key));
 
                 pushNotificationParameter = new PushNotificationParameter() { PruebaPush = string.Join(",", data.Keys.ToList()) };
-
-                newIntent = false;
 
             }
 
@@ -116,8 +120,10 @@ namespace Steamboat.Mobile.Droid
 		protected override void OnNewIntent(Intent intent)
 		{
             base.OnNewIntent(intent);
+
             this.Intent = intent;
             newIntent = true;
+
 		}
 
 	}
