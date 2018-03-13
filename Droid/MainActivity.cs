@@ -25,9 +25,11 @@ using Steamboat.Mobile.Models.NavigationParameters;
 
 namespace Steamboat.Mobile.Droid
 {
-    [Activity(LaunchMode = LaunchMode.SingleTop, Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme",ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(LaunchMode = LaunchMode.SingleTask, Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme",ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-    {
+    {   
+        private static bool newIntent=false;
+
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -35,25 +37,21 @@ namespace Steamboat.Mobile.Droid
 
             base.OnCreate(bundle);
 
-            PushNotificationParameter pushNotificationParameter = null;
-
             IsPlayServicesAvailable();
-            if (this.Intent != null && this.Intent.Extras != null)
+
+            PushNotificationParameter pushNotificationParameter = createPushNotificationParameter();
+
+            if (pushNotificationParameter != null)
             {
-
-                Bundle extras = this.Intent.Extras;
-                Dictionary<string, object> data = extras.KeySet()
-                                                        .ToDictionary<string, string, object>(key => key, key => extras.Get(key));
-
-                pushNotificationParameter = new PushNotificationParameter(){PruebaPush=string.Join(",", data.Keys.ToList())};
-
                 //TO MODIFY BADGE FROM APP
-                ShortcutBadger.ApplyCount(this.ApplicationContext, 0);
+                //ShortcutBadger.ApplyCount(this.ApplicationContext, 0);
             }
 
-            if(FirebaseInstanceId.Instance.Token!=null)
+            if (FirebaseInstanceId.Instance.Token != null)
+            {
                 Log.Debug("Token", FirebaseInstanceId.Instance.Token);
-            FirebaseMessaging.Instance.SubscribeToTopic("news");
+                FirebaseMessaging.Instance.SubscribeToTopic("news");
+            }
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
@@ -70,10 +68,38 @@ namespace Steamboat.Mobile.Droid
             //));
         }
 
-		protected override void OnResume()
+		protected async override void OnResume()
 		{
             base.OnResume();
+
+            PushNotificationParameter pushNotificationParameter = createPushNotificationParameter();
+
+            if (pushNotificationParameter != null)
+            {
+                //TO MODIFY BADGE FROM APP
+                ShortcutBadger.ApplyCount(this.ApplicationContext, 0);
+                await App.HandlePushNotification(pushNotificationParameter);
+            }
 		}
+
+        private PushNotificationParameter createPushNotificationParameter(){
+
+            PushNotificationParameter pushNotificationParameter = null;
+            if (newIntent && this.Intent != null && this.Intent.Extras != null)
+            {
+
+                Bundle extras = this.Intent.Extras;
+                Dictionary<string, object> data = extras.KeySet()
+                                                        .ToDictionary<string, string, object>(key => key, key => extras.Get(key));
+
+                pushNotificationParameter = new PushNotificationParameter() { PruebaPush = string.Join(",", data.Keys.ToList()) };
+
+                newIntent = false;
+
+            }
+
+            return pushNotificationParameter;
+        }
 
 		public bool IsPlayServicesAvailable()
         {
@@ -90,6 +116,8 @@ namespace Steamboat.Mobile.Droid
 		protected override void OnNewIntent(Intent intent)
 		{
             base.OnNewIntent(intent);
+            this.Intent = intent;
+            newIntent = true;
 		}
 
 	}

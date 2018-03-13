@@ -8,6 +8,7 @@ using Android.Support.V7.App;
 using Firebase.Messaging;
 using Steamboat.Mobile.Models.NavigationParameters;
 using System.Linq;
+using ME.Leolin.Shortcutbadger;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -17,14 +18,17 @@ namespace Steamboat.Mobile.Droid
     {
         const string TAG = "MyFirebaseMsgService";
 
-        public async override void OnMessageReceived(RemoteMessage message)
+        public override void OnMessageReceived(RemoteMessage message)
         {
             Android.Util.Log.Debug(TAG, "From: " + message.From);
             Android.Util.Log.Debug(TAG, "Notification Message Body: " + message.GetNotification().Body);
-            await SendNotification(message.GetNotification().Body, message.Data);
+            ShortcutBadger.ApplyCount(this, 1);
+            var pushNotificationParameter = new PushNotificationParameter() { PruebaPush = string.Join(",", message.Data.Keys.ToList()) };
+            Task.Run(async()=>await App.HandlePushNotification(pushNotificationParameter));
+            SendNotification(message.GetNotification().Body, message.Data);
         }
 
-        public async Task SendNotification(string messageBody, IDictionary<string, string> data)
+        public void SendNotification(string messageBody, IDictionary<string, string> data)
         {
             var intent = new Intent(this, typeof(MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
@@ -44,8 +48,7 @@ namespace Steamboat.Mobile.Droid
             var notificationManager = NotificationManager.FromContext(this);
             notificationManager.Notify(0, notificationBuilder.Build());
 
-            var pushNotificationParameter = new PushNotificationParameter() { PruebaPush = string.Join(",", data.Keys.ToList()) };
-            await App.HandlePushNotification(pushNotificationParameter);
+
         }
     }
 }
