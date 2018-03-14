@@ -40,7 +40,7 @@ namespace Steamboat.Mobile.Droid
             IsPlayServicesAvailable();
 
             //CHECK IF THERE IS A NOTIFICATION
-            PushNotificationParameter pushNotificationParameter = CreatePushNotificationParameter();
+            PushNotificationParameter pushNotificationParameter = GetPushNotificationParameter();
             newIntent = false;
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
@@ -64,7 +64,7 @@ namespace Steamboat.Mobile.Droid
 
             if (newIntent)
             {
-                PushNotificationParameter pushNotificationParameter = CreatePushNotificationParameter();
+                PushNotificationParameter pushNotificationParameter = GetPushNotificationParameter();
 
                 if (pushNotificationParameter != null)
                 {
@@ -78,10 +78,10 @@ namespace Steamboat.Mobile.Droid
             }
 		}
 
-        private PushNotificationParameter CreatePushNotificationParameter(){
+        private PushNotificationParameter GetPushNotificationParameter(){
 
             PushNotificationParameter pushNotificationParameter = null;
-            if (this.Intent != null && this.Intent.Extras != null)
+            if (this.Intent != null && this.Intent.Extras != null && this.Intent.HasExtra("momentum-health"))
             {
 
                 Bundle extras = this.Intent.Extras;

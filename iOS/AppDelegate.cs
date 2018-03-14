@@ -26,7 +26,7 @@ namespace Steamboat.Mobile.iOS
             UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
 
             //CHECK IF THERE IS A NOTIFICATION
-            PushNotificationParameter pushNotificationParameter = CreatePushNotificationParameter(options);
+            PushNotificationParameter pushNotificationParameter = GetPushNotificationParameter(options);
 
             RegisterForPushNotifications();
 
@@ -45,7 +45,7 @@ namespace Steamboat.Mobile.iOS
             return base.FinishedLaunching(app, options);
         }
 
-        private PushNotificationParameter CreatePushNotificationParameter(NSDictionary options)
+        private PushNotificationParameter GetPushNotificationParameter(NSDictionary options)
         {
             PushNotificationParameter pushNotificationParameter = null;
             //TO READ THE PUSH NOT WHEN THE APP WAS CLOSED

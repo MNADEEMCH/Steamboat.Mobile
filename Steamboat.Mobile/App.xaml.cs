@@ -34,6 +34,8 @@ namespace Steamboat.Mobile
 
             //send token to backend if there is a session
             //if is not, after the user get loged into the application he can get it and send it to the backend
+            if (!string.IsNullOrEmpty(SessionID))
+                await _applicationManager.TokenRefreshed(token, SessionID);
 
             DependencyContainer.Resolve<ViewModels.LoginViewModel>().PushToken += token;
         }

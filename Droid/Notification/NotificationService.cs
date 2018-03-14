@@ -6,6 +6,8 @@ namespace Steamboat.Mobile.Droid.Notification
 {
     public class NotificationService:INotificationService
     {
+        public static int notificationCount = 0;
+
         public string GetToken()
         {
             return FirebaseInstanceId.Instance.Token;
