@@ -52,9 +52,13 @@ namespace Steamboat.Mobile.iOS
             if (options != null && options.Keys != null && options.Keys.Count() != 0 && options.ContainsKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")))
             {
                 NSDictionary UIApplicationLaunchOptionsRemoteNotificationKey = options.ObjectForKey(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey")) as NSDictionary;
-                NSError error;
-                var json = NSJsonSerialization.Serialize(UIApplicationLaunchOptionsRemoteNotificationKey, NSJsonWritingOptions.SortedKeys, out error);
-                pushNotificationParameter = new PushNotificationParameter() { PruebaPush = json.ToString() };
+
+                if (UIApplicationLaunchOptionsRemoteNotificationKey.ObjectForKey(new NSString("momentum-health")) != null)
+                {
+                    NSError error;
+                    var json = NSJsonSerialization.Serialize(UIApplicationLaunchOptionsRemoteNotificationKey, NSJsonWritingOptions.SortedKeys, out error);
+                    pushNotificationParameter = new PushNotificationParameter() { PruebaPush = json.ToString() };
+                }
             }
 
             return pushNotificationParameter;
@@ -140,17 +144,23 @@ namespace Steamboat.Mobile.iOS
             // Send custom event
             Firebase.Analytics.Analytics.LogEvent("CustomEvent", parameters);
 
+            //IF THE APPLICATION IS ACTIVE
+            //YOU WONT SEE THE TITLE AND THE MESSAGE OF THE NOTIFICATION AS YOU ALWAYS
+            //SEE WHEN YOU HAVE THE APP CLOSED OR IN BACKGROUND SO..
             if (application.ApplicationState == UIApplicationState.Active)
             {
-                System.Diagnostics.Debug.WriteLine(userInfo);
                 var aps_d = userInfo["aps"] as NSDictionary;
                 var alert_d = aps_d["alert"] as NSDictionary;
                 var body = alert_d["body"] as NSString;
                 var title = alert_d["title"] as NSString;
             }
 
-            var pushNotificationParameter = new PushNotificationParameter() { PruebaPush = "recive en background/foreground" };
-            await App.HandlePushNotification(pushNotificationParameter);
+            if(userInfo.ObjectForKey(new NSString("momentum-health"))!=null){
+                NSError error;
+                var json = NSJsonSerialization.Serialize(userInfo, NSJsonWritingOptions.SortedKeys, out error);
+                var pushNotificationParameter = new PushNotificationParameter() { PruebaPush = "recive en background/foreground " + json };
+                await App.HandlePushNotification(pushNotificationParameter);
+            }
 
         }
 
@@ -158,12 +168,17 @@ namespace Steamboat.Mobile.iOS
         [Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
         public async void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
         {
-            System.Console.WriteLine(notification.Request.Content.UserInfo);
             var title = notification.Request.Content.Title;
             var body = notification.Request.Content.Body;
 
-            var pushNotificationParameter = new PushNotificationParameter() { PruebaPush = "recive en background/foreground" };
-            await App.HandlePushNotification(pushNotificationParameter);
+            if (notification.Request.Content.UserInfo.ObjectForKey(new NSString("momentum-health")) != null)
+            {
+                NSError error;
+                var json = NSJsonSerialization.Serialize(notification.Request.Content.UserInfo, NSJsonWritingOptions.SortedKeys, out error);
+                var pushNotificationParameter = new PushNotificationParameter() { PruebaPush = "recive en background/foreground " + json };
+                await App.HandlePushNotification(pushNotificationParameter);
+            }
+
         }
 
         private void ResolveDependencies()
