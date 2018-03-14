@@ -48,9 +48,9 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
-            //INotificationService notService = DependencyContainer.Resolve<INotificationService>();
-            //if(notService.IsValidToken())
-            //    PushToken = notService.GetToken();
+            INotificationService notService = DependencyContainer.Resolve<INotificationService>();
+            if(notService.IsValidToken())
+                PushToken = notService.GetToken();
 
             if (parameter == null) { 
                 Username.Value = await GetCurrentUser();
