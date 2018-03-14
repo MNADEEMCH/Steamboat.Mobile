@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FFImageLoading.Forms.Touch;
 using FFImageLoading.Svg.Forms;
 using Firebase.CloudMessaging;
@@ -24,13 +25,8 @@ namespace Steamboat.Mobile.iOS
             UIUserNotificationSettings settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Badge, null);
             UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
 
-            //TO MODIFY BADGE FROM APP
-            //UIApplication.SharedApplication.ApplicationIconBadgeNumber = badge;
-
+            //CHECK IF THERE IS A NOTIFICATION
             PushNotificationParameter pushNotificationParameter = CreatePushNotificationParameter(options);
-
-            //SEE WHAT IS THIS FOR
-            Messaging.SharedInstance.Delegate = this;
 
             RegisterForPushNotifications();
 
@@ -66,6 +62,9 @@ namespace Steamboat.Mobile.iOS
 
         public void RegisterForPushNotifications(){
             
+            //In order to get the refresh token in DidRefreshRegistrationToken
+            Messaging.SharedInstance.Delegate = this;
+
             Firebase.Core.App.Configure();
 
             // Register your app for remote notifications.
@@ -93,25 +92,25 @@ namespace Steamboat.Mobile.iOS
 
         public override void RegisteredForRemoteNotifications(
                                 UIApplication application, NSData deviceToken)
-        {
+        {   
+            //THIS TOKEN IS NOT THE ONCE THAT WE USE TO SEND FROM FIREBASE
+
             // Get current device token
-            var DeviceToken = deviceToken.Description;
+            /*var DeviceToken = deviceToken.Description;
             if (!string.IsNullOrWhiteSpace(DeviceToken))
             {
                 DeviceToken = DeviceToken.Trim('<').Trim('>');
             }
 
             // Get previous device token
-            var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
+            //var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
 
             // Has the token changed?
             if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
             {
-                //TODO: Put your own logic here to notify your server that the device token has changed/been created!
+                Task.Run(async()=>await App.PushNotificationTokenRefreshed("RegisteredForRemoteNotifications"+DeviceToken));
             }
-
-            // Save new device token
-            NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
+            NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");*/
         }
 
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
@@ -119,9 +118,12 @@ namespace Steamboat.Mobile.iOS
             //new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "OK", null).Show();
         }
 
+        [Export("messaging:didRefreshRegistrationToken:")]
         public void DidRefreshRegistrationToken(Messaging messaging, string fcmToken)
         {
-            System.Diagnostics.Debug.WriteLine($"FCM Token: {fcmToken}");
+            // Save new device token
+            NSUserDefaults.StandardUserDefaults.SetString(fcmToken, "PushDeviceToken");
+            Task.Run(async () => await App.PushNotificationTokenRefreshed(fcmToken));
         }
 
         // iOS 9 <=, fire when recieve notification foreground

@@ -144,7 +144,7 @@
                             <ActivityIndicator Style="{StaticResource MainIndicator}" IsVisible="{Binding IsBusy}" />
                             <Label Text="Not a member yet?" Style="{StaticResource MemberLabel}" />
                             <Label Text="REGISTER HERE" Style="{StaticResource RegisterLabel}" />
-                            <Label Text="{Binding PushKeys}" Style="{StaticResource RegisterLabel}" />
+                            <Label Text="{Binding PushToken}" Style="{StaticResource RegisterLabel}" />
                         </StackLayout>
                     </Grid>
                 </Grid>

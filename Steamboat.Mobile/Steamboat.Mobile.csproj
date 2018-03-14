@@ -238,6 +238,7 @@
     <Compile Include="Managers\ApplicationManager.cs" />
     <Compile Include="Models\NavigationParameters\PushNotificationParameter.cs" />
     <Compile Include="Managers\IApplicationManager.cs" />
+    <Compile Include="Services\Notification\INotificationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -356,6 +357,7 @@
   <ItemGroup>
     <Folder Include="Models\Participant\DispositionSteps\" />
     <Folder Include="Models\NavigationParameters\" />
+    <Folder Include="Services\Notification\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

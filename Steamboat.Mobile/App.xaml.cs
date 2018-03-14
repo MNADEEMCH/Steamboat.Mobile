@@ -30,6 +30,14 @@ namespace Steamboat.Mobile
             await _applicationManager.HandlePushNotification(pushNotificationParameter);
         }
 
+        public static async Task PushNotificationTokenRefreshed(string token){
+
+            //send token to backend if there is a session
+            //if is not, after the user get loged into the application he can get it and send it to the backend
+
+            DependencyContainer.Resolve<ViewModels.LoginViewModel>().PushToken += token;
+        }
+
         protected override void OnStart()
         {
             // Handle when your app starts

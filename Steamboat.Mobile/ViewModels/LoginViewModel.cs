@@ -6,6 +6,7 @@ using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Account;
 using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Services.Navigation;
+using Steamboat.Mobile.Services.Notification;
 using Steamboat.Mobile.Validations;
 using Xamarin.Forms;
 
@@ -20,14 +21,14 @@ namespace Steamboat.Mobile.ViewModels
         private ValidatableObject<string> _username;
         private ValidatableObject<string> _password;
         private bool _isBusy;
-        private string _pushKeys;
+        private string _pushToken;
 
         public ICommand LoginCommand { get; set; }
         public ValidatableObject<string> Username { set { SetPropertyValue(ref _username, value); } get { return _username; } }
         public ValidatableObject<string> Password { set { SetPropertyValue(ref _password, value); } get { return _password; } }
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
 
-        public string PushKeys { set { SetPropertyValue(ref _pushKeys, value); } get { return _pushKeys; } }
+        public string PushToken { set { SetPropertyValue(ref _pushToken, value); } get { return _pushToken; } }
 
         #endregion
 
@@ -47,6 +48,10 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
+            //INotificationService notService = DependencyContainer.Resolve<INotificationService>();
+            //if(notService.IsValidToken())
+            //    PushToken = notService.GetToken();
+
             if (parameter == null) { 
                 Username.Value = await GetCurrentUser();
                 await base.InitializeAsync(parameter);

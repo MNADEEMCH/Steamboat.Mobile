@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Util;
 using Firebase.Iid;
@@ -18,7 +19,7 @@ namespace Steamboat.Mobile.Droid
         }
         void SendRegistrationToServer(string token)
         {
-            // Add custom implementation, as needed.
+            Task.Run(async () => await App.PushNotificationTokenRefreshed(fcmToken));
         }
     }
 }

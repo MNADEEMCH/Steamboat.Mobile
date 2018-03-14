@@ -41,17 +41,6 @@ namespace Steamboat.Mobile.Droid
 
             PushNotificationParameter pushNotificationParameter = CreatePushNotificationParameter();
             newIntent = false;
-            if (pushNotificationParameter != null)
-            {
-                //TO MODIFY BADGE FROM APP
-                //ShortcutBadger.ApplyCount(this.ApplicationContext, 0);
-            }
-
-            if (FirebaseInstanceId.Instance.Token != null)
-            {
-                Log.Debug("Token", FirebaseInstanceId.Instance.Token);
-                FirebaseMessaging.Instance.SubscribeToTopic("news");
-            }
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
