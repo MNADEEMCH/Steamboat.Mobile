@@ -87,8 +87,10 @@ namespace Steamboat.Mobile.Droid
                 Bundle extras = this.Intent.Extras;
                 Dictionary<string, object> data = extras.KeySet()
                                                         .ToDictionary<string, string, object>(key => key, key => extras.Get(key));
+                var jsonKeys = string.Join(",",data.Keys);
+                var jsonValues = string.Join(",", data.Values);
+                pushNotificationParameter = new PushNotificationParameter() { PruebaPush = "KEYS:"+jsonKeys+"VALUES:"+jsonValues};
 
-                pushNotificationParameter = new PushNotificationParameter() { PruebaPush = string.Join(",", data.Keys.ToList()) };
 
             }
 

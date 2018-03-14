@@ -8,7 +8,6 @@ using Android.Support.V7.App;
 using Firebase.Messaging;
 using Steamboat.Mobile.Models.NavigationParameters;
 using System.Linq;
-using ME.Leolin.Shortcutbadger;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -23,7 +22,6 @@ namespace Steamboat.Mobile.Droid
             Android.Util.Log.Debug(TAG, "From: " + message.From);
             Android.Util.Log.Debug(TAG, "Notification Message Body: " + message.GetNotification().Body);
 
-            //ShortcutBadger.ApplyCount(this, 1);
             var pushNotificationParameter = new PushNotificationParameter() { PruebaPush = string.Join(",", message.Data.Keys.ToList()) };
 
 
