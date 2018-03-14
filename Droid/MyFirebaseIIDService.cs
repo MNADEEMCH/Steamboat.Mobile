@@ -19,7 +19,7 @@ namespace Steamboat.Mobile.Droid
         }
         void SendRegistrationToServer(string token)
         {
-            Task.Run(async () => await App.PushNotificationTokenRefreshed(fcmToken));
+            Task.Run(async () => await App.PushNotificationTokenRefreshed(token));
         }
     }
 }

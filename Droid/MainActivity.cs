@@ -39,6 +39,7 @@ namespace Steamboat.Mobile.Droid
 
             IsPlayServicesAvailable();
 
+            //CHECK IF THERE IS A NOTIFICATION
             PushNotificationParameter pushNotificationParameter = CreatePushNotificationParameter();
             newIntent = false;
 
