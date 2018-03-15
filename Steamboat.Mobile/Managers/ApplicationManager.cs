@@ -30,7 +30,7 @@ namespace Steamboat.Mobile.Managers
             await this.DialogService.ShowAlertAsync(pushNotificationParameter.PruebaPush, "PUSH-HANDLE", "OK");
         }
 
-        public async Task TokenRefreshed(string token,string sessionID){
+        public async Task TokenRefreshed(string token){
 
             //call backend
         }

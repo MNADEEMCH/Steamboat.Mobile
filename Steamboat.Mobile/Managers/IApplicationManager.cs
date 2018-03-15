@@ -10,7 +10,7 @@ namespace Steamboat.Mobile.Managers
 
         Task HandlePushNotification(PushNotificationParameter pushNotificationParameter);
 
-        Task TokenRefreshed(string token, string sessionID);
+        Task TokenRefreshed(string token);
 
     }
 
