@@ -15,6 +15,7 @@ namespace Steamboat.Mobile.Managers.Participant
         Task<Appointment> ConfirmEvent(int eventId, int eventTimeSlotId);
         Task<List<Event>> CancelEvent();
         Task<List<EventTime>> GetEventTimes(int eventId);
-        Task<List<Question>> GetSurvey();
+        Task<QuestionGroup> GetSurvey();
+        Task SendSurvey(int groupID, List<ParticipantConsent> answers); 
     }
 }

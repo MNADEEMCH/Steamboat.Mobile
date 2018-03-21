@@ -5,10 +5,10 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile">
     <ContentView.Resources>
-        <ResourceDictionary>
+        <ResourceDictionary>            
             <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="40"></Setter>
-                <Setter Property="WidthRequest" Value="40"></Setter>
+                <Setter Property="HeightRequest" Value="44"></Setter>
+                <Setter Property="WidthRequest" Value="44"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="VerticalOptions" Value="Start"></Setter>
             </Style>
@@ -17,6 +17,7 @@
                 <Setter Property="BorderRadius" Value="12" />
                 <Setter Property="FillColor" Value="White" />
                 <Setter Property="IsLabel" Value="True" />
+                <Setter Property="HorizontalOptions" Value="StartAndExpand" />
                 <Style.Triggers>
                      <DataTrigger TargetType="customControl:BubbleStack" Binding="{Binding IsFirstQuestion}" Value="True">
                         <Setter Property="Margin" Value="0,18,0,0" />
@@ -35,7 +36,7 @@
 
         <Grid Margin="0,0,0,8" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="44" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -43,7 +44,7 @@
             </Grid.RowDefinitions>
             <ffimageloading:CachedImage Grid.Column="0" Source="imgMomentumProfile.png" Style="{StaticResource MomentumImage}" IsVisible="{Binding IsFirstQuestion}" />
             <customControl:BubbleStack Grid.Column="1" Style="{StaticResource LabelBubbleStack}">
-                <Label x:Name="MainLabel" Text="{Binding Text}" Style="{StaticResource TextLabel}" Margin="24,16,12,16"  />
+                <Label x:Name="MainLabel" Text="{Binding Text}" Style="{StaticResource TextLabel}" Margin="24,16"  />
             </customControl:BubbleStack>
             <Grid IsVisible="false" />
         </Grid>

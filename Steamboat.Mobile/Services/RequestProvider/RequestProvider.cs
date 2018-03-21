@@ -93,6 +93,15 @@ namespace Steamboat.Mobile.Services.RequestProvider
             return result;
         }
 
+        public async Task PostAsync(string uri, string sessionID = "")
+        {
+            HttpClient httpClient = CreateHttpClient(uri, sessionID);
+
+            HttpResponseMessage response = await httpClient.PostAsync(uri, null);
+
+            await HandleResponse(response);
+        }
+
         public async Task<TResult> PutAsync<TResult>(string uri, TResult data, string sessionID = "")
         {
             HttpClient httpClient = CreateHttpClient(uri, sessionID);

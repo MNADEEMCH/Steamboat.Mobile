@@ -126,12 +126,28 @@ namespace Steamboat.Mobile.Managers.Participant
             }
         }
 
-        public async Task<List<Question>> GetSurvey()
+        public async Task<QuestionGroup> GetSurvey()
         {
             try
             {
                 var survey = await _participantService.GetSurvey(App.SessionID);
-                return survey.QuestionGroup.Questions;
+                return survey.QuestionGroup;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error getting the survey: {ex}");
+                throw ex;
+            }
+        }
+
+        public async Task SendSurvey(int groupID, List<ParticipantConsent> answers)
+        {
+            try
+            {
+                var response = new SurveyResponse();
+                response.Responses = answers;
+                await _participantService.PostSurvey(groupID, response, App.SessionID);
+                await _participantService.CompleteSurvey(App.SessionID);
             }
             catch (Exception ex)
             {

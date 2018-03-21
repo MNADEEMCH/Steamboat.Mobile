@@ -16,5 +16,7 @@ namespace Steamboat.Mobile.Services.Participant
         Task<List<Event>> CancelEvent(string sessionId);
         Task<List<EventTime>> GetEventTimes(int eventId, string sessionID);
         Task<SurveyRequest> GetSurvey(string sessionID);
-    }
+		Task PostSurvey(int groupID, SurveyResponse response, string sessionID);
+		Task CompleteSurvey(string sessionID);
+	}
 }

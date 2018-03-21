@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreGraphics;
 using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.iOS.CustomRenderers;
 using UIKit;
@@ -27,9 +28,24 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         {
             base.OnElementPropertyChanged(sender, e);
 
+            var element = sender as WrappedButton;
+
             if (e.PropertyName == nameof(WrappedButton.Padding))
             {
                 UpdatePadding();
+            }
+            if (e.PropertyName == nameof(WrappedButton.Height))
+            {
+                if (element.Width > 0)
+                {
+                    var width = Element.Width;
+                    var size = Control.TitleLabel.SizeThatFits(new CoreGraphics.CGSize(width, 100000));
+                    if (size.Height > element.Height)
+                    {
+                        Element.HeightRequest = size.Height + 24;
+                        UpdatePadding();
+                    }
+                }
             }
         }
 

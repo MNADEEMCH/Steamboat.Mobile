@@ -263,6 +263,7 @@
       <DependentUpon>SurveySelectOneView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\Renderers\BubbleStack.cs" />
+    <Compile Include="Models\Participant\Survey\SurveyResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

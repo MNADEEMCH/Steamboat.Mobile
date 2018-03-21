@@ -22,7 +22,6 @@ namespace Steamboat.Mobile.CustomControls
         public static readonly BindableProperty IsLabelProperty =
             BindableProperty.Create(nameof(IsLabel), typeof(bool), typeof(BubbleStack), default(bool));
 
-
         public int BorderRadius
         {
             get { return (int)GetValue(BorderRadiusProperty); }

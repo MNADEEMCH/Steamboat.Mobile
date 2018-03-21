@@ -4,18 +4,71 @@
     x:Name="SelectOneView"
     x:Class="Steamboat.Mobile.Views.Survey.SurveySelectOneView"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:survey="clr-namespace:Steamboat.Mobile.Views.Survey;assembly=Steamboat.Mobile">
+     <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="44"></Setter>
+                <Setter Property="WidthRequest" Value="44"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="End"></Setter>
+            </Style>
+            <Style x:Key="LabelBubbleStack" TargetType="customControl:BubbleStack">
+                <Setter Property="BorderColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="BorderRadius" Value="12" />
+                <Setter Property="FillColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="IsLabel" Value="False" />
+                <Style.Triggers>
+                    <DataTrigger TargetType="customControl:BubbleStack" Binding="{Binding IsComplete}" Value="True">
+                        <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="AnswerButton" TargetType="customControl:WrappedButton">
+                <Setter Property="Active" Value="true" />
+                <Setter Property="MinimumHeightRequest" Value="20" />
+                <Setter Property="Padding" Value="16" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="Margin" Value="0,0,0,8" />
+                <Setter Property="BorderColor" Value="#95C7DA" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+            </Style>
+            <Style x:Key="TextLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="24,16" />
+                <Setter Property="MinimumHeightRequest" Value="20" />
+                <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
     <ContentView.Content>
-        <Frame OutlineColor="Transparent" HasShadow="False" BackgroundColor="{StaticResource MomentumBlueColor}" Padding="2" Margin="10,0,50,0">
-            <customControl:RepeaterControl ItemsSource="{Binding Answers}" >
-                <customControl:RepeaterControl.ItemTemplate>
-                    <DataTemplate>
-                        <customControl:WrappedButton Text="{Binding Text}" Padding="2" Active="true" HorizontalOptions="FillAndExpand" BorderWidth="1" Margin="2" 
-                            BorderColor="White" TextColor="White" Command="{Binding Path=ParentBindingContext.SelectAnswerCommand, Source={x:Reference SelectOneView}}" 
-                        CommandParameter="{Binding .}" />
-                    </DataTemplate>
-                </customControl:RepeaterControl.ItemTemplate>
-            </customControl:RepeaterControl>
-        </Frame>
+        <Grid Margin="0,8" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="44" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <customControl:BubbleStack Grid.Column="0" Style="{StaticResource LabelBubbleStack}" Margin="0,0,0,24">
+                <customControl:RepeaterControl ItemsSource="{Binding Answers}" Margin="24,16,24,10" IsVisible="{Binding IsComplete, Converter={StaticResource InverseBoolConverter}}" >
+                    <customControl:RepeaterControl.ItemTemplate>
+                        <DataTemplate>
+                            <customControl:WrappedButton Text="{Binding Text}" Style="{StaticResource AnswerButton}"
+                             Command="{Binding Path=ParentBindingContext.HandleAnswerCommand, Source={x:Reference SelectOneView}}" CommandParameter="{Binding .}" />
+                        </DataTemplate>
+                    </customControl:RepeaterControl.ItemTemplate>
+                </customControl:RepeaterControl>
+                <Label x:Name="MainLabel" Text="{Binding AnswerText}" Style="{StaticResource TextLabel}" IsVisible="{Binding IsComplete}" />
+            </customControl:BubbleStack>
+            <ffimageloading:CachedImage Grid.Column="1" Source="imgMomentumProfile.png" Style="{StaticResource MomentumImage}" />
+        </Grid>
+        
 	</ContentView.Content>
 </ContentView>

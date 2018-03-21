@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -105,7 +106,7 @@ namespace Steamboat.Mobile.CustomControls
             return view;
         }
 
-        public static object CreateContent(DataTemplate template, object item, BindableObject container)
+        private static object CreateContent(DataTemplate template, object item, BindableObject container)
         {
             var selector = template as DataTemplateSelector;
             if (selector != null)

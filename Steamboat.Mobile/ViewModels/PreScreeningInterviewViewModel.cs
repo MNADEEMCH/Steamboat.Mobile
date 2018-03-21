@@ -21,9 +21,11 @@ namespace Steamboat.Mobile.ViewModels
         private ObservableCollection<Question> _surveyQuestions;
         private List<Question> _localQuestions;
         private int _questionIndex;
+        private List<ParticipantConsent> _answersList;
+        private int _questionGroupID;
 
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
-        public ICommand SelectAnswerCommand { get; set; }
+        public ICommand HandleAnswerCommand { get; set; }
         public ObservableCollection<Question> SurveyQuestions { get { return _surveyQuestions; } set { SetPropertyValue(ref _surveyQuestions, value); } }
 
         #endregion
@@ -32,7 +34,7 @@ namespace Steamboat.Mobile.ViewModels
         {
             IsLoading = true;
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
-            SelectAnswerCommand = new Command(async (selectedAnswer) => await AnswerSelected(selectedAnswer));
+            HandleAnswerCommand = new Command(async (selectedAnswer) => await HandleAnswer(selectedAnswer));
 
             _questionIndex = 0;
             SurveyQuestions = new ObservableCollection<Question>();
@@ -40,10 +42,24 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
-            _localQuestions = await _participantManager.GetSurvey();
-            IsLoading = false;
+            try
+            {
+                var questionGroups = await _participantManager.GetSurvey();
+                _localQuestions = questionGroups.Questions;
+                _questionGroupID = questionGroups.ID;
+                _answersList = new List<ParticipantConsent>();
+                IsLoading = false;
 
-            await ContinueSurvey(true);
+                await ContinueSurvey(true);
+            }
+            catch (Exception e)
+            {
+                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         private async Task ContinueSurvey(bool isFirstQuestion)
@@ -58,9 +74,10 @@ namespace Steamboat.Mobile.ViewModels
                     currentQuestion.IsFirstQuestion = isFirstQuestion;
                     SurveyQuestions.Add(currentQuestion);
 
-                    await Task.Delay(1000);
+                    await WaitAnimation();
                     if (!currentQuestion.Type.Equals(SurveyHelper.LabelType))
                     {
+                        //Set answer part of the question
                         var extraQuestion = currentQuestion;
                         extraQuestion.IsAnswer = true;
                         SurveyQuestions.Add(extraQuestion);
@@ -75,13 +92,34 @@ namespace Steamboat.Mobile.ViewModels
             }
         }
 
-        private async Task AnswerSelected(object selectedAnswer)
+        private async Task HandleAnswer(object selectedAnswer)
         {
             var answer = selectedAnswer as Answers;
+            answer.IsSelected = true;
             var lastQuestion = SurveyQuestions.Last();
+            lastQuestion.AnswerText = answer.Text;
             lastQuestion.IsComplete = true;
+            _localQuestions.First(q => q.Key.Equals(lastQuestion.Key)).IsComplete = true;
+            //SurveyQuestions.Remove(lastQuestion);
+            SaveAnswer(lastQuestion, answer);
             await AddRejoinder(answer);
-            await ContinueSurvey(false);
+
+            if (IsLastQuestion())
+            {
+                await _participantManager.SendSurvey(_questionGroupID, _answersList);
+
+                var status = await _participantManager.GetStatus();
+
+                var viewModelType = DashboardHelper.GetViewModelForStatus(status);
+                await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+            }
+            else
+                await ContinueSurvey(false);
+        }
+
+        private bool IsLastQuestion()
+        {
+            return !_localQuestions.Any(q => q.IsEnabled.Equals(true) && !q.Type.Equals(SurveyHelper.LabelType) && q.IsComplete.Equals(false));
         }
 
         private async Task AddRejoinder(Answers answer)
@@ -92,7 +130,20 @@ namespace Steamboat.Mobile.ViewModels
             rejoinder.Text = answer.AlternateText;
             rejoinder.IsFirstQuestion = true;
             SurveyQuestions.Add(rejoinder);
+            await WaitAnimation();
+        }
+
+        private async Task WaitAnimation()
+        {
             await Task.Delay(1000);
+        }
+
+        private void SaveAnswer(Question question, Answers answer)
+        {
+            var response = new ParticipantConsent();
+            response.QuestionKey = question.Key;
+            response.AnswerKey = answer.Key;
+            _answersList.Add(response);
         }
     }
 }

@@ -68,5 +68,17 @@ namespace Steamboat.Mobile.Services.Participant
             string url = string.Format(ApiUrlBase + "{0}", "survey");
             return await _requestProvider.GetAsync<SurveyRequest>(url, sessionId);
         }
+
+        public async Task PostSurvey(int groupID, SurveyResponse response, string sessionID)
+        {
+            string url = string.Format(ApiUrlBase + "{0}/{1}", "survey", groupID);
+            await _requestProvider.PostAsync<SurveyRequest, SurveyResponse>(url, response, sessionID);
+        }
+
+        public async Task CompleteSurvey(string sessionID)
+        {
+            string url = string.Format(ApiUrlBase + "{0}/{1}", "survey", "complete");
+            await _requestProvider.PostAsync(url, sessionID:sessionID);
+        }
     }
 }

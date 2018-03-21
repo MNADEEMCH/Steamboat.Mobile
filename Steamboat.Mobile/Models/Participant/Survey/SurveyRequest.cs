@@ -21,11 +21,15 @@ namespace Steamboat.Mobile.Models.Participant.Survey
 
     public class Question : BindableBase
     {
+        private bool _isComplete;
+        private string _answerText;
+
         public int Key { get; set; }
         public string Type { get; set; }
         public string Text { get; set; }
+        public string AnswerText { get { return _answerText; } set { _answerText = value; RaisePropertyChanged(); } }
         public bool IsEnabled { get; set; }
-        public bool IsComplete { set; get; }
+        public bool IsComplete { get { return _isComplete; } set { _isComplete = value; RaisePropertyChanged(); } }
         public bool IsAnswer { get; set; }
         public bool IsFirstQuestion { get; set; }
         public bool IsDependencyTarget { get; set; }
