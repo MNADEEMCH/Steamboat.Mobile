@@ -100,18 +100,21 @@ namespace Steamboat.Mobile.ViewModels
             lastQuestion.AnswerText = answer.Text;
             lastQuestion.IsComplete = true;
             _localQuestions.First(q => q.Key.Equals(lastQuestion.Key)).IsComplete = true;
+
             //SurveyQuestions.Remove(lastQuestion);
+
             SaveAnswer(lastQuestion, answer);
             await AddRejoinder(answer);
 
+            if(lastQuestion.IsDependencyTarget)
+            {
+                var response = await _participantManager.SendSurvey(_questionGroupID, _answersList);
+                _localQuestions = response.Questions;
+            }
             if (IsLastQuestion())
             {
-                await _participantManager.SendSurvey(_questionGroupID, _answersList);
-
-                var status = await _participantManager.GetStatus();
-
-                var viewModelType = DashboardHelper.GetViewModelForStatus(status);
-                await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+                await _participantManager.CompleteSurvey(_questionGroupID, _answersList);
+                await NavigateToDashboard();
             }
             else
                 await ContinueSurvey(false);
@@ -144,6 +147,14 @@ namespace Steamboat.Mobile.ViewModels
             response.QuestionKey = question.Key;
             response.AnswerKey = answer.Key;
             _answersList.Add(response);
+        }
+
+        private async Task NavigateToDashboard()
+        {
+            var status = await _participantManager.GetStatus();
+
+            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
+            await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
         }
     }
 }

@@ -69,10 +69,10 @@ namespace Steamboat.Mobile.Services.Participant
             return await _requestProvider.GetAsync<SurveyRequest>(url, sessionId);
         }
 
-        public async Task PostSurvey(int groupID, SurveyResponse response, string sessionID)
+        public async Task<SurveyRequest> PostSurvey(int groupID, SurveyResponse response, string sessionID)
         {
             string url = string.Format(ApiUrlBase + "{0}/{1}", "survey", groupID);
-            await _requestProvider.PostAsync<SurveyRequest, SurveyResponse>(url, response, sessionID);
+            return await _requestProvider.PostAsync<SurveyRequest, SurveyResponse>(url, response, sessionID);
         }
 
         public async Task CompleteSurvey(string sessionID)

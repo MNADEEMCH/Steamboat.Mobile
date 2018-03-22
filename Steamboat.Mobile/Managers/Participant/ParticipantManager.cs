@@ -89,7 +89,7 @@ namespace Steamboat.Mobile.Managers.Participant
         {
             try
             {
-                return await _participantService.ConfirmEvent(eventId,eventTimeSlotId,App.SessionID);
+                return await _participantService.ConfirmEvent(eventId, eventTimeSlotId, App.SessionID);
             }
             catch (Exception ex)
             {
@@ -140,18 +140,36 @@ namespace Steamboat.Mobile.Managers.Participant
             }
         }
 
-        public async Task SendSurvey(int groupID, List<ParticipantConsent> answers)
+        public async Task<QuestionGroup> SendSurvey(int groupID, List<ParticipantConsent> answers)
         {
             try
             {
                 var response = new SurveyResponse();
                 response.Responses = answers;
+
+                var ret = await _participantService.PostSurvey(groupID, response, App.SessionID);
+                return ret.QuestionGroup;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error sending the survey: {ex}");
+                throw ex;
+            }
+        }
+
+        public async Task CompleteSurvey(int groupID, List<ParticipantConsent> answers)
+        {
+            try
+            {
+                var response = new SurveyResponse();
+                response.Responses = answers;
+
                 await _participantService.PostSurvey(groupID, response, App.SessionID);
                 await _participantService.CompleteSurvey(App.SessionID);
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error getting the survey: {ex}");
+                Debug.WriteLine($"Error completing the survey: {ex}");
                 throw ex;
             }
         }
