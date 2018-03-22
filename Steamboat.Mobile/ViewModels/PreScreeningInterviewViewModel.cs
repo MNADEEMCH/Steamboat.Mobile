@@ -106,7 +106,7 @@ namespace Steamboat.Mobile.ViewModels
             SaveAnswer(lastQuestion, answer);
             await AddRejoinder(answer);
 
-            if(lastQuestion.IsDependencyTarget)
+            if (lastQuestion.IsDependencyTarget)
             {
                 var response = await _participantManager.SendSurvey(_questionGroupID, _answersList);
                 _localQuestions = response.Questions;
@@ -117,7 +117,12 @@ namespace Steamboat.Mobile.ViewModels
                 await NavigateToDashboard();
             }
             else
-                await ContinueSurvey(false);
+                await ContinueSurvey(!HasRejoinder(answer));
+        }
+
+        private bool HasRejoinder(Answers answer)
+        {
+            return !string.IsNullOrEmpty(answer.AlternateText);
         }
 
         private bool IsLastQuestion()
@@ -127,13 +132,16 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task AddRejoinder(Answers answer)
         {
-            var rejoinder = new Question();
-            rejoinder.Type = SurveyHelper.LabelType;
-            rejoinder.IsAnswer = false;
-            rejoinder.Text = answer.AlternateText;
-            rejoinder.IsFirstQuestion = true;
-            SurveyQuestions.Add(rejoinder);
-            await WaitAnimation();
+            if (HasRejoinder(answer))
+            {
+                var rejoinder = new Question();
+                rejoinder.Type = SurveyHelper.LabelType;
+                rejoinder.IsAnswer = false;
+                rejoinder.Text = answer.AlternateText;
+                rejoinder.IsFirstQuestion = true;
+                SurveyQuestions.Add(rejoinder);
+                await WaitAnimation();
+            }
         }
 
         private async Task WaitAnimation()
