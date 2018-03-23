@@ -34,7 +34,7 @@
                 <Setter Property="BorderColor" Value="#95C7DA" />
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontSize" Value="14" />
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
             </Style>
             <Style x:Key="TextLabel" TargetType="Label">

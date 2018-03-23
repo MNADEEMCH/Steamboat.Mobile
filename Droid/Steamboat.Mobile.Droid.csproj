@@ -61,9 +61,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="SQLite-net">
       <HintPath>..\packages\sqlite-net-pcl.1.4.118\lib\netstandard1.1\SQLite-net.dll</HintPath>
     </Reference>
@@ -221,6 +218,30 @@
     <Reference Include="FFImageLoading.Svg.Forms">
       <HintPath>..\packages\Xamarin.FFImageLoading.Svg.Forms.2.3.4\lib\MonoAndroid10\FFImageLoading.Svg.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Basement">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Basement.32.961.0\lib\MonoAndroid70\Xamarin.GooglePlayServices.Basement.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Tasks">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Tasks.32.961.0\lib\MonoAndroid70\Xamarin.GooglePlayServices.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Base">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Base.32.961.0\lib\MonoAndroid70\Xamarin.GooglePlayServices.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Firebase.Common">
+      <HintPath>..\packages\Xamarin.Firebase.Common.32.961.0\lib\MonoAndroid70\Xamarin.Firebase.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Firebase.Iid">
+      <HintPath>..\packages\Xamarin.Firebase.Iid.32.961.0\lib\MonoAndroid70\Xamarin.Firebase.Iid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Firebase.Messaging">
+      <HintPath>..\packages\Xamarin.Firebase.Messaging.32.961.0\lib\MonoAndroid70\Xamarin.Firebase.Messaging.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.ShortcutBadger">
+      <HintPath>..\packages\Xamarin.ShortcutBadger.1.1.19\lib\MonoAndroid\Xamarin.ShortcutBadger.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomRenderers\ColorProgressBarRenderer.cs" />
@@ -240,6 +261,11 @@
     <Compile Include="CustomRenderers\LinkButtonRenderer.cs" />
     <Compile Include="CustomRenderers\CustomNavigationViewRenderer.cs" />
     <Compile Include="CustomRenderers\BubbleStackRenderer.cs" />
+    <Compile Include="Helpers\GooglePlayServicesHelper.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
+    <Compile Include="Services\Firebase\MyFirebaseIIDService.cs" />
+    <Compile Include="Services\Firebase\MyFirebaseMessagingService.cs" />
+    <Compile Include="Services\NotificationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
@@ -286,6 +312,33 @@
     <AndroidResource Include="Resources\drawable-hdpi\imgMomentumProfile.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\imgMomentumProfile.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\imgMomentumProfile.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icMoreInfo.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icCalendar.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icChevron.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icClock.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icDelete.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icEdit.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icLock.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icReenter.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icStepActive.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icStepDone.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icStepNonvisited.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icCalendarDisabled.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icImago.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icInterview.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icLocationDisabled.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icLogo.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icReport.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\IcScheduling.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icScreening.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgHeader.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icLocation.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icClockDisabled.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\iconBackground.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgHeaderTablet.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgMomentumProfile.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\splashscreen.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icUser.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
@@ -457,6 +510,15 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\icImago.png" />
   </ItemGroup>
+  <ItemGroup>
+    <GoogleServicesJson Include="google-services.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Services\Firebase\" />
+    <Folder Include="Resources\drawable-xxxhdpi\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Compat.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.Compat.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Compat.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.Compat.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.Core.UI.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.Core.UI.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Core.UI.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.Core.UI.targets')" />
@@ -477,4 +539,5 @@
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.2\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.2\build\Xamarin.Build.Download.targets')" />
   <Import Project="..\packages\Xamarin.Android.Support.Exif.25.1.0\build\MonoAndroid70\Xamarin.Android.Support.Exif.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Exif.25.1.0\build\MonoAndroid70\Xamarin.Android.Support.Exif.targets')" />
+  <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0\build\Xamarin.GooglePlayServices.Basement.targets')" />
 </Project>

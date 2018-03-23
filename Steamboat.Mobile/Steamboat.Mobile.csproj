@@ -263,6 +263,15 @@
       <DependentUpon>SurveySelectOneView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\Renderers\BubbleStack.cs" />
+    <Compile Include="Models\Notification\PushNotification.cs" />
+    <Compile Include="Managers\Application\ApplicationManager.cs" />
+    <Compile Include="Managers\Application\IApplicationManager.cs" />
+    <Compile Include="Services\App\ApplicationService.cs" />
+    <Compile Include="Services\App\IApplicationService.cs" />
+    <Compile Include="Services\Notification\INotificationService.cs" />
+    <Compile Include="Models\Application\ApplicationDeviceInfo.cs" />
+    <Compile Include="Helpers\NotificationNavigateToHelper.cs" />
+    <Compile Include="Helpers\NotificationDataHelper.cs" />
     <Compile Include="Models\Participant\Survey\SurveyResponse.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -385,6 +394,11 @@
     <Folder Include="Models\Participant\Survey\" />
     <Folder Include="CustomControls\Survey\" />
     <Folder Include="Views\Survey\" />
+    <Folder Include="Models\Notification\" />
+    <Folder Include="Managers\Application\" />
+    <Folder Include="Services\App\" />
+    <Folder Include="Services\Notification\" />
+    <Folder Include="Models\Application\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

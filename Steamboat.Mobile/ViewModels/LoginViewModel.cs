@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Steamboat.Mobile.Exceptions;
 using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Managers.Application;
 using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Validations;
@@ -17,6 +18,7 @@ namespace Steamboat.Mobile.ViewModels
 
         private IAccountManager _accountManager;
         private IParticipantManager _participantManager;
+        private IApplicationManager _applicationManager;
         private ValidatableObject<string> _username;
         private ValidatableObject<string> _password;
         private bool _isBusy;
@@ -28,10 +30,13 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-        public LoginViewModel(IAccountManager accountManager = null, IParticipantManager participantManager = null)
+        public LoginViewModel(IAccountManager accountManager = null, 
+                              IParticipantManager participantManager = null,
+                              IApplicationManager applicationManager = null  )
         {
             _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
+            _applicationManager = applicationManager ?? DependencyContainer.Resolve<IApplicationManager>();
 
             LoginCommand = new Command(async () => await this.Login());
             IsBusy = false;
@@ -81,9 +86,10 @@ namespace Steamboat.Mobile.ViewModels
                         await NavigationService.NavigateToAsync<ConsentsViewModel>();
                     }
                     else
-                    {
+                    {   
+                        _applicationManager.TrySendToken();
+                        _applicationManager.UpdateNotificationBadge(1);
                         var status = await _participantManager.GetStatus();
-
                         var viewModelType = DashboardHelper.GetViewModelForStatus(status);
                         await NavigationService.NavigateToAsync(viewModelType, status, mainPage:true);
                     }

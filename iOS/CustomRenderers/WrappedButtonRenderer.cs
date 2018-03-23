@@ -40,7 +40,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
                 {
                     var width = Element.Width;
                     var size = Control.TitleLabel.SizeThatFits(new CoreGraphics.CGSize(width, 100000));
-                    if (size.Height > element.Height)
+                    if (size.Height + 24 > element.Height)
                     {
                         Element.HeightRequest = size.Height + 24;
                         UpdatePadding();

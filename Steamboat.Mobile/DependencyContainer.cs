@@ -13,6 +13,8 @@ using Steamboat.Mobile.Services.RequestProvider;
 using Steamboat.Mobile.ViewModels;
 using Steamboat.Mobile.Services.Modal;
 using Steamboat.Mobile.ViewModels.Modals;
+using Steamboat.Mobile.Managers.Application;
+using Steamboat.Mobile.Services.App;
 
 namespace Steamboat.Mobile
 {
@@ -28,6 +30,7 @@ namespace Steamboat.Mobile
             //Services
             Locator.CurrentMutable.RegisterLazySingleton(() => new AccountService(), typeof(IAccountService));
             Locator.CurrentMutable.RegisterLazySingleton(() => new ParticipantService(), typeof(IParticipantService));
+            Locator.CurrentMutable.RegisterLazySingleton(() => new ApplicationService(), typeof(IApplicationService));
 
             //Repositories
             Locator.CurrentMutable.RegisterLazySingleton(() => new UserRepository(), typeof(IUserRepository));
@@ -40,6 +43,7 @@ namespace Steamboat.Mobile
             //Managers
             Locator.CurrentMutable.RegisterLazySingleton(() => new AccountManager(), typeof(IAccountManager));
             Locator.CurrentMutable.RegisterLazySingleton(() => new ParticipantManager(), typeof(IParticipantManager));
+            Locator.CurrentMutable.RegisterLazySingleton(() => new ApplicationManager(), typeof(IApplicationManager));
 
             //ViewModels
             Locator.CurrentMutable.RegisterLazySingleton(() => new LoginViewModel());
