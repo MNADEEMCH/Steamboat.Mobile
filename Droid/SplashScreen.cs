@@ -27,6 +27,7 @@ namespace Steamboat.Mobile.Droid
         protected override void OnResume()
         {
             base.OnResume();
+            SetContentView(Resource.Layout.SplashScreen);
             Task startupWork = new Task(() => { SimulateStartup(); });
             startupWork.Start();
         }
