@@ -7,10 +7,10 @@
     <ContentView.Resources>
         <ResourceDictionary>            
             <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="44"></Setter>
-                <Setter Property="WidthRequest" Value="44"></Setter>
-                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="HeightRequest" Value="48"></Setter>
+                <Setter Property="WidthRequest" Value="48"></Setter>
                 <Setter Property="VerticalOptions" Value="Start"></Setter>
+                <Setter Property="Margin" Value="-8,0,8,0" />
             </Style>
             <Style x:Key="LabelBubbleStack" TargetType="customControl:BubbleStack">
                 <Setter Property="BorderColor" Value="White" />
@@ -18,9 +18,10 @@
                 <Setter Property="FillColor" Value="White" />
                 <Setter Property="IsLabel" Value="True" />
                 <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+                <Setter Property="Margin" Value="-8,0,0,0" />
                 <Style.Triggers>
                      <DataTrigger TargetType="customControl:BubbleStack" Binding="{Binding IsFirstQuestion}" Value="True">
-                        <Setter Property="Margin" Value="0,18,0,0" />
+                        <Setter Property="Margin" Value="-8,21,0,0" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -28,6 +29,7 @@
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
                 <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
                 <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="24,16" />
             </Style>
         </ResourceDictionary>
     </ContentView.Resources>
@@ -36,7 +38,7 @@
 
         <Grid Margin="0,0,0,8" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="44" />
+                <ColumnDefinition Width="48" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -44,7 +46,7 @@
             </Grid.RowDefinitions>
             <ffimageloading:CachedImage Grid.Column="0" Source="imgMomentumProfile.png" Style="{StaticResource MomentumImage}" IsVisible="{Binding IsFirstQuestion}" />
             <customControl:BubbleStack Grid.Column="1" Style="{StaticResource LabelBubbleStack}">
-                <Label x:Name="MainLabel" Text="{Binding Text}" Style="{StaticResource TextLabel}" Margin="24,16"  />
+                <Label x:Name="MainLabel" Text="{Binding Text}" Style="{StaticResource TextLabel}" />
             </customControl:BubbleStack>
             <Grid IsVisible="false" />
         </Grid>

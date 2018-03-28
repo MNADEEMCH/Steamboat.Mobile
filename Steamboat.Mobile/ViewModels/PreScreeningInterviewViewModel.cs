@@ -23,8 +23,10 @@ namespace Steamboat.Mobile.ViewModels
         private int _questionIndex;
         private List<ParticipantConsent> _answersList;
         private int _questionGroupID;
+        private string _imgSource;
 
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
+        public string ImgSource { set { SetPropertyValue(ref _imgSource, value); } get { return _imgSource; } }
         public ICommand HandleAnswerCommand { get; set; }
         public ObservableCollection<Question> SurveyQuestions { get { return _surveyQuestions; } set { SetPropertyValue(ref _surveyQuestions, value); } }
 
@@ -37,6 +39,7 @@ namespace Steamboat.Mobile.ViewModels
             HandleAnswerCommand = new Command(async (selectedAnswer) => await HandleAnswer(selectedAnswer));
 
             _questionIndex = 0;
+            ImgSource = App.CurrentUser.AvatarUrl;
             SurveyQuestions = new ObservableCollection<Question>();
         }
 

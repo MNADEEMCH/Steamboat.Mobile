@@ -17,7 +17,7 @@ namespace Steamboat.Mobile.Managers.Account
         private IUserRepository _userRepository;
         private IUserAlertRepository _userAlertRepository;
 
-        public AccountManager(IAccountService accountService = null, 
+        public AccountManager(IAccountService accountService = null,
                               IUserRepository userRepository = null,
                               IUserAlertRepository userAlertRepository = null)
         {
@@ -45,8 +45,9 @@ namespace Steamboat.Mobile.Managers.Account
 
                 if (account != null)
                 {
+                    account.AvatarUrl = ResolveUrl(account.AvatarUrl);
                     var user = App.CurrentUser == null ?
-                              await _userRepository.AddUser(username) : await _userRepository.UpdateUser(App.CurrentUser.Id, username);
+                                  await _userRepository.AddUser(username, account.AvatarUrl) : await _userRepository.UpdateUser(App.CurrentUser.Id, username, account.AvatarUrl);
 
                     App.CurrentUser = user;
                     App.SessionID = account.Session;
@@ -100,12 +101,14 @@ namespace Steamboat.Mobile.Managers.Account
             }
         }
 
-        public async Task<int> AddUserAlert(string username,int alertId)
+        public async Task<int> AddUserAlert(string username, int alertId)
         {
-            try{
-                return await _userAlertRepository.AddUserAlert(new UserAlert{UserName=username,AlertId=alertId});
+            try
+            {
+                return await _userAlertRepository.AddUserAlert(new UserAlert { UserName = username, AlertId = alertId });
             }
-            catch(Exception ex){
+            catch (Exception ex)
+            {
                 Debug.WriteLine($"Error in login: {ex}");
                 throw ex;
             }
@@ -121,8 +124,9 @@ namespace Steamboat.Mobile.Managers.Account
                 if (userAlertItems != null)
                     userAlerts = userAlertItems.GroupBy(x => x.UserName)
                                            .Select(g => new UserAlerts()
-                                           {  AlertsIds = g.Select(x=>x.AlertId).ToList(),
-                                              UserName = g.Key as string
+                                           {
+                                               AlertsIds = g.Select(x => x.AlertId).ToList(),
+                                               UserName = g.Key as string
                                            }).FirstOrDefault();
             }
             catch (Exception ex)
@@ -132,6 +136,13 @@ namespace Steamboat.Mobile.Managers.Account
             }
 
             return userAlerts;
+        }
+
+        private string ResolveUrl(string avatarUrl)
+        {
+            //TODO: Get BaseURL from config
+            var apiUrlBase = "https://dev.momentumhealth.co/";
+            return avatarUrl.Replace("~/", apiUrlBase);
         }
     }
 }

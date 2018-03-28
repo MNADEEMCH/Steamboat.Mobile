@@ -273,6 +273,7 @@
     <Compile Include="Helpers\NotificationNavigateToHelper.cs" />
     <Compile Include="Helpers\NotificationDataHelper.cs" />
     <Compile Include="Models\Participant\Survey\SurveyResponse.cs" />
+    <Compile Include="Services\RequestProvider\AuthenticatedHttpClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

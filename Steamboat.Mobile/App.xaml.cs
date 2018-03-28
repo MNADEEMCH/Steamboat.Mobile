@@ -18,7 +18,7 @@ namespace Steamboat.Mobile
 
         public static IApplicationManager _applicationManager;
 
-        public App(PushNotification pushNotification=null)
+        public App(PushNotification pushNotification = null)
         {
             InitializeComponent();
 
@@ -34,11 +34,13 @@ namespace Steamboat.Mobile
 
         public static async Task PushTokenRefreshed()
         {
-            try{
+            try
+            {
                 await _applicationManager.TrySendToken();
             }
-            catch(Exception ex){
-                
+            catch (Exception ex)
+            {
+
             }
         }
 
