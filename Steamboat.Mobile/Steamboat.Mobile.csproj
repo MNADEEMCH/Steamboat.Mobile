@@ -70,7 +70,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\PreScreeningInterviewView.xaml">
+    <EmbeddedResource Include="Views\ScreeningInterviewView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -247,10 +247,10 @@
     <Compile Include="Repositories\User\UserAlertRepository.cs" />
     <Compile Include="Repositories\User\IUserAlertRepository.cs" />
     <Compile Include="Models\User\UserAlerts.cs" />
-    <Compile Include="Views\PreScreeningInterviewView.xaml.cs">
-      <DependentUpon>PreScreeningInterviewView.xaml</DependentUpon>
+    <Compile Include="Views\ScreeningInterviewView.xaml.cs">
+      <DependentUpon>ScreeningInterviewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\PreScreeningInterviewViewModel.cs" />
+    <Compile Include="ViewModels\ScreeningInterviewViewModel.cs" />
     <Compile Include="Models\Participant\Survey\SurveyRequest.cs" />
     <Compile Include="Models\BindableBase.cs" />
     <Compile Include="CustomControls\Survey\SurveyTemplateSelector.cs" />

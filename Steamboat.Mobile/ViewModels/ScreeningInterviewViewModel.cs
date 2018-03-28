@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class PreScreeningInterviewViewModel : ViewModelBase
+    public class ScreeningInterviewViewModel : ViewModelBase
     {
         #region Properties
 
@@ -32,7 +32,7 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-        public PreScreeningInterviewViewModel(IParticipantManager participantManager = null)
+        public ScreeningInterviewViewModel(IParticipantManager participantManager = null)
         {
             IsLoading = true;
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();

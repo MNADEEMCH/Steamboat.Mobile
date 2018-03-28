@@ -48,6 +48,13 @@ namespace Steamboat.Mobile.ViewModels
             set { SetPropertyValue(ref _message, value); }
         }
 
+        private string _mainActionButtonText;
+        public string MainActionButtonText
+        {
+            get { return _mainActionButtonText; }
+            set { SetPropertyValue(ref _mainActionButtonText, value); }
+        }
+
         private string _steps;
         public string Steps
         {
@@ -78,7 +85,6 @@ namespace Steamboat.Mobile.ViewModels
             {
 
                 Status status = parameter as Status;
-                IsStatusValid(status);
                 DispositionStep dispositionStep = DashboardHelper.GetDispositionStep(status);
                 IsDispositionStepValid(dispositionStep);
 
@@ -96,12 +102,6 @@ namespace Steamboat.Mobile.ViewModels
 
         }
 
-        private void IsStatusValid(Status status)
-        {
-            if (status == null || status.Dashboard == null)
-                throw new Exception("Error loading status");
-
-        }
         private void IsDispositionStepValid(DispositionStep dispositionStep)
         {
             if (dispositionStep==null)
@@ -115,6 +115,7 @@ namespace Steamboat.Mobile.ViewModels
 
             Title = dispositionStep.Title;
             Message = dispositionStep.Message;
+            MainActionButtonText = dispositionStep.ButtonText;
             Steps = String.Format("STEP  {0}  OF  {1}", stepperParam.CurrentStep, stepperParam.Steps);
 
             InitializeSpecificStep(status);

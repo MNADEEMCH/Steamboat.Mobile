@@ -23,22 +23,11 @@ namespace Steamboat.Mobile.Helpers
             { reportStep , typeof(ReportViewModel)}
         };
 
-        private static string GetCurrentDispositionKey(Status status)
-        {
-            var dispositionKey = reportStep;
-
-            if (status.Dashboard.SurveyStep.Status.Equals(StatusEnum.Pending))
-                dispositionKey = surveyStep;
-            else if (status.Dashboard.SchedulingStep.Status.Equals(StatusEnum.Pending))
-                dispositionKey = schedulingStep;
-            else if (status.Dashboard.ScreeningStep.Status.Equals(StatusEnum.Pending))
-                dispositionKey = screeningStep;
-
-            return dispositionKey;
-        }
-
         public static Type GetViewModelForStatus(Status status)
         {
+            if (!IsStatusValid(status))
+                throw new Exception("Invalid status");
+
             string currentDispositionKey = GetCurrentDispositionKey(status);
             var viewModelType = StatusViewModelsDictionary[currentDispositionKey];
 
@@ -47,6 +36,9 @@ namespace Steamboat.Mobile.Helpers
 
         public static DispositionStep GetDispositionStep(Status status)
         {
+            if (!IsStatusValid(status))
+                throw new Exception("Invalid status");
+
             DispositionStep dispositionStep = null;
 
             string currentDispositionKey = GetCurrentDispositionKey(status);
@@ -62,10 +54,15 @@ namespace Steamboat.Mobile.Helpers
                 case screeningStep:
                     dispositionStep = status.Dashboard.ScreeningStep;
                     break;
-                default: 
-                    dispositionStep = status.Dashboard.ReportStep;
-                    break;
+                default:
+                    {
+                        var reportReady = status.Dashboard.SurveyStep.Status.Equals(StatusEnum.Complete);
+                        status.Dashboard.ReportStep.ReportReady = reportReady;
+                        dispositionStep = status.Dashboard.ReportStep;
+                        break;
+                    }
             }
+
             return dispositionStep;
         }
 
@@ -73,13 +70,13 @@ namespace Steamboat.Mobile.Helpers
 
         public static StepperParam GetStepperParameter(Status status)
         {
-            StepperParam stepperParam = null;
-            if (DashboardHelper.ValidateDashboard(status))
-            {
-                stepperParam = new StepperParam();
-                stepperParam.Steps = DashboardHelper.GetSteps(status);
-                stepperParam.CurrentStep = DashboardHelper.GetCurrentStep(status, stepperParam.Steps);
-            }
+            if (!IsStatusValid(status))
+                throw new Exception("Invalid status");
+
+            var stepperParam = new StepperParam();
+            stepperParam.Steps = DashboardHelper.GetSteps(status);
+            stepperParam.CurrentStep = DashboardHelper.GetCurrentStep(status, stepperParam.Steps);
+
             return stepperParam;
         }
 
@@ -114,7 +111,32 @@ namespace Steamboat.Mobile.Helpers
             return status.Dashboard.SurveyStep.Status.Equals(StatusEnum.None) ? 3 : 4;
         }
 
-        private static bool ValidateDashboard(Status status)
+        #endregion
+
+        private static string GetCurrentDispositionKey(Status status)
+        {
+            var dispositionKey = reportStep;
+
+            var surveyPending = status.Dashboard.SurveyStep.Status.Equals(StatusEnum.Pending);
+            var schedulingPending = status.Dashboard.SchedulingStep.Status.Equals(StatusEnum.Pending);
+            var screeningPending = status.Dashboard.ScreeningStep.Status.Equals(StatusEnum.Pending);
+            var reportPending = status.Dashboard.ReportStep.Status.Equals(StatusEnum.Pending);
+
+            if (surveyPending){
+                if (reportPending)
+                    dispositionKey = reportStep;
+                else
+                    dispositionKey = surveyStep;
+            }
+            else if (schedulingPending)
+                dispositionKey = schedulingStep;
+            else if (screeningPending)
+                dispositionKey = screeningStep;
+
+            return dispositionKey;
+        }
+
+        private static bool IsStatusValid(Status status)
         {
             return status != null && status.Dashboard != null &&
                 status.Dashboard.SurveyStep != null &&
@@ -122,7 +144,5 @@ namespace Steamboat.Mobile.Helpers
                 status.Dashboard.ScreeningStep != null &&
                 status.Dashboard.ReportStep != null;
         }
-
-        #endregion
     }
 }

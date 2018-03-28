@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="Steamboat.Mobile.Views.PreScreeningInterviewView"
+    x:Class="Steamboat.Mobile.Views.ScreeningInterviewView"
     x:Name="PreScreeningInterviewView"
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
     xmlns:surveyControl="clr-namespace:Steamboat.Mobile.CustomControls.Survey;assembly=Steamboat.Mobile"

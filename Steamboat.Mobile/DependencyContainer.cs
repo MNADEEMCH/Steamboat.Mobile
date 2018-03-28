@@ -58,7 +58,7 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.Register(() => new SchedulingEventTimeViewModel());
             Locator.CurrentMutable.Register(() => new SchedulingEventDateViewModel());
             Locator.CurrentMutable.Register(() => new SchedulingConfirmationViewModel());
-            Locator.CurrentMutable.Register(() => new PreScreeningInterviewViewModel());
+            Locator.CurrentMutable.Register(() => new ScreeningInterviewViewModel());
 
             //ModalViewModels
             Locator.CurrentMutable.Register(() => new DispositionMoreInfoModalViewModel());
