@@ -266,6 +266,7 @@
     <Compile Include="Services\Firebase\MyFirebaseIIDService.cs" />
     <Compile Include="Services\Firebase\MyFirebaseMessagingService.cs" />
     <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="CustomRenderers\SurveyEntryRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
@@ -339,6 +340,15 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\imgHeaderTablet.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\imgMomentumProfile.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\splashscreen.png" />
+    <AndroidResource Include="Resources\values\colors.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\icSend.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icSend.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icSend.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icSend.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icSend_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icSend_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icSend_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icSend_Disabled.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

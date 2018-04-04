@@ -313,6 +313,12 @@
     <BundleResource Include="Resources\imgMomentumProfile%402x.png" />
     <BundleResource Include="Resources\imgMomentumProfile%403x.png" />
     <BundleResource Include="GoogleService-Info.plist" />
+    <BundleResource Include="Resources\icSend.png" />
+    <BundleResource Include="Resources\icSend%402x.png" />
+    <BundleResource Include="Resources\icSend%403x.png" />
+    <BundleResource Include="Resources\icSend_Disabled.png" />
+    <BundleResource Include="Resources\icSend_Disabled%402x.png" />
+    <BundleResource Include="Resources\icSend_Disabled%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -344,6 +350,7 @@
     <Compile Include="CustomRenderers\BubbleStackRenderer.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="CustomRenderers\SurveyEntryRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

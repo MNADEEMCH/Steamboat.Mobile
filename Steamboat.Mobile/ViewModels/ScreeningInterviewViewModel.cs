@@ -24,11 +24,15 @@ namespace Steamboat.Mobile.ViewModels
         private List<ParticipantConsent> _answersList;
         private int _questionGroupID;
         private string _imgSource;
+        private bool _freeTextSendEnabled;
 
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
         public string ImgSource { set { SetPropertyValue(ref _imgSource, value); } get { return _imgSource; } }
-        public ICommand HandleAnswerCommand { get; set; }
+        public ICommand HandleSelectOneAnswerCommand { get; set; }
+        public ICommand HandleFreeTextAnswerCommand { get; set; }
+        public ICommand ValidateFreeTextToSendCommand { get; set; }
         public ObservableCollection<Question> SurveyQuestions { get { return _surveyQuestions; } set { SetPropertyValue(ref _surveyQuestions, value); } }
+        public bool FreeTextSendEnabled { get { return _freeTextSendEnabled; } set { SetPropertyValue(ref _freeTextSendEnabled, value); } }
 
         #endregion
 
@@ -36,8 +40,9 @@ namespace Steamboat.Mobile.ViewModels
         {
             IsLoading = true;
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
-            HandleAnswerCommand = new Command(async (selectedAnswer) => await HandleAnswer(selectedAnswer));
-
+            HandleSelectOneAnswerCommand = new Command(async (selectedAnswer) => await HandleSelectOneAnswer(selectedAnswer));
+            HandleFreeTextAnswerCommand = new Command(async (freeTexAnswer) => await HandleFreeTextAnswer(freeTexAnswer));
+            ValidateFreeTextToSendCommand = new Command<string>((freeTexAnswer) =>ValidateFreeTextToSend(freeTexAnswer));
             _questionIndex = 0;
             ImgSource = App.CurrentUser.AvatarUrl;
             SurveyQuestions = new ObservableCollection<Question>();
@@ -71,7 +76,7 @@ namespace Steamboat.Mobile.ViewModels
             var shouldBreak = false;
             for (int i = _questionIndex; i < _localQuestions.Count; i++)
             {
-                currentQuestion = _localQuestions.ElementAt(_questionIndex);
+                currentQuestion =_localQuestions.ElementAt(_questionIndex);
                 if (currentQuestion.IsEnabled)
                 {
                     currentQuestion.IsFirstQuestion = isFirstQuestion;
@@ -95,21 +100,43 @@ namespace Steamboat.Mobile.ViewModels
             }
         }
 
-        private async Task HandleAnswer(object selectedAnswer)
+        private async Task HandleSelectOneAnswer(object answerQuestion)
         {
-            var answer = selectedAnswer as Answers;
-            answer.IsSelected = true;
             var lastQuestion = SurveyQuestions.Last();
+            var answer = answerQuestion as Answers;
             lastQuestion.AnswerText = answer.Text;
-            lastQuestion.IsComplete = true;
-            _localQuestions.First(q => q.Key.Equals(lastQuestion.Key)).IsComplete = true;
 
-            //SurveyQuestions.Remove(lastQuestion);
+            await HandleAnswer(lastQuestion, answer);
+        }
 
-            SaveAnswer(lastQuestion, answer);
+        private async Task HandleFreeTextAnswer(object freeText)
+        {
+            if (FreeTextSendEnabled)
+            {
+                FreeTextSendEnabled = false;
+                var lastQuestion = SurveyQuestions.Last();
+                var answer = lastQuestion.Answers.First();
+                lastQuestion.AnswerText = (freeText as string).Trim();
+
+                await HandleAnswer(lastQuestion, answer);
+            }
+        }
+
+        private void ValidateFreeTextToSend(string freeTextAnswer){
+            FreeTextSendEnabled = freeTextAnswer.Trim().Length >= 1;
+        }
+
+
+        private async Task HandleAnswer(Question question, Answers answer){
+            
+            answer.IsSelected = true;
+            question.IsComplete = true;
+            _localQuestions.First(q => q.Key.Equals(question.Key)).IsComplete = true;
+
+            SaveAnswer(question, answer);
             await AddRejoinder(answer);
 
-            if (lastQuestion.IsDependencyTarget)
+            if (question.IsDependencyTarget)
             {
                 var response = await _participantManager.SendSurvey(_questionGroupID, _answersList);
                 _localQuestions = response.Questions;
@@ -120,7 +147,8 @@ namespace Steamboat.Mobile.ViewModels
                 await NavigateToDashboard();
             }
             else
-                await ContinueSurvey(!HasRejoinder(answer));
+                await ContinueSurvey(!HasRejoinder(answer));  
+
         }
 
         private bool HasRejoinder(Answers answer)
@@ -157,6 +185,8 @@ namespace Steamboat.Mobile.ViewModels
             var response = new ParticipantConsent();
             response.QuestionKey = question.Key;
             response.AnswerKey = answer.Key;
+            if(question.Type.Equals(SurveyHelper.StringType))//in order to not add overhead on the request
+                response.Text = question.AnswerText;
             _answersList.Add(response);
         }
 
