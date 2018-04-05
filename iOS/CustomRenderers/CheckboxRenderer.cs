@@ -51,12 +51,10 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             Control.Frame = Frame;
             Control.Bounds = Bounds;
 
+            ChangeThemeIfNeeded(Element);
             UpdateFont();
         }
 
-        /// <summary>
-        /// Resizes the text.
-        /// </summary>
         private void ResizeText()
         {
             if (Element == null)
@@ -70,7 +68,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             var width = Control.TitleLabel.Bounds.Width;
 
             var height = Utilities.Extensions.MeasureTextSize(text, width + 30, 14.0);
-                      
+
             var minHeight = string.Empty.StringHeight(Control.Font, width);
 
             var requiredLines = Math.Round(height.Height / minHeight, MidpointRounding.AwayFromZero);
@@ -85,19 +83,12 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             }
         }
 
-        /// <summary>
-        /// Draws the specified rect.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
         public override void Draw(CoreGraphics.CGRect rect)
         {
             base.Draw(rect);
             ResizeText();
         }
 
-        /// <summary>
-        /// Updates the font.
-        /// </summary>
         private void UpdateFont()
         {
             if (!string.IsNullOrEmpty(Element.FontName))
@@ -124,11 +115,6 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             Control.SetTitleColor(Element.TextColor.ToUIColorOrDefault(defaultTextColor), UIControlState.Selected);
         }
 
-        /// <summary>
-        /// Handles the <see cref="E:ElementPropertyChanged" /> event.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="PropertyChangedEventArgs"/> instance containing the event data.</param>
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
@@ -165,8 +151,17 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         {
             Element.Checked = Control.Checked;
 
-            if (Element.Command.CanExecute(null))
-                Element.Command.Execute(null);
+            if (Element.Command != null && Element.Command.CanExecute(Element.CommandParameter))
+                Element.Command.Execute(Element.CommandParameter);
+        }
+
+        private void ChangeThemeIfNeeded(Checkbox element)
+        {
+            if (element.WhiteTheme)
+            {
+                Control.SetImage(UIImage.FromBundle("Checkbox/onWhite.png"), UIControlState.Selected);
+                Control.SetImage(UIImage.FromBundle("Checkbox/offWhite.png"), UIControlState.Normal);
+            }
         }
 
         protected override void Dispose(bool disposing)

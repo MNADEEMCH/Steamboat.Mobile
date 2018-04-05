@@ -10,12 +10,14 @@ namespace Steamboat.Mobile.CustomControls.Survey
     {
         private readonly DataTemplate _labelDataTemplate;
         private readonly DataTemplate _selectoneDataTemplate;
+        private readonly DataTemplate _selectmanyDataTemplate;
         private readonly DataTemplate _freeTextDataTemplate;
 
         public SurveyTemplateSelector()
         {
             _labelDataTemplate = new DataTemplate(typeof(SurveyLabelView));
             _selectoneDataTemplate = new DataTemplate(typeof(SurveySelectOneView));
+            _selectmanyDataTemplate = new DataTemplate(typeof(SurveySelectManyView));
             _freeTextDataTemplate = new DataTemplate(typeof(SurveyFreeTextView));
         }
 
@@ -27,7 +29,13 @@ namespace Steamboat.Mobile.CustomControls.Survey
 
             if (IsLabelOrPartOfQuestion(question))
                 return _labelDataTemplate;
-            else if(question.Type.Equals(SurveyHelper.StringType)){
+            else if (question.Type.Equals(SurveyHelper.SelectManyType))
+            {
+                _selectmanyDataTemplate.SetValue(SurveySelectManyView.ParentBindingContextProperty, container.BindingContext);
+                return _selectmanyDataTemplate;
+            }
+            else if(question.Type.Equals(SurveyHelper.StringType))
+            {
                 _freeTextDataTemplate.SetValue(SurveyFreeTextView.ParentBindingContextProperty, container.BindingContext);
                 return _freeTextDataTemplate;
             }

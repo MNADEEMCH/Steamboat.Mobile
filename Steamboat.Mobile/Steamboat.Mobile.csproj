@@ -82,6 +82,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Survey\SurveySelectManyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Survey\SurveyFreeTextView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -278,6 +282,9 @@
     <Compile Include="Helpers\NotificationDataHelper.cs" />
     <Compile Include="Models\Participant\Survey\SurveyResponse.cs" />
     <Compile Include="Services\RequestProvider\AuthenticatedHttpClient.cs" />
+    <Compile Include="Views\Survey\SurveySelectManyView.xaml.cs">
+      <DependentUpon>SurveySelectManyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Survey\SurveyFreeTextView.xaml.cs">
       <DependentUpon>SurveyFreeTextView.xaml</DependentUpon>
     </Compile>

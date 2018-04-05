@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Steamboat.Mobile.Helpers;
@@ -24,15 +25,19 @@ namespace Steamboat.Mobile.ViewModels
         private List<ParticipantConsent> _answersList;
         private int _questionGroupID;
         private string _imgSource;
-        private bool _freeTextSendEnabled;
+        //private bool _freeTextSendEnabled;
+        private bool _enableContinue;
 
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
         public string ImgSource { set { SetPropertyValue(ref _imgSource, value); } get { return _imgSource; } }
-        public ICommand HandleSelectOneAnswerCommand { get; set; }
-        public ICommand HandleFreeTextAnswerCommand { get; set; }
-        public ICommand ValidateFreeTextToSendCommand { get; set; }
+        public ICommand HandleSelectOneCommand { get; set; }
+        public ICommand HandleFreeTextCommand { get; set; }
+        public ICommand HandleSelectManyCommand { get; set; }
+        public ICommand ValidateFreeTextContinueCommand { get; set; }
+        public ICommand SelectCheckboxCommand { get; set; }
         public ObservableCollection<Question> SurveyQuestions { get { return _surveyQuestions; } set { SetPropertyValue(ref _surveyQuestions, value); } }
-        public bool FreeTextSendEnabled { get { return _freeTextSendEnabled; } set { SetPropertyValue(ref _freeTextSendEnabled, value); } }
+        //public bool FreeTextSendEnabled { get { return _freeTextSendEnabled; } set { SetPropertyValue(ref _freeTextSendEnabled, value); } }
+        public bool EnableContinue { set { SetPropertyValue(ref _enableContinue, value); } get { return _enableContinue; } }
 
         #endregion
 
@@ -40,10 +45,14 @@ namespace Steamboat.Mobile.ViewModels
         {
             IsLoading = true;
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
-            HandleSelectOneAnswerCommand = new Command(async (selectedAnswer) => await HandleSelectOneAnswer(selectedAnswer));
-            HandleFreeTextAnswerCommand = new Command(async (freeTexAnswer) => await HandleFreeTextAnswer(freeTexAnswer));
-            ValidateFreeTextToSendCommand = new Command<string>((freeTexAnswer) =>ValidateFreeTextToSend(freeTexAnswer));
+            HandleSelectOneCommand = new Command(async (selectedAnswer) => await HandleSelectOneAnswer(selectedAnswer));
+            HandleFreeTextCommand = new Command(async (freeTexAnswer) => await HandleFreeTextAnswer(freeTexAnswer));
+            HandleSelectManyCommand = new Command(async (selectedOption) => await HandleSelectMany(selectedOption));
+            ValidateFreeTextContinueCommand = new Command<string>(freeTextAnswer => ValidateFreeTextToSend(freeTextAnswer));
+            SelectCheckboxCommand = new Command((selectedOption) => HandleSelectCheckbox(selectedOption));
+
             _questionIndex = 0;
+            EnableContinue = false;
             ImgSource = App.CurrentUser.AvatarUrl;
             SurveyQuestions = new ObservableCollection<Question>();
         }
@@ -76,7 +85,7 @@ namespace Steamboat.Mobile.ViewModels
             var shouldBreak = false;
             for (int i = _questionIndex; i < _localQuestions.Count; i++)
             {
-                currentQuestion =_localQuestions.ElementAt(_questionIndex);
+                currentQuestion = _localQuestions.ElementAt(_questionIndex);
                 if (currentQuestion.IsEnabled)
                 {
                     currentQuestion.IsFirstQuestion = isFirstQuestion;
@@ -88,6 +97,11 @@ namespace Steamboat.Mobile.ViewModels
                         //Set answer part of the question
                         var extraQuestion = currentQuestion;
                         extraQuestion.IsAnswer = true;
+                        foreach (var item in extraQuestion.Answers)
+                        {
+                            item.Text = Regex.Replace(item.Text, @"<[^>]*>", String.Empty);
+                        }
+                        EnableContinue = false;
                         SurveyQuestions.Add(extraQuestion);
                         shouldBreak = true;
                     }
@@ -105,37 +119,58 @@ namespace Steamboat.Mobile.ViewModels
             var lastQuestion = SurveyQuestions.Last();
             var answer = answerQuestion as Answers;
             lastQuestion.AnswerText = answer.Text;
+            MarkQuestionAsCompleted(lastQuestion);
+            answer.IsSelected = true;
 
-            await HandleAnswer(lastQuestion, answer);
+            SaveAnswer(lastQuestion, answer);
+            await AddRejoinder(answer);
+
+            await HandleAnswer(lastQuestion, !HasRejoinder(answer));
         }
 
         private async Task HandleFreeTextAnswer(object freeText)
         {
-            if (FreeTextSendEnabled)
+            if (EnableContinue)
             {
-                FreeTextSendEnabled = false;
+                EnableContinue = false;
                 var lastQuestion = SurveyQuestions.Last();
                 var answer = lastQuestion.Answers.First();
                 lastQuestion.AnswerText = (freeText as string).Trim();
+                MarkQuestionAsCompleted(lastQuestion);
+                answer.IsSelected = true;
 
-                await HandleAnswer(lastQuestion, answer);
+                SaveAnswer(lastQuestion, answer);
+                //await AddRejoinder(answer);
+
+                await HandleAnswer(lastQuestion, false);
             }
         }
 
-        private void ValidateFreeTextToSend(string freeTextAnswer){
-            FreeTextSendEnabled = freeTextAnswer.Trim().Length >= 1;
+        private async Task HandleSelectMany(object selectedQuestion)
+        {
+            var question = selectedQuestion as Question;
+            var answers = question.Answers;
+
+            var selectedAnswers = answers.Where(x => x.IsSelected);
+            var addSeparator = selectedAnswers.Count() > 1;
+            var lastItemKey = selectedAnswers.Last().Key;
+            MarkQuestionAsCompleted(question);
+
+            foreach (var item in selectedAnswers)
+            {
+                SaveAnswer(question, item);
+                question.AnswerText += item.Text;
+                if (addSeparator && item.Key != lastItemKey)
+                {
+                    question.AnswerText += ", ";
+                }
+            }
+
+            await HandleAnswer(question, false);
         }
 
-
-        private async Task HandleAnswer(Question question, Answers answer){
-            
-            answer.IsSelected = true;
-            question.IsComplete = true;
-            _localQuestions.First(q => q.Key.Equals(question.Key)).IsComplete = true;
-
-            SaveAnswer(question, answer);
-            await AddRejoinder(answer);
-
+        private async Task HandleAnswer(Question question, bool rejoinder)
+        {
             if (question.IsDependencyTarget)
             {
                 var response = await _participantManager.SendSurvey(_questionGroupID, _answersList);
@@ -147,8 +182,35 @@ namespace Steamboat.Mobile.ViewModels
                 await NavigateToDashboard();
             }
             else
-                await ContinueSurvey(!HasRejoinder(answer));  
+                await ContinueSurvey(rejoinder);
+        }
 
+        private void HandleSelectCheckbox(object selectedOption)
+        {
+            var answer = selectedOption as Answers;
+            var allAnswers = SurveyQuestions.Last().Answers;
+
+            EnableContinue = allAnswers.Any(a => a.IsSelected);
+
+            if (answer.IsExclusive)
+            {
+                var selectedAnsers = allAnswers.Where(x => x.IsSelected && x.Key != answer.Key);
+                foreach (var item in selectedAnsers)
+                {
+                    item.IsSelected = false;
+                }
+            }
+            else
+            {
+                var exclusiveAnswer = allAnswers.FirstOrDefault(x => x.IsSelected && x.IsExclusive);
+                if (exclusiveAnswer != null)
+                    exclusiveAnswer.IsSelected = false;
+            }
+        }
+
+        private void ValidateFreeTextToSend(string freeTextAnswer)
+        {
+            EnableContinue = freeTextAnswer.Trim().Length >= 1;
         }
 
         private bool HasRejoinder(Answers answer)
@@ -185,8 +247,9 @@ namespace Steamboat.Mobile.ViewModels
             var response = new ParticipantConsent();
             response.QuestionKey = question.Key;
             response.AnswerKey = answer.Key;
-            if(question.Type.Equals(SurveyHelper.StringType))//in order to not add overhead on the request
+            if (question.Type.Equals(SurveyHelper.StringType))
                 response.Text = question.AnswerText;
+
             _answersList.Add(response);
         }
 
@@ -196,6 +259,12 @@ namespace Steamboat.Mobile.ViewModels
 
             var viewModelType = DashboardHelper.GetViewModelForStatus(status);
             await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+        }
+
+        private void MarkQuestionAsCompleted(Question question)
+        {
+            question.IsComplete = true;
+            _localQuestions.First(q => q.Key.Equals(question.Key)).IsComplete = true;
         }
     }
 }

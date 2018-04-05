@@ -30,13 +30,27 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             }
 
             var button = this.Element as LinkButton;
-            Control.SetTextColor(button.ActiveColor.ToAndroid());
+            if (button.IsEnabled)
+                Control.SetTextColor(button.ActiveColor.ToAndroid());
+            else
+                Control.SetTextColor(button.DisabledColor.ToAndroid());
+            
             ViewCompat.SetElevation(Control, 0);
         }
 
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
+
+            if (e.PropertyName.Equals("IsEnabled"))
+            {
+                var button = this.Element as LinkButton;
+
+                if (button.IsEnabled)
+                    Control.SetTextColor(button.ActiveColor.ToAndroid());
+                else
+                    Control.SetTextColor(button.DisabledColor.ToAndroid());
+            }
         }
 
         protected override void Dispose(bool disposing)

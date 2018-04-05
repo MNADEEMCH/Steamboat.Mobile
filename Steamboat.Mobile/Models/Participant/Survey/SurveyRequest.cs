@@ -11,12 +11,14 @@ namespace Steamboat.Mobile.Models.Participant.Survey
 
     public class Answers : BindableBase
     {
+        private bool _isSelected;
+
         public int Key { get; set; }
         public string Text { get; set; }
         public string AlternateText { get; set; }
         public bool IsEnabled { get; set; }
         public bool IsExclusive { get; set; }
-        public bool IsSelected { get; set; }
+        public bool IsSelected { get { return _isSelected; } set { _isSelected = value; RaisePropertyChanged(); } }
     }
 
     public class Question : BindableBase

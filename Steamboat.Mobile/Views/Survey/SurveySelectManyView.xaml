@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Name="SelectManyView"
+             xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:survey="clr-namespace:Steamboat.Mobile.Views.Survey;assembly=Steamboat.Mobile"
+             xmlns:extension="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile"
+             x:Class="Steamboat.Mobile.Views.Survey.SurveySelectManyView">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="48"></Setter>
+                <Setter Property="WidthRequest" Value="48"></Setter>
+                <Setter Property="VerticalOptions" Value="End"></Setter>
+                <Setter Property="Margin" Value="8,0,-8,-4" />
+            </Style>
+            <Style x:Key="LabelBubbleStack" TargetType="customControl:BubbleStack">
+                <Setter Property="BorderColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="BorderRadius" Value="12" />
+                <Setter Property="FillColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="IsLabel" Value="False" />
+                <Setter Property="Margin" Value="0,0,-8,24" />
+                <Style.Triggers>
+                    <DataTrigger TargetType="customControl:BubbleStack" Binding="{Binding IsComplete}" Value="True">
+                        <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="TextLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="24,16" />
+                <Setter Property="MinimumHeightRequest" Value="20" />
+                <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+            </Style>
+            <Style x:Key="CheckboxLabel" TargetType="customControl:Checkbox">
+                <Setter Property="FontName" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="Margin" Value="0,0,0,5" />
+                <Setter Property="WhiteTheme" Value="True" />
+            </Style>
+            <Style x:Key="ContinueButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="White" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="DisabledColor" Value="#277D9D" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+            </Style>
+         </ResourceDictionary>
+    </ContentView.Resources>
+    
+    <ContentView.Content>
+        <Grid Margin="0,8" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="48" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <customControl:BubbleStack Grid.Column="0" Style="{StaticResource LabelBubbleStack}" >
+                <customControl:RepeaterControl ItemsSource="{Binding Answers}" Margin="24,16,24,4" IsVisible="{Binding IsComplete, Converter={StaticResource InverseBoolConverter}}" >
+                    <customControl:RepeaterControl.ItemTemplate>
+                        <DataTemplate>
+                            <customControl:Checkbox Grid.Row="0" CheckedText="{Binding Text}" UncheckedText="{Binding Text}" 
+                                                    Command="{Binding Path=ParentBindingContext.SelectCheckboxCommand, Source={x:Reference SelectManyView}}"
+                                                    CommandParameter="{Binding .}" Style="{StaticResource CheckboxLabel}" Checked="{Binding IsSelected}" />
+                        </DataTemplate>
+                    </customControl:RepeaterControl.ItemTemplate>
+                </customControl:RepeaterControl>
+                <customControl:LinkButton Text="CONTINUE" Style="{StaticResource ContinueButton}" IsEnabled="{Binding Path=ParentBindingContext.EnableContinue, Source={x:Reference SelectManyView}}"
+                                          IsVisible="{Binding IsComplete, Converter={StaticResource InverseBoolConverter}}"
+                                          Command="{Binding Path=ParentBindingContext.HandleSelectManyCommand, Source={x:Reference SelectManyView}}" CommandParameter="{Binding .}" />
+                <Label x:Name="MainLabel" Text="{Binding AnswerText}" Style="{StaticResource TextLabel}" IsVisible="{Binding IsComplete}" />
+                
+            </customControl:BubbleStack>
+            <ffimageloading:CachedImage Grid.Column="1" Source="{Binding Path=ParentBindingContext.ImgSource, Source={x:Reference SelectManyView}}" Style="{StaticResource MomentumImage}" />
+        </Grid>        
+    </ContentView.Content>
+</ContentView>

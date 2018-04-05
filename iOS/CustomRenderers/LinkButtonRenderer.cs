@@ -19,8 +19,9 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
             var button = this.Element as LinkButton;
             Control.SetTitleColor(button.ActiveColor.ToUIColor(), UIControlState.Normal);
-            Control.SetTitleColor(button.ActiveColor.ToUIColor(), UIControlState.Highlighted);
-            Control.SetTitleColor(button.ActiveColor.ToUIColor(), UIControlState.Selected);
+            Control.SetTitleColor(button.TapColor.ToUIColor(), UIControlState.Highlighted);
+            Control.SetTitleColor(button.TapColor.ToUIColor(), UIControlState.Selected);
+            Control.SetTitleColor(button.DisabledColor.ToUIColor(), UIControlState.Disabled);
 
             Control.AdjustsImageWhenHighlighted = false;
         }

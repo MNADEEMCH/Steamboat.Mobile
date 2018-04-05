@@ -41,10 +41,6 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
         }
 
-        /// <summary>
-        /// Called when [element changed].
-        /// </summary>
-        /// <param name="e">The e.</param>
         protected override void OnElementChanged(ElementChangedEventArgs<Checkbox> e)
         {
             base.OnElementChanged(e);
@@ -62,6 +58,8 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             Control.Checked = e.NewElement.Checked;
             UpdateTextColor();
 
+            ChangeThemeIfNeeded(e.NewElement);
+
             if (e.NewElement.FontSize > 0)
             {
                 Control.TextSize = (float)e.NewElement.FontSize;
@@ -73,11 +71,6 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             }
         }
 
-        /// <summary>
-        /// Handles the <see cref="E:ElementPropertyChanged" /> event.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="PropertyChangedEventArgs"/> instance containing the event data.</param>
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
@@ -112,19 +105,14 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             }
         }
 
-        /// <summary>
-        /// CheckBoxes the checked change.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="Android.Widget.CompoundButton.CheckedChangeEventArgs"/> instance containing the event data.</param>
         void CheckBoxCheckedChange(object sender, Android.Widget.CompoundButton.CheckedChangeEventArgs e)
         {
             if (this.Element.Checked != e.IsChecked)
             {
                 this.Element.Checked = e.IsChecked;
 
-                if (Element.Command.CanExecute(null))
-                    Element.Command.Execute(null);
+                if (Element.Command != null && Element.Command.CanExecute(Element.CommandParameter))
+                    Element.Command.Execute(Element.CommandParameter);
             }
         }
 
@@ -138,11 +126,6 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             base.Dispose(disposing);
         }
 
-        /// <summary>
-        /// Tries the set font.
-        /// </summary>
-        /// <param name="fontName">Name of the font.</param>
-        /// <returns>Typeface.</returns>
         private Typeface TrySetFont(string fontName)
         {
             Typeface tf = Typeface.Default;
@@ -167,9 +150,6 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             }
         }
 
-        /// <summary>
-        /// Updates the color of the text
-        /// </summary>
         private void UpdateTextColor()
         {
             if (Control == null || Element == null)
@@ -179,6 +159,24 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 Control.SetTextColor(defaultTextColor);
             else
                 Control.SetTextColor(Element.TextColor.ToAndroid());
+        }
+
+        private void ChangeThemeIfNeeded(Checkbox e)
+        {
+            if (e.WhiteTheme)
+            {
+                int[][] states = {
+                    new int[] { Android.Resource.Attribute.StateEnabled},
+                    new int[] {Android.Resource.Attribute.StateChecked},
+                    new int[] { Android.Resource.Attribute.StatePressed }
+                };
+                int[] colors = {
+                    System.Drawing.Color.White.ToArgb(),
+                    System.Drawing.Color.White.ToArgb(),
+                    System.Drawing.Color.White.ToArgb()
+                };
+                Control.ButtonTintList = new ColorStateList(states, colors);
+            }
         }
     }
 }

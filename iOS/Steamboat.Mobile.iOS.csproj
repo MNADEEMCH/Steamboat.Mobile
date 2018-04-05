@@ -313,6 +313,12 @@
     <BundleResource Include="Resources\imgMomentumProfile%402x.png" />
     <BundleResource Include="Resources\imgMomentumProfile%403x.png" />
     <BundleResource Include="GoogleService-Info.plist" />
+    <BundleResource Include="Resources\Checkbox\offWhite.png" />
+    <BundleResource Include="Resources\Checkbox\offWhite%402x.png" />
+    <BundleResource Include="Resources\Checkbox\offWhite%403x.png" />
+    <BundleResource Include="Resources\Checkbox\onWhite.png" />
+    <BundleResource Include="Resources\Checkbox\onWhite%402x.png" />
+    <BundleResource Include="Resources\Checkbox\onWhite%403x.png" />
     <BundleResource Include="Resources\icSend.png" />
     <BundleResource Include="Resources\icSend%402x.png" />
     <BundleResource Include="Resources\icSend%403x.png" />

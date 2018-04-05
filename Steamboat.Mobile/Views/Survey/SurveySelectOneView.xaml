@@ -62,7 +62,7 @@
                     <customControl:RepeaterControl.ItemTemplate>
                         <DataTemplate>
                             <customControl:WrappedButton Text="{Binding Text}" Style="{StaticResource AnswerButton}"
-                             Command="{Binding Path=ParentBindingContext.HandleSelectOneAnswerCommand, Source={x:Reference SelectOneView}}" CommandParameter="{Binding .}" />
+                             Command="{Binding Path=ParentBindingContext.HandleSelectOneCommand, Source={x:Reference SelectOneView}}" CommandParameter="{Binding .}" />
                         </DataTemplate>
                     </customControl:RepeaterControl.ItemTemplate>
                 </customControl:RepeaterControl>
@@ -71,5 +71,6 @@
             <ffimageloading:CachedImage Grid.Column="1" Source="{Binding Path=ParentBindingContext.ImgSource, Source={x:Reference SelectOneView}}" Style="{StaticResource MomentumImage}" />
         </Grid>
         
-	</ContentView.Content>
+    </ContentView.Content>
 </ContentView>
+

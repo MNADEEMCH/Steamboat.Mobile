@@ -64,6 +64,7 @@
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
+        
         <Grid Margin="0,8" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -72,6 +73,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            
              <customControl:BubbleStack Style="{StaticResource LabelBubbleStack}" >
                 <Grid Margin="24,16" ColumnSpacing="24" IsVisible="{Binding IsComplete, Converter={StaticResource InverseBoolConverter}}">
                     <Grid.ColumnDefinitions>
@@ -85,11 +87,11 @@
                         <customControl:SurveyEntry.Behaviors>
                                 <extension:EventToCommandBehavior
                                     EventName="TextChanged"
-                                    Command="{Binding ParentBindingContext.ValidateFreeTextToSendCommand, Source={x:Reference FreeTextView}}"
+                                    Command="{Binding ParentBindingContext.ValidateFreeTextContinueCommand, Source={x:Reference FreeTextView}}"
                                     EventArgsConverter="{StaticResource TextChangedEventArgsConverter}"/>
                         </customControl:SurveyEntry.Behaviors>
                     </customControl:SurveyEntry>
-                     <ffimageloading:CachedImage Grid.Column="1" HorizontalOptions="End" Source="icSend" Style="{StaticResource SendImage}" IsEnabled="{Binding ParentBindingContext.FreeTextSendEnabled, Source={x:Reference FreeTextView}}">
+                     <ffimageloading:CachedImage Grid.Column="1" HorizontalOptions="End" Source="icSend" Style="{StaticResource SendImage}" IsEnabled="{Binding ParentBindingContext.EnableContinue, Source={x:Reference FreeTextView}}">
                         <Entry.Triggers>
                             <Trigger TargetType="ffimageloading:CachedImage"
                                  Property="IsEnabled" Value="False">
@@ -98,13 +100,14 @@
                         </Entry.Triggers>
                         <ffimageloading:CachedImage.GestureRecognizers>
                             <TapGestureRecognizer
-                                Command="{Binding Path=ParentBindingContext.HandleFreeTextAnswerCommand, Source={x:Reference FreeTextView}}"
+                                Command="{Binding Path=ParentBindingContext.HandleFreeTextCommand, Source={x:Reference FreeTextView}}"
                                 CommandParameter="{Binding Source={x:Reference MainEntry}, Path=Text}" />
                         </ffimageloading:CachedImage.GestureRecognizers>
                     </ffimageloading:CachedImage>
-                </Grid>
+                </Grid>                
                 <Label x:Name="MainLabel" Text="{Binding AnswerText}" Style="{StaticResource TextLabel}" IsVisible="{Binding IsComplete}" />  
             </customControl:BubbleStack>
+            
             <ffimageloading:CachedImage Grid.Column="1" Source="{Binding Path=ParentBindingContext.ImgSource, Source={x:Reference FreeTextView}}" Style="{StaticResource MomentumImage}" />
         </Grid>
     </ContentView.Content>
