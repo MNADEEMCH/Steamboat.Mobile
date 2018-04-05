@@ -55,6 +55,11 @@ namespace Steamboat.Mobile.ViewModels
             set { SetPropertyValue(ref _mainActionButtonText, value); }
         }
 
+        private bool _mainButtonVisible;
+
+        public bool MainButtonVisible { set { SetPropertyValue(ref _mainButtonVisible, value); } get { return _mainButtonVisible; } } 
+
+
         private string _steps;
         public string Steps
         {
@@ -115,7 +120,8 @@ namespace Steamboat.Mobile.ViewModels
 
             Title = dispositionStep.Title;
             Message = dispositionStep.Message;
-            MainActionButtonText = dispositionStep.ButtonText;
+            MainButtonVisible = !String.IsNullOrEmpty(dispositionStep.ButtonText);
+            MainActionButtonText = dispositionStep.ButtonText.ToUpper();
             Steps = String.Format("STEP  {0}  OF  {1}", stepperParam.CurrentStep, stepperParam.Steps);
 
             InitializeSpecificStep(status);
