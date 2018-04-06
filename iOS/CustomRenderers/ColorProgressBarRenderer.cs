@@ -44,6 +44,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             }
         }
 
+
         private void UpdateBarColor()
         {
             var element = Element as ColorProgressBar;

@@ -14,6 +14,9 @@ namespace Steamboat.Mobile.ViewModels
         private int _initializeExcecute;
         public int InitializeExcecute { set { SetPropertyValue(ref _initializeExcecute, value); } get { return _initializeExcecute; } }
 
+        private bool _animateProgress;
+        public bool AnimateProgress { set { SetPropertyValue(ref _animateProgress, value); } get { return _animateProgress; } }
+
         private int _previousStep;
         public int PreviousStep { set { SetPropertyValue(ref _previousStep, value); } get { return _previousStep; } }
 
@@ -29,6 +32,7 @@ namespace Steamboat.Mobile.ViewModels
 
         public StepperViewModel():base()
         {
+            AnimateProgress = true;
         }
 
         public override async Task InitializeAsync(object parameter)

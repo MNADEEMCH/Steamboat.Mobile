@@ -6,6 +6,8 @@ using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.Support.V4.Content;
+using Android.Support.V4.View;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -324,12 +326,12 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                     GradientDrawable shadowGradient = new GradientDrawable(GradientDrawable.Orientation.RightLeft, new int[] { Android.Graphics.Color.Transparent.ToArgb(), Android.Graphics.Color.Gray.ToArgb() });
                     shadowGradient.SetCornerRadius(0f);
                     androidContent.Foreground = shadowGradient;
-                    toolbar.Elevation = 4;
+                    ViewCompat.SetElevation(toolbar, 4);
                 }
                 else
                 {
                     androidContent.Foreground = windowContent;
-                    toolbar.Elevation = 0;
+                    ViewCompat.SetElevation(toolbar, 0);
                 }
             }
         }
@@ -344,7 +346,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             {
                 var imageName = System.IO.Path.GetFileNameWithoutExtension(source).ToLower();
                 int resID = Resources.GetIdentifier(imageName, "drawable", this.Context.PackageName);
-                var drawable = _context.GetDrawable(resID);
+                var drawable = ContextCompat.GetDrawable(_context,resID);
                 imageView.SetBackground(drawable);
             }
         }

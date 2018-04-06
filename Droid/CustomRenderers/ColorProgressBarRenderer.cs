@@ -25,7 +25,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
     {
         public ColorProgressBarRenderer(Context context) : base(context)
         {
-
+            
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.ProgressBar> e)
@@ -49,7 +49,16 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             {
                 UpdateBarColor();
             }
+
+            if(e.PropertyName.Equals("Progress")){
+
+                if (Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.Lollipop){
+                    Control.Invalidate();
+                }
+            }
         }
+
+
 
         private void UpdateBarColor()
         {

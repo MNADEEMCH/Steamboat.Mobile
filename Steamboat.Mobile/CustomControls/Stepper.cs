@@ -42,6 +42,20 @@ namespace Steamboat.Mobile.CustomControls
             }
         }
 
+
+        public static BindableProperty AnimateProgressProperty =
+            BindableProperty.Create(nameof(AnimateProgress), typeof(bool), typeof(Stepper), false, BindingMode.TwoWay);
+        public bool AnimateProgress
+        {
+            get { return (bool)GetValue(AnimateProgressProperty); }
+            set
+            {
+                SetValue(AnimateProgressProperty, value);
+            }
+        }
+
+
+
         public static BindableProperty PreviousStepProperty =
            BindableProperty.Create(nameof(PreviousStep), typeof(int), typeof(Stepper), 0, BindingMode.TwoWay, propertyChanged: HandlePreviousStepPropertyChanged);
         public static void HandlePreviousStepPropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -203,58 +217,65 @@ namespace Steamboat.Mobile.CustomControls
         }
 
         public void DrawStepper(){
-            AddSteps();
-            ProgressFromStepToStep(PreviousStep, CurrentStep);
+            if (AnimateProgress)
+            {
+                AddSteps(Steps, PreviousStep);
+                ProgressFromStepToStep(PreviousStep, CurrentStep);
+            }
+            else{
+                AddSteps(Steps, CurrentStep);
+                _colorProgressBar.Progress = GetProgressForStep(Steps, CurrentStep);
+            }
         }
 
-        private void AddSteps()
+        private void AddSteps(int steps, int currentStep)
         {
 
             _stepsProgressImages = new List<Image>();
             _stepsProgressLabels = new List<Label>();
-            if (Steps == 4)
+            if (steps == 4)
             {
                 int step = 1;
-                string imgSource = GetImageSourceForStep(PreviousStep, step);
-                Style labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
+                string imgSource = GetImageSourceForStep(currentStep, step);
+                Style labelStyle = currentStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 0);
                 AddStepLabel(labelStyle,"INTERVIEW", 0, -28);
 
                 step = 2;
-                imgSource = GetImageSourceForStep(PreviousStep, step);
-                labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
+                imgSource = GetImageSourceForStep(currentStep, step);
+                labelStyle = currentStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 0.33);
                 AddStepLabel(labelStyle,"SCHEDULING", 0.33, -33);
 
                 step = 3;
-                imgSource = GetImageSourceForStep(PreviousStep, step);
-                labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
+                imgSource = GetImageSourceForStep(currentStep, step);
+                labelStyle = currentStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 0.66);
                 AddStepLabel(labelStyle,"SCREENING", 0.66, -28);
 
                 step = 4;
-                imgSource = GetImageSourceForStep(PreviousStep, step);
-                labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
+                imgSource = GetImageSourceForStep(currentStep, step);
+                labelStyle = currentStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 1);
                 AddStepLabel(labelStyle,"REPORT", 1, -19);
             }
-            else if (Steps == 3)
+            else if (steps == 3)
             {
                 int step = 1;
-                string imgSource = GetImageSourceForStep(PreviousStep, step);
-                Style labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
+                string imgSource = GetImageSourceForStep(currentStep, step);
+                Style labelStyle = currentStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 0);
                 AddStepLabel(labelStyle,"SCHEDULING", 0, -33);
 
                 step = 2;
-                imgSource = GetImageSourceForStep(PreviousStep, step);
-                labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
+                imgSource = GetImageSourceForStep(currentStep, step);
+                labelStyle = currentStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 0.5);
                 AddStepLabel(labelStyle,"SCREENING", 0.5, -30);
 
                 step = 3;
-                imgSource = GetImageSourceForStep(PreviousStep, step);
-                labelStyle = PreviousStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
+                imgSource = GetImageSourceForStep(currentStep, step);
+                labelStyle = currentStep == step ? StepActiveLabelStyle : StepInactiveLabelStyle;
                 AddStepImage(imgSource, 1);
                 AddStepLabel(labelStyle,"REPORT", 1, -19);
             }
