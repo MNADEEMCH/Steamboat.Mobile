@@ -25,7 +25,6 @@ namespace Steamboat.Mobile.ViewModels
         private List<ParticipantConsent> _answersList;
         private int _questionGroupID;
         private string _imgSource;
-        //private bool _freeTextSendEnabled;
         private bool _enableContinue;
 
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
@@ -36,7 +35,6 @@ namespace Steamboat.Mobile.ViewModels
         public ICommand ValidateFreeTextContinueCommand { get; set; }
         public ICommand SelectCheckboxCommand { get; set; }
         public ObservableCollection<Question> SurveyQuestions { get { return _surveyQuestions; } set { SetPropertyValue(ref _surveyQuestions, value); } }
-        //public bool FreeTextSendEnabled { get { return _freeTextSendEnabled; } set { SetPropertyValue(ref _freeTextSendEnabled, value); } }
         public bool EnableContinue { set { SetPropertyValue(ref _enableContinue, value); } get { return _enableContinue; } }
 
         #endregion
@@ -67,7 +65,7 @@ namespace Steamboat.Mobile.ViewModels
                 _answersList = new List<ParticipantConsent>();
                 IsLoading = false;
 
-                await ContinueSurvey(true);
+                await SetInitialQuestionIndex();
             }
             catch (Exception e)
             {
@@ -77,6 +75,22 @@ namespace Steamboat.Mobile.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        private async Task SetInitialQuestionIndex()
+        {
+            var lastAnsweredQuestion = _localQuestions.LastOrDefault(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsComplete);
+            if (lastAnsweredQuestion != null)
+            {
+                var firstUnansweredQuestion = _localQuestions.FirstOrDefault(q => !q.Type.Equals(SurveyHelper.LabelType) && !q.IsComplete);
+                var newIndex = _localQuestions.IndexOf(firstUnansweredQuestion);
+                _questionIndex = newIndex;
+                await AddContinueLabel("Welcome back!", true);
+                await AddContinueLabel("We have a few more questions for you in order to get a better picture of your overall health and wellness.", false);
+                await ContinueSurvey(false);
+            }
+            else
+                await ContinueSurvey(true);
         }
 
         private async Task ContinueSurvey(bool isFirstQuestion)
@@ -125,6 +139,7 @@ namespace Steamboat.Mobile.ViewModels
             SaveAnswer(lastQuestion, answer);
             await AddRejoinder(answer);
 
+            await WaitAnimation();
             await HandleAnswer(lastQuestion, !HasRejoinder(answer));
         }
 
@@ -140,9 +155,9 @@ namespace Steamboat.Mobile.ViewModels
                 answer.IsSelected = true;
 
                 SaveAnswer(lastQuestion, answer);
-                //await AddRejoinder(answer);
 
-                await HandleAnswer(lastQuestion, false);
+                await WaitAnimation();
+                await HandleAnswer(lastQuestion, true);
             }
         }
 
@@ -166,7 +181,7 @@ namespace Steamboat.Mobile.ViewModels
                 }
             }
 
-            await HandleAnswer(question, false);
+            await HandleAnswer(question, true);
         }
 
         private async Task HandleAnswer(Question question, bool rejoinder)
@@ -235,6 +250,18 @@ namespace Steamboat.Mobile.ViewModels
                 SurveyQuestions.Add(rejoinder);
                 await WaitAnimation();
             }
+        }
+
+        private async Task AddContinueLabel(string text, bool firstQuestion)
+        {
+            var continueQuestion = new Question();
+            continueQuestion.Type = SurveyHelper.LabelType;
+            continueQuestion.IsAnswer = false;
+            continueQuestion.Text = text;
+            continueQuestion.IsFirstQuestion = firstQuestion;
+            SurveyQuestions.Add(continueQuestion);
+            await WaitAnimation();
+
         }
 
         private async Task WaitAnimation()
