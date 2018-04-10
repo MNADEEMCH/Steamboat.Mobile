@@ -24,6 +24,7 @@ using System.ComponentModel;
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
+using Android.OS;
 using Android.Support.V4.View;
 using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.Droid.CustomRenderers;
@@ -156,8 +157,9 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             if (Control == null || Element == null)
                 return;
 
-            if (Element.TextColor == Xamarin.Forms.Color.Default)
-                ViewCompat.SetBackgroundTintList(Control, defaultTextColor);
+            if (Element.TextColor == Xamarin.Forms.Color.Default){
+                Control.SetTextColor(defaultTextColor);
+            }
             else
                 Control.SetTextColor(Element.TextColor.ToAndroid());
         }
@@ -166,17 +168,29 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         {
             if (e.WhiteTheme)
             {
-                int[][] states = {
+                AddButtonColor();
+            }
+        }
+
+        private void AddButtonColor(){
+            
+            int[][] states = {
                     new int[] { Android.Resource.Attribute.StateEnabled},
                     new int[] {Android.Resource.Attribute.StateChecked},
                     new int[] { Android.Resource.Attribute.StatePressed }
                 };
-                int[] colors = {
+            int[] colors = {
                     System.Drawing.Color.White.ToArgb(),
                     System.Drawing.Color.White.ToArgb(),
                     System.Drawing.Color.White.ToArgb()
                 };
 
+            if (Build.VERSION.SdkInt > Android.OS.BuildVersionCodes.Lollipop)
+            {
+                Control.ButtonTintList = new ColorStateList(states, colors);
+            }
+            else
+            {
                 ViewCompat.SetBackgroundTintList(Control, new ColorStateList(states, colors));
             }
         }
