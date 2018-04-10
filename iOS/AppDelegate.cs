@@ -26,9 +26,9 @@ namespace Steamboat.Mobile.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            //IN ORDER TO SET BADGE 
-            UIUserNotificationSettings settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Badge, null);
-            UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+            DisableDefaultLineBreakStrategy();
+
+            EnableToModifyIconBadgeFromTheApp();
 
             //CHECK IF THERE IS A NOTIFICATION
             PushNotification pushNotification = NotificationHelper.TryGetPushNotificationWhenIsClosed(options);
@@ -52,6 +52,17 @@ namespace Steamboat.Mobile.iOS
             //));
 
             return base.FinishedLaunching(app, options);
+        }
+
+        private void DisableDefaultLineBreakStrategy(){
+            //iOS 11: Label with WordWrap, doesnt allow orphans. To prevent orphans it
+            //takes the last two words to the bottom. We disable that behavior because it looks weird.
+            NSUserDefaults.StandardUserDefaults.SetString("No", "NSAllowsDefaultLineBreakStrategy");
+        }
+
+        private void EnableToModifyIconBadgeFromTheApp(){
+            UIUserNotificationSettings settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Badge, null);
+            UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
         }
 
         private void RegisterForPushNotifications()

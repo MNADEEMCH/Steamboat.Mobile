@@ -57,6 +57,7 @@
             <Style x:Key="TimeButton" TargetType="customControl:WrappedButton">
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="AutoFitText" Value="False" />
                 <Setter Property="HeightRequest" Value="64" />
                 <Setter Property="WidthRequest" Value="80" />
                 <Setter Property="FontSize" Value="12" />

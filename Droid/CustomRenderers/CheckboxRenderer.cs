@@ -24,6 +24,7 @@ using System.ComponentModel;
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
+using Android.Support.V4.View;
 using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.Droid.CustomRenderers;
 using Xamarin.Forms;
@@ -156,7 +157,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 return;
 
             if (Element.TextColor == Xamarin.Forms.Color.Default)
-                Control.SetTextColor(defaultTextColor);
+                ViewCompat.SetBackgroundTintList(Control, defaultTextColor);
             else
                 Control.SetTextColor(Element.TextColor.ToAndroid());
         }
@@ -175,7 +176,8 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                     System.Drawing.Color.White.ToArgb(),
                     System.Drawing.Color.White.ToArgb()
                 };
-                Control.ButtonTintList = new ColorStateList(states, colors);
+
+                ViewCompat.SetBackgroundTintList(Control, new ColorStateList(states, colors));
             }
         }
     }

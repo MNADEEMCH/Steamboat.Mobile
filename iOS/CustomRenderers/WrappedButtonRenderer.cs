@@ -34,19 +34,28 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             {
                 UpdatePadding();
             }
-            if (e.PropertyName == nameof(WrappedButton.Height))
+            if (element.AutoFitText && e.PropertyName == nameof(WrappedButton.Height))
             {
                 if (element.Width > 0)
                 {
                     var width = Element.Width;
                     var size = Control.TitleLabel.SizeThatFits(new CoreGraphics.CGSize(width, 100000));
-                    if (size.Height + 24 > element.Height)
+                    var paddings = element.Padding.Top + element.Padding.Bottom;
+                    if (size.Height+paddings > element.Height)
                     {
-                        Element.HeightRequest = size.Height + 24;
-                        UpdatePadding();
+                        Element.HeightRequest = size.Height + paddings;
                     }
                 }
             }
+        }
+
+		public override void Draw(CGRect rect)
+        {   
+            var element = Element as WrappedButton;
+            if (element.AutoFitText) { 
+                element.HeightRequest = Control.TitleLabel.Bounds.Height + element.Padding.Top + element.Padding.Bottom;
+            }
+            base.Draw(rect);
         }
 
         protected override void Dispose(bool disposing)
