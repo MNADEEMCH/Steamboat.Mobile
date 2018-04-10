@@ -40,7 +40,7 @@
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="Margin" Value="0,0,0,5" />
+                <Setter Property="Margin" Value="0,0,0,12" />
                 <Setter Property="WhiteTheme" Value="True" />
             </Style>
             <Style x:Key="ContinueButton" TargetType="customControl:LinkButton">
@@ -72,7 +72,7 @@
                 <customControl:RepeaterControl ItemsSource="{Binding Answers}" Margin="24,16,24,4" IsVisible="{Binding IsComplete, Converter={StaticResource InverseBoolConverter}}" >
                     <customControl:RepeaterControl.ItemTemplate>
                         <DataTemplate>
-                            <customControl:Checkbox Grid.Row="0" CheckedText="{Binding Text}" UncheckedText="{Binding Text}" 
+                            <customControl:Checkbox CheckedText="{Binding Text}" UncheckedText="{Binding Text}" MinimumHeightRequest="24"
                                                     Command="{Binding Path=ParentBindingContext.SelectCheckboxCommand, Source={x:Reference SelectManyView}}"
                                                     CommandParameter="{Binding .}" Style="{StaticResource CheckboxLabel}" Checked="{Binding IsSelected}" />
                         </DataTemplate>
@@ -82,7 +82,6 @@
                                           IsVisible="{Binding IsComplete, Converter={StaticResource InverseBoolConverter}}"
                                           Command="{Binding Path=ParentBindingContext.HandleSelectManyCommand, Source={x:Reference SelectManyView}}" CommandParameter="{Binding .}" />
                 <Label x:Name="MainLabel" Text="{Binding AnswerText}" Style="{StaticResource TextLabel}" IsVisible="{Binding IsComplete}" />
-                
             </customControl:BubbleStack>
             <ffimageloading:CachedImage Grid.Column="1" Source="{Binding Path=ParentBindingContext.ImgSource, Source={x:Reference SelectManyView}}" Style="{StaticResource MomentumImage}" />
         </Grid>        

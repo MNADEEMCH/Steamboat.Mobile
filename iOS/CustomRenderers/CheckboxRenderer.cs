@@ -60,33 +60,18 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             if (Element == null)
                 return;
 
-            var text = Element.Checked ? string.IsNullOrEmpty(Element.CheckedText) ? Element.DefaultText : Element.CheckedText :
-                string.IsNullOrEmpty(Element.UncheckedText) ? Element.DefaultText : Element.UncheckedText;
-
-            var bounds = Control.Bounds;
-
-            var width = Control.TitleLabel.Bounds.Width;
-
-            var height = Utilities.Extensions.MeasureTextSize(text, width + 30, 14.0);
-
-            var minHeight = string.Empty.StringHeight(Control.Font, width);
-
-            var requiredLines = Math.Round(height.Height / minHeight, MidpointRounding.AwayFromZero);
-
-            var supportedLines = Math.Round(bounds.Height / minHeight, MidpointRounding.ToEven);
-
-            if (supportedLines != requiredLines)
-            {
-                bounds.Height += (float)(minHeight * (requiredLines - supportedLines));
-                Control.Bounds = bounds;
-                Element.HeightRequest = bounds.Height;
-            }
+            var width = Element.Width - 50;
+            var size = Control.TitleLabel.SizeThatFits(new CoreGraphics.CGSize(width, 100000));
+            if(size.Height > Element.MinimumHeightRequest)
+                Element.HeightRequest = size.Height;
+            else
+                Element.HeightRequest = Element.MinimumHeightRequest;
         }
 
         public override void Draw(CoreGraphics.CGRect rect)
         {
+            Element.HeightRequest = Control.TitleLabel.Bounds.Height;
             base.Draw(rect);
-            ResizeText();
         }
 
         private void UpdateFont()
@@ -119,31 +104,38 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         {
             base.OnElementPropertyChanged(sender, e);
 
-            switch (e.PropertyName)
+            if (e.PropertyName == nameof(Checkbox.Height))
             {
-                case "Checked":
-                    Control.Checked = Element.Checked;
-                    break;
-                case "TextColor":
-                    UpdateTextColor();
-                    break;
-                case "CheckedText":
-                    Control.CheckedTitle = string.IsNullOrEmpty(Element.CheckedText) ? Element.DefaultText : Element.CheckedText;
-                    SetNeedsDisplay();
-                    break;
-                case "UncheckedText":
-                    Control.UncheckedTitle = string.IsNullOrEmpty(Element.UncheckedText) ? Element.DefaultText : Element.UncheckedText;
-                    break;
-                case "FontSize":
-                    UpdateFont();
-                    break;
-                case "FontName":
-                    UpdateFont();
-                    break;
-                case "Element":
-                    break;
-                default:
-                    return;
+                ResizeText();
+            }
+            else
+            {
+                switch (e.PropertyName)
+                {
+                    case "Checked":
+                        Control.Checked = Element.Checked;
+                        break;
+                    case "TextColor":
+                        UpdateTextColor();
+                        break;
+                    case "CheckedText":
+                        Control.CheckedTitle = string.IsNullOrEmpty(Element.CheckedText) ? Element.DefaultText : Element.CheckedText;
+                        SetNeedsDisplay();
+                        break;
+                    case "UncheckedText":
+                        Control.UncheckedTitle = string.IsNullOrEmpty(Element.UncheckedText) ? Element.DefaultText : Element.UncheckedText;
+                        break;
+                    case "FontSize":
+                        UpdateFont();
+                        break;
+                    case "FontName":
+                        UpdateFont();
+                        break;
+                    case "Element":
+                        break;
+                    default:
+                        return;
+                }
             }
         }
 
