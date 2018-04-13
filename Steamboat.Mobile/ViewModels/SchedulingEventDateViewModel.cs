@@ -104,10 +104,10 @@ namespace Steamboat.Mobile.ViewModels
             {
                 Id = e.ID,
                 FullAddress = e.FullAddress.Replace("<br/>", "\n"),
-                Distance = String.Format("{0}, miles", e.Distance.ToString("0.0")),
+                Distance = String.Format("{0} miles away", e.Distance.ToString("0.0")),
                 Date = e.Start.ToString("dddd, MMMM d", CultureInfo.InvariantCulture),
-                Time = String.Format("{0} to {1}", e.Start.ToString("h:mm tt", CultureInfo.InvariantCulture).ToLower(),
-                                     e.Finish.ToString("h:mm tt", CultureInfo.InvariantCulture).ToLower())
+                Time = String.Format("{0} to {1}", e.Start.ToString("h:mmtt", CultureInfo.InvariantCulture).ToLower(),
+                                     e.Finish.ToString("h:mmtt", CultureInfo.InvariantCulture).ToLower())
             };
         }
 

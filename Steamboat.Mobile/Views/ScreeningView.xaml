@@ -96,8 +96,8 @@
                 <Setter Property="Margin" Value="16,16,0,16"></Setter>
             </Style>
             <Style x:Key="ScreeningDetailsImage" TargetType="Image">
-                <Setter Property="HeightRequest" Value="20"></Setter>
-                <Setter Property="WidthRequest" Value="20"></Setter>
+                <Setter Property="HeightRequest" Value="19"></Setter>
+                <Setter Property="WidthRequest" Value="19"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="VerticalOptions" Value="Start"></Setter>
             </Style>

@@ -90,10 +90,11 @@
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
                 <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}" />
                 <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalOptions" Value="Center" />
             </Style>
             <Style x:Key="DateTimeImage" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="16"></Setter>
-                <Setter Property="WidthRequest" Value="16"></Setter>
+                <Setter Property="HeightRequest" Value="19"></Setter>
+                <Setter Property="WidthRequest" Value="19"></Setter>
                 <Setter Property="VerticalOptions" Value="Center" />
             </Style>
             <Style x:Key="ChevronImage" TargetType="ffimageloading:CachedImage">

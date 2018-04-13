@@ -47,7 +47,7 @@ namespace Steamboat.Mobile.ViewModels
             {
                 _selectedEvent = selectedEvent;
                 Date = selectedEvent.EventDate.Date;
-                Time = selectedEvent.EventTime.Start.ToString("hh:mm tt", CultureInfo.InvariantCulture).ToLowerInvariant();
+                Time = selectedEvent.EventTime.Start.ToString("hh:mmtt", CultureInfo.InvariantCulture).ToLowerInvariant();
                 Address = selectedEvent.EventDate.FullAddress.Replace("<br/>", "\n");
             }
 
