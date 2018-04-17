@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels.Modals
 {
-    public class ScreeningCancelConfirmationModalViewModel: ModalViewModelBase
+    public class ScreeningCancelConfirmationModalViewModel : ModalViewModelBase
     {
         #region Properties
 
@@ -18,7 +18,7 @@ namespace Steamboat.Mobile.ViewModels.Modals
 
         #endregion
 
-        public ScreeningCancelConfirmationModalViewModel(IParticipantManager participantManager = null): base()
+        public ScreeningCancelConfirmationModalViewModel(IParticipantManager participantManager = null) : base()
         {
             IsLoading = true;
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
@@ -36,10 +36,11 @@ namespace Steamboat.Mobile.ViewModels.Modals
             return base.InitializeAsync(parameter);
         }
 
-        private async Task CancelAppointmentAndCloseModal(){
-            
+        private async Task CancelAppointmentAndCloseModal()
+        {
             try
-            {   IsBusy = true;
+            {
+                IsBusy = true;
                 await CancelAppointment();
                 await CloseModal();
                 await AfterCloseModal();
@@ -48,7 +49,8 @@ namespace Steamboat.Mobile.ViewModels.Modals
             {
                 await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
             }
-            finally{
+            finally
+            {
                 IsBusy = false;
             }
         }

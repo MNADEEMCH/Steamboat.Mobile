@@ -74,6 +74,10 @@
                     </customControl:RepeaterControl.ItemTemplate>
                 </customControl:RepeaterControl>
                 <Label x:Name="MainLabel" Text="{Binding AnswerText}" Style="{StaticResource TextLabel}" IsVisible="{Binding IsComplete}" />
+                
+                <customControl:BubbleStack.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=ParentBindingContext.EditQuestionCommand, Source={x:Reference SelectOneView}}" CommandParameter="{Binding .}" />
+                </customControl:BubbleStack.GestureRecognizers>
             </customControl:BubbleStack>
             <ffimageloading:CachedImage Grid.Column="1" Source="{Binding Path=ParentBindingContext.ImgSource, Source={x:Reference SelectOneView}}" Style="{StaticResource MomentumImage}" />
         </Grid>

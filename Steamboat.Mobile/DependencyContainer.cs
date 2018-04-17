@@ -64,6 +64,7 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.Register(() => new DispositionMoreInfoModalViewModel());
             Locator.CurrentMutable.Register(() => new WelcomeModalViewModel());
             Locator.CurrentMutable.Register(() => new ScreeningCancelConfirmationModalViewModel());
+            Locator.CurrentMutable.Register(() => new InterviewEditQuestionModalViewModel());
         }
 
         public static T Resolve<T>()

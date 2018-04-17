@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -128,6 +129,14 @@ namespace Steamboat.Mobile.CustomControls
                     children.Add(view);
                     NotifyItemAdded(view, item);
                     ScrollToBottom(view);
+                }
+            }
+            else
+            {
+                foreach (var item in e.OldItems)
+                {
+                    var view = InflateView(item);
+                    children.Remove(children.Last());
                 }
             }
         }

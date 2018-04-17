@@ -10,6 +10,7 @@ using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Models.Participant.Survey;
+using Steamboat.Mobile.ViewModels.Modals;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
@@ -27,11 +28,10 @@ namespace Steamboat.Mobile.ViewModels
         private int _questionGroupID;
         private string _imgSource;
         private bool _enableContinue;
-
+        private bool _userTapped;
+        private readonly int _questionsToPopupEdit = 2;
         private int _questionAnsweredCount;
         private int _countNotLabelQuestions;
-
-
 
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
         public string ImgSource { set { SetPropertyValue(ref _imgSource, value); } get { return _imgSource; } }
@@ -40,10 +40,10 @@ namespace Steamboat.Mobile.ViewModels
         public ICommand HandleSelectManyCommand { get; set; }
         public ICommand ValidateFreeTextContinueCommand { get; set; }
         public ICommand SelectCheckboxCommand { get; set; }
+        public ICommand EditQuestionCommand { get; set; }
         public ICommand ChangeProgressCommand { get; set; }
         public ObservableCollection<Question> SurveyQuestions { get { return _surveyQuestions; } set { SetPropertyValue(ref _surveyQuestions, value); } }
         public bool EnableContinue { set { SetPropertyValue(ref _enableContinue, value); } get { return _enableContinue; } }
-
 
         #endregion
 
@@ -56,6 +56,7 @@ namespace Steamboat.Mobile.ViewModels
             HandleSelectManyCommand = new Command(async (selectedOption) => await HandleSelectMany(selectedOption));
             ValidateFreeTextContinueCommand = new Command<string>(freeTextAnswer => ValidateFreeTextToSend(freeTextAnswer));
             SelectCheckboxCommand = new Command((selectedOption) => HandleSelectCheckbox(selectedOption));
+            EditQuestionCommand = new Command(async (selectedQuestion) => await EditQuestion(selectedQuestion));
 
             _questionAnsweredCount = 0;
             _countNotLabelQuestions = 0;
@@ -63,7 +64,6 @@ namespace Steamboat.Mobile.ViewModels
             EnableContinue = false;
             ImgSource = App.CurrentUser.AvatarUrl;
             SurveyQuestions = new ObservableCollection<Question>();
-
         }
 
         public async override Task InitializeAsync(object parameter)
@@ -90,7 +90,7 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task SetInitialQuestionIndex()
         {
-            var isAnyQuestionAnswered = _localQuestions.Any(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsComplete);
+            var isAnyQuestionAnswered = _localQuestions.Any(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsComplete && q.IsEnabled);
             if (isAnyQuestionAnswered)
             {
                 HandleUnansweredQuestionIndex();
@@ -126,7 +126,7 @@ namespace Steamboat.Mobile.ViewModels
             {
                 _countNotLabelQuestions = _localQuestions.Where(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsEnabled).Count();
             }
-            var progress = (double)(_questionAnsweredCount) / ((double)_countNotLabelQuestions - 1);//-1 because the I'm finished is not a question
+            var progress = (double)(_questionAnsweredCount) / ((double)_countNotLabelQuestions - 1); //-1 because the I'm finished is not a question
             ChangeProgressCommand.Execute(progress);
         }
 
@@ -146,12 +146,7 @@ namespace Steamboat.Mobile.ViewModels
                     if (!currentQuestion.Type.Equals(SurveyHelper.LabelType))
                     {
                         //Set answer part of the question
-                        var extraQuestion = currentQuestion;
-                        extraQuestion.IsAnswer = true;
-                        foreach (var item in extraQuestion.Answers)
-                        {
-                            item.Text = Regex.Replace(item.Text, @"<[^>]*>", String.Empty);
-                        }
+                        var extraQuestion = SetUpExtraQuestion(currentQuestion);
                         EnableContinue = false;
                         SurveyQuestions.Add(extraQuestion);
                         shouldBreak = true;
@@ -161,13 +156,17 @@ namespace Steamboat.Mobile.ViewModels
                 _questionIndex++;
                 isFirstQuestion = false;
                 if (shouldBreak)
+                {
+                    _userTapped = false;
                     break;
+                }
             }
         }
 
 
         private async Task HandleSelectOneAnswer(object answerQuestion)
         {
+            _userTapped = true;
             var lastQuestion = SurveyQuestions.Last();
 
             var answer = answerQuestion as Answers;
@@ -189,6 +188,7 @@ namespace Steamboat.Mobile.ViewModels
         {
             if (EnableContinue)
             {
+                _userTapped = true;
                 EnableContinue = false;
 
                 var lastQuestion = SurveyQuestions.Last();
@@ -210,6 +210,7 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task HandleSelectMany(object selectedQuestion)
         {
+            _userTapped = true;
             var question = selectedQuestion as Question;
 
             var answers = question.Answers;
@@ -284,6 +285,81 @@ namespace Steamboat.Mobile.ViewModels
             }
         }
 
+        private async Task EditQuestion(object selectedQuestion)
+        {
+            if (_userTapped)
+                return;
+
+            _userTapped = true;
+
+            var question = selectedQuestion as Question;
+
+            if (question.IsComplete)
+            {
+                if (ShouldShowPopup(question))
+                {
+                    Func<object, Task> confirmEditQuestionFunction = ConfirmEditQuestion;
+                    await ModalService.PushAsync<InterviewEditQuestionModalViewModel>(async (obj) => await confirmEditQuestionFunction(selectedQuestion));
+                }
+                else
+                    await ConfirmEditQuestion(selectedQuestion);
+            }
+
+            _userTapped = false;
+        }
+
+        private async Task ConfirmEditQuestion(object selectedQuestion)
+        {
+            var question = selectedQuestion as Question;
+
+            if (question.IsComplete)
+            {
+                foreach (var answer in question.Answers)
+                {
+                    answer.IsSelected = false;
+                }
+                question.AnswerText = string.Empty;
+
+                var questionIndex = SurveyQuestions.IndexOf(question);
+                for (int i = SurveyQuestions.Count - 1; i > questionIndex + 1; i--)
+                {
+                    SurveyQuestions.RemoveAt(i);
+                }
+
+                var answerIndex = _answersList.IndexOf(_answersList.FirstOrDefault(a => a.QuestionKey == question.Key));
+                var removeLimit = _answersList.Count() - answerIndex;
+                _answersList.RemoveRange(answerIndex, removeLimit);
+
+                var localQuestion = _localQuestions.FirstOrDefault(q => q.Key == question.Key);
+                var newIndex = _localQuestions.IndexOf(localQuestion);
+                _questionIndex = newIndex + 1;
+
+                var completedQuestions = _localQuestions.Where(q => (q.IsComplete || q.IsAnswer) && _localQuestions.IndexOf(q) >= newIndex);
+                foreach (var item in completedQuestions)
+                {
+                    item.IsComplete = false;
+                    item.AnswerText = string.Empty;
+                    item.IsAnswer = false;
+                }
+                question.IsComplete = false;
+            }
+            await Task.FromResult(true);
+        }
+
+        private Question SetUpExtraQuestion(Question currentQuestion)
+        {
+            var extraQuestion = currentQuestion;
+            extraQuestion.IsAnswer = true;
+            foreach (var item in extraQuestion.Answers)
+            {
+                item.IsSelected = false;
+                item.Text = Regex.Replace(item.Text, @"<[^>]*>", String.Empty);
+            }
+            extraQuestion.AnswerText = string.Empty;
+
+            return extraQuestion;
+        }
+
         private void ValidateFreeTextToSend(string freeTextAnswer)
         {
             EnableContinue = freeTextAnswer.Trim().Length >= 1;
@@ -296,7 +372,7 @@ namespace Steamboat.Mobile.ViewModels
 
         private bool IsLastQuestion()
         {
-            return !_localQuestions.Any(q => q.IsEnabled.Equals(true) && !q.Type.Equals(SurveyHelper.LabelType) && q.IsComplete.Equals(false));
+            return !_localQuestions.Any(q => q.IsEnabled && !q.Type.Equals(SurveyHelper.LabelType) && !q.IsComplete);
         }
 
         private async Task AddRejoinder(Answers answer)
@@ -353,6 +429,17 @@ namespace Steamboat.Mobile.ViewModels
         {
             question.IsComplete = true;
             _localQuestions.First(q => q.Key.Equals(question.Key)).IsComplete = true;
+        }
+
+        private bool ShouldShowPopup(Question question)
+        {
+            var questionsList = _localQuestions.Where(q => !q.Type.Equals(SurveyHelper.LabelType)).ToList();
+            var editedQuestion = questionsList.First(q => q.Key.Equals(question.Key));
+            var editedQuestionIndex = questionsList.IndexOf(editedQuestion);
+            var lastAnsweredQuestion = questionsList.LastOrDefault(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsComplete && q.IsEnabled);
+            var currenQuestionIndex = questionsList.IndexOf(lastAnsweredQuestion) + 1;
+            var diff = currenQuestionIndex - editedQuestionIndex;
+            return diff > _questionsToPopupEdit;
         }
     }
 }

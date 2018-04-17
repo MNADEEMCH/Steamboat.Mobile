@@ -83,7 +83,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                     <customControl:SurveyEntry x:Name="MainEntry" Style="{StaticResource EntryField}">
+                     <customControl:SurveyEntry x:Name="MainEntry" Style="{StaticResource EntryField}" Text="{Binding AnswerText}" >
                         <customControl:SurveyEntry.Behaviors>
                                 <extension:EventToCommandBehavior
                                     EventName="TextChanged"
@@ -106,6 +106,10 @@
                     </ffimageloading:CachedImage>
                 </Grid>                
                 <Label x:Name="MainLabel" Text="{Binding AnswerText}" Style="{StaticResource TextLabel}" IsVisible="{Binding IsComplete}" />  
+
+                <customControl:BubbleStack.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=ParentBindingContext.EditQuestionCommand, Source={x:Reference FreeTextView}}" CommandParameter="{Binding .}" />
+                </customControl:BubbleStack.GestureRecognizers>
             </customControl:BubbleStack>
             
             <ffimageloading:CachedImage Grid.Column="1" Source="{Binding Path=ParentBindingContext.ImgSource, Source={x:Reference FreeTextView}}" Style="{StaticResource MomentumImage}" />

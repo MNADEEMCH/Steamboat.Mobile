@@ -23,6 +23,11 @@ namespace Steamboat.Mobile.Services.Modal
             return InternalPushAsync(typeof(TModalViewModel), parameter);
         }
 
+        public Task PushAsync<TModalViewModel>(Func<object, Task> func) where TModalViewModel : ModalViewModelBase
+        {
+            return InternalPushAsync(typeof(TModalViewModel), func);
+        }
+
         public async Task PopAsync()
         {
             await PopupNavigation.PopAsync();
@@ -55,6 +60,5 @@ namespace Steamboat.Mobile.Services.Modal
             PopupPage popupPage = Activator.CreateInstance(popupPageType) as PopupPage;
             return popupPage;
         }
-
     }
 }

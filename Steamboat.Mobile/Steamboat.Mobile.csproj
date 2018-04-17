@@ -90,6 +90,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Modals\InterviewEditQuestionModalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -290,6 +294,10 @@
     </Compile>
     <Compile Include="CustomControls\Renderers\SurveyEntry.cs" />
     <Compile Include="Extensions\Converters\TextChangedEventArgsConverter.cs" />
+    <Compile Include="Views\Modals\InterviewEditQuestionModalView.xaml.cs">
+      <DependentUpon>InterviewEditQuestionModalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Modals\InterviewEditQuestionModalViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
