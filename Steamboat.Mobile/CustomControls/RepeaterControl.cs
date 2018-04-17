@@ -142,9 +142,11 @@ namespace Steamboat.Mobile.CustomControls
                 {
                     var currentHeight = scroll.Height;
                     var height = scroll.Content.Height;
+                    var paddingTop = scroll.Padding.Top;
+                    var paddingBottom = scroll.Padding.Bottom;
 
                     if (height > currentHeight)
-                        await scroll.ScrollToAsync(0, height - currentHeight + 10, true);
+                        await scroll.ScrollToAsync(0, height+paddingTop+paddingBottom - currentHeight + 10, true);
                     else
                         await Task.FromResult(true);
                 });

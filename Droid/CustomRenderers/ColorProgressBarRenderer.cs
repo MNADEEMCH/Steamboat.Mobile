@@ -81,7 +81,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             }
             
 
-            Control.ScaleY = element.ProgressBarHeigth; //Changes the height
+            Control.ScaleY = (float)element.ProgressBarHeigth; //Changes the height
         }
     }
 }

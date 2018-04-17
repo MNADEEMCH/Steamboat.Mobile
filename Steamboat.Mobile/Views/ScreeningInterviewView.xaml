@@ -2,7 +2,6 @@
 <views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Steamboat.Mobile.Views.ScreeningInterviewView"
-    x:Name="PreScreeningInterviewView"
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
     xmlns:surveyControl="clr-namespace:Steamboat.Mobile.CustomControls.Survey;assembly=Steamboat.Mobile"
     xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
@@ -21,6 +20,18 @@
                 <Setter Property="VerticalTextAlignment" Value="Center" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
             </Style>
+            <Style x:Key="ProgressBar"  TargetType="customControl:ColorProgressBar">
+                <Setter Property="FilledColor" Value="{StaticResource MomentumBlueColor}"></Setter>
+                <Setter Property="EmptyColor" Value="{StaticResource SubtleGrayColor}"></Setter>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="HeightRequest" Value="5"/>
+                <Setter Property="ProgressBarHeigth" Value="3"/>
+            </Style>
+            <Style x:Key="InterviewScrollView"  TargetType="ScrollView">
+                <Setter Property="Orientation" Value="Vertical"></Setter>
+                <Setter Property="Padding" Value="16,24,16,0"></Setter>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"></Setter>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 	<ContentPage.Content>
@@ -28,30 +39,36 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <!--MAIN FORM-->
-            <Grid Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}">
-                <Grid.RowDefinitions>
+            <Grid.RowDefinitions>
                     <RowDefinition Height="32" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Text="INTERVIEW" Style="{StaticResource HeaderLabel}" />
+            <StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand">
+                <customControl:ColorProgressBar ChangeProgressCommand="{Binding ChangeProgressCommand}" Style="{StaticResource ProgressBar}" />           
+            </StackLayout>
+            <Grid Grid.Row="2" 
+                  RowSpacing="0"
+                  IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}">
+                <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                
-                <Label Grid.Row="0" Text="INTERVIEW" Style="{StaticResource HeaderLabel}" />
-                                    
-                <ScrollView x:Name="ScreeningScrollView" Grid.Row="1" Orientation="Vertical" Padding="16,0" >
+                <ScrollView x:Name="ScreeningScrollView" Style="{StaticResource InterviewScrollView}">
                     <customControl:RepeaterControl 
                         ItemsSource="{Binding SurveyQuestions}" ItemTemplate="{StaticResource QuestionTemplateSelector}" ItemCreated="Handle_ItemCreated"
                         HorizontalOptions="Fill" VerticalOptions="StartAndExpand" />
                 </ScrollView>
             </Grid>
-            
             <ActivityIndicator
-            Grid.Row="0"
+            Grid.Row="2"
             Color="{StaticResource MomentumBlueColor}"
             IsRunning="{Binding IsLoading}"  
             IsVisible="{Binding IsLoading}"
             VerticalOptions="Center"
             HorizontalOptions="Center"
+            Margin="0,0,0,50"
             WidthRequest="100" />
-        </Grid>
+      </Grid>
 	</ContentPage.Content>
 </views:CustomContentPage>

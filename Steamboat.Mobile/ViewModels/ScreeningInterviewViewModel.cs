@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Models.Participant.Survey;
@@ -27,6 +28,11 @@ namespace Steamboat.Mobile.ViewModels
         private string _imgSource;
         private bool _enableContinue;
 
+        private int _questionAnsweredCount;
+        private int _countNotLabelQuestions;
+
+
+
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
         public string ImgSource { set { SetPropertyValue(ref _imgSource, value); } get { return _imgSource; } }
         public ICommand HandleSelectOneCommand { get; set; }
@@ -34,8 +40,10 @@ namespace Steamboat.Mobile.ViewModels
         public ICommand HandleSelectManyCommand { get; set; }
         public ICommand ValidateFreeTextContinueCommand { get; set; }
         public ICommand SelectCheckboxCommand { get; set; }
+        public ICommand ChangeProgressCommand { get; set; }
         public ObservableCollection<Question> SurveyQuestions { get { return _surveyQuestions; } set { SetPropertyValue(ref _surveyQuestions, value); } }
         public bool EnableContinue { set { SetPropertyValue(ref _enableContinue, value); } get { return _enableContinue; } }
+
 
         #endregion
 
@@ -49,10 +57,13 @@ namespace Steamboat.Mobile.ViewModels
             ValidateFreeTextContinueCommand = new Command<string>(freeTextAnswer => ValidateFreeTextToSend(freeTextAnswer));
             SelectCheckboxCommand = new Command((selectedOption) => HandleSelectCheckbox(selectedOption));
 
+            _questionAnsweredCount = 0;
+            _countNotLabelQuestions = 0;
             _questionIndex = 0;
             EnableContinue = false;
             ImgSource = App.CurrentUser.AvatarUrl;
             SurveyQuestions = new ObservableCollection<Question>();
+
         }
 
         public async override Task InitializeAsync(object parameter)
@@ -79,18 +90,44 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task SetInitialQuestionIndex()
         {
-            var lastAnsweredQuestion = _localQuestions.LastOrDefault(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsComplete);
-            if (lastAnsweredQuestion != null)
+            var isAnyQuestionAnswered = _localQuestions.Any(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsComplete);
+            if (isAnyQuestionAnswered)
             {
-                var firstUnansweredQuestion = _localQuestions.FirstOrDefault(q => !q.Type.Equals(SurveyHelper.LabelType) && !q.IsComplete);
-                var newIndex = _localQuestions.IndexOf(firstUnansweredQuestion);
-                _questionIndex = newIndex;
+                HandleUnansweredQuestionIndex();
+                SetQuestionAnsweredCount();
+                HandleProgress(true);
                 await AddContinueLabel("Welcome back!", true);
                 await AddContinueLabel("We have a few more questions for you in order to get a better picture of your overall health and wellness.", false);
                 await ContinueSurvey(false);
             }
             else
                 await ContinueSurvey(true);
+        }
+
+        private void HandleUnansweredQuestionIndex()
+        {
+
+            var firstUnansweredQuestion = _localQuestions.FirstOrDefault(q => !q.Type.Equals(SurveyHelper.LabelType) && !q.IsComplete && q.IsEnabled);
+            var newIndex = _localQuestions.IndexOf(firstUnansweredQuestion);
+            _questionIndex = newIndex;
+        }
+
+        private void SetQuestionAnsweredCount()
+        {
+            var notLabelQuestions = _localQuestions.Where(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsEnabled).ToList();
+            var lastAnsweredQuestion = notLabelQuestions.LastOrDefault(q => q.IsComplete);
+            _questionAnsweredCount = notLabelQuestions.IndexOf(lastAnsweredQuestion) + 1;
+        }
+
+        private void HandleProgress(bool recalculateQuestionsCount)
+        {
+
+            if (recalculateQuestionsCount || _countNotLabelQuestions == 0)
+            {
+                _countNotLabelQuestions = _localQuestions.Where(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsEnabled).Count();
+            }
+            var progress = (double)(_questionAnsweredCount) / ((double)_countNotLabelQuestions - 1);//-1 because the I'm finished is not a question
+            ChangeProgressCommand.Execute(progress);
         }
 
         private async Task ContinueSurvey(bool isFirstQuestion)
@@ -128,15 +165,20 @@ namespace Steamboat.Mobile.ViewModels
             }
         }
 
+
         private async Task HandleSelectOneAnswer(object answerQuestion)
         {
             var lastQuestion = SurveyQuestions.Last();
+
             var answer = answerQuestion as Answers;
             lastQuestion.AnswerText = answer.Text;
             MarkQuestionAsCompleted(lastQuestion);
             answer.IsSelected = true;
 
             SaveAnswer(lastQuestion, answer);
+            _questionAnsweredCount++;
+            if (!lastQuestion.IsDependencyTarget)
+                HandleProgress(false);
             await AddRejoinder(answer);
 
             await WaitAnimation();
@@ -148,13 +190,18 @@ namespace Steamboat.Mobile.ViewModels
             if (EnableContinue)
             {
                 EnableContinue = false;
+
                 var lastQuestion = SurveyQuestions.Last();
+
                 var answer = lastQuestion.Answers.First();
                 lastQuestion.AnswerText = (freeText as string).Trim();
                 MarkQuestionAsCompleted(lastQuestion);
                 answer.IsSelected = true;
 
                 SaveAnswer(lastQuestion, answer);
+                _questionAnsweredCount++;
+                if (!lastQuestion.IsDependencyTarget)
+                    HandleProgress(false);
 
                 await WaitAnimation();
                 await HandleAnswer(lastQuestion, true);
@@ -164,6 +211,7 @@ namespace Steamboat.Mobile.ViewModels
         private async Task HandleSelectMany(object selectedQuestion)
         {
             var question = selectedQuestion as Question;
+
             var answers = question.Answers;
 
             var selectedAnswers = answers.Where(x => x.IsSelected);
@@ -180,24 +228,37 @@ namespace Steamboat.Mobile.ViewModels
                     question.AnswerText += ", ";
                 }
             }
+            _questionAnsweredCount++;
+            if (!question.IsDependencyTarget)
+                HandleProgress(false);
 
             await HandleAnswer(question, true);
         }
 
         private async Task HandleAnswer(Question question, bool rejoinder)
         {
-            if (question.IsDependencyTarget)
+            try
             {
-                var response = await _participantManager.SendSurvey(_questionGroupID, _answersList);
-                _localQuestions = response.Questions;
+                if (question.IsDependencyTarget)
+                {
+                    var response = await _participantManager.SendSurvey(_questionGroupID, _answersList);
+                    _localQuestions = response.Questions;
+                    HandleProgress(true);
+                }
+
+                if (IsLastQuestion())
+                {
+                    await _participantManager.CompleteSurvey(_questionGroupID, _answersList);
+                    await NavigateToDashboard();
+                }
+                else
+                    await ContinueSurvey(rejoinder);
             }
-            if (IsLastQuestion())
+            catch (Exception e)
             {
-                await _participantManager.CompleteSurvey(_questionGroupID, _answersList);
-                await NavigateToDashboard();
+
+                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
             }
-            else
-                await ContinueSurvey(rejoinder);
         }
 
         private void HandleSelectCheckbox(object selectedOption)
