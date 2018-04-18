@@ -73,7 +73,7 @@ namespace Steamboat.Mobile.ViewModels
                 var questionGroups = await _participantManager.GetSurvey();
                 _localQuestions = questionGroups.Questions;
                 _questionGroupID = questionGroups.ID;
-                _answersList = new List<ParticipantConsent>();
+                _answersList = await _participantManager.GetSurveyResponses();
                 IsLoading = false;
 
                 await SetInitialQuestionIndex();
@@ -94,7 +94,7 @@ namespace Steamboat.Mobile.ViewModels
             if (isAnyQuestionAnswered)
             {
                 HandleUnansweredQuestionIndex();
-                SetQuestionAnsweredCount();
+                _questionAnsweredCount = _answersList.Count();
                 HandleProgress(true);
                 await AddContinueLabel("Welcome back!", true);
                 await AddContinueLabel("We have a few more questions for you in order to get a better picture of your overall health and wellness.", false);
@@ -106,25 +106,16 @@ namespace Steamboat.Mobile.ViewModels
 
         private void HandleUnansweredQuestionIndex()
         {
-
             var firstUnansweredQuestion = _localQuestions.FirstOrDefault(q => !q.Type.Equals(SurveyHelper.LabelType) && !q.IsComplete && q.IsEnabled);
             var newIndex = _localQuestions.IndexOf(firstUnansweredQuestion);
             _questionIndex = newIndex;
         }
 
-        private void SetQuestionAnsweredCount()
-        {
-            var notLabelQuestions = _localQuestions.Where(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsEnabled).ToList();
-            var lastAnsweredQuestion = notLabelQuestions.LastOrDefault(q => q.IsComplete);
-            _questionAnsweredCount = notLabelQuestions.IndexOf(lastAnsweredQuestion) + 1;
-        }
-
         private void HandleProgress(bool recalculateQuestionsCount)
         {
-
             if (recalculateQuestionsCount || _countNotLabelQuestions == 0)
             {
-                _countNotLabelQuestions = _localQuestions.Where(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsEnabled).Count();
+                _countNotLabelQuestions = _localQuestions.Where(q => !q.Type.Equals(SurveyHelper.LabelType)).Count();
             }
             var progress = (double)(_questionAnsweredCount) / ((double)_countNotLabelQuestions - 1); //-1 because the I'm finished is not a question
             ChangeProgressCommand.Execute(progress);
@@ -162,7 +153,6 @@ namespace Steamboat.Mobile.ViewModels
                 }
             }
         }
-
 
         private async Task HandleSelectOneAnswer(object answerQuestion)
         {
@@ -342,6 +332,9 @@ namespace Steamboat.Mobile.ViewModels
                     item.IsAnswer = false;
                 }
                 question.IsComplete = false;
+
+                _questionAnsweredCount = _answersList.Count();
+                HandleProgress(true);
             }
             await Task.FromResult(true);
         }

@@ -7,6 +7,7 @@ namespace Steamboat.Mobile.Models.Participant.Survey
     public class SurveyRequest
     {
         public QuestionGroup QuestionGroup { get; set; }
+        public List<ParticipantConsent> Responses { get; set; }
     }
 
     public class Answers : BindableBase

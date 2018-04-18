@@ -12,6 +12,9 @@ namespace Steamboat.Mobile.Managers.Participant
     public class ParticipantManager : IParticipantManager
     {
         private IParticipantService _participantService;
+        private List<ParticipantConsent> _surveyResponses;
+
+        public List<ParticipantConsent> SurveyResponses { get; set; }
 
         public ParticipantManager(IParticipantService participantService = null)
         {
@@ -131,6 +134,7 @@ namespace Steamboat.Mobile.Managers.Participant
             try
             {
                 var survey = await _participantService.GetSurvey(App.SessionID);
+                SurveyResponses = survey.Responses;
                 return survey.QuestionGroup;
             }
             catch (Exception ex)
@@ -172,6 +176,11 @@ namespace Steamboat.Mobile.Managers.Participant
                 Debug.WriteLine($"Error completing the survey: {ex}");
                 throw ex;
             }
+        }
+
+        public async Task<List<ParticipantConsent>> GetSurveyResponses()
+        {
+            return SurveyResponses ?? new List<ParticipantConsent>();
         }
     }
 }
