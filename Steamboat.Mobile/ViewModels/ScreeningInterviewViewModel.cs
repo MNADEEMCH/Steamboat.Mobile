@@ -94,7 +94,7 @@ namespace Steamboat.Mobile.ViewModels
             if (isAnyQuestionAnswered)
             {
                 HandleUnansweredQuestionIndex();
-                _questionAnsweredCount = _answersList.Count();
+                SetAnsweredQuestionsCount();
                 HandleProgress(true);
                 await AddContinueLabel("Welcome back!", true);
                 await AddContinueLabel("We have a few more questions for you in order to get a better picture of your overall health and wellness.", false);
@@ -102,6 +102,12 @@ namespace Steamboat.Mobile.ViewModels
             }
             else
                 await ContinueSurvey(true);
+        }
+
+        private void SetAnsweredQuestionsCount()
+        {
+
+            _questionAnsweredCount = _answersList.GroupBy(q=>q.QuestionKey).Count();
         }
 
         private void HandleUnansweredQuestionIndex()
@@ -333,7 +339,7 @@ namespace Steamboat.Mobile.ViewModels
                 }
                 question.IsComplete = false;
 
-                _questionAnsweredCount = _answersList.Count();
+                SetAnsweredQuestionsCount();
                 HandleProgress(true);
             }
             await Task.FromResult(true);
