@@ -5,6 +5,7 @@ using Android.Graphics.Drawables;
 using Android.Views;
 using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.Droid.CustomRenderers;
+using Steamboat.Mobile.Droid.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -31,7 +32,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 gd.SetCornerRadius((float)(entry.CornerRadius));
                 Control.SetBackground(gd);
 
-                var padding = (int)entry.GlobalPadding;
+                var padding = DisplayMetricsHelper.DpToPx(this.Context, (int)entry.GlobalPadding);
                 Control.SetPadding(padding, padding, padding, padding);
             }
         }

@@ -30,13 +30,7 @@
                 <Setter Property="Active" Value="true" />
                 <Setter Property="MinimumHeightRequest" Value="20" />
                 <Setter Property="AutoFitText" Value="True" />
-                <Setter Property="Padding">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="Thickness" 
-                                    iOS="16" 
-                                    Android="30" />
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="Padding" Value="16"/>
                 <Setter Property="BorderWidth" Value="1" />
                 <Setter Property="Margin" Value="0,0,0,8" />
                 <Setter Property="BorderColor" Value="#95C7DA" />

@@ -325,6 +325,33 @@
     <BundleResource Include="Resources\icSend_Disabled.png" />
     <BundleResource Include="Resources\icSend_Disabled%402x.png" />
     <BundleResource Include="Resources\icSend_Disabled%403x.png" />
+    <BundleResource Include="Resources\icDelete_Disabled.png" />
+    <BundleResource Include="Resources\icDelete_Disabled%402x.png" />
+    <BundleResource Include="Resources\icDelete_Disabled%403x.png" />
+    <BundleResource Include="Resources\icDelete_Tap.png" />
+    <BundleResource Include="Resources\icDelete_Tap%402x.png" />
+    <BundleResource Include="Resources\icDelete_Tap%403x.png" />
+    <BundleResource Include="Resources\icEdit_Disabled.png" />
+    <BundleResource Include="Resources\icEdit_Disabled%402x.png" />
+    <BundleResource Include="Resources\icEdit_Disabled%403x.png" />
+    <BundleResource Include="Resources\icEdit_Tap.png" />
+    <BundleResource Include="Resources\icEdit_Tap%402x.png" />
+    <BundleResource Include="Resources\icEdit_Tap%403x.png" />
+    <BundleResource Include="Resources\icChevron_Disabled.png" />
+    <BundleResource Include="Resources\icChevron_Disabled%402x.png" />
+    <BundleResource Include="Resources\icChevron_Disabled%403x.png" />
+    <BundleResource Include="Resources\icChevron_Tap.png" />
+    <BundleResource Include="Resources\icChevron_Tap%402x.png" />
+    <BundleResource Include="Resources\icChevron_Tap%403x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Disabled.png" />
+    <BundleResource Include="Resources\icMoreInfo_Disabled%402x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Disabled%403x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Tap.png" />
+    <BundleResource Include="Resources\icMoreInfo_Tap%402x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Tap%403x.png" />
+    <BundleResource Include="Resources\icSend_Tap.png" />
+    <BundleResource Include="Resources\icSend_Tap%402x.png" />
+    <BundleResource Include="Resources\icSend_Tap%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

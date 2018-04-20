@@ -5,6 +5,7 @@ using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
 using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.Droid.CustomRenderers;
+using Steamboat.Mobile.Droid.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -71,7 +72,10 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             var drawable = ContextCompat.GetDrawable(this.Context, resID);
             var bitmap = ((BitmapDrawable)drawable).Bitmap;
 
-            return new BitmapDrawable(Resources, Bitmap.CreateScaledBitmap(bitmap, element.ImageWidth * 2, element.ImageHeight * 2, true));
+            var imageWidth = DisplayMetricsHelper.DpToPx(this.Context, element.ImageWidth);
+            var imageHeight = DisplayMetricsHelper.DpToPx(this.Context, element.ImageHeight);
+
+            return new BitmapDrawable(Resources, Bitmap.CreateScaledBitmap(bitmap,  imageWidth, imageHeight, true));
         }
 
     }

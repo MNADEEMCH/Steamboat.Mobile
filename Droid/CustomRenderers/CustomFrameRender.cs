@@ -5,6 +5,7 @@ using Android.Graphics;
 using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.Droid.CustomRenderers;
 using Android.Content;
+using Steamboat.Mobile.Droid.Helpers;
 
 [assembly: ExportRenderer(typeof(CustomFrame), typeof(CustomFrameRenderer))]
 namespace Steamboat.Mobile.Droid.CustomRenderers
@@ -59,7 +60,8 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
                 Android.Graphics.Color borderColor = element.IsActive?
                                                      element.ActiveOutlineColor.ToAndroid():element.OutlineColor.ToAndroid();
-                paint.StrokeWidth = (float)(element.IsActive ? element.ActiveBorderWidth : element.DefaultBorderWidth);
+                var strokeWidth = DisplayMetricsHelper.DpToPx(this.Context, (float)(element.IsActive ? element.ActiveBorderWidth : element.DefaultBorderWidth));
+                paint.StrokeWidth = strokeWidth;
                 paint.SetStyle(style);
                 paint.Color = borderColor;
                 canvas.DrawPath(path, paint);

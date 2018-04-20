@@ -267,6 +267,7 @@
     <Compile Include="Services\Firebase\MyFirebaseMessagingService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="CustomRenderers\SurveyEntryRenderer.cs" />
+    <Compile Include="Helpers\DisplayMetricsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
@@ -349,6 +350,42 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icSend_Disabled.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icSend_Disabled.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icSend_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icSend_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icChevron_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icChevron_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icMoreInfo_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icMoreInfo_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icDelete_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icDelete_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icEdit_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icEdit_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icChevron_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icChevron_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icDelete_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icDelete_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icEdit_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icEdit_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icMoreInfo_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icMoreInfo_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icSend_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icChevron_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icChevron_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icDelete_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icDelete_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icEdit_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icEdit_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icMoreInfo_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icMoreInfo_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icSend_Tap.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icChevron_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icChevron_Tap.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icDelete_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icDelete_Tap.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icEdit_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icEdit_Tap.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icMoreInfo_Disabled.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icMoreInfo_Tap.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icSend_Tap.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

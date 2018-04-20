@@ -38,22 +38,8 @@
                 <Setter Property="OutlineColor" Value="{StaticResource LightGrayColor}"></Setter>
                 <Setter Property="ActiveOutlineColor" Value="{StaticResource MomentumBlueColor}"></Setter>
                 <Setter Property="HasShadow" Value="False"></Setter>
-                <Setter Property="DefaultBorderWidth">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <OnPlatform.iOS>1.0</OnPlatform.iOS>
-                            <OnPlatform.Android>2.0</OnPlatform.Android>
-                        </OnPlatform>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="ActiveBorderWidth">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <OnPlatform.iOS>3.0</OnPlatform.iOS>
-                            <OnPlatform.Android>5.0</OnPlatform.Android>
-                        </OnPlatform>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="DefaultBorderWidth" Value="1.0"></Setter>
+                <Setter Property="ActiveBorderWidth" Value="3.0"></Setter>
                 <Setter Property="BackgroundColor">
                     <Setter.Value>
                         <OnPlatform x:TypeArguments="Color">
@@ -97,20 +83,31 @@
                 <Setter Property="WidthRequest" Value="19"></Setter>
                 <Setter Property="VerticalOptions" Value="Center" />
             </Style>
-            <Style x:Key="ChevronImage" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="24"></Setter>
-                <Setter Property="WidthRequest" Value="24"></Setter>
+            <Style x:Key="ChevronButton" TargetType="customControl:LinkButton">
+                <Setter Property="ImageHeight" Value="24"></Setter>
+                <Setter Property="ImageWidth" Value="24"></Setter>
                 <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="ActiveImage" Value="icChevron.png" />
+                <Setter Property="TapImage" Value="icChevron_Tap.png" />
+                <Setter Property="DisabledImage" Value="icChevron_Disabled.png" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
             </Style>
             <Style x:Key="FooterStackLayout" TargetType="StackLayout">
                 <Setter Property="BackgroundColor" Value="{StaticResource SubtleGrayColor}" />
                 <Setter Property="HorizontalOptions" Value="Fill" />
                 <Setter Property="IsVisible" Value="{Binding ShowCancelAppointment}" />
             </Style>
-             <Style x:Key="CancelAppointmentLinkButton" TargetType="customControl:LinkButton">
+            <Style x:Key="CancelAppointmentLinkButton" TargetType="customControl:LinkButton">                
+                <Setter Property="ImageTextDistance" Value="10"></Setter>
+                <Setter Property="ImageHeight" Value="24"></Setter>
+                <Setter Property="ImageWidth" Value="24"></Setter>
                 <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
                 <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="ActiveImage" Value="icDelete.png" />
+                <Setter Property="TapImage" Value="icDelete_Tap.png" />
+                <Setter Property="DisabledImage" Value="icDelete_Disabled.png" />
                 <Setter Property="FontSize" Value="16" />
                 <Setter Property="BorderColor" Value="Transparent" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
@@ -165,7 +162,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Text="{Binding FullAddress}" Style="{StaticResource LocationLabel}"/>
                                         <Label Text="{Binding Distance}" Grid.Row="1" Style="{StaticResource DistanceLabel}"/>
-                                        <ffimageloading:CachedImage Source="icChevron.png" Grid.Row="2" Grid.Column="1" Style="{StaticResource ChevronImage}"/>
+                                        <customControl:LinkButton Grid.Row="2" Grid.Column="1" Style="{StaticResource ChevronButton}" Command="{Binding CommandEventSelected}"/>
                                         <StackLayout  Grid.Row="3" Orientation="Horizontal">
                                             <ffimageloading:CachedImage Source="icCalendarDisabled.png" Style="{StaticResource DateTimeImage}"/>
                                             <Label Text="{Binding Date}" Style="{StaticResource DateTimeLabel}"/>
@@ -185,9 +182,7 @@
                     </customControl:CustomListView.Footer>               
                 </customControl:CustomListView> 
                 <StackLayout Grid.Row="2"  Style="{StaticResource FooterStackLayout}">               
-                    <customControl:LinkButton Style="{StaticResource CancelAppointmentLinkButton}"
-                    Command="{Binding CancelAppointmentConfirmCommand}" 
-                    Text="CANCEL APPOINTMENT" Image="icDelete.png"/>
+                    <customControl:LinkButton Text="CANCEL APPOINTMENT" Command="{Binding CancelAppointmentConfirmCommand}" Style="{StaticResource CancelAppointmentLinkButton}" />
                 </StackLayout>
             </Grid>  
             <ActivityIndicator
