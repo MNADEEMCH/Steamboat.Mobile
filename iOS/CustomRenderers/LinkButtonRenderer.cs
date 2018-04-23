@@ -72,6 +72,10 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
                 if (!string.IsNullOrEmpty(Control.TitleLabel.Text))
                     Control.TitleEdgeInsets = new UIEdgeInsets(0, (nfloat)button.ImageTextDistance, 0, 0);
+                else{
+                    button.HeightRequest = button.ImageHeight;
+                    button.WidthRequest = button.ImageWidth;
+                }
             }
         }
     }

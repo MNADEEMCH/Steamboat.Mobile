@@ -132,7 +132,7 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Text="CHOOSE A DATE AND LOCATION" Style="{StaticResource HeaderLabel}" />
-                <customControl:CustomListView Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding SchedulingEventDate}" Command="{Binding CommandEventSelected}"
+                <customControl:CustomListView x:Name="EventsList" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding SchedulingEventDate}" Command="{Binding CommandEventSelected}"
                     Style="{StaticResource SchedulingEventDateListView}">
 
                     <customControl:CustomListView.Header>
@@ -162,7 +162,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Text="{Binding FullAddress}" Style="{StaticResource LocationLabel}"/>
                                         <Label Text="{Binding Distance}" Grid.Row="1" Style="{StaticResource DistanceLabel}"/>
-                                        <customControl:LinkButton Grid.Row="2" Grid.Column="1" Style="{StaticResource ChevronButton}" Command="{Binding CommandEventSelected}"/>
+                                        <customControl:LinkButton Grid.Row="2" Grid.Column="1" Style="{StaticResource ChevronButton}" Command="{Binding Path=BindingContext.CommandEventSelected, Source={x:Reference EventsList}}" CommandParameter="{Binding}"/>
                                         <StackLayout  Grid.Row="3" Orientation="Horizontal">
                                             <ffimageloading:CachedImage Source="icCalendarDisabled.png" Style="{StaticResource DateTimeImage}"/>
                                             <Label Text="{Binding Date}" Style="{StaticResource DateTimeLabel}"/>
