@@ -92,8 +92,8 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Text="Return to this part of the interview?" Style="{StaticResource MsgLabel}"></Label>        
-                    <Label Grid.Row="1" Text="You will lose all your answers up to this question." Style="{StaticResource DetailLabel}"></Label>        
+                    <Label Grid.Row="0" Text="Would you like to return to this question?" Style="{StaticResource MsgLabel}"></Label>        
+                    <Label Grid.Row="1" Text="If you continue, your responses to later questions will be removed." Style="{StaticResource DetailLabel}"></Label>        
                     <customControl:GradientRoundedButton Grid.Row="2" Text="YES, RETURN" Command="{Binding EditQuestionCommand}" Style="{StaticResource ConfirmButton}"/>
                     <Grid IsVisible="false" />
                     <customControl:LinkButton Grid.Row="3" Text="NO, CANCEL" Style="{StaticResource GoBackButton}" Command="{Binding CloseModalCommand}" />

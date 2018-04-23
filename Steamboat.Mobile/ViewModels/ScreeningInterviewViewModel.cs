@@ -44,6 +44,7 @@ namespace Steamboat.Mobile.ViewModels
         public ICommand ChangeProgressCommand { get; set; }
         public ObservableCollection<Question> SurveyQuestions { get { return _surveyQuestions; } set { SetPropertyValue(ref _surveyQuestions, value); } }
         public bool EnableContinue { set { SetPropertyValue(ref _enableContinue, value); } get { return _enableContinue; } }
+        public ICommand ScrollToBottomCommand { get; set; }
 
         #endregion
 
@@ -341,6 +342,7 @@ namespace Steamboat.Mobile.ViewModels
 
                 SetAnsweredQuestionsCount();
                 HandleProgress(true);
+                Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(null));
             }
             await Task.FromResult(true);
         }

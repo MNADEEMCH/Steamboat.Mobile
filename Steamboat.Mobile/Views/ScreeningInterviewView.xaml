@@ -32,6 +32,10 @@
                 <Setter Property="Padding" Value="16,24,16,0"></Setter>
                 <Setter Property="VerticalOptions" Value="FillAndExpand"></Setter>
             </Style>
+            <Style x:Key="Repeater" TargetType="customControl:RepeaterControl">
+                <Setter Property="HorizontalOptions" Value="Fill"></Setter>
+                <Setter Property="VerticalOptions" Value="StartAndExpand"></Setter>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 	<ContentPage.Content>
@@ -56,8 +60,9 @@
                 </Grid.RowDefinitions>
                 <ScrollView x:Name="ScreeningScrollView" Style="{StaticResource InterviewScrollView}">
                     <customControl:RepeaterControl 
-                        ItemsSource="{Binding SurveyQuestions}" ItemTemplate="{StaticResource QuestionTemplateSelector}" ItemCreated="Handle_ItemCreated"
-                        HorizontalOptions="Fill" VerticalOptions="StartAndExpand" />
+                        ItemsSource="{Binding SurveyQuestions}" Style="{StaticResource Repeater}" 
+                        ItemTemplate="{StaticResource QuestionTemplateSelector}" ItemCreated="Handle_ItemCreated"
+                        ScrollToBottomCommand="{Binding ScrollToBottomCommand}" />
                 </ScrollView>
             </Grid>
             <ActivityIndicator
