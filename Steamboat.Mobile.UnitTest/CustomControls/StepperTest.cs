@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Steamboat.Mobile.CustomControls;
+using Steamboat.Mobile.Models.Stepper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,16 +35,17 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
             return stepper;
         }
 
+        private StepperParam CreateStepperParam(int Steps, int PreviousStep, int CurrentStep){
+
+            return new StepperParam() { Steps = Steps, PreviousStep = PreviousStep, CurrentStep = CurrentStep };
+        }
+
         [Test]
         public void Stepper_Initialize_3StepsCurrentStep1()
         {
             Mobile.CustomControls.Stepper stepper = CreateStepper();
-
-            //Setted from View Model
-            stepper.Steps = 3;
-            stepper.PreviousStep = 1;
-            stepper.CurrentStep = 1;
-            stepper.InitializeExcecute = 1;
+            var stepperParam = CreateStepperParam(3, 1, 1);
+            stepper.DrawStepperCommand.Execute(stepperParam);
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -67,12 +69,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
         public void Stepper_Initialize_3StepsCurrentStep2()
         {
             Mobile.CustomControls.Stepper stepper = CreateStepper();
-
-            //Setted from View Model
-            stepper.Steps = 3;
-            stepper.PreviousStep = 2;
-            stepper.CurrentStep = 2;
-            stepper.InitializeExcecute = 1;
+            var stepperParam = CreateStepperParam(3, 2, 2);
+            stepper.DrawStepperCommand.Execute(stepperParam);
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -96,12 +94,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
         public void Stepper_Initialize_3StepsCurrentStep3()
         {
             Mobile.CustomControls.Stepper stepper = CreateStepper();
-
-            //Setted from View Model
-            stepper.Steps = 3;
-            stepper.PreviousStep = 3;
-            stepper.CurrentStep = 3;
-            stepper.InitializeExcecute = 1;
+            var stepperParam = CreateStepperParam(3, 3, 3);
+            stepper.DrawStepperCommand.Execute(stepperParam);
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -126,12 +120,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
         public void Stepper_Initialize_4StepsCurrentStep1()
         {
             Mobile.CustomControls.Stepper stepper = CreateStepper();
-
-            //Setted from View Model
-            stepper.Steps = 4;
-            stepper.PreviousStep = 1;
-            stepper.CurrentStep = 1;
-            stepper.InitializeExcecute = 1;
+            var stepperParam = CreateStepperParam(4, 1, 1);
+            stepper.DrawStepperCommand.Execute(stepperParam);
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -157,12 +147,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
         public void Stepper_Initialize_4StepsCurrentStep2()
         {
             Mobile.CustomControls.Stepper stepper = CreateStepper();
-
-            //Setted from View Model
-            stepper.Steps = 4;
-            stepper.PreviousStep = 2;
-            stepper.CurrentStep = 2;
-            stepper.InitializeExcecute = 1;
+            var stepperParam = CreateStepperParam(4, 2, 2);
+            stepper.DrawStepperCommand.Execute(stepperParam);
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -189,12 +175,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
         public void Stepper_Initialize_4StepsCurrentStep3()
         {
             Mobile.CustomControls.Stepper stepper = CreateStepper();
-
-            //Setted from View Model
-            stepper.Steps = 4;
-            stepper.PreviousStep = 3;
-            stepper.CurrentStep = 3;
-            stepper.InitializeExcecute = 1;
+            var stepperParam = CreateStepperParam(4, 3, 3);
+            stepper.DrawStepperCommand.Execute(stepperParam);
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;
@@ -221,12 +203,8 @@ namespace Steamboat.Mobile.UnitTest.CustomControls
         public void Stepper_Initialize_4StepsCurrentStep4()
         {
             Mobile.CustomControls.Stepper stepper = CreateStepper();
-
-            //Setted from View Model
-            stepper.Steps = 4;
-            stepper.PreviousStep = 4;
-            stepper.CurrentStep = 4;
-            stepper.InitializeExcecute = 1;
+            var stepperParam = CreateStepperParam(4, 4, 4);
+            stepper.DrawStepperCommand.Execute(stepperParam);
 
             List<Image> StepperImages = stepper.StepsProgressImages;
             List<Label> StepperLabels = stepper.StepsProgressLabels;

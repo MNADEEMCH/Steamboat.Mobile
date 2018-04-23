@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Steamboat.Mobile.Models.Stepper;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.CustomControls
@@ -19,27 +21,27 @@ namespace Steamboat.Mobile.CustomControls
         private List<Image> _stepsProgressImages;
         private List<Label> _stepsProgressLabels;
 
+        private int _steps;
+        private int _previousStep;
+        private int _currentStep;
+
+        public int Steps { set { _steps = value; } get { return _steps; } }
+        public int PreviousStep { set { _previousStep = value; } get { return _previousStep; } }
+        public int CurrentStep { set { _currentStep = value; } get { return _currentStep; } }
+
         public ColorProgressBar ColorProgressBar { get { return _colorProgressBar; } }
         public List<Image> StepsProgressImages { get { return _stepsProgressImages; } }
         public List<Label> StepsProgressLabels { get { return _stepsProgressLabels; } }
 
-        public static BindableProperty InitializeExcecuteProperty =
-            BindableProperty.Create(nameof(InitializeExcecute), typeof(int), typeof(Stepper), 0, BindingMode.TwoWay, propertyChanged: HandleInitializeExecutePropertyChanged);
-        public static void HandleInitializeExecutePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+
+        public static BindableProperty DrawStepperCommandProperty
+       = BindableProperty.Create(nameof(DrawStepperCommand), typeof(ICommand), typeof(Stepper), null, BindingMode.OneWayToSource);
+
+
+        public ICommand DrawStepperCommand
         {
-            var stepper = (Stepper)bindable;
-            stepper.InitializeExcecute = (int)newValue;
-            if(stepper.InitializeExcecute!=0)
-                stepper.DrawStepper();
-            stepper.InitializeExcecute = 0;
-        }
-        public int InitializeExcecute
-        {
-            get { return (int)GetValue(InitializeExcecuteProperty); }
-            set
-            {
-                SetValue(InitializeExcecuteProperty, value);
-            }
+            get { return (ICommand)GetValue(DrawStepperCommandProperty); }
+            set { SetValue(DrawStepperCommandProperty, value); }
         }
 
 
@@ -53,57 +55,6 @@ namespace Steamboat.Mobile.CustomControls
                 SetValue(AnimateProgressProperty, value);
             }
         }
-
-
-
-        public static BindableProperty PreviousStepProperty =
-           BindableProperty.Create(nameof(PreviousStep), typeof(int), typeof(Stepper), 0, BindingMode.TwoWay, propertyChanged: HandlePreviousStepPropertyChanged);
-        public static void HandlePreviousStepPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var stepper = (Stepper)bindable;
-            stepper.PreviousStep = (int)newValue;
-        }
-        public int PreviousStep
-        {
-            get { return (int)GetValue(PreviousStepProperty); }
-            set
-            {
-                SetValue(PreviousStepProperty, value);
-            }
-        }
-
-        public static BindableProperty CurrentStepProperty =
-           BindableProperty.Create(nameof(CurrentStep), typeof(int), typeof(Stepper), 0, BindingMode.TwoWay, propertyChanged: HandleCurrentStepPropertyChanged);
-        public static void HandleCurrentStepPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var stepper = (Stepper)bindable;
-            stepper.CurrentStep = (int)newValue;
-        }
-        public int CurrentStep
-        {
-            get { return (int)GetValue(CurrentStepProperty); }
-            set
-            {
-                SetValue(CurrentStepProperty, value);
-            }
-        }
-
-        public static BindableProperty StepsProperty =
-           BindableProperty.Create(nameof(Steps), typeof(int), typeof(Stepper), 0, BindingMode.TwoWay, propertyChanged: HandleStepsPropertyChanged);
-        public static void HandleStepsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var stepper = (Stepper)bindable;
-            stepper.Steps = (int)newValue;
-        }
-        public int Steps
-        {
-            get { return (int)GetValue(StepsProperty); }
-            set
-            {
-                SetValue(StepsProperty, value);
-            }
-        }
-
 
         public static BindableProperty ProgressLengthProperty =
           BindableProperty.Create(nameof(ProgressLength), typeof(int), typeof(Stepper), 1500);
@@ -203,6 +154,11 @@ namespace Steamboat.Mobile.CustomControls
 
         public Stepper()
         {
+            DrawStepperCommand = new Command<StepperParam>((stepperParam) =>
+            {
+                this.DrawStepper(stepperParam);
+            });
+
             _colorProgressBar = new ColorProgressBar();
 
             this.Children.Add(_colorProgressBar,
@@ -216,7 +172,19 @@ namespace Steamboat.Mobile.CustomControls
             _colorProgressBar.Style = ProgressBarStyle;
         }
 
-        public void DrawStepper(){
+        private void SetParameters(StepperParam stepperParam){
+            if (stepperParam != null)
+            {
+                this.Steps = stepperParam.Steps;
+                this.CurrentStep = stepperParam.CurrentStep;
+                this.PreviousStep = stepperParam.PreviousStep;
+            }
+        }
+
+        public void DrawStepper(StepperParam stepperParam){
+            
+            this.SetParameters(stepperParam);
+
             if (AnimateProgress)
             {
                 AddSteps(Steps, PreviousStep);
