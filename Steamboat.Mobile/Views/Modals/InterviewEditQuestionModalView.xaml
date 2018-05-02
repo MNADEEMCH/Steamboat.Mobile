@@ -2,9 +2,10 @@
 <popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-    xmlns:modalViewModelBase="clr-namespace:Steamboat.Mobile.ViewModels.Modals;assembly=Steamboat.Mobile" 
+    xmlns:modalViewModelBase="clr-namespace:Steamboat.Mobile.ViewModels.Modals" 
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
     x:Class="Steamboat.Mobile.Views.Modals.InterviewEditQuestionModalView"
-    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
     modalViewModelBase:ModalViewModelAutoWire.AutoWireViewModel="True"
     BackgroundColor="{StaticResource ModalBackground}"
     CloseWhenBackgroundIsClicked="False">
@@ -70,12 +71,6 @@
                 <Setter Property="BorderRadius" Value="0" />
                 <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
             </Style>
-            <Style x:Key="MainActionIndicator" TargetType="ActivityIndicator">
-                <Setter Property="WidthRequest" Value="40" />
-                <Setter Property="HeightRequest" Value="40" />
-                <Setter Property="Color" Value="{StaticResource MomentumBlueColor}" />
-                <Setter Property="IsRunning" Value="true" />
-            </Style>
         </ResourceDictionary>
     </popup:PopupPage.Resources>
             
@@ -97,17 +92,10 @@
                     <customControl:GradientRoundedButton Grid.Row="2" Text="YES, RETURN" Command="{Binding EditQuestionCommand}" Style="{StaticResource ConfirmButton}"/>
                     <Grid IsVisible="false" />
                     <customControl:LinkButton Grid.Row="3" Text="NO, CANCEL" Style="{StaticResource GoBackButton}" Command="{Binding CloseModalCommand}" />
-                    <ActivityIndicator Grid.Row="2" Style="{StaticResource MainActionIndicator}" IsVisible="{Binding IsBusy}" />
+                    <views:MomentumSpinnerView Grid.Row="2" IsVisible="{Binding IsBusy}" />
                 </Grid>
             </ScrollView>
-            <ActivityIndicator
-                Grid.Row="0"
-                Color="{StaticResource MomentumBlueColor}"
-                IsRunning="{Binding IsLoading}"  
-                IsVisible="{Binding IsLoading}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                WidthRequest="100" />
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
         </Grid>
     </popup:PopupPage.Content>
 </popup:PopupPage>

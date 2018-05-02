@@ -120,14 +120,7 @@
                     <views:StepperView x:Name="Stepper" Grid.Row="1"/>
                 </Grid>
             </ScrollView>
-            <ActivityIndicator
-            Grid.Row="0"
-            Color="{StaticResource MomentumBlueColor}"
-            IsRunning="{Binding IsLoading}"  
-            IsVisible="{Binding IsLoading}"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            WidthRequest="100" />
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
         </Grid>
     </ContentPage.Content>
 </views:CustomContentPage>

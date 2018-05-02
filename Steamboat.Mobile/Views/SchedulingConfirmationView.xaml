@@ -146,19 +146,12 @@
                     <StackLayout Grid.Row="2">
                         <customControl:GradientRoundedButton Text="YES, CONFIRM" Style="{StaticResource MainActionButton}" Command="{Binding ConfirmEventCommand}" />
                         <Grid IsVisible="false" />
-                        <ActivityIndicator Style="{StaticResource MainActionIndicator}" IsVisible="{Binding IsBusy}" />
+                        <views:MomentumSpinnerView Margin="0,29" IsVisible="{Binding IsBusy}" />
                         <customControl:LinkButton Text="NO, EDIT" Style="{StaticResource NoEditButton}" Command="{Binding NoEditCommand}" />
                     </StackLayout>
                 </Grid>            
             </Grid>         
-            <ActivityIndicator
-            Grid.Row="0"
-            Color="{StaticResource MomentumBlueColor}"
-            IsRunning="{Binding IsLoading}"  
-            IsVisible="{Binding IsLoading}"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            WidthRequest="100" />
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
         </Grid>
 	</ContentPage.Content>
 </views:CustomContentPage>

@@ -65,15 +65,7 @@
                         ScrollToBottomCommand="{Binding ScrollToBottomCommand}" />
                 </ScrollView>
             </Grid>
-            <ActivityIndicator
-            Grid.Row="2"
-            Color="{StaticResource MomentumBlueColor}"
-            IsRunning="{Binding IsLoading}"  
-            IsVisible="{Binding IsLoading}"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            Margin="0,0,0,50"
-            WidthRequest="100" />
+            <views:MomentumSpinnerView Grid.Row="2" IsVisible="{Binding IsLoading}" Margin="0,0,0,37" VerticalOptions="Center" />
       </Grid>
 	</ContentPage.Content>
 </views:CustomContentPage>
