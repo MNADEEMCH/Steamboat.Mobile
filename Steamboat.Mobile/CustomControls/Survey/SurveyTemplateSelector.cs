@@ -27,8 +27,10 @@ namespace Steamboat.Mobile.CustomControls.Survey
             if (question == null)
                 return null;
 
-            if (IsLabelOrPartOfQuestion(question))
+            if (IsLabelOrPartOfQuestion(question)){
+                _labelDataTemplate.SetValue(SurveyLabelView.ParentBindingContextProperty, container.BindingContext);
                 return _labelDataTemplate;
+            }
             else if (question.Type.Equals(SurveyHelper.SelectManyType))
             {
                 _selectmanyDataTemplate.SetValue(SurveySelectManyView.ParentBindingContextProperty, container.BindingContext);
@@ -44,6 +46,8 @@ namespace Steamboat.Mobile.CustomControls.Survey
                 _selectoneDataTemplate.SetValue(SurveySelectOneView.ParentBindingContextProperty, container.BindingContext);
                 return _selectoneDataTemplate;
             }
+
+
         }
 
         private static bool IsLabelOrPartOfQuestion(Question question)

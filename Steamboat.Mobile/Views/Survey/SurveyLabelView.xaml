@@ -3,9 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Steamboat.Mobile.Views.Survey.SurveyLabelView"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile">
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    x:Name="LabelView">
     <ContentView.Resources>
-        <ResourceDictionary>            
+        <ResourceDictionary>    
             <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
                 <Setter Property="HeightRequest" Value="48"></Setter>
                 <Setter Property="WidthRequest" Value="48"></Setter>
@@ -31,6 +32,9 @@
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="Margin" Value="24,16" />
             </Style>
+            <Style x:Key="WritingImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="Margin" Value="24,13.5" />
+            </Style>
         </ResourceDictionary>
     </ContentView.Resources>
 
@@ -46,7 +50,10 @@
             </Grid.RowDefinitions>
             <ffimageloading:CachedImage Grid.Column="0" Source="imgMomentumProfile.png" Style="{StaticResource MomentumImage}" IsVisible="{Binding IsFirstQuestion}" />
             <customControl:BubbleStack Grid.Column="1" Style="{StaticResource LabelBubbleStack}">
-                <Label x:Name="MainLabel" Text="{Binding Text}" Style="{StaticResource TextLabel}" />
+
+                <ffimageloading:CachedImage HeightRequest="24" WidthRequest="24"  IsVisible="{Binding ShowQuestionDots}" Source="resource://Steamboat.Mobile.SharedResources.writing.gif"  Style="{StaticResource WritingImage}"/>
+                <Label x:Name="MainLabel" IsVisible="{Binding ShowQuestionDots, Converter={StaticResource InverseBoolConverter}}" Text="{Binding Text}" Style="{StaticResource TextLabel}" />
+
             </customControl:BubbleStack>
             <Grid IsVisible="false" />
         </Grid>
