@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Steamboat.Mobile.Views.MenuView"
+             xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels"
+             xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+             xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
+             viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+             x:Name="MenuView"
+             Title="Title">
+    <ContentPage.Icon>
+        <OnPlatform x:TypeArguments="FileImageSource">
+            <On Platform="iOS" Value="icMenuOpen_Normal.png" />
+        </OnPlatform>
+    </ContentPage.Icon>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MenuGrid" TargetType="customControl:TapableGrid">
+                <Setter Property="Padding" Value="32,0" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Style.Triggers>
+                    <DataTrigger TargetType="customControl:TapableGrid" Binding="{Binding IsSelected}" Value="True">
+                        <Setter Property="BackgroundColor" Value="{StaticResource SubtleBlueColor}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="MenuLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15*" />
+                <RowDefinition Height="85*" />
+            </Grid.RowDefinitions>
+            <BoxView Grid.Row="0" Color="White" />
+            <Grid RowSpacing="0" Grid.Row="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <customControl:RepeaterControl ItemsSource="{Binding MenuItems}" >
+                    <customControl:RepeaterControl.ItemTemplate>
+                        <DataTemplate>
+                            <customControl:TapableGrid RowSpacing="0" Style="{StaticResource MenuGrid}" >
+                                <customControl:TapableGrid.RowDefinitions>
+                                    <RowDefinition Height="56" />
+                                    <RowDefinition Height="1" />
+                                </customControl:TapableGrid.RowDefinitions>
+                                <Label customControl:TapableGrid.Row="0" Text="{Binding Title}" Style="{StaticResource MenuLabel}" />
+                                <BoxView customControl:TapableGrid.Row="1" Color="{StaticResource LightGrayColor}" IsVisible="{Binding ShowSeparator}" />
+
+                                <customControl:TapableGrid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemSelectedCommand, Source={x:Reference MenuView}}" CommandParameter="{Binding .}" />
+                                </customControl:TapableGrid.GestureRecognizers>
+                                
+                            </customControl:TapableGrid>
+                        </DataTemplate>
+                    </customControl:RepeaterControl.ItemTemplate>
+                </customControl:RepeaterControl>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

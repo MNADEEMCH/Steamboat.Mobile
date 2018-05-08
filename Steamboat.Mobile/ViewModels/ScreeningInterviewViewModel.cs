@@ -493,6 +493,7 @@ namespace Steamboat.Mobile.ViewModels
 
             var viewModelType = DashboardHelper.GetViewModelForStatus(status);
             await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+            DependencyContainer.Resolve<MenuViewModel>().UpdateMenuItem(viewModelType);
         }
 
         private void MarkQuestionAsCompleted(Question question)

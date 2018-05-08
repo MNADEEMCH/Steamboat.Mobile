@@ -8,13 +8,7 @@
     xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
     BackgroundColor="{StaticResource ViewBackground}"
     Title="Your Report">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Logout" Icon="icLogout.png" Command="{Binding LogoutCommand}" >
-            <ToolbarItem.Order>
-                <OnPlatform x:TypeArguments="ToolbarItemOrder" iOS="Primary" Android="Secondary" />
-            </ToolbarItem.Order>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
         <Grid RowSpacing="0">
             <Grid.ColumnDefinitions>

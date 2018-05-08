@@ -62,7 +62,7 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task Logout()
         {
-            await DependencyContainer.Resolve<StepperViewModel>().Refresh();
+            DependencyContainer.RefreshDependencies();
             await _accountManager.Logout();            
         }
 
@@ -91,7 +91,8 @@ namespace Steamboat.Mobile.ViewModels
                         _applicationManager.UpdateNotificationBadge(1);
                         var status = await _participantManager.GetStatus();
                         var viewModelType = DashboardHelper.GetViewModelForStatus(status);
-                        await NavigationService.NavigateToAsync(viewModelType, status, mainPage:true);
+                        //await NavigationService.NavigateToAsync(viewModelType, status, mainPage:true);
+                        await NavigationService.NavigateToAsync<MainViewModel>(status, mainPage:true);
                     }
 
                     Password.Value = String.Empty;

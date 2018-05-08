@@ -93,10 +93,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MenuView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="SharedResources\writing.gif" />
     <EmbeddedResource Include="SharedResources\Spinner.gif" />
     <EmbeddedResource Include="SharedResources\SpinnerLogo.png" />
     <EmbeddedResource Include="Views\MomentumSpinnerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MessagingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -301,9 +313,23 @@
       <DependentUpon>InterviewEditQuestionModalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Modals\InterviewEditQuestionModalViewModel.cs" />
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuView.xaml.cs">
+      <DependentUpon>MenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="Models\Menu\MenuItem.cs" />
     <Compile Include="Views\MomentumSpinnerView.xaml.cs">
       <DependentUpon>MomentumSpinnerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\Renderers\TapableGrid.cs" />
+    <Compile Include="Views\MessagingView.xaml.cs">
+      <DependentUpon>MessagingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\MessagingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -430,6 +456,7 @@
     <Folder Include="Services\App\" />
     <Folder Include="Services\Notification\" />
     <Folder Include="Models\Application\" />
+    <Folder Include="Models\Menu\" />
     <Folder Include="SharedResources\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

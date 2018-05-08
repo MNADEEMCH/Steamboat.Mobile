@@ -103,9 +103,35 @@ namespace Steamboat.Mobile.Services.Navigation
             Page page = CreatePage(viewModelType, parameter);
             NavigationPage.SetBackButtonTitle(page, string.Empty);
 
-            if (page is LoginView)
+            if (page is MainView)
+            {
+                Application.Current.MainPage = page;
+            }
+            else if (page is LoginView)
             {
                 Application.Current.MainPage = new CustomNavigationView(page);
+            }
+            else if (Application.Current.MainPage is MainView)
+            {
+                var mPage = Application.Current.MainPage as MainView;
+                var navigationPage = mPage.Detail as CustomNavigationView;
+
+                if (navigationPage == null || mainPage)
+                {
+                    navigationPage = new CustomNavigationView(page);
+                    mPage.Detail = navigationPage;
+                }
+                else
+                {
+                    var currentPage = navigationPage.CurrentPage;
+
+                    if (currentPage.GetType() != page.GetType())
+                    {
+                        await navigationPage.PushAsync(page);
+                    }
+                }
+
+                mPage.IsPresented = false;
             }
             else
             {

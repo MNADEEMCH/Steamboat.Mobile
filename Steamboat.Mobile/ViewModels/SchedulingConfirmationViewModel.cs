@@ -78,6 +78,7 @@ namespace Steamboat.Mobile.ViewModels
             var status = await _participantManager.GetStatus();
             var viewModelType = DashboardHelper.GetViewModelForStatus(status);
             await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+            DependencyContainer.Resolve<MenuViewModel>().UpdateMenuItem(viewModelType);
         }
 
         private async Task Edit()
