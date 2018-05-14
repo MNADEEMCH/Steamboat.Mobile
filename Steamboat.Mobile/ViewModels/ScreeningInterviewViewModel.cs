@@ -33,6 +33,7 @@ namespace Steamboat.Mobile.ViewModels
         private int _questionAnsweredCount;
         private int _countNotLabelQuestions;
         private Answers _answerWithPendingRejoinder = null;
+        private int _maxLengthTextToShowDots = 110;
 
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
         public string ImgSource { set { SetPropertyValue(ref _imgSource, value); } get { return _imgSource; } }
@@ -79,12 +80,11 @@ namespace Steamboat.Mobile.ViewModels
 
                 Device.BeginInvokeOnMainThread(async () => await SetInitialQuestionIndex());
             }, null, () => IsLoading = false);
+
         }
 
         private async Task SetInitialQuestionIndex()
         {
-            AddFakeQuestionToSimulateDotsAnimation();
-
             var isAnyQuestionAnswered = _localQuestions.Any(q => !q.Type.Equals(SurveyHelper.LabelType) && q.IsComplete && q.IsEnabled);
             if (isAnyQuestionAnswered)
             {
@@ -101,6 +101,7 @@ namespace Steamboat.Mobile.ViewModels
 
         private void SetAnsweredQuestionsCount()
         {
+
             _questionAnsweredCount = _answersList.GroupBy(q => q.QuestionKey).Count();
         }
 
@@ -120,14 +121,12 @@ namespace Steamboat.Mobile.ViewModels
             var progress = (double)(_questionAnsweredCount) / ((double)_countNotLabelQuestions - 1); //-1 because the I'm finished is not a question
             ChangeProgressCommand.Execute(progress);
         }
-
         private async Task ContinueSurvey(bool isFirstQuestion, bool resumingSurvey = false)
         {
             Question currentQuestion;
             var shouldBreak = false;
-            var replaceQuestion = true;
 
-            replaceQuestion = !resumingSurvey && !(await HandlePendingRejoinder());
+            await HandlePendingRejoinder();
 
             for (int i = _questionIndex; i < _localQuestions.Count; i++)
             {
@@ -135,13 +134,8 @@ namespace Steamboat.Mobile.ViewModels
                 if (currentQuestion.IsEnabled)
                 {
                     currentQuestion.IsFirstQuestion = isFirstQuestion;
-                    if (replaceQuestion)
-                    {
-                        await ReplaceQuestion(currentQuestion);
-                        replaceQuestion = false;
-                    }
-                    else
-                        await AddQuestion(currentQuestion);
+                    AddFakeQuestionToSimulateDotsAnimation(isFirstQuestion, false);
+                    await AddQuestion(currentQuestion);
 
                     if (!currentQuestion.Type.Equals(SurveyHelper.LabelType))
                     {
@@ -168,8 +162,7 @@ namespace Steamboat.Mobile.ViewModels
         {
             await TryExecute(async () =>
             {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
+                Device.BeginInvokeOnMainThread(async () =>                 {
                     _userTapped = true;
                     var lastQuestion = SurveyQuestions.Last();
 
@@ -182,17 +175,24 @@ namespace Steamboat.Mobile.ViewModels
                     _questionAnsweredCount++;
 
                     var hasRejoinder = HasRejoinder(answer);
+                    var isDependencyTarget = lastQuestion.IsDependencyTarget;
 
-                    AddFakeQuestionToSimulateDotsAnimation();
-
-                    if (!lastQuestion.IsDependencyTarget)
+                    if (!isDependencyTarget)
                         HandleProgress(false);
 
-                    if (hasRejoinder)
-                        _answerWithPendingRejoinder = answer;
-
-
                     await WaitAnimation();
+
+                    AddFakeQuestionToSimulateDotsAnimation(true, isDependencyTarget, answer);
+
+                    if (hasRejoinder)
+                        if (isDependencyTarget)
+                            _answerWithPendingRejoinder = answer;
+                        else
+                        {
+                            await WaitAnimation();
+                            await AddRejoinder(answer);
+                        }
+
                     await HandleAnswer(lastQuestion, hasRejoinder);
                 });
             });
@@ -219,12 +219,15 @@ namespace Steamboat.Mobile.ViewModels
                         SaveAnswer(lastQuestion, answer);
                         _questionAnsweredCount++;
 
-                        AddFakeQuestionToSimulateDotsAnimation();
+                        var isDependencyTarget = lastQuestion.IsDependencyTarget;
 
-                        if (!lastQuestion.IsDependencyTarget)
+                        if (!isDependencyTarget)
                             HandleProgress(false);
 
                         await WaitAnimation();
+
+                        AddFakeQuestionToSimulateDotsAnimation(true, isDependencyTarget);
+
                         await HandleAnswer(lastQuestion, false);
                     }
                 });
@@ -235,8 +238,7 @@ namespace Steamboat.Mobile.ViewModels
         {
             await TryExecute(async () =>
             {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
+                Device.BeginInvokeOnMainThread(async () =>                 {
                     _userTapped = true;
                     var question = selectedQuestion as Question;
 
@@ -258,10 +260,14 @@ namespace Steamboat.Mobile.ViewModels
                     }
                     _questionAnsweredCount++;
 
-                    AddFakeQuestionToSimulateDotsAnimation();
+                    var isDependencyTarget = question.IsDependencyTarget;
 
-                    if (!question.IsDependencyTarget)
+                    if (!isDependencyTarget)
                         HandleProgress(false);
+
+                    await WaitAnimation();
+
+                    AddFakeQuestionToSimulateDotsAnimation(true, isDependencyTarget);
 
                     await HandleAnswer(question, false);
                 });
@@ -287,29 +293,33 @@ namespace Steamboat.Mobile.ViewModels
                 else
                     Device.BeginInvokeOnMainThread(async () => await ContinueSurvey(!hasRejoinder));
             });
+
         }
 
-        private void HandleSelectCheckbox(object selectedOption)
+        private async Task HandleSelectCheckbox(object selectedOption)
         {
-            var answer = selectedOption as Answers;
-            var allAnswers = SurveyQuestions.Last().Answers;
-
-            EnableContinue = allAnswers.Any(a => a.IsSelected);
-
-            if (answer.IsExclusive)
+            await TryExecute(async () =>
             {
-                var selectedAnsers = allAnswers.Where(x => x.IsSelected && x.Key != answer.Key);
-                foreach (var item in selectedAnsers)
+                var answer = selectedOption as Answers;
+                var allAnswers = SurveyQuestions.Last().Answers;
+
+                EnableContinue = allAnswers.Any(a => a.IsSelected);
+
+                if (answer.IsExclusive)
                 {
-                    item.IsSelected = false;
+                    var selectedAnsers = allAnswers.Where(x => x.IsSelected && x.Key != answer.Key);
+                    foreach (var item in selectedAnsers)
+                    {
+                        item.IsSelected = false;
+                    }
                 }
-            }
-            else
-            {
-                var exclusiveAnswer = allAnswers.FirstOrDefault(x => x.IsSelected && x.IsExclusive);
-                if (exclusiveAnswer != null)
-                    exclusiveAnswer.IsSelected = false;
-            }
+                else
+                {
+                    var exclusiveAnswer = allAnswers.FirstOrDefault(x => x.IsSelected && x.IsExclusive);
+                    if (exclusiveAnswer != null)
+                        exclusiveAnswer.IsSelected = false;
+                }
+            });
         }
 
         private async Task EditQuestion(object selectedQuestion)
@@ -347,8 +357,8 @@ namespace Steamboat.Mobile.ViewModels
                 }
                 question.AnswerText = string.Empty;
 
-                var questionIndex = SurveyQuestions.IndexOf(question);
-                for (int i = SurveyQuestions.Count - 1; i > questionIndex + 1; i--)
+                var questionIndex = SurveyQuestions.LastIndexOf(question);
+                for (int i = SurveyQuestions.Count - 1; i > questionIndex; i--)
                 {
                     SurveyQuestions.RemoveAt(i);
                 }
@@ -372,7 +382,7 @@ namespace Steamboat.Mobile.ViewModels
 
                 SetAnsweredQuestionsCount();
                 HandleProgress(true);
-                ScrollToBottomCommand.Execute(null);
+                Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(null));
             }
             await Task.FromResult(true);
         }
@@ -412,6 +422,7 @@ namespace Steamboat.Mobile.ViewModels
             var pendingRejoinderHandled = false;
             if (_answerWithPendingRejoinder != null)
             {
+                AddFakeQuestionToSimulateDotsAnimation(true, false);
                 var fakeQuestion = SurveyQuestions.Last();
                 fakeQuestion.Text = _answerWithPendingRejoinder.AlternateText;
                 fakeQuestion.IsFirstQuestion = true;
@@ -425,36 +436,78 @@ namespace Steamboat.Mobile.ViewModels
             return pendingRejoinderHandled;
         }
 
+        private async Task AddRejoinder(Answers rejoinder)
+        {
+            var rejoinderQuestion = new Question();
+            rejoinderQuestion.Type = SurveyHelper.LabelType;
+            rejoinderQuestion.Text = rejoinder.AlternateText;
+            rejoinderQuestion.IsAnswer = false;
+            rejoinderQuestion.IsFirstQuestion = true;
+            await AddQuestion(rejoinderQuestion);
+            Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(null));
+        }
+
 
         private async Task AddContinueLabel(string text, bool firstQuestion)
         {
-            await WaitAnimation();
-            Question labelQuestion = firstQuestion ? SurveyQuestions.Last() : new Question();
-
+            var labelQuestion = new Question();
             labelQuestion.Type = SurveyHelper.LabelType;
             labelQuestion.IsAnswer = false;
             labelQuestion.Text = text;
             labelQuestion.IsFirstQuestion = firstQuestion;
             labelQuestion.ShowQuestionDots = false;
 
-            if (!firstQuestion)
-                await AddQuestion(labelQuestion);
+            await AddQuestion(labelQuestion);
         }
 
-        private void AddFakeQuestionToSimulateDotsAnimation()
+        private bool AddFakeQuestionToSimulateDotsAnimation(bool isFirstQuestion, bool isDependencyTarget, Answers answer = null)
         {
-            var fakeQuestion = new Question();
-            fakeQuestion.Type = SurveyHelper.LabelType;
-            fakeQuestion.IsAnswer = false;
-            fakeQuestion.IsFirstQuestion = true;
-            fakeQuestion.ShowQuestionDots = true;
-            SurveyQuestions.Add(fakeQuestion);
+            var addDots = EvalAddingDots(isDependencyTarget, answer);
+
+            if (addDots)
+            {
+                var fakeQuestion = new Question();
+                fakeQuestion.Type = SurveyHelper.LabelType;
+                fakeQuestion.IsAnswer = false;
+                fakeQuestion.IsFirstQuestion = isFirstQuestion;
+                fakeQuestion.ShowQuestionDots = true;
+                SurveyQuestions.Add(fakeQuestion);
+            }
+
+            return addDots;
+
+        }
+
+        private bool EvalAddingDots(bool isDependencyTarget, Answers answer)
+        {
+
+            if (SurveyQuestions != null && SurveyQuestions.Count > 0 && SurveyQuestions.Last().ShowQuestionDots)
+                return false;
+
+            if (isDependencyTarget)
+                return true;
+
+            if (answer != null && HasRejoinder(answer))
+            {
+                return answer.AlternateText.Length > _maxLengthTextToShowDots;
+            }
+            else
+            {
+
+                var remainderQuestions = _localQuestions.GetRange(_questionIndex, _localQuestions.Count - _questionIndex);
+                var followingQuestion = remainderQuestions.Where(q => q.IsEnabled && !q.IsAnswer).FirstOrDefault();
+                return followingQuestion != null && followingQuestion.Text.Length > _maxLengthTextToShowDots;
+
+            }
+
         }
 
         private async Task AddQuestion(Question question)
         {
-            question.ShowQuestionDots = false;
-            SurveyQuestions.Add(question);
+            if (SurveyQuestions.Count > 0 && SurveyQuestions.Last().ShowQuestionDots)
+                await ReplaceQuestion(question);
+            else
+                SurveyQuestions.Add(question);
 
             Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(null));
             await WaitAnimation();
@@ -465,12 +518,8 @@ namespace Steamboat.Mobile.ViewModels
             lastFakeQuestion.Text = question.Text;
             lastFakeQuestion.IsFirstQuestion = question.IsFirstQuestion;
             lastFakeQuestion.ShowQuestionDots = true;
-
             await WaitAnimation(2000);
             lastFakeQuestion.ShowQuestionDots = false;
-
-            Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(null));
-            await WaitAnimation();
         }
 
         private async Task WaitAnimation(int duration = 1000)
@@ -516,4 +565,3 @@ namespace Steamboat.Mobile.ViewModels
         }
     }
 }
-
