@@ -40,7 +40,7 @@ namespace Steamboat.Mobile.ViewModels
         }
 
         public async override Task InitializeAsync(object parameter)
-        {            
+        {
             ButtonEnabled = false;
             IsBusy = false;
             Password = new ValidatableObject<string>();
@@ -62,7 +62,7 @@ namespace Steamboat.Mobile.ViewModels
 
             if (isValid)
             {
-                try
+                await TryExecute(async () =>
                 {
                     ValidatePasswordAndConfirm();
                     var initPassword = await _accountManager.InitPassword(Password.Value, Confirm.Value);
@@ -70,21 +70,13 @@ namespace Steamboat.Mobile.ViewModels
                     {
                         var status = await _participantManager.GetStatus();
                         var viewModelType = DashboardHelper.GetViewModelForStatus(status);
-                        await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+                        Device.BeginInvokeOnMainThread(async () => await NavigationService.NavigateToAsync<MainViewModel>(status, mainPage: true));
                     }
                     else
                     {
                         await NavigationService.NavigateToAsync<ConsentsViewModel>();
-                    }                                        
-                }
-                catch (Exception e)
-                {
-                    await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
+                    }
+                }, null, () => IsBusy = false);
             }
             else
                 IsBusy = false;
@@ -92,7 +84,7 @@ namespace Steamboat.Mobile.ViewModels
 
         private void ValidatePasswordAndConfirm()
         {
-            if(!Password.Value.Equals(Confirm.Value))
+            if (!Password.Value.Equals(Confirm.Value))
             {
                 throw new Exception("The passwords did not match. Please try again.");
             }
@@ -100,7 +92,7 @@ namespace Steamboat.Mobile.ViewModels
 
         private void ValidatePasswordFocus()
         {
-            if(!string.IsNullOrEmpty(Password.Value) && !string.IsNullOrEmpty(Confirm.Value))
+            if (!string.IsNullOrEmpty(Password.Value) && !string.IsNullOrEmpty(Confirm.Value))
             {
                 ButtonEnabled = true;
             }
@@ -113,7 +105,7 @@ namespace Steamboat.Mobile.ViewModels
         #region Validations
 
         private bool Validate()
-        {            
+        {
             bool isValidPassword = ValidatePassword();
             bool isValidConfirm = ValidateConfirm();
 

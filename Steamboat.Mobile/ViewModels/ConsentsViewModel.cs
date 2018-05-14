@@ -59,7 +59,7 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
-            try
+            await TryExecute(async () =>
             {
                 if (parameter == null)
                     _consents = await _participantManager.GetConsents();
@@ -78,24 +78,16 @@ namespace Steamboat.Mobile.ViewModels
                 }
                 else
                 {
-                    await NavigateToStatusView();    
+                    await NavigateToStatusView();
                 }
-            }
-            catch (Exception e)
-            {
-                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-            }
-            finally
-            {
-                IsLoading = false;
-            }
+            }, null, () => IsLoading = false);
         }
 
         private async Task OpenConsent()
         {
             StartBusy();
 
-            try
+            await TryExecute(async () =>
             {
                 if (ValidateAnswer())
                 {
@@ -103,7 +95,7 @@ namespace Steamboat.Mobile.ViewModels
                     if (!_consents.Any(p => !p.IsCompleted))
                     {
                         var remainingConsents = await _participantManager.SendConsents(_consents);
-                        if(remainingConsents.Any())
+                        if (remainingConsents.Any())
                         {
                             await NavigationService.NavigateToAsync<ConsentsViewModel>(remainingConsents);
                         }
@@ -119,22 +111,14 @@ namespace Steamboat.Mobile.ViewModels
                 {
                     await DialogService.ShowAlertAsync("Your consent is required to continue.", "Error", "OK");
                 }
-            }
-            catch (Exception e)
-            {
-                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-            }
-            finally
-            {
-                StopBusy();
-            }
+            }, null, StopBusy);
         }
 
         private async Task NavigateToStatusView()
         {
             var status = await _participantManager.GetStatus();
             var viewModelType = DashboardHelper.GetViewModelForStatus(status);
-            await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+            Device.BeginInvokeOnMainThread(async () => await NavigationService.NavigateToAsync<MainViewModel>(status, mainPage: true));
         }
 
         private void AffirmationTap()

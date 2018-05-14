@@ -177,7 +177,7 @@ namespace Steamboat.Mobile.CustomControls
             var lastItem = Children.Last();
             if (lastItem != null)
             {
-                ScrollToBottom(lastItem);
+                Device.BeginInvokeOnMainThread(() => ScrollToBottom(lastItem));
             }
         }
     }

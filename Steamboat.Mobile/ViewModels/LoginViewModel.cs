@@ -30,9 +30,9 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-        public LoginViewModel(IAccountManager accountManager = null, 
+        public LoginViewModel(IAccountManager accountManager = null,
                               IParticipantManager participantManager = null,
-                              IApplicationManager applicationManager = null  )
+                              IApplicationManager applicationManager = null)
         {
             _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
@@ -49,21 +49,25 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
-            if (parameter == null) { 
-                Username.Value = await GetCurrentUser();
-                Password.Value = "Passw0rd";
-                await base.InitializeAsync(parameter);
+            if (parameter is Models.Application.Logout)
+            {
+                await Logout(parameter as Models.Application.Logout);
             }
             else
             {
-                await Logout();
+                Username.Value = await GetCurrentUser();
+                Password.Value = "Passw0rd"; //TODO: Delete hardcoded password
+                await base.InitializeAsync(parameter);
             }
         }
 
-        private async Task Logout()
+        private async Task Logout(Models.Application.Logout logout)
         {
-            DependencyContainer.RefreshDependencies();
-            await _accountManager.Logout();            
+            await TryExecute(async () =>
+            {
+                await _accountManager.Logout(logout.CallBackend);
+                DependencyContainer.RefreshDependencies();
+            });
         }
 
         private async Task Login()
@@ -71,40 +75,30 @@ namespace Steamboat.Mobile.ViewModels
             IsBusy = true;
             bool isValid = Validate();
 
-            if(isValid)
+            if (isValid)
             {
-                try
+                await TryExecute(async () =>
                 {
                     var result = await _accountManager.Login(_username.Value, _password.Value);
 
-                    if(result.IsPasswordExpired)
+                    if (result.IsPasswordExpired)
                     {
                         await NavigationService.NavigateToAsync<InitPasswordViewModel>(result.AreConsentsAccepted);
                     }
-                    else if(!result.AreConsentsAccepted)
+                    else if (!result.AreConsentsAccepted)
                     {
                         await NavigationService.NavigateToAsync<ConsentsViewModel>();
                     }
                     else
-                    {   
+                    {
                         _applicationManager.TrySendToken();
-                        _applicationManager.UpdateNotificationBadge(1);
+                        Device.BeginInvokeOnMainThread(() => _applicationManager.UpdateNotificationBadge(1));
                         var status = await _participantManager.GetStatus();
                         var viewModelType = DashboardHelper.GetViewModelForStatus(status);
-                        //await NavigationService.NavigateToAsync(viewModelType, status, mainPage:true);
-                        await NavigationService.NavigateToAsync<MainViewModel>(status, mainPage:true);
+                        Device.BeginInvokeOnMainThread(async () => await NavigationService.NavigateToAsync<MainViewModel>(status, mainPage: true));
                     }
-
-                    Password.Value = String.Empty;
-                }
-                catch(Exception e)
-                {
-                    await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
+                    //Password.Value = String.Empty; //TODO: Delete hardcoded password
+                }, null, () => IsBusy = false);
             }
             else
                 IsBusy = false;
@@ -112,15 +106,19 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task<string> GetCurrentUser()
         {
-            var user = await _accountManager.GetLocalUser();
-
-            if (user != null)
+            var userEmail = string.Empty;
+            await TryExecute(async () =>
             {
-                App.CurrentUser = user;
-                return user.Email;
-            }
-            else
-                return string.Empty;
+                var user = await _accountManager.GetLocalUser();
+
+                if (user != null)
+                {
+                    App.CurrentUser = user;
+                    userEmail = user.Email;
+                }
+            });
+
+            return userEmail;
         }
 
         #region Validations

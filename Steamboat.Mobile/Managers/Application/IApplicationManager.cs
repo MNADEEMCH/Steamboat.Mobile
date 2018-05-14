@@ -14,5 +14,7 @@ namespace Steamboat.Mobile.Managers.Application
 
         Task TrySendToken();
 
+        Task SessionExpired();
+
     }
 }

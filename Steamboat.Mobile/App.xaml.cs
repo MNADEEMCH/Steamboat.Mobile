@@ -13,6 +13,9 @@ namespace Steamboat.Mobile
 {
     public partial class App : Application
     {
+        private TimeSpan _inactivityTimeStamp;
+        private readonly int _timeoutLimit = 3;
+
         public static CurrentUser CurrentUser;
         public static string SessionID;
 
@@ -51,12 +54,29 @@ namespace Steamboat.Mobile
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
+            StartTimingInactivity();
         }
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
+            CheckInactivity();
+        }
+
+        private void StartTimingInactivity(){
+            if (SessionID != null)
+                _inactivityTimeStamp = new TimeSpan(DateTime.Now.Ticks);
+        }
+
+        private void CheckInactivity()
+        {
+            if (SessionID != null)
+            {
+                var currentTimeSpan = new TimeSpan(DateTime.Now.Ticks);
+                var difference = currentTimeSpan - _inactivityTimeStamp;
+
+                if (difference.Minutes >= _timeoutLimit)
+                    _applicationManager.SessionExpired();
+            }
         }
     }
 }

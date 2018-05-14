@@ -29,7 +29,7 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-        public SchedulingEventTimeViewModel(IParticipantManager participantManager = null):base(participantManager)
+        public SchedulingEventTimeViewModel(IParticipantManager participantManager = null) : base(participantManager)
         {
             IsLoading = true;
 
@@ -39,17 +39,18 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
-            var selectedEvent = parameter as EventParameter;
-            var isAnySelectedEvent = selectedEvent != null;
-            var isRescheduling = selectedEvent.RescheduleEvent != null;
+            await TryExecute(async () =>
+            {
+                var selectedEvent = parameter as EventParameter;
+                var isAnySelectedEvent = selectedEvent != null;
+                var isRescheduling = selectedEvent.RescheduleEvent != null;
 
-            ShowCancelAppointment = isRescheduling;
-            SchedullingEventTitle = isRescheduling ? "Edit appointment" : "Pick a time";
+                ShowCancelAppointment = isRescheduling;
+                SchedullingEventTitle = isRescheduling ? "Edit appointment" : "Pick a time";
 
-            if (isAnySelectedEvent)
-                await LoadEventTimeslots(selectedEvent);
-
-            IsLoading = false;
+                if (isAnySelectedEvent)
+                    await LoadEventTimeslots(selectedEvent);
+            }, null, () => IsLoading = false);
         }
 
         private async Task LoadEventTimeslots(EventParameter selectedEvent)
@@ -80,24 +81,26 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task SelectTime(object param)
         {
-            var selected = param as EventTime;
-            if (selected != null)
+            await TryExecute(async () =>
             {
-                if (_prevEventTime != null)
+                var selected = param as EventTime;
+                if (selected != null)
                 {
-                    _prevEventTime.IsActive = false;
+                    if (_prevEventTime != null)
+                    {
+                        _prevEventTime.IsActive = false;
+                    }
+                    selected.IsActive = true;
+                    _prevEventTime = selected;
+                    _eventParameter.EventTime = selected;
+                    await NavigationService.NavigateToAsync<SchedulingConfirmationViewModel>(_eventParameter);
                 }
-                selected.IsActive = true;
-                _prevEventTime = selected;
-                _eventParameter.EventTime = selected;
-                await NavigationService.NavigateToAsync<SchedulingConfirmationViewModel>(_eventParameter);
-            }
+            }, null, () => IsLoading = false);
         }
 
         private bool CompareStartTimesDifferentEvents(DateTime start, string rescheduleStartTime, int selectedId, string rescheduleId)
         {
             return DateTime.Parse(rescheduleStartTime).TimeOfDay.Equals(start.TimeOfDay) && selectedId.ToString().Equals(rescheduleId);
         }
-
     }
 }

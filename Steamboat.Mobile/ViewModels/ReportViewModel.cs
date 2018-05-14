@@ -14,18 +14,18 @@ using Steamboat.Mobile.Models.Participant.DispositionSteps;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class ReportViewModel: DispositionViewModelBase
+    public class ReportViewModel : DispositionViewModelBase
     {
         #region Properties
         private bool _reportReady;
 
-        public bool ReportReady{get { return _reportReady; }set { SetPropertyValue(ref _reportReady, value); }}
+        public bool ReportReady { get { return _reportReady; } set { SetPropertyValue(ref _reportReady, value); } }
         #endregion
 
         public ReportViewModel(StepperViewModel stepperViewModel = null) : base(stepperViewModel)
         {
             IsLoading = true;
-            IconSource= "icReport.png";
+            IconSource = "icReport.png";
         }
 
         protected override void InitializeSpecificStep(Status status)
@@ -34,13 +34,12 @@ namespace Steamboat.Mobile.ViewModels
             ReportReady = reportStep.ReportReady;
         }
 
-        protected override async Task MainAction(){
-            
+        protected override async Task MainAction()
+        {
             if (ReportReady)
                 await NavigationService.NavigateToAsync<ReportDetailsViewModel>();
             else
                 await NavigationService.NavigateToAsync<ScreeningInterviewViewModel>();
-
         }
 
     }

@@ -33,6 +33,11 @@ namespace Steamboat.Mobile.Services.Modal
             await PopupNavigation.PopAsync();
         }
 
+        public async Task PopAllAsync()
+        {
+            await PopupNavigation.PopAllAsync();
+        }
+
         private async Task InternalPushAsync(Type modalViewModelType, object parameter = null)
         {
             PopupPage popupPage = CreatePopupPage(modalViewModelType);

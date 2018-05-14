@@ -117,9 +117,9 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="98" />
+                        <RowDefinition Height="110" />
                     </Grid.RowDefinitions>
-                    <Label Text="Is this information right?" Style="{StaticResource ScreeningDetailsTitle}"/>   
+                    <Label Grid.Row="0" Text="Is this information right?" Style="{StaticResource ScreeningDetailsTitle}"/>   
                     <customControl:CustomFrame Grid.Row="1" Style="{StaticResource GridFrame}">
                         <Grid Style="{StaticResource ScreeningDetailsGrid}" RowSpacing="15">
                             <Grid.ColumnDefinitions>
@@ -144,9 +144,8 @@
                         </Grid>
                     </customControl:CustomFrame>
                     <StackLayout Grid.Row="2">
-                        <customControl:GradientRoundedButton Text="YES, CONFIRM" Style="{StaticResource MainActionButton}" Command="{Binding ConfirmEventCommand}" />
-                        <Grid IsVisible="false" />
                         <views:MomentumSpinnerView Margin="0,29" IsVisible="{Binding IsBusy}" />
+                        <customControl:GradientRoundedButton Text="YES, CONFIRM" Style="{StaticResource MainActionButton}" Command="{Binding ConfirmEventCommand}" />
                         <customControl:LinkButton Text="NO, EDIT" Style="{StaticResource NoEditButton}" Command="{Binding NoEditCommand}" />
                     </StackLayout>
                 </Grid>            

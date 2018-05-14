@@ -21,7 +21,7 @@ namespace Steamboat.Mobile.ViewModels
 
         public override async Task InitializeAsync(object parameter)
         {
-            
+
             StepperParam stepperParam = parameter as StepperParam;
             if (stepperParam != null)
             {

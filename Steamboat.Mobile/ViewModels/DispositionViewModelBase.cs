@@ -22,100 +22,55 @@ namespace Steamboat.Mobile.ViewModels
 
         private IAccountManager _accountManager;
         private StepperViewModel _stepperViewModel;
+        private string _iconSource;
+        private string _title;
+        private string _message;
+        private string _mainActionButtonText;
+        private bool _mainButtonVisible;
+        private string _steps;
+        private ModalParam _modalMoreInfo;
 
-        public ICommand LogoutCommand { get; set; }
         public ICommand MoreInfoCommand { get; set; }
         public ICommand MainActionCommand { get; set; }
+        public string IconSource { get { return _iconSource; } set { SetPropertyValue(ref _iconSource, value); } }
+        public string Title { get { return _title; } set { SetPropertyValue(ref _title, value); } }
+        public string Message { get { return _message; } set { SetPropertyValue(ref _message, value); } }
+        public string MainActionButtonText { get { return _mainActionButtonText; } set { SetPropertyValue(ref _mainActionButtonText, value); } }
+        public bool MainButtonVisible { set { SetPropertyValue(ref _mainButtonVisible, value); } get { return _mainButtonVisible; } }
+        public string Steps { get { return _steps; } set { SetPropertyValue(ref _steps, value); } }
+        public ModalParam ModalMoreInfo { get { return _modalMoreInfo; } set { SetPropertyValue(ref _modalMoreInfo, value); } }
 
-        private string _iconSource;
-        public string IconSource
-        {
-            get { return _iconSource; }
-            set { SetPropertyValue(ref _iconSource, value); }
-        }
-
-        private string _title;
-        public string Title
-        {
-            get { return _title; }
-            set { SetPropertyValue(ref _title, value); }
-        }
-
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set { SetPropertyValue(ref _message, value); }
-        }
-
-        private string _mainActionButtonText;
-        public string MainActionButtonText
-        {
-            get { return _mainActionButtonText; }
-            set { SetPropertyValue(ref _mainActionButtonText, value); }
-        }
-
-        private bool _mainButtonVisible;
-
-        public bool MainButtonVisible { set { SetPropertyValue(ref _mainButtonVisible, value); } get { return _mainButtonVisible; } } 
-
-
-        private string _steps;
-        public string Steps
-        {
-            get { return _steps; }
-            set { SetPropertyValue(ref _steps, value); }
-        }
-
-        private ModalParam _modalMoreInfo;
-        public ModalParam ModalMoreInfo
-        {
-            get { return _modalMoreInfo; }
-            set { SetPropertyValue(ref _modalMoreInfo, value); }
-        }
         #endregion
 
         public DispositionViewModelBase(StepperViewModel stepperViewModel = null, AccountManager accountManager = null)
         {
             _accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
             _stepperViewModel = stepperViewModel ?? DependencyContainer.Resolve<StepperViewModel>();
-            LogoutCommand = new Command(async () => await Logout());
             MoreInfoCommand = new Command(async () => await MoreInfo());
             MainActionCommand = new Command(async () => await MainAction());
         }
 
         public async override Task InitializeAsync(object parameter)
         {
-            try
+            await TryExecute(async () =>
             {
-
                 Status status = parameter as Status;
                 DispositionStep dispositionStep = DashboardHelper.GetDispositionStep(status);
                 IsDispositionStepValid(dispositionStep);
 
                 await InitializeDispositionStep(status, dispositionStep);
 
-            }
-            catch (Exception e)
-            {
-                await this.DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-            }
-            finally
-            {
-                IsLoading = false;
-            }
-
+            }, null, () => IsLoading = false);
         }
 
         private void IsDispositionStepValid(DispositionStep dispositionStep)
         {
-            if (dispositionStep==null)
+            if (dispositionStep == null)
                 throw new Exception("Error loading disposition step");
         }
 
         private async Task InitializeDispositionStep(Status status, DispositionStep dispositionStep)
         {
-
             StepperParam stepperParam = await InitializeStepper(status);
 
             Title = dispositionStep.Title;
@@ -129,15 +84,16 @@ namespace Steamboat.Mobile.ViewModels
             InitializeModalMoreInfo(dispositionStep);
 
             await ShowAndStoreAlert(status);
-
         }
 
         private async Task<StepperParam> InitializeStepper(Status status)
         {
             StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
-            await _stepperViewModel.InitializeAsync(stepperParam);
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await _stepperViewModel.InitializeAsync(stepperParam);
+            });
             return stepperParam;
-
         }
 
         private void InitializeModalMoreInfo(DispositionStep dispositionStep)
@@ -152,23 +108,27 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task ShowAndStoreAlert(Status status)
         {
-            Alert alertToShow = await IsAnyAlertToShow(status);
-
-            if (alertToShow != null)
+            await TryExecute(async () =>
             {
-                ModalParam modalToShow = CreateModalParam(alertToShow);
-                Device.BeginInvokeOnMainThread(async () =>
+                Alert alertToShow = await IsAnyAlertToShow(status);
+
+                if (alertToShow != null)
                 {
-                    await ModalService.PushAsync<WelcomeModalViewModel>(modalToShow);
-                });
-                await _accountManager.AddUserAlert(App.CurrentUser.Email,alertToShow.ID);
-            }
+                    ModalParam modalToShow = CreateModalParam(alertToShow);
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await ModalService.PushAsync<WelcomeModalViewModel>(modalToShow);
+                    });
+                    await _accountManager.AddUserAlert(App.CurrentUser.Email, alertToShow.ID);
+                }
+            });
         }
+
         private async Task<Alert> IsAnyAlertToShow(Status status)
         {
             Alert alertToShow = null;
             bool isAnyAlertOnStatusDashboard = status != null &&
-                                               status.Dashboard != null && 
+                                               status.Dashboard != null &&
                                                status.Dashboard.Alert != null;
 
             if (isAnyAlertOnStatusDashboard)
@@ -182,23 +142,19 @@ namespace Steamboat.Mobile.ViewModels
 
             return alertToShow;
         }
-        private async Task<bool> UserAlreadySawTheAlert(Alert alert){
-
-            bool userAlreadySawTheAlert = false;
-
-            try
+        private async Task<bool> UserAlreadySawTheAlert(Alert alert)
+        {
+            return await TryExecute<bool>(async () =>
             {
-                UserAlerts userAlerts = await _accountManager.GetUserAlerts(App.CurrentUser.Email);
+                bool userAlreadySawTheAlert = false;
+                var userAlerts = await _accountManager.GetUserAlerts(App.CurrentUser.Email);
                 userAlreadySawTheAlert = userAlerts != null && userAlerts.AlertsIds.Contains(alert.ID);
-            }
-            catch (Exception e)
-            {
-                await this.DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-            }
-
-            return userAlreadySawTheAlert;
+                return userAlreadySawTheAlert;
+            });
         }
-        private ModalParam CreateModalParam(Alert alert){
+
+        private ModalParam CreateModalParam(Alert alert)
+        {
 
             return new ModalParam()
             {
@@ -208,14 +164,12 @@ namespace Steamboat.Mobile.ViewModels
             };
         }
 
-
         private async Task<FormattedString> HandleTextFormat(string text)
         {   //TODO: Spans not styling well
             FormattedString formattedString = new FormattedString();
 
             try
             {
-
                 bool boldDetected = false;
                 bool textAlreadySplitted = false;
                 string tagBoldOpen = "<b>";
@@ -260,32 +214,11 @@ namespace Steamboat.Mobile.ViewModels
             await ModalService.PushAsync<DispositionMoreInfoModalViewModel>(ModalMoreInfo);
         }
 
-        protected async Task Logout()
-        {
-            IsLoading = true;
-
-            try
-            {
-                await NavigationService.NavigateToAsync<LoginViewModel>("Logout");
-            }
-            catch (Exception e)
-            {
-                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-            }
-            finally
-            {
-                IsLoading = false;
-            }
-        }
-
         protected abstract Task MainAction();
 
         protected virtual void InitializeSpecificStep(Status status)
         {
 
         }
-
-
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Steamboat.Mobile.Exceptions;
 using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Participant;
 using Xamarin.Forms;
@@ -47,7 +48,8 @@ namespace Steamboat.Mobile.ViewModels.Modals
             }
             catch (Exception e)
             {
-                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
+                if (!(e is SessionExpiredException))
+                    await DialogService.ShowAlertAsync("Error when trying to cancel event", "Error", "OK");
             }
             finally
             {
@@ -63,7 +65,7 @@ namespace Steamboat.Mobile.ViewModels.Modals
             }
             catch (Exception e)
             {
-                throw new Exception("Error when trying to cancel event");
+                throw e;
             }
 
         }

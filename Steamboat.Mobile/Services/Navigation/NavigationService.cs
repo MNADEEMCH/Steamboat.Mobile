@@ -22,7 +22,7 @@ namespace Steamboat.Mobile.Services.Navigation
 
         public Task InitializeAsync()
         {
-            return NavigateToAsync<LoginViewModel>();
+            return NavigateToAsync<LoginViewModel>(true);
         }
 
         public Task NavigateToAsync<TViewModel>(bool mainPage = false) where TViewModel : ViewModelBase
@@ -47,7 +47,8 @@ namespace Steamboat.Mobile.Services.Navigation
 
         public async Task PopAsync(object pages)
         {
-            var navigationPage = Application.Current.MainPage as CustomNavigationView;
+            var navigationPage = GetCurrentNavigationPage();
+
             if (pages != null)
             {
                 int numberOfPages = 0;
@@ -56,43 +57,36 @@ namespace Steamboat.Mobile.Services.Navigation
                     for (int i = 0; i < numberOfPages; i++)
                     {
                         if (i == numberOfPages - 1)
-                            await navigationPage.PopAsync();
+                            Device.BeginInvokeOnMainThread(async () => await navigationPage.PopAsync());
                         else
-                            await RemoveLastFromBackStackAsync();
+                            Device.BeginInvokeOnMainThread(async () => await RemoveLastFromBackStackAsync());
                     }
                 }
             }
             else
             {
-                await navigationPage.PopAsync();
+                Device.BeginInvokeOnMainThread(async () => await navigationPage.PopAsync());
             }
-            //await (navigationPage.CurrentPage.BindingContext as ViewModelBase).Refresh();
         }
 
         public Task RemoveLastFromBackStackAsync()
         {
-            var mainPage = Application.Current.MainPage as CustomNavigationView;
+            var navigationPage = GetCurrentNavigationPage();
 
-            if (mainPage != null)
-            {
-                mainPage.Navigation.RemovePage(
-                    mainPage.Navigation.NavigationStack[mainPage.Navigation.NavigationStack.Count - 2]);
-            }
-
+            navigationPage.Navigation.RemovePage(
+                navigationPage.Navigation.NavigationStack[navigationPage.Navigation.NavigationStack.Count - 2]);
+           
             return Task.FromResult(true);
         }
 
         public Task RemoveBackStackAsync()
         {
-            var mainPage = Application.Current.MainPage as CustomNavigationView;
+            var navigationPage = GetCurrentNavigationPage();
 
-            if (mainPage != null)
+            while (navigationPage.Navigation.NavigationStack.Count > 1)
             {
-                while (mainPage.Navigation.NavigationStack.Count > 1)
-                {
-                    var page = mainPage.Navigation.NavigationStack[0];
-                    mainPage.Navigation.RemovePage(page);
-                }
+                var page = navigationPage.Navigation.NavigationStack[0];
+                navigationPage.Navigation.RemovePage(page);
             }
 
             return Task.FromResult(true);
@@ -118,8 +112,11 @@ namespace Steamboat.Mobile.Services.Navigation
 
                 if (navigationPage == null || mainPage)
                 {
-                    navigationPage = new CustomNavigationView(page);
-                    mPage.Detail = navigationPage;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        navigationPage = new CustomNavigationView(page);
+                        mPage.Detail = navigationPage;
+                    });
                 }
                 else
                 {
@@ -127,7 +124,7 @@ namespace Steamboat.Mobile.Services.Navigation
 
                     if (currentPage.GetType() != page.GetType())
                     {
-                        await navigationPage.PushAsync(page);
+                        Device.BeginInvokeOnMainThread(async () => { await navigationPage.PushAsync(page); });
                     }
                 }
 
@@ -138,11 +135,12 @@ namespace Steamboat.Mobile.Services.Navigation
                 var navigationPage = Application.Current.MainPage as CustomNavigationView;
                 if (IsMainPage(navigationPage, mainPage))
                 {
-                    Application.Current.MainPage = new CustomNavigationView(page);
+                    Device.BeginInvokeOnMainThread(() => { Application.Current.MainPage = new CustomNavigationView(page); });
+
                 }
                 else
                 {
-                    await navigationPage.PushAsync(page, true);
+                    Device.BeginInvokeOnMainThread(async () => { await navigationPage.PushAsync(page, true); });
                 }
             }
 
@@ -173,6 +171,17 @@ namespace Steamboat.Mobile.Services.Navigation
         private bool IsMainPage(CustomNavigationView page, bool mainPage)
         {
             return page != null && mainPage;
+        }
+
+        private CustomNavigationView GetCurrentNavigationPage(){
+            var navigationPage = Application.Current.MainPage as CustomNavigationView;
+            if (navigationPage == null)
+            {
+                var mPage = Application.Current.MainPage as MainView;
+                navigationPage = mPage.Detail as CustomNavigationView;
+            }
+
+            return navigationPage;
         }
 
     }

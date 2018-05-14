@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Participant;
+using Steamboat.Mobile.Models.Application;
 using Steamboat.Mobile.Models.Menu;
 using Xamarin.Forms;
 
@@ -83,36 +84,35 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task NavigateToDispositionStep()
         {
-            var status = await _participantManager.GetStatus();
-
-            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
-            await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
-            _userTapped = false;
+            await TryExecute(async () =>
+            {
+                var status = await _participantManager.GetStatus();
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    var viewModelType = DashboardHelper.GetViewModelForStatus(status);
+                    await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+                });
+            }, null, () => _userTapped = false);
         }
 
         private async Task NavigateToMessaging()
         {
             _userTapped = false;
-            await NavigationService.NavigateToAsync<MessagingViewModel>(mainPage:true);
+            await NavigationService.NavigateToAsync<MessagingViewModel>(mainPage: true);
         }
 
         private async Task Logout()
         {
             IsLoading = true;
-
-            try
+            await TryExecute(async () =>
             {
-                await NavigationService.NavigateToAsync<LoginViewModel>("Logout");
+                Device.BeginInvokeOnMainThread(async () => await NavigationService.NavigateToAsync<LoginViewModel>(new Logout()));
                 _userTapped = false;
-            }
-            catch (Exception e)
-            {
-                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-            }
-            finally
+            }, null, () =>
             {
                 IsLoading = false;
-            }
+                _userTapped = false;
+            });
         }
     }
 }

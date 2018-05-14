@@ -325,11 +325,14 @@
     <Compile Include="Views\MomentumSpinnerView.xaml.cs">
       <DependentUpon>MomentumSpinnerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Exceptions\SessionExpiredException.cs" />
+    <Compile Include="Managers\ManagerBase.cs" />
     <Compile Include="CustomControls\Renderers\TapableGrid.cs" />
     <Compile Include="Views\MessagingView.xaml.cs">
       <DependentUpon>MessagingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MessagingViewModel.cs" />
+    <Compile Include="Models\Application\Logout.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

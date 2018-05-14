@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Plugin.DeviceInfo;
 using Steamboat.Mobile.Helpers;
+using Steamboat.Mobile.Managers.Account;
 using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Models.Application;
 using Steamboat.Mobile.Models.Notification;
@@ -14,24 +15,25 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.Managers.Application
 {
-    public class ApplicationManager : IApplicationManager
+    public class ApplicationManager : ManagerBase, IApplicationManager
     {
-        protected readonly INavigationService _navigationService;
-        protected readonly IApplicationService _applicationService;
-        protected readonly INotificationService _notificationService;
-        protected readonly IParticipantManager _participantManager;
+        private IApplicationService _applicationService;
+        private INotificationService _notificationService;
+        private IAccountManager _accountManager;
+        private IParticipantManager _participantManager;
 
         private PushNotification _pushNotification;
         public PushNotification PushNotification { get{return _pushNotification;} set {_pushNotification=value; }}
 
-        public ApplicationManager(INavigationService navigationService = null,
-                                  IApplicationService applicationService = null,
+        public ApplicationManager(IApplicationService applicationService = null,
                                   INotificationService notificationService=null,
+                                  IAccountManager accountManager = null,
                                   IParticipantManager participantManager = null)
+
         {
-            _navigationService = navigationService ?? DependencyContainer.Resolve<INavigationService>();
             _applicationService = applicationService ?? DependencyContainer.Resolve<IApplicationService>();
-            _notificationService= notificationService ?? DependencyContainer.Resolve<INotificationService>();
+            _notificationService = notificationService ?? DependencyContainer.Resolve<INotificationService>();
+            _accountManager= accountManager ?? DependencyContainer.Resolve<IAccountManager>();
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
         }
 
@@ -111,7 +113,7 @@ namespace Steamboat.Mobile.Managers.Application
 
         public async Task TrySendToken()
         {
-            try
+            await TryExecute(async () =>
             {
                 var isUserLoggedIn = App.SessionID != null;
                 var readyToSendToken = _notificationService.IsValidToken() && isUserLoggedIn;
@@ -130,12 +132,12 @@ namespace Steamboat.Mobile.Managers.Application
 
                     await _applicationService.SendToken(applicationDeviceInfo, App.SessionID);
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error in login: {ex}");
-                throw ex;
-            }
+            });
+        }
+
+        Task IApplicationManager.SessionExpired()
+        {
+            return base.SessionExpired();
         }
     }
 }

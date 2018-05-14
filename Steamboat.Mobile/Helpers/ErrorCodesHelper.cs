@@ -8,7 +8,9 @@ namespace Steamboat.Mobile.Helpers
     {
         public static readonly Dictionary<int, Type> ErrorDictionary = new Dictionary<int, Type> 
         {
-            {1004, typeof(PasswordExpiredException)}
+            {1004, typeof(PasswordExpiredException)},
+            {6009, typeof(SessionExpiredException)},
+            {8, typeof(SessionExpiredException)}
         };
     }
 }

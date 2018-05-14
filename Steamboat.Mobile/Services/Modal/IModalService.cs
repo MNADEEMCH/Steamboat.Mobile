@@ -13,5 +13,6 @@ namespace Steamboat.Mobile.Services.Modal
         Task PushAsync<TModalViewModel>(object parameter) where TModalViewModel : ModalViewModelBase;
         Task PushAsync<TModalViewModel>(Func<object,Task> func) where TModalViewModel : ModalViewModelBase;
         Task PopAsync();
+        Task PopAllAsync();
     }
 }

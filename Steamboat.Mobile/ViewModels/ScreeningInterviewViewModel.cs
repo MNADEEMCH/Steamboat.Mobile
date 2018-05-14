@@ -69,24 +69,16 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
-            try
+            await TryExecute(async () =>
             {
                 var questionGroups = await _participantManager.GetSurvey();
                 _localQuestions = questionGroups.Questions;
                 _questionGroupID = questionGroups.ID;
-                _answersList = await _participantManager.GetSurveyResponses();
+                _answersList = _participantManager.GetSurveyResponses();
                 IsLoading = false;
 
-                await SetInitialQuestionIndex();
-            }
-            catch (Exception e)
-            {
-                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-            }
-            finally
-            {
-                IsLoading = false;
-            }
+                Device.BeginInvokeOnMainThread(async () => await SetInitialQuestionIndex());
+            }, null, () => IsLoading = false);
         }
 
         private async Task SetInitialQuestionIndex()
@@ -109,7 +101,6 @@ namespace Steamboat.Mobile.ViewModels
 
         private void SetAnsweredQuestionsCount()
         {
-
             _questionAnsweredCount = _answersList.GroupBy(q => q.QuestionKey).Count();
         }
 
@@ -129,6 +120,7 @@ namespace Steamboat.Mobile.ViewModels
             var progress = (double)(_questionAnsweredCount) / ((double)_countNotLabelQuestions - 1); //-1 because the I'm finished is not a question
             ChangeProgressCommand.Execute(progress);
         }
+
         private async Task ContinueSurvey(bool isFirstQuestion, bool resumingSurvey = false)
         {
             Question currentQuestion;
@@ -136,7 +128,6 @@ namespace Steamboat.Mobile.ViewModels
             var replaceQuestion = true;
 
             replaceQuestion = !resumingSurvey && !(await HandlePendingRejoinder());
-
 
             for (int i = _questionIndex; i < _localQuestions.Count; i++)
             {
@@ -175,93 +166,111 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task HandleSelectOneAnswer(object answerQuestion)
         {
-            _userTapped = true;
-            var lastQuestion = SurveyQuestions.Last();
+            await TryExecute(async () =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    _userTapped = true;
+                    var lastQuestion = SurveyQuestions.Last();
 
-            var answer = answerQuestion as Answers;
-            lastQuestion.AnswerText = answer.Text;
-            MarkQuestionAsCompleted(lastQuestion);
-            answer.IsSelected = true;
+                    var answer = answerQuestion as Answers;
+                    lastQuestion.AnswerText = answer.Text;
+                    MarkQuestionAsCompleted(lastQuestion);
+                    answer.IsSelected = true;
 
-            SaveAnswer(lastQuestion, answer);
-            _questionAnsweredCount++;
+                    SaveAnswer(lastQuestion, answer);
+                    _questionAnsweredCount++;
 
-            var hasRejoinder = HasRejoinder(answer);
+                    var hasRejoinder = HasRejoinder(answer);
 
-            AddFakeQuestionToSimulateDotsAnimation();
+                    AddFakeQuestionToSimulateDotsAnimation();
 
-            if (!lastQuestion.IsDependencyTarget)
-                HandleProgress(false);
+                    if (!lastQuestion.IsDependencyTarget)
+                        HandleProgress(false);
 
-            if (hasRejoinder)
-                _answerWithPendingRejoinder = answer;
+                    if (hasRejoinder)
+                        _answerWithPendingRejoinder = answer;
 
 
-            await WaitAnimation();
-            await HandleAnswer(lastQuestion, hasRejoinder);
+                    await WaitAnimation();
+                    await HandleAnswer(lastQuestion, hasRejoinder);
+                });
+            });
         }
 
         private async Task HandleFreeTextAnswer(object freeText)
         {
-            if (EnableContinue)
+            await TryExecute(async () =>
             {
-                _userTapped = true;
-                EnableContinue = false;
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    if (EnableContinue)
+                    {
+                        _userTapped = true;
+                        EnableContinue = false;
 
-                var lastQuestion = SurveyQuestions.Last();
+                        var lastQuestion = SurveyQuestions.Last();
 
-                var answer = lastQuestion.Answers.First();
-                lastQuestion.AnswerText = (freeText as string).Trim();
-                MarkQuestionAsCompleted(lastQuestion);
-                answer.IsSelected = true;
+                        var answer = lastQuestion.Answers.First();
+                        lastQuestion.AnswerText = (freeText as string).Trim();
+                        MarkQuestionAsCompleted(lastQuestion);
+                        answer.IsSelected = true;
 
-                SaveAnswer(lastQuestion, answer);
-                _questionAnsweredCount++;
+                        SaveAnswer(lastQuestion, answer);
+                        _questionAnsweredCount++;
 
-                AddFakeQuestionToSimulateDotsAnimation();
+                        AddFakeQuestionToSimulateDotsAnimation();
 
-                if (!lastQuestion.IsDependencyTarget)
-                    HandleProgress(false);
+                        if (!lastQuestion.IsDependencyTarget)
+                            HandleProgress(false);
 
-                await WaitAnimation();
-                await HandleAnswer(lastQuestion, false);
-            }
+                        await WaitAnimation();
+                        await HandleAnswer(lastQuestion, false);
+                    }
+                });
+            });
         }
 
         private async Task HandleSelectMany(object selectedQuestion)
         {
-            _userTapped = true;
-            var question = selectedQuestion as Question;
-
-            var answers = question.Answers;
-
-            var selectedAnswers = answers.Where(x => x.IsSelected);
-            var addSeparator = selectedAnswers.Count() > 1;
-            var lastItemKey = selectedAnswers.Last().Key;
-            MarkQuestionAsCompleted(question);
-
-            foreach (var item in selectedAnswers)
+            await TryExecute(async () =>
             {
-                SaveAnswer(question, item);
-                question.AnswerText += item.Text;
-                if (addSeparator && item.Key != lastItemKey)
+                Device.BeginInvokeOnMainThread(async () =>
                 {
-                    question.AnswerText += ", ";
-                }
-            }
-            _questionAnsweredCount++;
+                    _userTapped = true;
+                    var question = selectedQuestion as Question;
 
-            AddFakeQuestionToSimulateDotsAnimation();
+                    var answers = question.Answers;
 
-            if (!question.IsDependencyTarget)
-                HandleProgress(false);
+                    var selectedAnswers = answers.Where(x => x.IsSelected);
+                    var addSeparator = selectedAnswers.Count() > 1;
+                    var lastItemKey = selectedAnswers.Last().Key;
+                    MarkQuestionAsCompleted(question);
 
-            await HandleAnswer(question, false);
+                    foreach (var item in selectedAnswers)
+                    {
+                        SaveAnswer(question, item);
+                        question.AnswerText += item.Text;
+                        if (addSeparator && item.Key != lastItemKey)
+                        {
+                            question.AnswerText += ", ";
+                        }
+                    }
+                    _questionAnsweredCount++;
+
+                    AddFakeQuestionToSimulateDotsAnimation();
+
+                    if (!question.IsDependencyTarget)
+                        HandleProgress(false);
+
+                    await HandleAnswer(question, false);
+                });
+            });
         }
 
         private async Task HandleAnswer(Question question, bool hasRejoinder)
         {
-            try
+            await TryExecute(async () =>
             {
                 if (question.IsDependencyTarget)
                 {
@@ -276,13 +285,8 @@ namespace Steamboat.Mobile.ViewModels
                     await NavigateToDashboard();
                 }
                 else
-                    await ContinueSurvey(!hasRejoinder);
-            }
-            catch (Exception e)
-            {
-
-                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-            }
+                    Device.BeginInvokeOnMainThread(async () => await ContinueSurvey(!hasRejoinder));
+            });
         }
 
         private void HandleSelectCheckbox(object selectedOption)
@@ -368,7 +372,7 @@ namespace Steamboat.Mobile.ViewModels
 
                 SetAnsweredQuestionsCount();
                 HandleProgress(true);
-                Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(null));
+                ScrollToBottomCommand.Execute(null);
             }
             await Task.FromResult(true);
         }
@@ -425,8 +429,7 @@ namespace Steamboat.Mobile.ViewModels
         private async Task AddContinueLabel(string text, bool firstQuestion)
         {
             await WaitAnimation();
-            Question labelQuestion = firstQuestion ? SurveyQuestions.Last(): new Question();
-   
+            Question labelQuestion = firstQuestion ? SurveyQuestions.Last() : new Question();
 
             labelQuestion.Type = SurveyHelper.LabelType;
             labelQuestion.IsAnswer = false;
@@ -436,7 +439,6 @@ namespace Steamboat.Mobile.ViewModels
 
             if (!firstQuestion)
                 await AddQuestion(labelQuestion);
-
         }
 
         private void AddFakeQuestionToSimulateDotsAnimation()
