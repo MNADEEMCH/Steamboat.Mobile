@@ -6,10 +6,8 @@ namespace Steamboat.Mobile.Repositories.User
 {
     public interface IUserRepository
     {
-        Task<CurrentUser> AddUser(string email);
-
-        Task<CurrentUser> UpdateUser(Guid id, string email);
-
+        Task<CurrentUser> AddUser(string email, string avatarUrl);
+        Task<CurrentUser> UpdateUser(Guid id, string email, string avatarUrl);
         Task<CurrentUser> GetCurrentUser();
     }
 }

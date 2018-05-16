@@ -109,9 +109,6 @@
     <Reference Include="SQLite-net">
       <HintPath>..\packages\sqlite-net-pcl.1.4.118\lib\netstandard1.1\SQLite-net.dll</HintPath>
     </Reference>
-    <Reference Include="SkiaSharp">
-      <HintPath>..\packages\SkiaSharp.1.59.2\lib\XamariniOS\SkiaSharp.dll</HintPath>
-    </Reference>
     <Reference Include="SQLitePCLRaw.core">
       <HintPath>..\packages\SQLitePCLRaw.core.1.1.9\lib\Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
     </Reference>
@@ -184,27 +181,6 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.122203\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
-    <Reference Include="WebP.Touch">
-      <HintPath>..\packages\WebP.Touch.1.0.7\lib\Xamarin.iOS10\WebP.Touch.dll</HintPath>
-    </Reference>
-    <Reference Include="FFImageLoading">
-      <HintPath>..\packages\Xamarin.FFImageLoading.2.3.4\lib\Xamarin.iOS10\FFImageLoading.dll</HintPath>
-    </Reference>
-    <Reference Include="FFImageLoading.Platform">
-      <HintPath>..\packages\Xamarin.FFImageLoading.2.3.4\lib\Xamarin.iOS10\FFImageLoading.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="FFImageLoading.Forms">
-      <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.3.4\lib\Xamarin.iOS10\FFImageLoading.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="FFImageLoading.Forms.Touch">
-      <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.3.4\lib\Xamarin.iOS10\FFImageLoading.Forms.Touch.dll</HintPath>
-    </Reference>
-    <Reference Include="FFImageLoading.Svg.Platform">
-      <HintPath>..\packages\Xamarin.FFImageLoading.Svg.2.3.4\lib\Xamarin.iOS10\FFImageLoading.Svg.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="FFImageLoading.Svg.Forms">
-      <HintPath>..\packages\Xamarin.FFImageLoading.Svg.Forms.2.3.4\lib\Xamarin.iOS10\FFImageLoading.Svg.Forms.dll</HintPath>
-    </Reference>
     <Reference Include="Firebase.Core">
       <HintPath>..\packages\Xamarin.Firebase.iOS.Core.4.0.13\lib\Xamarin.iOS10\Firebase.Core.dll</HintPath>
     </Reference>
@@ -216,6 +192,30 @@
     </Reference>
     <Reference Include="Firebase.CloudMessaging">
       <HintPath>..\packages\Xamarin.Firebase.iOS.CloudMessaging.2.0.8\lib\Xamarin.iOS10\Firebase.CloudMessaging.dll</HintPath>
+    </Reference>
+    <Reference Include="WebP.Touch">
+      <HintPath>..\packages\WebP.Touch.1.0.8\lib\Xamarin.iOS10\WebP.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.3.6\lib\Xamarin.iOS10\FFImageLoading.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Platform">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.3.6\lib\Xamarin.iOS10\FFImageLoading.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Forms">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.3.6\lib\Xamarin.iOS10\FFImageLoading.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Forms.Touch">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.3.6\lib\Xamarin.iOS10\FFImageLoading.Forms.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp">
+      <HintPath>..\packages\SkiaSharp.1.60.0\lib\XamariniOS\SkiaSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Svg.Platform">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Svg.2.3.6\lib\Xamarin.iOS10\FFImageLoading.Svg.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Svg.Forms">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Svg.Forms.2.3.6\lib\Xamarin.iOS10\FFImageLoading.Svg.Forms.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +313,48 @@
     <BundleResource Include="Resources\imgMomentumProfile%402x.png" />
     <BundleResource Include="Resources\imgMomentumProfile%403x.png" />
     <BundleResource Include="GoogleService-Info.plist" />
+    <BundleResource Include="Resources\Checkbox\offWhite.png" />
+    <BundleResource Include="Resources\Checkbox\offWhite%402x.png" />
+    <BundleResource Include="Resources\Checkbox\offWhite%403x.png" />
+    <BundleResource Include="Resources\Checkbox\onWhite.png" />
+    <BundleResource Include="Resources\Checkbox\onWhite%402x.png" />
+    <BundleResource Include="Resources\Checkbox\onWhite%403x.png" />
+    <BundleResource Include="Resources\icSend.png" />
+    <BundleResource Include="Resources\icSend%402x.png" />
+    <BundleResource Include="Resources\icSend%403x.png" />
+    <BundleResource Include="Resources\icSend_Disabled.png" />
+    <BundleResource Include="Resources\icSend_Disabled%402x.png" />
+    <BundleResource Include="Resources\icSend_Disabled%403x.png" />
+    <BundleResource Include="Resources\icDelete_Disabled.png" />
+    <BundleResource Include="Resources\icDelete_Disabled%402x.png" />
+    <BundleResource Include="Resources\icDelete_Disabled%403x.png" />
+    <BundleResource Include="Resources\icDelete_Tap.png" />
+    <BundleResource Include="Resources\icDelete_Tap%402x.png" />
+    <BundleResource Include="Resources\icDelete_Tap%403x.png" />
+    <BundleResource Include="Resources\icEdit_Disabled.png" />
+    <BundleResource Include="Resources\icEdit_Disabled%402x.png" />
+    <BundleResource Include="Resources\icEdit_Disabled%403x.png" />
+    <BundleResource Include="Resources\icEdit_Tap.png" />
+    <BundleResource Include="Resources\icEdit_Tap%402x.png" />
+    <BundleResource Include="Resources\icEdit_Tap%403x.png" />
+    <BundleResource Include="Resources\icChevron_Disabled.png" />
+    <BundleResource Include="Resources\icChevron_Disabled%402x.png" />
+    <BundleResource Include="Resources\icChevron_Disabled%403x.png" />
+    <BundleResource Include="Resources\icChevron_Tap.png" />
+    <BundleResource Include="Resources\icChevron_Tap%402x.png" />
+    <BundleResource Include="Resources\icChevron_Tap%403x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Disabled.png" />
+    <BundleResource Include="Resources\icMoreInfo_Disabled%402x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Disabled%403x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Tap.png" />
+    <BundleResource Include="Resources\icMoreInfo_Tap%402x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Tap%403x.png" />
+    <BundleResource Include="Resources\icSend_Tap.png" />
+    <BundleResource Include="Resources\icSend_Tap%402x.png" />
+    <BundleResource Include="Resources\icSend_Tap%403x.png" />
+    <BundleResource Include="Resources\icMenuOpen_Normal.png" />
+    <BundleResource Include="Resources\icMenuOpen_Normal%402x.png" />
+    <BundleResource Include="Resources\icMenuOpen_Normal%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -344,6 +386,8 @@
     <Compile Include="CustomRenderers\BubbleStackRenderer.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="CustomRenderers\SurveyEntryRenderer.cs" />
+    <Compile Include="CustomRenderers\TapableGridRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

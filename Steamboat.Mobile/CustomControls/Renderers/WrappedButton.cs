@@ -6,10 +6,13 @@ namespace Steamboat.Mobile.CustomControls
     public class WrappedButton : Button
     {
         public static readonly BindableProperty PaddingProperty =
-            BindableProperty.Create(nameof(Padding), typeof(Thickness), typeof(WrappedButton), default(Thickness));
+            BindableProperty.Create(nameof(Padding), typeof(Thickness), typeof(WrappedButton), new Thickness());
 
         public static readonly BindableProperty ActiveProperty =
             BindableProperty.Create(nameof(Active), typeof(bool), typeof(WrappedButton), false, BindingMode.TwoWay);
+
+        public static readonly BindableProperty AutoFitTextProperty =
+            BindableProperty.Create(nameof(AutoFitText), typeof(bool), typeof(WrappedButton), false);
 
         public Thickness Padding
         {
@@ -21,6 +24,12 @@ namespace Steamboat.Mobile.CustomControls
         {
             get { return (bool)GetValue(ActiveProperty); }
             set { SetValue(ActiveProperty, value); }
+        }
+
+        public bool AutoFitText
+        {
+            get { return (bool)GetValue(AutoFitTextProperty); }
+            set { SetValue(AutoFitTextProperty, value); }
         }
     }
 }

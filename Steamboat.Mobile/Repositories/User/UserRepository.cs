@@ -14,15 +14,16 @@ namespace Steamboat.Mobile.Repositories.User
             _database = db ?? DependencyContainer.Resolve<IDatabase<CurrentUser>>();
         }
 
-        public async Task<CurrentUser> AddUser(string email)
+        public async Task<CurrentUser> AddUser(string email, string avatarUrl)
         {
             CurrentUser user = new CurrentUser();
             user.Id = Guid.NewGuid();
             user.Email = email;
+            user.AvatarUrl = avatarUrl;
             var all = await _database.Select();
             var ins = await _database.Insert(user);
-            //TODO: Check ins value and throw
 
+            //TODO: Check ins value and throw
             return user;
         }
 
@@ -31,12 +32,14 @@ namespace Steamboat.Mobile.Repositories.User
             return await _database.GetFirst();
         }
 
-        public async Task<CurrentUser> UpdateUser(Guid id, string email)
+        public async Task<CurrentUser> UpdateUser(Guid id, string email, string avatarUrl)
         {
             CurrentUser user = new CurrentUser();
             user.Id = id;
             user.Email = email;
+            user.AvatarUrl = avatarUrl;
             var upd = await _database.Update(user);
+
             //TODO: Check upd value and throw
             return user;
         }

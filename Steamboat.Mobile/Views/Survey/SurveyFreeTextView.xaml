@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             x:Name="FreeTextView"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Steamboat.Mobile.Views.Survey.SurveyFreeTextView"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:extension="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile"
+             xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile">
+    <ContentView.Resources>
+        <ResourceDictionary>    
+            <extension:TextChangedEventArgsConverter x:Key="TextChangedEventArgsConverter" />
+            <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="48"></Setter>
+                <Setter Property="WidthRequest" Value="48"></Setter>
+                <Setter Property="VerticalOptions" Value="End"></Setter>
+                <Setter Property="Margin" Value="8,0,-8,-4" />
+            </Style>
+            <Style x:Key="LabelBubbleStack" TargetType="customControl:BubbleStack">
+                <Setter Property="BorderColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="BorderRadius" Value="12" />
+                <Setter Property="FillColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="IsLabel" Value="False" />
+                <Setter Property="Margin" Value="0,0,-8,24" />
+                <Style.Triggers>
+                    <DataTrigger TargetType="customControl:BubbleStack" Binding="{Binding IsComplete}" Value="True">
+                        <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="EntryField" TargetType="customControl:SurveyEntry">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="GlobalPadding">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:Double"
+                              iOS="7.5"
+                              Android="10" />
+                    </Setter.Value>
+                 </Setter>
+                <Setter Property="CornerRadius">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:Double"
+                              iOS="5"
+                              Android="10" />
+                    </Setter.Value>
+                 </Setter>
+            </Style>
+            <Style x:Key="SendButton" TargetType="customControl:LinkButton">
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="ImageWidth" Value="24" />
+                <Setter Property="ImageHeight" Value="24" />
+                <Setter Property="HorizontalOptions" Value="End" />
+                <Setter Property="ActiveImage" Value="icSend.png" />
+                <Setter Property="TapImage" Value="icSend_Tap.png" />
+                <Setter Property="DisabledImage" Value="icSend_Disabled.png" />
+                <Setter Property="IsEnabled" Value="{Binding ParentBindingContext.EnableContinue, Source={x:Reference FreeTextView}}" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+            </Style>
+            <Style x:Key="TextLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="24,16" />
+                <Setter Property="MinimumHeightRequest" Value="20" />
+                <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        
+        <Grid Margin="0,8" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="48" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+             <customControl:BubbleStack Style="{StaticResource LabelBubbleStack}" >
+                <Grid Margin="24,16" ColumnSpacing="24" IsVisible="{Binding IsComplete, Converter={StaticResource InverseBoolConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                     <customControl:SurveyEntry x:Name="MainEntry" Style="{StaticResource EntryField}" Text="{Binding AnswerText}" >
+                        <customControl:SurveyEntry.Behaviors>
+                                <extension:EventToCommandBehavior
+                                    EventName="TextChanged"
+                                    Command="{Binding ParentBindingContext.ValidateFreeTextContinueCommand, Source={x:Reference FreeTextView}}"
+                                    EventArgsConverter="{StaticResource TextChangedEventArgsConverter}"/>
+                        </customControl:SurveyEntry.Behaviors>
+                    </customControl:SurveyEntry>
+                    <customControl:LinkButton Grid.Column="1" Style="{StaticResource SendButton}" 
+                                              Command="{Binding Path=ParentBindingContext.HandleFreeTextCommand, Source={x:Reference FreeTextView}}"
+                                              CommandParameter="{Binding Source={x:Reference MainEntry}, Path=Text}"/>
+                </Grid>                
+                <Label x:Name="MainLabel" Text="{Binding AnswerText}" Style="{StaticResource TextLabel}" IsVisible="{Binding IsComplete}" />  
+
+                <customControl:BubbleStack.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=ParentBindingContext.EditQuestionCommand, Source={x:Reference FreeTextView}}" CommandParameter="{Binding .}" />
+                </customControl:BubbleStack.GestureRecognizers>
+            </customControl:BubbleStack>
+            
+            <ffimageloading:CachedImage Grid.Column="1" Source="{Binding Path=ParentBindingContext.ImgSource, Source={x:Reference FreeTextView}}" Style="{StaticResource MomentumImage}" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.CustomControls
@@ -18,6 +20,9 @@ namespace Steamboat.Mobile.CustomControls
         public static readonly BindableProperty ItemTemplateProperty =
             BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(RepeaterControl), default(DataTemplate), propertyChanged: OnItemTemplatePropertyChanged);
 
+        public static readonly BindableProperty ScrollToBottomCommandProperty =
+            BindableProperty.Create(nameof(ScrollToBottomCommand), typeof(ICommand), typeof(RepeaterControl), null, BindingMode.OneWayToSource);
+
         public IEnumerable ItemsSource
         {
             get { return (IEnumerable)GetValue(ItemsSourceProperty); }
@@ -28,6 +33,12 @@ namespace Steamboat.Mobile.CustomControls
         {
             get { return (DataTemplate)GetValue(ItemTemplateProperty); }
             set { SetValue(ItemTemplateProperty, value); }
+        }
+
+        public ICommand ScrollToBottomCommand
+        {
+            get { return (ICommand)GetValue(ScrollToBottomCommandProperty); }
+            set { SetValue(ScrollToBottomCommandProperty, value); }
         }
 
         public delegate void RepeaterViewItemAddedEventHandler(object sender, RepeaterControlItemAddedEventArgs args);
@@ -43,6 +54,7 @@ namespace Steamboat.Mobile.CustomControls
         public RepeaterControl()
         {
             Spacing = 0;
+            ScrollToBottomCommand = new Command(() => ScrollToLastItem()); 
         }
 
         private static void OnItemsSourcePropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -130,6 +142,13 @@ namespace Steamboat.Mobile.CustomControls
                     ScrollToBottom(view);
                 }
             }
+            else
+            {
+                foreach (var item in e.OldItems)
+                {
+                    children.Remove(children.Last());
+                }
+            }
         }
 
         private void ScrollToBottom(View view)
@@ -142,12 +161,23 @@ namespace Steamboat.Mobile.CustomControls
                 {
                     var currentHeight = scroll.Height;
                     var height = scroll.Content.Height;
+                    var paddingTop = scroll.Padding.Top;
+                    var paddingBottom = scroll.Padding.Bottom;
 
                     if (height > currentHeight)
-                        await scroll.ScrollToAsync(0, height - currentHeight + 10, true);
+                        await scroll.ScrollToAsync(0, height+paddingTop+paddingBottom - currentHeight + 10, true);
                     else
                         await Task.FromResult(true);
                 });
+            }
+        }
+
+        private void ScrollToLastItem()
+        {
+            var lastItem = Children.Last();
+            if (lastItem != null)
+            {
+                Device.BeginInvokeOnMainThread(() => ScrollToBottom(lastItem));
             }
         }
     }

@@ -9,16 +9,17 @@
      <ContentView.Resources>
         <ResourceDictionary>
             <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="44"></Setter>
-                <Setter Property="WidthRequest" Value="44"></Setter>
-                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="HeightRequest" Value="48"></Setter>
+                <Setter Property="WidthRequest" Value="48"></Setter>
                 <Setter Property="VerticalOptions" Value="End"></Setter>
+                <Setter Property="Margin" Value="8,0,-8,-4" />
             </Style>
             <Style x:Key="LabelBubbleStack" TargetType="customControl:BubbleStack">
                 <Setter Property="BorderColor" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="BorderRadius" Value="12" />
                 <Setter Property="FillColor" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="IsLabel" Value="False" />
+                <Setter Property="Margin" Value="0,0,-8,24" />
                 <Style.Triggers>
                     <DataTrigger TargetType="customControl:BubbleStack" Binding="{Binding IsComplete}" Value="True">
                         <Setter Property="HorizontalOptions" Value="EndAndExpand" />
@@ -28,7 +29,8 @@
             <Style x:Key="AnswerButton" TargetType="customControl:WrappedButton">
                 <Setter Property="Active" Value="true" />
                 <Setter Property="MinimumHeightRequest" Value="20" />
-                <Setter Property="Padding" Value="16" />
+                <Setter Property="AutoFitText" Value="True" />
+                <Setter Property="Padding" Value="16"/>
                 <Setter Property="BorderWidth" Value="1" />
                 <Setter Property="Margin" Value="0,0,0,8" />
                 <Setter Property="BorderColor" Value="#95C7DA" />
@@ -51,24 +53,29 @@
         <Grid Margin="0,8" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="44" />
+                <ColumnDefinition Width="48" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <customControl:BubbleStack Grid.Column="0" Style="{StaticResource LabelBubbleStack}" Margin="0,0,0,24">
+            <customControl:BubbleStack Grid.Column="0" Style="{StaticResource LabelBubbleStack}" >
                 <customControl:RepeaterControl ItemsSource="{Binding Answers}" Margin="24,16,24,10" IsVisible="{Binding IsComplete, Converter={StaticResource InverseBoolConverter}}" >
                     <customControl:RepeaterControl.ItemTemplate>
                         <DataTemplate>
                             <customControl:WrappedButton Text="{Binding Text}" Style="{StaticResource AnswerButton}"
-                             Command="{Binding Path=ParentBindingContext.HandleAnswerCommand, Source={x:Reference SelectOneView}}" CommandParameter="{Binding .}" />
+                             Command="{Binding Path=ParentBindingContext.HandleSelectOneCommand, Source={x:Reference SelectOneView}}" CommandParameter="{Binding .}" />
                         </DataTemplate>
                     </customControl:RepeaterControl.ItemTemplate>
                 </customControl:RepeaterControl>
                 <Label x:Name="MainLabel" Text="{Binding AnswerText}" Style="{StaticResource TextLabel}" IsVisible="{Binding IsComplete}" />
+                
+                <customControl:BubbleStack.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=ParentBindingContext.EditQuestionCommand, Source={x:Reference SelectOneView}}" CommandParameter="{Binding .}" />
+                </customControl:BubbleStack.GestureRecognizers>
             </customControl:BubbleStack>
-            <ffimageloading:CachedImage Grid.Column="1" Source="imgMomentumProfile.png" Style="{StaticResource MomentumImage}" />
+            <ffimageloading:CachedImage Grid.Column="1" Source="{Binding Path=ParentBindingContext.ImgSource, Source={x:Reference SelectOneView}}" Style="{StaticResource MomentumImage}" />
         </Grid>
         
-	</ContentView.Content>
+    </ContentView.Content>
 </ContentView>
+

@@ -47,6 +47,8 @@ namespace Steamboat.Mobile
 
             //ViewModels
             Locator.CurrentMutable.RegisterLazySingleton(() => new LoginViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new MainViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new MenuViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new InitPasswordViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new InterviewViewModel());
             Locator.CurrentMutable.RegisterLazySingleton(() => new SchedulingViewModel());
@@ -58,12 +60,19 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.Register(() => new SchedulingEventTimeViewModel());
             Locator.CurrentMutable.Register(() => new SchedulingEventDateViewModel());
             Locator.CurrentMutable.Register(() => new SchedulingConfirmationViewModel());
-            Locator.CurrentMutable.Register(() => new PreScreeningInterviewViewModel());
+            Locator.CurrentMutable.Register(() => new ScreeningInterviewViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new MessagingViewModel());
 
             //ModalViewModels
             Locator.CurrentMutable.Register(() => new DispositionMoreInfoModalViewModel());
             Locator.CurrentMutable.Register(() => new WelcomeModalViewModel());
             Locator.CurrentMutable.Register(() => new ScreeningCancelConfirmationModalViewModel());
+            Locator.CurrentMutable.Register(() => new InterviewEditQuestionModalViewModel());
+        }
+
+        public static void RefreshDependencies()
+        {
+            RegisterDependencies();
         }
 
         public static T Resolve<T>()

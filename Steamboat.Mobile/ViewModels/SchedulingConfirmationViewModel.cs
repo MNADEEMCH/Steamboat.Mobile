@@ -47,7 +47,7 @@ namespace Steamboat.Mobile.ViewModels
             {
                 _selectedEvent = selectedEvent;
                 Date = selectedEvent.EventDate.Date;
-                Time = selectedEvent.EventTime.Start.ToString("hh:mm tt", CultureInfo.InvariantCulture).ToLowerInvariant();
+                Time = selectedEvent.EventTime.Start.ToString("hh:mmtt", CultureInfo.InvariantCulture).ToLowerInvariant();
                 Address = selectedEvent.EventDate.FullAddress.Replace("<br/>", "\n");
             }
 
@@ -58,31 +58,30 @@ namespace Steamboat.Mobile.ViewModels
         {
             IsBusy = true;
 
-            try
+            await TryExecute(async () =>
             {
                 var appointment = await _participantManager.ConfirmEvent(_selectedEvent.EventDate.Id, _selectedEvent.EventTime.ID);
                 await NavigateToStatusView();
-            }
-            catch (Exception ex)
-            {
-                await DialogService.ShowAlertAsync(ex.Message, "Error", "OK");
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            }, null, () => IsBusy = false);
         }
 
         private async Task NavigateToStatusView()
         {
-            var status = await _participantManager.GetStatus();
-            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
-            await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+            await TryExecute(async () =>
+            {
+                var status = await _participantManager.GetStatus();
+                var viewModelType = DashboardHelper.GetViewModelForStatus(status);
+                await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+                DependencyContainer.Resolve<MenuViewModel>().UpdateMenuItem(viewModelType);
+            });
         }
 
         private async Task Edit()
         {
-            await NavigationService.PopAsync(2);
+            await TryExecute(async () =>
+            {
+                await NavigationService.PopAsync(2);
+            });
         }
     }
 }

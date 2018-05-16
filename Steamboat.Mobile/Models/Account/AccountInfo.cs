@@ -13,6 +13,7 @@ namespace Steamboat.Mobile.Models.Account
         public string Session { get; set; }
         public bool IsPasswordExpired { get; set; }
         public bool AreConsentsAccepted { get; set; }
+        public string AvatarUrl { get; set; }
     }
 
 }

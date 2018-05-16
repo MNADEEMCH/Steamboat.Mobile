@@ -18,5 +18,6 @@ namespace Steamboat.Mobile.Managers.Participant
         Task<QuestionGroup> GetSurvey();
         Task<QuestionGroup> SendSurvey(int groupID, List<ParticipantConsent> answers);
         Task CompleteSurvey(int groupID, List<ParticipantConsent> answers);
+        List<ParticipantConsent> GetSurveyResponses();
     }
 }

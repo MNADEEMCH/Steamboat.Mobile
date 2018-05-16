@@ -6,9 +6,9 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.Views
 {
-    public partial class PreScreeningInterviewView : CustomContentPage
+    public partial class ScreeningInterviewView : CustomContentPage
     {
-        public PreScreeningInterviewView()
+        public ScreeningInterviewView()
         {
             InitializeComponent();
         }

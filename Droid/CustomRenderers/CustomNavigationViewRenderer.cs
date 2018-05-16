@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.Support.V4.Content;
+using Android.Support.V4.View;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -99,11 +102,11 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             }
             else if (e.PropertyName == CustomNavigationView.ImagePositionProperty.PropertyName)
             {
-                UpdateTitleViewLayoutAlignment(_titleViewLayout, _titleImageView, CustomNavigationView.GetImagePosition(lastPage));
+                //UpdateTitleViewLayoutAlignment(_titleViewLayout, _titleImageView, CustomNavigationView.GetImagePosition(lastPage));
             }
             else if (e.PropertyName == CustomNavigationView.ImageMarginProperty.PropertyName)
             {
-                UpdateTitleViewLayoutMargin(lastPage, _titleViewLayout, CustomNavigationView.GetImageMargin(lastPage), false);
+                //UpdateTitleViewLayoutMargin(lastPage, _titleViewLayout, CustomNavigationView.GetImageMargin(lastPage), false);
             }
         }
 
@@ -164,9 +167,9 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                     LayoutParameters = new ActionBar.LayoutParams(LayoutParams.WrapContent, LayoutParams.WrapContent),
                 };
 
-                _titleViewLayout.AddView(_titleImageView);
-                _parentLayout.AddView(_titleViewLayout);
-                _toolbar.AddView(_parentLayout);
+                //_titleViewLayout.AddView(_titleImageView);
+                //_parentLayout.AddView(_titleViewLayout);
+                //_toolbar.AddView(_parentLayout);
 
                 _toolbar.ChildViewAdded += OnToolbarChildViewAdded;
                 lastPage.PropertyChanged += LastPage_PropertyChanged;
@@ -181,7 +184,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
                 UpdateToolbarStyle(_toolbar, lastPage, Context as Activity, _originalToolbarBackground, _originalWindowContent);
 
-                UpdateTitleViewLayout(lastPage, _titleViewLayout, _titleImageView, isBack);
+                //UpdateTitleViewLayout(lastPage, _titleViewLayout, _titleImageView, isBack);
             }
         }
 
@@ -189,33 +192,33 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
         void UpdateTitleViewLayout(Page lastPage, LinearLayout titleViewLayout, AppCompatImageView titleImageView, bool isBack)
         {
-            UpdateTitleViewLayoutAlignment(titleViewLayout, titleImageView, CustomNavigationView.GetImagePosition(lastPage));
-            UpdateTitleViewLayoutMargin(lastPage, titleViewLayout, CustomNavigationView.GetImageMargin(lastPage), isBack);
+            //UpdateTitleViewLayoutAlignment(titleViewLayout, titleImageView, CustomNavigationView.GetImagePosition(lastPage));
+            //UpdateTitleViewLayoutMargin(lastPage, titleViewLayout, CustomNavigationView.GetImageMargin(lastPage), isBack);
         }
 
-        void UpdateTitleViewLayoutAlignment(LinearLayout titleViewLayout, AppCompatImageView titleImageView, CustomNavigationView.ImageAlignment alignment)
-        {
-            var titleViewParams = titleViewLayout.LayoutParameters as FrameLayout.LayoutParams;
-            var titleImageViewParams = titleImageView.LayoutParameters as LinearLayout.LayoutParams;
+        //void UpdateTitleViewLayoutAlignment(LinearLayout titleViewLayout, AppCompatImageView titleImageView, CustomNavigationView.ImageAlignment alignment)
+        //{
+        //    var titleViewParams = titleViewLayout.LayoutParameters as FrameLayout.LayoutParams;
+        //    var titleImageViewParams = titleImageView.LayoutParameters as LinearLayout.LayoutParams;
 
-            switch (alignment)
-            {
-                case CustomNavigationView.ImageAlignment.Start:
-                    titleViewParams.Gravity = GravityFlags.Start | GravityFlags.CenterVertical;
-                    titleImageViewParams.Gravity = GravityFlags.Start;
-                    break;
-                case CustomNavigationView.ImageAlignment.Center:
-                    titleViewParams.Gravity = GravityFlags.Center;
-                    titleImageViewParams.Gravity = GravityFlags.Center;
-                    break;
-                case CustomNavigationView.ImageAlignment.End:
-                    titleViewParams.Gravity = GravityFlags.End | GravityFlags.CenterVertical;
-                    titleImageViewParams.Gravity = GravityFlags.End;
-                    break;
-            }
-            titleViewLayout.LayoutParameters = titleViewParams;
-            titleImageView.LayoutParameters = titleImageViewParams;
-        }
+        //    switch (alignment)
+        //    {
+        //        case CustomNavigationView.ImageAlignment.Start:
+        //            titleViewParams.Gravity = GravityFlags.Start | GravityFlags.CenterVertical;
+        //            titleImageViewParams.Gravity = GravityFlags.Start;
+        //            break;
+        //        case CustomNavigationView.ImageAlignment.Center:
+        //            titleViewParams.Gravity = GravityFlags.Center;
+        //            titleImageViewParams.Gravity = GravityFlags.Center;
+        //            break;
+        //        case CustomNavigationView.ImageAlignment.End:
+        //            titleViewParams.Gravity = GravityFlags.End | GravityFlags.CenterVertical;
+        //            titleImageViewParams.Gravity = GravityFlags.End;
+        //            break;
+        //    }
+        //    titleViewLayout.LayoutParameters = titleViewParams;
+        //    titleImageView.LayoutParameters = titleImageViewParams;
+        //}
 
         void UpdateTitleViewLayoutBackground(LinearLayout titleViewLayout, string backgroundResource, Drawable defaultBackground)
         {
@@ -230,35 +233,36 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             }
         }
 
-        void UpdateTitleViewLayoutMargin(Page lastPage, LinearLayout titleViewLayout, Thickness margin, bool isBack)
-        {
-            var titleViewParams = titleViewLayout.LayoutParameters as FrameLayout.LayoutParams;
+        //void UpdateTitleViewLayoutMargin(Page lastPage, LinearLayout titleViewLayout, Thickness margin, bool isBack)
+        //{
 
-            var hasToolbarItem = lastPage.ToolbarItems.Count() > 0;
-            var singlePage = lastPage.Navigation.NavigationStack.Count() < 2;
+        //    var titleViewParams = titleViewLayout.LayoutParameters as FrameLayout.LayoutParams;
 
-            if (hasToolbarItem && !singlePage && !isBack)
-            {
-                titleViewParams?.SetMargins(0, 0, 32, 0);
-            }
-            else if (hasToolbarItem)
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    titleViewParams?.SetMargins(25, 0, 0, 0);
-                });
-            }
-            else if (!singlePage)
-            {
-                titleViewParams?.SetMargins(0, 0, 70, 0);
-            }
-            else
-            {
-                titleViewParams?.SetMargins(0, 0, 15, 0);
-            }
+        //    var hasToolbarItem = lastPage.ToolbarItems.Count() > 0;
+        //    var singlePage = lastPage.Navigation.NavigationStack.Count() < 2;
 
-            titleViewLayout.LayoutParameters = titleViewParams;
-        }
+        //    if (hasToolbarItem && !singlePage && !isBack)
+        //    {
+        //        titleViewParams?.SetMargins(0, 0, 32, 0);
+        //    }
+        //    else if (hasToolbarItem)
+        //    {
+
+        //        titleViewParams?.SetMargins(25, 0, 0, 0);
+
+        //    }
+        //    else if (!singlePage)
+        //    {
+        //        titleViewParams?.SetMargins(0, 0, 70, 0);
+        //    }
+        //    else
+        //    {
+        //        titleViewParams?.SetMargins(0, 0, 15, 0);
+        //    }
+
+        //    titleViewLayout.LayoutParameters = titleViewParams;
+
+        //}
 
         #endregion
 
@@ -324,12 +328,12 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                     GradientDrawable shadowGradient = new GradientDrawable(GradientDrawable.Orientation.RightLeft, new int[] { Android.Graphics.Color.Transparent.ToArgb(), Android.Graphics.Color.Gray.ToArgb() });
                     shadowGradient.SetCornerRadius(0f);
                     androidContent.Foreground = shadowGradient;
-                    toolbar.Elevation = 4;
+                    ViewCompat.SetElevation(toolbar, 4);
                 }
                 else
                 {
                     androidContent.Foreground = windowContent;
-                    toolbar.Elevation = 0;
+                    ViewCompat.SetElevation(toolbar, 0);
                 }
             }
         }
@@ -344,7 +348,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             {
                 var imageName = System.IO.Path.GetFileNameWithoutExtension(source).ToLower();
                 int resID = Resources.GetIdentifier(imageName, "drawable", this.Context.PackageName);
-                var drawable = _context.GetDrawable(resID);
+                var drawable = ContextCompat.GetDrawable(_context, resID);
                 imageView.SetBackground(drawable);
             }
         }

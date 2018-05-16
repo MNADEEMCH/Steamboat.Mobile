@@ -32,11 +32,9 @@
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
-        <customControl:Stepper 
-            Steps="{Binding Steps}"
-            PreviousStep="{Binding PreviousStep}"
-            CurrentStep="{Binding CurrentStep}"
-            InitializeExcecute="{Binding InitializeExcecute}"
+          <customControl:Stepper
+            DrawStepperCommand="{Binding DrawStepperCommand}"
+            AnimateProgress="True"
             ProgressBarStyle="{StaticResource ProgressBar}"
             StepImageStyle="{StaticResource StepImage}"
             StepInactiveLabelStyle="{StaticResource StepInactiveLabel}"   

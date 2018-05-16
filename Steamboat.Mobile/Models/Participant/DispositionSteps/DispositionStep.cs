@@ -11,5 +11,6 @@ namespace Steamboat.Mobile.Models.Participant.DispositionSteps
         public string Title { get; set; }
         public string InformationTitle { get; set; }
         public string InformationMessage { get; set; }
+        public string ButtonText { get; set; }
     }
 }

@@ -51,17 +51,20 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             Control.TrackTintColor = element.EmptyColor.ToUIColor();
         }
 
+
+
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
             var element = Element as ColorProgressBar;
 
             var X = 1.0f;
-            var Y = element.ProgressBarHeigth; // This changes the height
+            var Y = (float)element.ProgressBarHeigth; // This changes the height
 
             this.Control.Transform = CGAffineTransform.MakeScale(X, Y);
             this.ClipsToBounds = true;
             this.Layer.MasksToBounds = true;
+            this.Control.Progress = this.Control.Progress;
         }
 
     }

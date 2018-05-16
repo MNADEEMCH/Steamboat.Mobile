@@ -9,13 +9,6 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     BackgroundColor="{StaticResource ViewBackground}"
     Title="Screening">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Logout" Icon="icLogout.png" Command="{Binding LogoutCommand}" >
-            <ToolbarItem.Order>
-                <OnPlatform x:TypeArguments="ToolbarItemOrder" iOS="Primary" Android="Secondary" />
-            </ToolbarItem.Order>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="MainGrid"  TargetType="Grid">
@@ -54,11 +47,16 @@
                 <Setter Property="FontSize" Value="30" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
-            <Style x:Key="MoreInfoImage" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="24"></Setter>
-                <Setter Property="WidthRequest" Value="24"></Setter>
+            <Style x:Key="MoreInfoButton" TargetType="customControl:LinkButton">
+                <Setter Property="ImageHeight" Value="24"></Setter>
+                <Setter Property="ImageWidth" Value="24"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
-                <Setter Property="VerticalOptions" Value="Start"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="ActiveImage" Value="icMoreInfo.png"></Setter>
+                <Setter Property="TapImage" Value="icMoreInfo_Tap.png"></Setter>
+                <Setter Property="DisabledImage" Value="icMoreInfo_Disabled.png"></Setter>
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
             </Style>
             <Style x:Key="IndicatorLabel"  TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
@@ -82,22 +80,15 @@
                 <Setter Property="OutlineColor" Value="{StaticResource LightGrayColor}"></Setter>
                 <Setter Property="IsVisible" Value="{Binding ShowDetails}"></Setter>
                 <Setter Property="CornerRadius" Value="5"></Setter>
-                <Setter Property="DefaultBorderWidth">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <OnPlatform.iOS>1.0</OnPlatform.iOS>
-                            <OnPlatform.Android>2.0</OnPlatform.Android>
-                        </OnPlatform>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="DefaultBorderWidth" Value="1.0"></Setter>
             </Style>
             <Style x:Key="ScreeningDetailsGrid" TargetType="Grid">
                 <Setter Property="HorizontalOptions" Value="Start"></Setter>
                 <Setter Property="Margin" Value="16,16,0,16"></Setter>
             </Style>
             <Style x:Key="ScreeningDetailsImage" TargetType="Image">
-                <Setter Property="HeightRequest" Value="20"></Setter>
-                <Setter Property="WidthRequest" Value="20"></Setter>
+                <Setter Property="HeightRequest" Value="19"></Setter>
+                <Setter Property="WidthRequest" Value="19"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="VerticalOptions" Value="Start"></Setter>
             </Style>
@@ -114,16 +105,20 @@
                 <Setter Property="ColumnSpacing" Value="0"></Setter>
             </Style>
             <Style x:Key="EditCancelButton" TargetType="customControl:LinkButton">
+                <Setter Property="ImageTextDistance" Value="5"></Setter>
+                <Setter Property="ImageHeight" Value="24"></Setter>
+                <Setter Property="ImageWidth" Value="24"></Setter>
                 <Setter Property="FontFamily" Value="{DynamicResource RalewaySemiBold}" />
                 <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="ActiveImage" Value="icEdit.png" />
+                <Setter Property="TapImage" Value="icEdit_Tap.png" />
+                <Setter Property="DisabledImage" Value="icEdit_Disabled.png" />
                 <Setter Property="FontSize" Value="12" />
                 <Setter Property="BorderColor" Value="Transparent" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="BorderWidth" Value="0" />
                 <Setter Property="BorderRadius" Value="0" />
-                <Setter Property="Margin" Value="0" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -147,11 +142,7 @@
 
                         <StackLayout Style="{StaticResource TitleContainerStackLayout}">
                             <Label Text="{Binding Title}" Style="{StaticResource TitleLabel}"></Label>
-                            <ffimageloading:CachedImage Source="icMoreInfo.png" Style="{StaticResource MoreInfoImage}">
-                                <ffimageloading:CachedImage.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding MoreInfoCommand}"/>
-                                </ffimageloading:CachedImage.GestureRecognizers>
-                            </ffimageloading:CachedImage>
+                            <customControl:LinkButton Style="{StaticResource MoreInfoButton}" Command="{Binding MoreInfoCommand}"/>
                         </StackLayout>
                         
                         <Label Text="{Binding Steps}" Style="{StaticResource IndicatorLabel}"></Label>
@@ -181,21 +172,13 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <ffimageloading:CachedImage Grid.Column="0" Source="icEdit.png" Style="{StaticResource ScreeningDetailsImage}" VerticalOptions="Center"/>
-                            <customControl:LinkButton Grid.Column="1" Text="EDIT/CANCEL APPOINTMENT" Style="{StaticResource EditCancelButton}" Command="{Binding RescheduleCommand}" />
+                           <customControl:LinkButton Grid.Column="1" Text="EDIT/CANCEL APPOINTMENT" Style="{StaticResource EditCancelButton}" Command="{Binding RescheduleCommand}" />
                         </Grid>                        
                     </StackLayout>
                     <views:StepperView x:Name="Stepper" Grid.Row="1"/>
                 </Grid>
             </ScrollView>
-            <ActivityIndicator
-            Grid.Row="0"
-            Color="{StaticResource MomentumBlueColor}"
-            IsRunning="{Binding IsLoading}"  
-            IsVisible="{Binding IsLoading}"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            WidthRequest="100" />
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
         </Grid>
     </ContentPage.Content>
 </views:CustomContentPage>

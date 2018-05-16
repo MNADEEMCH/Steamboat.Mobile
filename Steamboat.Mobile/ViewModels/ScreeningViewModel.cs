@@ -61,22 +61,25 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task Reschedule()
         {
-            if (_eventId != null && _eventTimeId != null)
+            await TryExecute(async () =>
             {
-                var navigationParameter = new EventParameter();
-                navigationParameter.RescheduleEvent = new RescheduleEvent()
+                if (_eventId != null && _eventTimeId != null)
                 {
-                    RescheduleEventId = _eventId,
-                    RescheduleTimeId = _eventTimeId,
-                    RescheduleStartTime = _eventStartTime
-                };
+                    var navigationParameter = new EventParameter();
+                    navigationParameter.RescheduleEvent = new RescheduleEvent()
+                    {
+                        RescheduleEventId = _eventId,
+                        RescheduleTimeId = _eventTimeId,
+                        RescheduleStartTime = _eventStartTime
+                    };
 
-                await NavigationService.NavigateToAsync<SchedulingEventDateViewModel>(navigationParameter);
-            }
-            else
-            {
-                await DialogService.ShowAlertAsync("Reschedule not available", "Error", "OK");
-            }
+                    await NavigationService.NavigateToAsync<SchedulingEventDateViewModel>(navigationParameter);
+                }
+                else
+                {
+                    await DialogService.ShowAlertAsync("Reschedule not available", "Error", "OK");
+                }
+            });              
         }
 
         protected override async Task MainAction()

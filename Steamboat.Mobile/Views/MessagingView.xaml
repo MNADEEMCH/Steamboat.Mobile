@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                         x:Class="Steamboat.Mobile.Views.MessagingView"
+                         xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+                         viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+                         xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
+                         xmlns:views="clr-namespace:Steamboat.Mobile.Views">
+    <ContentPage.Content>
+        <Label Text="Messaging view" />
+    </ContentPage.Content>
+</views:CustomContentPage>

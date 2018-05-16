@@ -4,7 +4,8 @@
 	xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:modalViewModelBase="clr-namespace:Steamboat.Mobile.ViewModels.Modals;assembly=Steamboat.Mobile"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     modalViewModelBase:ModalViewModelAutoWire.AutoWireViewModel="True"
 	x:Class="Steamboat.Mobile.Views.Modals.DispositionMoreInfoModalView"
@@ -77,14 +78,7 @@
                     </StackLayout>
                 </Grid>
             </ScrollView>
-            <ActivityIndicator
-                Grid.Row="0"
-                Color="{StaticResource MomentumBlueColor}"
-                IsRunning="{Binding IsLoading}"  
-                IsVisible="{Binding IsLoading}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                WidthRequest="100" />
+           <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
         </Grid>
     </popup:PopupPage.Content>
 

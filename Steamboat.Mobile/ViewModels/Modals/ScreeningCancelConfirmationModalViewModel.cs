@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Steamboat.Mobile.Exceptions;
 using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Participant;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels.Modals
 {
-    public class ScreeningCancelConfirmationModalViewModel: ModalViewModelBase
+    public class ScreeningCancelConfirmationModalViewModel : ModalViewModelBase
     {
         #region Properties
 
@@ -18,7 +19,7 @@ namespace Steamboat.Mobile.ViewModels.Modals
 
         #endregion
 
-        public ScreeningCancelConfirmationModalViewModel(IParticipantManager participantManager = null): base()
+        public ScreeningCancelConfirmationModalViewModel(IParticipantManager participantManager = null) : base()
         {
             IsLoading = true;
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
@@ -36,19 +37,22 @@ namespace Steamboat.Mobile.ViewModels.Modals
             return base.InitializeAsync(parameter);
         }
 
-        private async Task CancelAppointmentAndCloseModal(){
-            
+        private async Task CancelAppointmentAndCloseModal()
+        {
             try
-            {   IsBusy = true;
+            {
+                IsBusy = true;
                 await CancelAppointment();
                 await CloseModal();
                 await AfterCloseModal();
             }
             catch (Exception e)
             {
-                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
+                if (!(e is SessionExpiredException))
+                    await DialogService.ShowAlertAsync("Error when trying to cancel event", "Error", "OK");
             }
-            finally{
+            finally
+            {
                 IsBusy = false;
             }
         }
@@ -61,7 +65,7 @@ namespace Steamboat.Mobile.ViewModels.Modals
             }
             catch (Exception e)
             {
-                throw new Exception("Error when trying to cancel event");
+                throw e;
             }
 
         }

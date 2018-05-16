@@ -51,53 +51,29 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             Control.Frame = Frame;
             Control.Bounds = Bounds;
 
+            ChangeThemeIfNeeded(Element);
             UpdateFont();
         }
 
-        /// <summary>
-        /// Resizes the text.
-        /// </summary>
         private void ResizeText()
         {
             if (Element == null)
                 return;
 
-            var text = Element.Checked ? string.IsNullOrEmpty(Element.CheckedText) ? Element.DefaultText : Element.CheckedText :
-                string.IsNullOrEmpty(Element.UncheckedText) ? Element.DefaultText : Element.UncheckedText;
-
-            var bounds = Control.Bounds;
-
-            var width = Control.TitleLabel.Bounds.Width;
-
-            var height = Utilities.Extensions.MeasureTextSize(text, width + 30, 14.0);
-                      
-            var minHeight = string.Empty.StringHeight(Control.Font, width);
-
-            var requiredLines = Math.Round(height.Height / minHeight, MidpointRounding.AwayFromZero);
-
-            var supportedLines = Math.Round(bounds.Height / minHeight, MidpointRounding.ToEven);
-
-            if (supportedLines != requiredLines)
-            {
-                bounds.Height += (float)(minHeight * (requiredLines - supportedLines));
-                Control.Bounds = bounds;
-                Element.HeightRequest = bounds.Height;
-            }
+            var width = Element.Width - 50;
+            var size = Control.TitleLabel.SizeThatFits(new CoreGraphics.CGSize(width, 100000));
+            if(size.Height > Element.MinimumHeightRequest)
+                Element.HeightRequest = size.Height;
+            else
+                Element.HeightRequest = Element.MinimumHeightRequest;
         }
 
-        /// <summary>
-        /// Draws the specified rect.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
         public override void Draw(CoreGraphics.CGRect rect)
         {
+            Element.HeightRequest = Control.TitleLabel.Bounds.Height;
             base.Draw(rect);
-            ResizeText();
         }
 
-        /// <summary>
-        /// Updates the font.
-        /// </summary>
         private void UpdateFont()
         {
             if (!string.IsNullOrEmpty(Element.FontName))
@@ -124,40 +100,42 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             Control.SetTitleColor(Element.TextColor.ToUIColorOrDefault(defaultTextColor), UIControlState.Selected);
         }
 
-        /// <summary>
-        /// Handles the <see cref="E:ElementPropertyChanged" /> event.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="PropertyChangedEventArgs"/> instance containing the event data.</param>
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
 
-            switch (e.PropertyName)
+            if (e.PropertyName == nameof(Checkbox.Height))
             {
-                case "Checked":
-                    Control.Checked = Element.Checked;
-                    break;
-                case "TextColor":
-                    UpdateTextColor();
-                    break;
-                case "CheckedText":
-                    Control.CheckedTitle = string.IsNullOrEmpty(Element.CheckedText) ? Element.DefaultText : Element.CheckedText;
-                    SetNeedsDisplay();
-                    break;
-                case "UncheckedText":
-                    Control.UncheckedTitle = string.IsNullOrEmpty(Element.UncheckedText) ? Element.DefaultText : Element.UncheckedText;
-                    break;
-                case "FontSize":
-                    UpdateFont();
-                    break;
-                case "FontName":
-                    UpdateFont();
-                    break;
-                case "Element":
-                    break;
-                default:
-                    return;
+                ResizeText();
+            }
+            else
+            {
+                switch (e.PropertyName)
+                {
+                    case "Checked":
+                        Control.Checked = Element.Checked;
+                        break;
+                    case "TextColor":
+                        UpdateTextColor();
+                        break;
+                    case "CheckedText":
+                        Control.CheckedTitle = string.IsNullOrEmpty(Element.CheckedText) ? Element.DefaultText : Element.CheckedText;
+                        SetNeedsDisplay();
+                        break;
+                    case "UncheckedText":
+                        Control.UncheckedTitle = string.IsNullOrEmpty(Element.UncheckedText) ? Element.DefaultText : Element.UncheckedText;
+                        break;
+                    case "FontSize":
+                        UpdateFont();
+                        break;
+                    case "FontName":
+                        UpdateFont();
+                        break;
+                    case "Element":
+                        break;
+                    default:
+                        return;
+                }
             }
         }
 
@@ -165,8 +143,17 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         {
             Element.Checked = Control.Checked;
 
-            if (Element.Command.CanExecute(null))
-                Element.Command.Execute(null);
+            if (Element.Command != null && Element.Command.CanExecute(Element.CommandParameter))
+                Element.Command.Execute(Element.CommandParameter);
+        }
+
+        private void ChangeThemeIfNeeded(Checkbox element)
+        {
+            if (element.WhiteTheme)
+            {
+                Control.SetImage(UIImage.FromBundle("Checkbox/onWhite.png"), UIControlState.Selected);
+                Control.SetImage(UIImage.FromBundle("Checkbox/offWhite.png"), UIControlState.Normal);
+            }
         }
 
         protected override void Dispose(bool disposing)

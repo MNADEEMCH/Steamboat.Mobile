@@ -22,45 +22,43 @@ namespace Steamboat.Mobile.ViewModels
         public ICommand CommandEventSelected { get; set; }
         #endregion
 
-        public SchedulingEventDateViewModel(IParticipantManager participantManager = null):base(participantManager)
+        public SchedulingEventDateViewModel(IParticipantManager participantManager = null) : base(participantManager)
         {
             CommandEventSelected = new Command(async (selectedevent) => await EventSelected(selectedevent));
         }
 
         public async override Task InitializeAsync(object parameter)
         {
-            try
+            await TryExecute(async () =>
             {
                 var selectedEvent = parameter as EventParameter;
-                var isAnySelectedEvent = selectedEvent != null;
-                var isRescheduling = isAnySelectedEvent&&selectedEvent.RescheduleEvent!=null;
+                var isRescheduling = selectedEvent!=null && selectedEvent.RescheduleEvent != null;
 
                 ShowCancelAppointment = isRescheduling;
-                SchedullingEventTitle = isRescheduling ? "Edit appointment":"Pick a place";
-                await LoadEvents();
-                if (isAnySelectedEvent)
-                    SetSelectedItem(selectedEvent);
-            }
-            catch (Exception ex)
-            {
-                await DialogService.ShowAlertAsync(ex.Message, "Error", "OK");
-            }
-            finally
-            {
-                IsLoading = false;
-            }
+                SchedullingEventTitle = isRescheduling ? "Edit appointment" : "Pick a place";
+
+                await LoadEvents(selectedEvent);
+
+            }, null, () => IsLoading = false);
         }
 
-        private async Task LoadEvents()
+        private async Task LoadEvents(EventParameter selectedElement=null)
         {
             var events = await _participantManager.GetEvents();
 
-            SchedulingEventDate = new ObservableCollection<EventDate>();
-            foreach (Event e in events)
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                var eventToAdd = ConvertEventToEventListItem(e);
-                SchedulingEventDate.Add(eventToAdd);
-            }
+                SchedulingEventDate = new ObservableCollection<EventDate>();
+                foreach (Event e in events)
+                {
+                    var eventToAdd = ConvertEventToEventListItem(e);
+                    SchedulingEventDate.Add(eventToAdd);
+                }
+
+                if (selectedElement!=null)
+                    SetSelectedItem(selectedElement);
+            });
+
         }
 
         private void SetSelectedItem(EventParameter selectedEvent)
@@ -76,27 +74,28 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task EventSelected(object selectedevent)
         {
-            var SelectedEvent = selectedevent as EventDate;
-            if (SelectedEvent != null)
+            await TryExecute(async () =>
             {
-                if (_prevEventListItemSelected != null)
-                    _prevEventListItemSelected.IsActive = false;
-
-                SelectedEvent.IsActive = true;
-                _prevEventListItemSelected = SelectedEvent;
-
-                var navigationParameter = new EventParameter();
-                navigationParameter.EventDate = SelectedEvent;
-                if (_rescheduleEvent != null)
+                var SelectedEvent = selectedevent as EventDate;
+                if (SelectedEvent != null)
                 {
-                    navigationParameter.RescheduleEvent = _rescheduleEvent.RescheduleEvent;
+                    if (_prevEventListItemSelected != null)
+                        _prevEventListItemSelected.IsActive = false;
+
+                    SelectedEvent.IsActive = true;
+                    _prevEventListItemSelected = SelectedEvent;
+
+                    var navigationParameter = new EventParameter();
+                    navigationParameter.EventDate = SelectedEvent;
+                    if (_rescheduleEvent != null)
+                    {
+                        navigationParameter.RescheduleEvent = _rescheduleEvent.RescheduleEvent;
+                    }
+
+                    await NavigationService.NavigateToAsync<SchedulingEventTimeViewModel>(navigationParameter);
                 }
-
-                await NavigationService.NavigateToAsync<SchedulingEventTimeViewModel>(navigationParameter);
-            }
+            }, null, () => IsLoading = false);
         }
-
-
 
         private EventDate ConvertEventToEventListItem(Event e)
         {
@@ -104,13 +103,11 @@ namespace Steamboat.Mobile.ViewModels
             {
                 Id = e.ID,
                 FullAddress = e.FullAddress.Replace("<br/>", "\n"),
-                Distance = String.Format("{0}, miles", e.Distance.ToString("0.0")),
+                Distance = String.Format("{0} miles away", e.Distance.ToString("0.0")),
                 Date = e.Start.ToString("dddd, MMMM d", CultureInfo.InvariantCulture),
-                Time = String.Format("{0} to {1}", e.Start.ToString("h:mm tt", CultureInfo.InvariantCulture).ToLower(),
-                                     e.Finish.ToString("h:mm tt", CultureInfo.InvariantCulture).ToLower())
+                Time = String.Format("{0} to {1}", e.Start.ToString("h:mmtt", CultureInfo.InvariantCulture).ToLower(),
+                                     e.Finish.ToString("h:mmtt", CultureInfo.InvariantCulture).ToLower())
             };
         }
-
-
     }
 }

@@ -10,5 +10,6 @@ namespace Steamboat.Mobile.Models.Stepper
     {
         public int Steps { get; set; }
         public int CurrentStep { get; set; }
+        public int PreviousStep { get; set; }
     }
 }

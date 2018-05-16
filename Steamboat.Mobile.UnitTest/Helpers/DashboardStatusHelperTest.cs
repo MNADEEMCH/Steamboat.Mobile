@@ -9,35 +9,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Steamboat.Mobile.Models.Participant.DispositionSteps;
+using Steamboat.Mobile.UnitTest.TestHelpers;
 
 namespace Steamboat.Mobile.UnitTest.Helpers
 {
     [TestFixture]
     public class DashboardStatusHelperTest
     {
-        private Dashboard CreateDashBoard()
-        {
-            Dashboard dashboard = new Dashboard();
-            dashboard.SurveyStep = new SurveyStep();
-            dashboard.SchedulingStep = new SchedulingStep();
-            dashboard.ScreeningStep = new ScreeningStep();
-            dashboard.ReportStep = new ReportStep();
+        #region GetViewModelForStatus
 
-            return dashboard;
+        [Test]
+        public void DashboardStatusHelper_GetViewModelForStatus_WrongStatus()
+        {
+
+            var status = StatusHelper.CreateWrongStatus();
+
+            Assert.Throws<Exception>(() => DashboardHelper.GetViewModelForStatus(status));
         }
 
         [Test]
         public void DashboardStatusHelper_GetViewModelForStatus_3StepsSchedulingViewModel()
         {
 
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
-            status.Dashboard.SurveyStep.Status = StatusEnum.None;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Pending;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
+            var status = StatusHelper.Status_3Step_Scheduling();
 
-            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
+            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(SchedulingViewModel), viewModelType);
         }
@@ -45,15 +41,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetViewModelForStatus_3StepsScreeningViewModel()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_3Step_Screening();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.None;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
+            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ScreeningViewModel), viewModelType);
         }
@@ -61,15 +51,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetViewModelForStatus_3StepsReportViewModel()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_3Step_Report();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.None;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
+            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ReportViewModel), viewModelType);
         }
@@ -78,15 +62,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         public void DashboardStatusHelper_GetViewModelForStatus_3StepsAllStepsCompleted()
         {
 
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_3Step_AllCompleted();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.None;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
-            status.Dashboard.ReportStep.Status = StatusEnum.Complete;
-
-            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
+            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ReportViewModel), viewModelType);
         }
@@ -95,15 +73,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetViewModelForStatus_4StepsInterviewViewModel()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_4Step_Interview();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.Pending;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Pending;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
+            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(InterviewViewModel), viewModelType);
         }
@@ -111,15 +83,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetViewModelForStatus_4StepsSchedulingViewModel()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_4Step_Scheduling();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.Complete;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Pending;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
+            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(SchedulingViewModel), viewModelType);
         }
@@ -127,15 +93,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetViewModelForStatus_4StepsScreeningViewModel()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_4Step_Screening();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.Complete;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
+            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ScreeningViewModel), viewModelType);
         }
@@ -143,15 +103,19 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetViewModelForStatus_4StepsReportViewModel()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_4Step_Report();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.Complete;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
+            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
-            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
+            Assert.AreEqual(typeof(ReportViewModel), viewModelType);
+        }
+
+        [Test]
+        public void DashboardStatusHelper_GetViewModelForStatus_4StepsReportParticularScenario()
+        {
+            var status = StatusHelper.Status_4Step_Report_ParticularScenario();
+
+            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ReportViewModel), viewModelType);
         }
@@ -160,29 +124,157 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         public void DashboardStatusHelper_GetViewModelForStatus_4StepsAllStepsCompleted()
         {
 
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_4Step_AllCompleted();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.Complete;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            Type viewModelType = DashboardHelper.GetViewModelForStatus(status);
+            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
             Assert.AreEqual(typeof(ReportViewModel), viewModelType);
         }
 
+        #endregion
+
+        #region GetDispositionStep
+
+        [Test]
+        public void DashboardStatusHelper_GetDispositionStep_WrongStatus()
+        {
+
+            var status = StatusHelper.CreateWrongStatus();
+
+            Assert.Throws<Exception>(() => DashboardHelper.GetDispositionStep(status));
+        }
+
+        [Test]
+        public void DashboardStatusHelper_GetDispositionStep_3StepsSchedulingDispositionStep()
+        {
+
+            var status = StatusHelper.Status_3Step_Scheduling();
+
+            var dispositionStep = DashboardHelper.GetDispositionStep(status);
+
+            Assert.IsInstanceOf(typeof(SchedulingStep), dispositionStep);
+        }
+
+        [Test]
+        public void DashboardStatusHelper_GetDispositionStep_3StepsScreeningDispositionStep()
+        {
+            var status = StatusHelper.Status_3Step_Screening();
+
+            var dispositionStep = DashboardHelper.GetDispositionStep(status);
+
+            Assert.IsInstanceOf(typeof(ScreeningStep), dispositionStep);
+        }
+
+        [Test]
+        public void DashboardStatusHelper_GetDispositionStep_3StepsReportDispositionStep()
+        {
+            var status = StatusHelper.Status_3Step_Report();
+
+            var dispositionStep = DashboardHelper.GetDispositionStep(status);
+
+            Assert.IsInstanceOf(typeof(ReportStep), dispositionStep);
+        }
+
+        [Test]
+        public void DashboardStatusHelper_GetDispositionStep_3StepsAllStepsCompleted()
+        {
+
+            var status = StatusHelper.Status_3Step_AllCompleted();
+
+            var dispositionStep = DashboardHelper.GetDispositionStep(status);
+
+            Assert.IsInstanceOf(typeof(ReportStep), dispositionStep);
+        }
+
+
+        [Test]
+        public void DashboardStatusHelper_GetDispositionStep_4StepsInterviewDispositionStep()
+        {
+            var status = StatusHelper.Status_4Step_Interview();
+
+            var dispositionStep = DashboardHelper.GetDispositionStep(status);
+
+            Assert.IsInstanceOf(typeof(SurveyStep), dispositionStep);
+        }
+
+        [Test]
+        public void DashboardStatusHelper_GetDispositionStep_4StepsSchedulingDispositionStep()
+        {
+            var status = StatusHelper.Status_4Step_Scheduling();
+
+            var dispositionStep = DashboardHelper.GetDispositionStep(status);
+
+            Assert.IsInstanceOf(typeof(SchedulingStep), dispositionStep);
+        }
+
+        [Test]
+        public void DashboardStatusHelper_GetDispositionStep_4StepsScreeningDispositionStep()
+        {
+            var status = StatusHelper.Status_4Step_Screening();
+
+            var dispositionStep = DashboardHelper.GetDispositionStep(status);
+
+            Assert.IsInstanceOf(typeof(ScreeningStep), dispositionStep);
+        }
+
+        [Test]
+        public void DashboardStatusHelper_GetDispositionStep_4StepsReportDispositionStep()
+        {
+            var status = StatusHelper.Status_4Step_Report();
+
+            var dispositionStep = DashboardHelper.GetDispositionStep(status);
+
+            Assert.IsInstanceOf(typeof(ReportStep), dispositionStep);
+            var reportStep = dispositionStep as ReportStep;
+            Assert.IsTrue(reportStep.ReportReady);
+        }
+
+        [Test]
+        public void DashboardStatusHelper_GetDispositionStep_4StepsReportParticularScenario()
+        {
+            var status = StatusHelper.Status_4Step_Report_ParticularScenario();
+
+            var dispositionStep = DashboardHelper.GetDispositionStep(status);
+
+            Assert.IsInstanceOf(typeof(ReportStep), dispositionStep);
+            var reportStep = dispositionStep as ReportStep;
+            Assert.IsFalse(reportStep.ReportReady);
+        }
+
+
+        [Test]
+        public void DashboardStatusHelper_GetDispositionStep_4StepsAllStepsCompleted()
+        {
+
+            var status = StatusHelper.Status_4Step_AllCompleted();
+
+            var dispositionStep = DashboardHelper.GetDispositionStep(status);
+
+            Assert.IsInstanceOf(typeof(ReportStep), dispositionStep);
+        }
+
+
+        #endregion
+
+        #region GetStepperParameter
+
+        [Test]
+        public void DashboardStatusHelper_GetStepperParameter_WrongStatus()
+        {
+
+            var status = StatusHelper.CreateWrongStatus();
+
+            Assert.Throws<Exception>(() => DashboardHelper.GetDispositionStep(status));
+        }
 
         [Test]
         public void DashboardStatusHelper_GetSteps_3Steps()
         {
-           
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+
+            var status = StatusHelper.CreateStatus();
             status.Dashboard.SurveyStep.Status = StatusEnum.None;
 
-            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
+            var stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(3, stepperParam.Steps);
         }
@@ -190,11 +282,10 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetSteps_4Steps()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.CreateStatus();
             status.Dashboard.SurveyStep.Status = StatusEnum.Pending;
 
-            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
+            var stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(4, stepperParam.Steps);
         }
@@ -204,12 +295,7 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         public void DashboardStatusHelper_GetCurrentStep_3StepsSchedulingAsCurrent()
         {
 
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
-            status.Dashboard.SurveyStep.Status = StatusEnum.None;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Pending;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
+            var status = StatusHelper.Status_3Step_Scheduling();
 
             StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
 
@@ -219,15 +305,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetCurrentStep_3StepsScreeningAsCurrent()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_3Step_Screening();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.None;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
+            var stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(2, stepperParam.CurrentStep);
         }
@@ -235,15 +315,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetCurrentSteps_3StepsReportAsCurrent()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_3Step_Report();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.None;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
+            var stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(3, stepperParam.CurrentStep);
         }
@@ -252,15 +326,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetCurrentStep_4StepsInterviewAsCurrent()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_4Step_Interview();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.Pending;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Pending;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
+            var stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(1, stepperParam.CurrentStep);
         }
@@ -268,15 +336,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetCurrentStep_4StepsSchedulingAsCurrent()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_4Step_Scheduling();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.Complete;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Pending;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
+            var stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(2, stepperParam.CurrentStep);
         }
@@ -284,15 +346,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetCurrentStep_4StepsScreeningAsCurrent()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_4Step_Screening();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.Complete;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Pending;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
+            var stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(3, stepperParam.CurrentStep);
         }
@@ -300,15 +356,9 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetCurrentSteps_4StepsReportAsCurrent()
         {
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
+            var status = StatusHelper.Status_4Step_Report();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.Complete;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
-
-            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
+            var stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(4, stepperParam.CurrentStep);
         }
@@ -316,20 +366,14 @@ namespace Steamboat.Mobile.UnitTest.Helpers
         [Test]
         public void DashboardStatusHelper_GetCurrentSteps_4StepsAllStepsCompleted()
         {
-            
-            Status status = new Status();
-            status.Dashboard = CreateDashBoard();
 
-            status.Dashboard.SurveyStep.Status = StatusEnum.Complete;
-            status.Dashboard.SchedulingStep.Status = StatusEnum.Complete;
-            status.Dashboard.ScreeningStep.Status = StatusEnum.Complete;
-            status.Dashboard.ReportStep.Status = StatusEnum.Pending;
+            var status = StatusHelper.Status_4Step_AllCompleted();
 
-            StepperParam stepperParam = DashboardHelper.GetStepperParameter(status);
+            var stepperParam = DashboardHelper.GetStepperParameter(status);
 
             Assert.AreEqual(4, stepperParam.CurrentStep);
         }
 
-
+        #endregion
     }
 }

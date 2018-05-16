@@ -17,14 +17,6 @@ namespace Steamboat.Mobile.ViewModels
     public class SchedulingViewModel : DispositionViewModelBase
     {
 
-        #region Properties
-
-        private bool _mainButtonVisible;
-
-        public bool MainButtonVisible { set { SetPropertyValue(ref _mainButtonVisible, value); } get { return _mainButtonVisible; } } 
-        
-        #endregion
-
         public SchedulingViewModel(StepperViewModel stepperViewModel = null) : base(stepperViewModel)
         {
             IsLoading = true;
@@ -40,7 +32,7 @@ namespace Steamboat.Mobile.ViewModels
         protected override void InitializeSpecificStep(Status status)
         {
             SchedulingStep schedulingStep = status.Dashboard.SchedulingStep;
-            MainButtonVisible = schedulingStep.Detail != null && schedulingStep.Detail.EventCount > 0;
+            MainButtonVisible = MainButtonVisible && schedulingStep.Detail != null && schedulingStep.Detail.EventCount > 0;
         }
 
     }

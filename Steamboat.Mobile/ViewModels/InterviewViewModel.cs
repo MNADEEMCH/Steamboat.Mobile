@@ -20,7 +20,7 @@ namespace Steamboat.Mobile.ViewModels
 
         protected override async Task MainAction()
         {
-            await NavigationService.NavigateToAsync<PreScreeningInterviewViewModel>();
+            await NavigationService.NavigateToAsync<ScreeningInterviewViewModel>();
         }
     }
 }

@@ -7,6 +7,8 @@ using Steamboat.Mobile.Services.Dialog;
 using Steamboat.Mobile.Services.Navigation;
 using Xamarin.Forms;
 using Steamboat.Mobile.Services.Modal;
+using Steamboat.Mobile.Exceptions;
+using Steamboat.Mobile.Managers.Account;
 
 namespace Steamboat.Mobile.ViewModels
 {
@@ -86,5 +88,63 @@ namespace Steamboat.Mobile.ViewModels
         {
             return Task.FromResult(false);
         }
+
+        protected async Task TryExecute(Func<Task> onTry, Func<Exception, Task> onCatch = null, Action onFinally = null)
+        {
+            await Task.Run(async () =>
+            {
+                try
+                {
+                    await onTry();
+                }
+                catch(SessionExpiredException){
+                    //this type of exception is handled on the manager layer
+                }
+                catch (Exception ex)
+                {
+                    if (onCatch != null)
+                        await onCatch(ex);
+                    else
+                        await DialogService.ShowAlertAsync(ex.Message, "Error", "OK");
+                }
+                finally
+                {
+                    if (onFinally != null)
+                        onFinally();
+                }
+            });
+        }
+
+        protected async Task<T> TryExecute<T>(Func<Task<T>> onTry, Func<Exception, Task> onCatch = null, Func<Task<T>> onFinally = null)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = default(T);
+
+                try
+                {
+                    result = await onTry();
+                }
+                catch (SessionExpiredException)
+                {
+                    //this type of exception is handled on the manager layer
+                }
+                catch (Exception ex)
+                {
+                    if (onCatch != null)
+                        await onCatch(ex);
+                    else
+                        await DialogService.ShowAlertAsync(ex.Message, "Error", "OK");
+                }
+                finally
+                {
+                    if (onFinally != null)
+                        result = await onFinally();
+                }
+
+                return result;
+            });
+        }
+
     }
 }

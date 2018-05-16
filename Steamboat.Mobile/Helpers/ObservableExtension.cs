@@ -17,5 +17,20 @@ namespace Steamboat.Mobile.Helpers
 
             return collection;
         }
+
+        public static int LastIndexOf<T>(this ObservableCollection<T> source,T elem)
+        {
+            var lastIndexOf = -1;
+            var indexCounter = 0;
+            foreach (T item in source)
+            {
+                if (item.Equals(elem))
+                    lastIndexOf = indexCounter;
+
+                indexCounter++;
+            }
+
+            return lastIndexOf;
+        }
     }
 }

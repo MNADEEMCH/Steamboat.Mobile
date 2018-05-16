@@ -42,7 +42,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName.Equals("IsEnabled") && _shadowLayer!=null)
+            if (e.PropertyName.Equals("IsEnabled") && _shadowLayer != null)
             {
                 var button = this.Element as GradientRoundedButton;
 
@@ -59,17 +59,18 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         {
             base.Draw(rect);
 
-            if(!_alreadyDrawed){
-                
+            if (!_alreadyDrawed)
+            {
+
                 var button = this.Element as GradientRoundedButton;
                 var buttonBounds = new CGRect(0, 0, button.Width, button.Height);
                 var shadowBounds = new CGRect(0, 0, button.Width - 1, button.Height - 1);
 
                 _shadowLayer = GetShadowForLayer(button.ActiveColor,
-                                                 button.IsEnabled? button.ShadowColorEnabled:Color.Transparent,
+                                                 button.IsEnabled ? button.ShadowColorEnabled : Color.Transparent,
                                                  shadowBounds,
                                                  button.IOSBorderRadius);
-                
+
                 var imageNormal = GetGradientBackgroundImage(button.StartColor,
                                                                  button.EndColor,
                                                                  buttonBounds,
@@ -93,8 +94,8 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
         }
 
-        private CALayer GetShadowForLayer(Color ShadowBackgroundColor,Color ShadowColor, CGRect ShadowBounds, int BorderRadius){
-
+        private CALayer GetShadowForLayer(Color ShadowBackgroundColor, Color ShadowColor, CGRect ShadowBounds, int BorderRadius)
+        {
             var shadowLayer = new CALayer();
             shadowLayer.BackgroundColor = ShadowBackgroundColor.ToCGColor();
             shadowLayer.Bounds = ShadowBounds;
@@ -109,8 +110,8 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             return shadowLayer;
         }
 
-        private UIImage GetGradientBackgroundImage(Color StartColor,Color EndColor,CGRect GradientBounds,int BorderRadius){
-
+        private UIImage GetGradientBackgroundImage(Color StartColor, Color EndColor, CGRect GradientBounds, int BorderRadius)
+        {
             var gradientLayer = new CAGradientLayer();
             gradientLayer.Bounds = GradientBounds;
             gradientLayer.CornerRadius = Control.Layer.CornerRadius = BorderRadius;
@@ -149,7 +150,5 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             var button = this.Element as GradientRoundedButton;
             _shadowLayer.ShadowColor = button.ShadowColorEnabled.ToCGColor();
         }
-
-
     }
 }

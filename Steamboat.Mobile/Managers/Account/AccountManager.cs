@@ -8,16 +8,19 @@ using Steamboat.Mobile.Models.User;
 using Steamboat.Mobile.Repositories.User;
 using Steamboat.Mobile.Services.Account;
 using System.Linq;
+using Steamboat.Mobile.Services.Navigation;
+using Steamboat.Mobile.Services.Dialog;
+using Xamarin.Forms;
 
 namespace Steamboat.Mobile.Managers.Account
 {
-    public class AccountManager : IAccountManager
+    public class AccountManager : ManagerBase, IAccountManager
     {
         private IAccountService _accountService;
         private IUserRepository _userRepository;
         private IUserAlertRepository _userAlertRepository;
 
-        public AccountManager(IAccountService accountService = null, 
+        public AccountManager(IAccountService accountService = null,
                               IUserRepository userRepository = null,
                               IUserAlertRepository userAlertRepository = null)
         {
@@ -28,7 +31,7 @@ namespace Steamboat.Mobile.Managers.Account
 
         public async Task<AccountInfo> Login(string username, string password)
         {
-            try
+            return await TryExecute<AccountInfo>(async()=>
             {
                 var devicePlatform = CrossDeviceInfo.Current.Platform.ToString();
                 var deviceModel = CrossDeviceInfo.Current.Model;
@@ -42,48 +45,51 @@ namespace Steamboat.Mobile.Managers.Account
                     DeviceModel = deviceModel,
                     DeviceLocalID = deviceLocalID
                 });
-
+                 
                 if (account != null)
                 {
+                    account.AvatarUrl = ResolveUrl(account.AvatarUrl);
                     var user = App.CurrentUser == null ?
-                              await _userRepository.AddUser(username) : await _userRepository.UpdateUser(App.CurrentUser.Id, username);
+                                  await _userRepository.AddUser(username, account.AvatarUrl) : await _userRepository.UpdateUser(App.CurrentUser.Id, username, account.AvatarUrl);
 
                     App.CurrentUser = user;
                     App.SessionID = account.Session;
                 }
 
                 return account;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error in login: {ex}");
-                throw ex;
-            }
-        }
 
+            });
+
+        }
+       
         public async Task<CurrentUser> GetLocalUser()
         {
-            try
+            return await TryExecute<CurrentUser>(async () =>
             {
                 return await _userRepository.GetCurrentUser();
-            }
-            catch
-            {
-                return null;
-            }
+
+            });
         }
 
-        public async Task<bool> Logout()
+        public async Task<bool> Logout(bool callBackend=true)
         {
-            var res = await _accountService.AccountLogout(App.SessionID);
-            App.SessionID = null;
+            return await TryExecute<bool>(async () =>
+            {
+                var sessionId = App.SessionID;
+                App.SessionID = null;
+                if (callBackend)
+                {
+                    var res = await _accountService.AccountLogout(sessionId);
+                    return res != null;
+                }
 
-            return res != null;
+                return true;
+            });
         }
 
         public async Task<AccountLogin> InitPassword(string password, string confirm)
         {
-            try
+            return await TryExecute<AccountLogin>(async () =>
             {
                 var initResponse = await _accountService.AccountInitPassword(new AccountInitPassword()
                 {
@@ -92,46 +98,44 @@ namespace Steamboat.Mobile.Managers.Account
                 }, App.SessionID);
 
                 return initResponse;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error in login: {ex}");
-                throw ex;
-            }
+            });
         }
 
-        public async Task<int> AddUserAlert(string username,int alertId)
+        public async Task<int> AddUserAlert(string username, int alertId)
         {
-            try{
-                return await _userAlertRepository.AddUserAlert(new UserAlert{UserName=username,AlertId=alertId});
-            }
-            catch(Exception ex){
-                Debug.WriteLine($"Error in login: {ex}");
-                throw ex;
-            }
+            return await TryExecute<int>(async () =>
+            {
+                return await _userAlertRepository.AddUserAlert(new UserAlert { UserName = username, AlertId = alertId });
+            
+            });
         }
 
         public async Task<UserAlerts> GetUserAlerts(string username)
         {
-            UserAlerts userAlerts = null;
-
-            try
+            return await TryExecute<UserAlerts>(async () =>
             {
                 var userAlertItems = await _userAlertRepository.GetUserAlert(username);
-                if (userAlertItems != null)
-                    userAlerts = userAlertItems.GroupBy(x => x.UserName)
+                if (userAlertItems != null){
+                    var userAlerts = userAlertItems.GroupBy(x => x.UserName)
                                            .Select(g => new UserAlerts()
-                                           {  AlertsIds = g.Select(x=>x.AlertId).ToList(),
-                                              UserName = g.Key as string
+                                           {
+                                               AlertsIds = g.Select(x => x.AlertId).ToList(),
+                                               UserName = g.Key as string
                                            }).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error in login: {ex}");
-                throw ex;
-            }
+                    return userAlerts;
+                }
 
-            return userAlerts;
+                return null;
+            });
+
         }
+
+        private string ResolveUrl(string avatarUrl)
+        {
+            //TODO: Get BaseURL from config
+            var apiUrlBase = "https://dev.momentumhealth.co/";
+            return avatarUrl.Replace("~/", apiUrlBase);
+        }
+    
     }
 }

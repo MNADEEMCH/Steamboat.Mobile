@@ -16,10 +16,13 @@ using Acr.UserDialogs;
 using Steamboat.Mobile.Models.Notification;
 using Steamboat.Mobile.Droid.Helpers;
 using System.Threading.Tasks;
+using FFImageLoading;
+using System.Net.Http;
+using Steamboat.Mobile.Services.RequestProvider;
 
 namespace Steamboat.Mobile.Droid
 {
-    [Activity(LaunchMode = LaunchMode.SingleTask, Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme",ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(LaunchMode = LaunchMode.SingleTask, Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         private static bool _newIntent = false;
@@ -37,23 +40,23 @@ namespace Steamboat.Mobile.Droid
 
             base.OnCreate(bundle);
 
-
             //IN ORDER TO SET THE BADGE USING THE CONTEXT
             _mContext = this.ApplicationContext;
             //CHECK IF THERE IS A NOTIFICATION
             PushNotification pushNotification = NotificationHelper.TryGetPushNotification(this.Intent);
             _newIntent = false;
 
-
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             ResolveDependencies();
             CachedImageRenderer.Init(true);
-            var ignore = typeof(SvgCachedImage);
+            ImageService.Instance.Initialize(new FFImageLoading.Config.Configuration
+            {
+                HttpClient = new HttpClient(new AuthenticatedHttpClient())
+            });
+            //var ignore = typeof(SvgCachedImage);
             UserDialogs.Init(this);
             LoadApplication(new App(pushNotification));
-
-
 
             //LoadApplication(UXDivers.Gorilla.Droid.Player.CreateApplication(this,
             //    new UXDivers.Gorilla.Config("Good Gorilla")
@@ -73,7 +76,7 @@ namespace Steamboat.Mobile.Droid
 
                 if (pushNotificationParameter != null)
                 {
-                    Task.Run(async() => await App.HandlePushNotification(pushNotificationParameter));
+                    Task.Run(async () => await App.HandlePushNotification(pushNotificationParameter));
                 }
 
                 _newIntent = false;

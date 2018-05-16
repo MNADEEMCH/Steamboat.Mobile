@@ -36,20 +36,17 @@
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="Margin" Value="0,32,0,8" />
             </Style>
-
             <Style x:Key="DisclosureLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
                 <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
                 <Setter Property="FontSize" Value="28" />
             </Style>
-
             <Style x:Key="ConsentLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
                 <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="Margin" Value="0,0,0,8" />
             </Style>
-
             <Style x:Key="FooterStackLayout" TargetType="StackLayout">
                 <Setter Property="BackgroundColor" Value="{StaticResource SubtleGrayColor}" />
             </Style>
@@ -71,19 +68,9 @@
                 <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}" />
                 <Setter Property="FontSize" Value="12" />
             </Style>
-
             <Style x:Key="SuperButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
                 <Setter Property="Margin" Value="0,0,0,20" />
             </Style>
-
-            <Style x:Key="MainIndicator" TargetType="ActivityIndicator">
-                <Setter Property="WidthRequest" Value="40" />
-                <Setter Property="HeightRequest" Value="40" />
-                <Setter Property="Color" Value="{StaticResource MomentumBlueColor}" />
-                <Setter Property="Margin" Value="0,0,0,30" />
-                <Setter Property="IsRunning" Value="true" />
-            </Style>
-            
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -136,19 +123,13 @@
                     <customControl:GradientRoundedButton Text="CONTINUE" Command="{Binding ContinueCommand}" Style="{StaticResource SuperButton}" 
                          IsEnabled="{Binding IsEnabled}" IsVisible="{Binding IsFirstCheck}" />
                         <Grid IsVisible="false" />
-                    <ActivityIndicator Style="{StaticResource MainIndicator}" IsVisible="{Binding IsBusy}" />
+                    <views:MomentumSpinnerView Margin="0,0,0,30" IsVisible="{Binding IsBusy}" />
                 </StackLayout>
                 
             </Grid>
             
-            <ActivityIndicator
-            Grid.Row="0"
-            Color="{StaticResource MomentumBlueColor}"
-            IsRunning="{Binding IsLoading}"  
-            IsVisible="{Binding IsLoading}"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            WidthRequest="100" />
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+            
         </Grid>
     </ContentPage.Content>
 </views:CustomContentPage>

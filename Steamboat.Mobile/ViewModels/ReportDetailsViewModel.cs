@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Net;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using Steamboat.Mobile.Models.Application;
 
 namespace Steamboat.Mobile.ViewModels
 {
@@ -14,45 +15,44 @@ namespace Steamboat.Mobile.ViewModels
         private string _reportUri = "https://dev.momentumhealth.co/participant/report";
         private bool _webViewLoadedSucessfully = false;
 
-        public ICommand LogoutCommand { get; set; }
-
-        public bool WebViewLoadedSucessfully { set { SetPropertyValue(ref _webViewLoadedSucessfully, value); } get { return _webViewLoadedSucessfully; }  }
+        public bool WebViewLoadedSucessfully { set { SetPropertyValue(ref _webViewLoadedSucessfully, value); } get { return _webViewLoadedSucessfully; } }
         public ICommand LoadFinishedCommand { get; set; }
         public string WebViewReportUri { get; set; }
         public CookieContainer WebViewCookies { get; set; }
-        public Dictionary<string,string> WebViewHeaders { get; set; }
+        public Dictionary<string, string> WebViewHeaders { get; set; }
 
         #endregion
 
-        public ReportDetailsViewModel(){
-            
+        public ReportDetailsViewModel()
+        {
             IsLoading = true;
-            LogoutCommand = new Command(async () => await Logout());
             SetWebView();
         }
 
         public async override Task InitializeAsync(object parameter)
         {
-
             await base.InitializeAsync(parameter);
         }
 
-        private void SetWebView(){
-
-            try{
+        private void SetWebView()
+        {
+            try
+            {
                 WebViewLoadedSucessfully = false;
                 WebViewReportUri = _reportUri;
                 SetWebViewCookies();
                 SetWebViewHeaders();
                 LoadFinishedCommand = new Command(async (loadedSuccessfully) => await LoadFinished((bool)loadedSuccessfully));
             }
-            catch(Exception ex){
-                Task.Run(async() => await LoadFinished(false));
+            catch (Exception ex)
+            {
+                Task.Run(async () => await LoadFinished(false));
             }
 
         }
 
-        private void SetWebViewCookies(){
+        private void SetWebViewCookies()
+        {
             WebViewCookies = new CookieContainer();
             var cookie = new Cookie();
             cookie.Name = "ASP.NET_SessionId";
@@ -62,29 +62,12 @@ namespace Steamboat.Mobile.ViewModels
             WebViewCookies.Add(new Uri(_reportUri), cookie);
         }
 
-        private void SetWebViewHeaders(){
+        private void SetWebViewHeaders()
+        {
             WebViewHeaders = new Dictionary<string, string>();
             WebViewHeaders.Add("Momentum-Api", "true");
             WebViewHeaders.Add("Momentum-Api-Environment", "F5752008-E484-4691-B58A-3338A90F80AA");
             WebViewHeaders.Add("Momentum-Api-Session", App.SessionID);
-        }
-
-        public async Task Logout()
-        {
-            IsLoading = true;
-
-            try
-            {
-                await NavigationService.NavigateToAsync<LoginViewModel>("Logout");
-            }
-            catch (Exception e)
-            {
-                await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-            }
-            finally
-            {
-                IsLoading = false;
-            }
         }
 
         public async Task LoadFinished(bool loadedSuccessfully)
@@ -92,7 +75,8 @@ namespace Steamboat.Mobile.ViewModels
             IsLoading = false;
             WebViewLoadedSucessfully = loadedSuccessfully;
 
-            if(!loadedSuccessfully){
+            if (!loadedSuccessfully)
+            {
                 await DialogService.ShowAlertAsync("Loaded with errors", "Error", "OK");
             }
 

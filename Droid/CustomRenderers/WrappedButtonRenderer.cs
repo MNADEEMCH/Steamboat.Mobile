@@ -4,6 +4,7 @@ using Android.Support.V4.View;
 using Android.Views;
 using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.Droid.CustomRenderers;
+using Steamboat.Mobile.Droid.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -52,11 +53,16 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         {
             var button = Element as WrappedButton;
 
+            var paddingLeft = DisplayMetricsHelper.DpToPx(this.Context, (int)button.Padding.Left);
+            var paddingTop = DisplayMetricsHelper.DpToPx(this.Context, (int)button.Padding.Top);
+            var paddingRight = DisplayMetricsHelper.DpToPx(this.Context, (int)button.Padding.Right);
+            var paddingBottom = DisplayMetricsHelper.DpToPx(this.Context, (int)button.Padding.Bottom);
+
             this.Control.SetPadding(
-                (int)button.Padding.Left,
-                (int)button.Padding.Top,
-                (int)button.Padding.Right,
-                (int)button.Padding.Bottom
+                paddingLeft,
+                paddingTop,
+                paddingRight,
+                paddingBottom
             );
         }
     }

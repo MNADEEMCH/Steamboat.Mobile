@@ -22,6 +22,7 @@
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}"/>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="MainGrid"  TargetType="Grid">
                  <Setter Property="VerticalOptions" Value="Center"></Setter>
@@ -44,21 +45,14 @@
                 <Setter Property="Margin" Value="10,10"></Setter>
                 <Setter Property="OutlineColor" Value="{StaticResource LightGrayColor}"></Setter>
                 <Setter Property="CornerRadius" Value="5"></Setter>
-                <Setter Property="DefaultBorderWidth">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <OnPlatform.iOS>1.0</OnPlatform.iOS>
-                            <OnPlatform.Android>2.0</OnPlatform.Android>
-                        </OnPlatform>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="DefaultBorderWidth" Value="1.0"></Setter>
             </Style>
             <Style x:Key="ScreeningDetailsGrid" TargetType="Grid">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
             </Style>
             <Style x:Key="ScreeningDetailsImage" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="24"></Setter>
-                <Setter Property="WidthRequest" Value="24"></Setter>
+                <Setter Property="HeightRequest" Value="19"></Setter>
+                <Setter Property="WidthRequest" Value="19"></Setter>
                 <Setter Property="VerticalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="ScreeningDetailsSeparatorBoxView" TargetType="BoxView">
@@ -123,9 +117,9 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="98" />
+                        <RowDefinition Height="110" />
                     </Grid.RowDefinitions>
-                    <Label Text="Is this information right?" Style="{StaticResource ScreeningDetailsTitle}"/>   
+                    <Label Grid.Row="0" Text="Is this information right?" Style="{StaticResource ScreeningDetailsTitle}"/>   
                     <customControl:CustomFrame Grid.Row="1" Style="{StaticResource GridFrame}">
                         <Grid Style="{StaticResource ScreeningDetailsGrid}" RowSpacing="15">
                             <Grid.ColumnDefinitions>
@@ -150,21 +144,13 @@
                         </Grid>
                     </customControl:CustomFrame>
                     <StackLayout Grid.Row="2">
+                        <views:MomentumSpinnerView Margin="0,29" IsVisible="{Binding IsBusy}" />
                         <customControl:GradientRoundedButton Text="YES, CONFIRM" Style="{StaticResource MainActionButton}" Command="{Binding ConfirmEventCommand}" />
-                        <Grid IsVisible="false" />
-                        <ActivityIndicator Style="{StaticResource MainActionIndicator}" IsVisible="{Binding IsBusy}" />
                         <customControl:LinkButton Text="NO, EDIT" Style="{StaticResource NoEditButton}" Command="{Binding NoEditCommand}" />
                     </StackLayout>
                 </Grid>            
             </Grid>         
-            <ActivityIndicator
-            Grid.Row="0"
-            Color="{StaticResource MomentumBlueColor}"
-            IsRunning="{Binding IsLoading}"  
-            IsVisible="{Binding IsLoading}"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            WidthRequest="100" />
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
         </Grid>
 	</ContentPage.Content>
 </views:CustomContentPage>

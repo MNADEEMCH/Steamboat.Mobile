@@ -8,13 +8,6 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     BackgroundColor="{StaticResource ViewBackground}"
     Title="Report">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Logout" Icon="icLogout.png" Command="{Binding LogoutCommand}" >
-            <ToolbarItem.Order>
-                <OnPlatform x:TypeArguments="ToolbarItemOrder" iOS="Primary" Android="Secondary" />
-            </ToolbarItem.Order>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -55,11 +48,18 @@
                 <Setter Property="FontSize" Value="30" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
-            <Style x:Key="MoreInfoImage" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="24"></Setter>
-                <Setter Property="WidthRequest" Value="24"></Setter>
+            <Style x:Key="MoreInfoButton" TargetType="customControl:LinkButton">
+                <Setter Property="ImageHeight" Value="24"></Setter>
+                <Setter Property="ImageWidth" Value="24"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="ActiveImage" Value="icMoreInfo.png"></Setter>
+                <Setter Property="TapImage" Value="icMoreInfo_Tap.png"></Setter>
+                <Setter Property="DisabledImage" Value="icMoreInfo_Disabled.png"></Setter>
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
             </Style>
             <Style x:Key="IndicatorLabel"  TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
@@ -78,6 +78,7 @@
             <Style x:Key="MainActionButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
                 <Setter Property="Margin" Value="0,5,0,0" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="IsVisible" Value="{Binding MainButtonVisible}"></Setter>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -102,11 +103,7 @@
 
                         <StackLayout Style="{StaticResource TitleContainerStackLayout}">
                             <Label Text="{Binding Title}" Style="{StaticResource TitleLabel}"></Label>
-                            <ffimageloading:CachedImage Source="icMoreInfo.png" Style="{StaticResource MoreInfoImage}">
-                                <ffimageloading:CachedImage.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding MoreInfoCommand}"/>
-                                </ffimageloading:CachedImage.GestureRecognizers>
-                            </ffimageloading:CachedImage>
+                            <customControl:LinkButton Style="{StaticResource MoreInfoButton}" Command="{Binding MoreInfoCommand}"/>
                         </StackLayout>
                         <Label Text="{Binding Steps}" Style="{StaticResource IndicatorLabel}"></Label>
                         <Label Text ="{Binding Message}" Style="{StaticResource DescriptionLabel}"></Label>
@@ -116,14 +113,7 @@
                     <views:StepperView x:Name="Stepper" Grid.Row="1"/>
                 </Grid>
             </ScrollView>
-            <ActivityIndicator
-            Grid.Row="0"
-            Color="{StaticResource MomentumBlueColor}"
-            IsRunning="{Binding IsLoading}"  
-            IsVisible="{Binding IsLoading}"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            WidthRequest="100" />
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
         </Grid>
     </ContentPage.Content>
 </views:CustomContentPage>

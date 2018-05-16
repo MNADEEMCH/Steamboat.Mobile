@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using FFImageLoading;
 using FFImageLoading.Forms.Touch;
 using FFImageLoading.Svg.Forms;
 using Firebase.CloudMessaging;
@@ -9,6 +11,7 @@ using Foundation;
 using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.iOS.Helpers;
 using Steamboat.Mobile.Models.Notification;
+using Steamboat.Mobile.Services.RequestProvider;
 using UIKit;
 using UserNotifications;
 using UXDivers.Gorilla;
@@ -23,9 +26,9 @@ namespace Steamboat.Mobile.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            //IN ORDER TO SET BADGE 
-            UIUserNotificationSettings settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Badge, null);
-            UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+            DisableDefaultLineBreakStrategy();
+
+            EnableToModifyIconBadgeFromTheApp();
 
             //CHECK IF THERE IS A NOTIFICATION
             PushNotification pushNotification = NotificationHelper.TryGetPushNotificationWhenIsClosed(options);
@@ -34,7 +37,11 @@ namespace Steamboat.Mobile.iOS
 
             ResolveDependencies();
             CachedImageRenderer.Init();
-            var ignore = typeof(SvgCachedImage);
+            ImageService.Instance.Initialize(new FFImageLoading.Config.Configuration
+            {
+                HttpClient = new HttpClient(new AuthenticatedHttpClient())
+            });
+            //var ignore = typeof(SvgCachedImage);
             LoadApplication(new App(pushNotification));
 
             //LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(
@@ -45,6 +52,17 @@ namespace Steamboat.Mobile.iOS
             //));
 
             return base.FinishedLaunching(app, options);
+        }
+
+        private void DisableDefaultLineBreakStrategy(){
+            //iOS 11: Label with WordWrap, doesnt allow orphans. To prevent orphans it
+            //takes the last two words to the bottom. We disable that behavior because it looks weird.
+            NSUserDefaults.StandardUserDefaults.SetString("No", "NSAllowsDefaultLineBreakStrategy");
+        }
+
+        private void EnableToModifyIconBadgeFromTheApp(){
+            UIUserNotificationSettings settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Badge, null);
+            UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
         }
 
         private void RegisterForPushNotifications()

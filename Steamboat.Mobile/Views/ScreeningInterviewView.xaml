@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.ScreeningInterviewView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:surveyControl="clr-namespace:Steamboat.Mobile.CustomControls.Survey;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    BackgroundColor="{StaticResource SubtleGrayColor}"
+    Title="Interview">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <surveyControl:SurveyTemplateSelector x:Key="QuestionTemplateSelector" />
+            <Style x:Key="HeaderLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="BackgroundColor" Value="{StaticResource SubtleBlueColor}" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="ProgressBar"  TargetType="customControl:ColorProgressBar">
+                <Setter Property="FilledColor" Value="{StaticResource MomentumBlueColor}"></Setter>
+                <Setter Property="EmptyColor" Value="{StaticResource SubtleGrayColor}"></Setter>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="HeightRequest" Value="5"/>
+                <Setter Property="ProgressBarHeigth" Value="3"/>
+            </Style>
+            <Style x:Key="InterviewScrollView"  TargetType="ScrollView">
+                <Setter Property="Orientation" Value="Vertical"></Setter>
+                <Setter Property="Padding" Value="16,24,16,0"></Setter>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"></Setter>
+            </Style>
+            <Style x:Key="Repeater" TargetType="customControl:RepeaterControl">
+                <Setter Property="HorizontalOptions" Value="Fill"></Setter>
+                <Setter Property="VerticalOptions" Value="StartAndExpand"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+	<ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Text="INTERVIEW" Style="{StaticResource HeaderLabel}" />
+            <StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand">
+                <customControl:ColorProgressBar ChangeProgressCommand="{Binding ChangeProgressCommand}" Style="{StaticResource ProgressBar}" />           
+            </StackLayout>
+            <Grid Grid.Row="2" 
+                  RowSpacing="0"
+                  IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ScrollView x:Name="ScreeningScrollView" Style="{StaticResource InterviewScrollView}">
+                    <customControl:RepeaterControl 
+                        ItemsSource="{Binding SurveyQuestions}" Style="{StaticResource Repeater}" 
+                        ItemTemplate="{StaticResource QuestionTemplateSelector}" ItemCreated="Handle_ItemCreated"
+                        ScrollToBottomCommand="{Binding ScrollToBottomCommand}" />
+                </ScrollView>
+            </Grid>
+            <views:MomentumSpinnerView Grid.Row="2" IsVisible="{Binding IsLoading}" Margin="0,0,0,37" VerticalOptions="Center" />
+      </Grid>
+	</ContentPage.Content>
+</views:CustomContentPage>

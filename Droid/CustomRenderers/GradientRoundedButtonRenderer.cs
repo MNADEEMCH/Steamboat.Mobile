@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android.AppCompat;
 using Android.Support.V4.View;
 using Android.Content;
+using Android.OS;
 
 [assembly: ExportRenderer(typeof(GradientRoundedButton), typeof(GradientRoundedButtonRenderer))]
 namespace Steamboat.Mobile.Droid.CustomRenderers
@@ -48,6 +49,11 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 colors = new int[] { startColor, endColor };
                 ViewCompat.SetElevation(Control, 0);
                 Control.SetTextColor(Xamarin.Forms.Platform.Android.ColorExtensions.ToAndroid(button.DisabledTextColor));
+            }
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+            {
+                Control.StateListAnimator = null;
             }
 
             var gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.LeftRight, colors);

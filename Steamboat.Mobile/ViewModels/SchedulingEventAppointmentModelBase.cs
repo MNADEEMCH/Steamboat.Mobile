@@ -8,9 +8,8 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class SchedulingEventAppointmentModelBase:ViewModelBase
+    public class SchedulingEventAppointmentModelBase : ViewModelBase
     {
-
         #region Properties
 
         private string _schedullingEventTitle;
@@ -20,7 +19,6 @@ namespace Steamboat.Mobile.ViewModels
         public string SchedullingEventTitle { get { return _schedullingEventTitle; } set { SetPropertyValue(ref _schedullingEventTitle, value); } }
         public ICommand CancelAppointmentConfirmCommand { get; set; }
         public bool ShowCancelAppointment { get { return _showCancelAppointment; } set { SetPropertyValue(ref _showCancelAppointment, value); } }
-
 
         #endregion
 
@@ -38,9 +36,13 @@ namespace Steamboat.Mobile.ViewModels
             await ModalService.PushAsync<ScreeningCancelConfirmationModalViewModel>(afterCloseModalFunction);
         }
 
-        private async Task AfterCloseModal(){
+        private async Task AfterCloseModal()
+        {
+            await TryExecute(async () =>
+            {
             IsLoading = true;
             await NavigateToStatusView();
+            });
         }
 
         private async Task NavigateToStatusView()
@@ -48,7 +50,7 @@ namespace Steamboat.Mobile.ViewModels
             var status = await _participantManager.GetStatus();
             var viewModelType = DashboardHelper.GetViewModelForStatus(status);
             await NavigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+            DependencyContainer.Resolve<MenuViewModel>().UpdateMenuItem(viewModelType);
         }
-
     }
 }
