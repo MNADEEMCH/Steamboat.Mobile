@@ -343,7 +343,6 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\imgMomentumProfile.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\splashscreen.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icUser.png" />
-    <AndroidResource Include="Resources\drawable\splashbackground.jpg" />
     <AndroidResource Include="Resources\layout\SplashScreen.axml" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\icSend.png" />
@@ -390,6 +389,7 @@
     <AndroidResource Include="Resources\drawable-hdpi\icMoreInfo_Disabled.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icMoreInfo_Tap.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icSend_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\splashbackground.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

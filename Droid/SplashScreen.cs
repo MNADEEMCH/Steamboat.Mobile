@@ -21,7 +21,6 @@ namespace Steamboat.Mobile.Droid
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
         {
             base.OnCreate(savedInstanceState, persistentState);
-            SetContentView(Resource.Layout.SplashScreen);
         }
 
         // Launches the startup task
