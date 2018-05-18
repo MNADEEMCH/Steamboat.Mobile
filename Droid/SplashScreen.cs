@@ -14,7 +14,7 @@ using Android.Content.PM;
 
 namespace Steamboat.Mobile.Droid
 {
-    [Activity(Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory=true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme.Splash",  MainLauncher = true, NoHistory=true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class SplashActivity : Activity
     {
 
@@ -27,6 +27,7 @@ namespace Steamboat.Mobile.Droid
         protected override void OnResume()
         {
             base.OnResume();
+            SetContentView(Resource.Layout.SplashScreen);
             Task startupWork = new Task(() => { SimulateStartup(); });
             startupWork.Start();
         }

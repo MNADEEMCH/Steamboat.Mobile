@@ -2319,26 +2319,26 @@ namespace Steamboat.Mobile.Droid
 			// aapt resource value: 0x7f020053
 			public const int avd_hide_password = 2130837587;
 			
-			// aapt resource value: 0x7f02014f
-			public const int avd_hide_password_1 = 2130837839;
-			
 			// aapt resource value: 0x7f020150
-			public const int avd_hide_password_2 = 2130837840;
+			public const int avd_hide_password_1 = 2130837840;
 			
 			// aapt resource value: 0x7f020151
-			public const int avd_hide_password_3 = 2130837841;
+			public const int avd_hide_password_2 = 2130837841;
+			
+			// aapt resource value: 0x7f020152
+			public const int avd_hide_password_3 = 2130837842;
 			
 			// aapt resource value: 0x7f020054
 			public const int avd_show_password = 2130837588;
 			
-			// aapt resource value: 0x7f020152
-			public const int avd_show_password_1 = 2130837842;
-			
 			// aapt resource value: 0x7f020153
-			public const int avd_show_password_2 = 2130837843;
+			public const int avd_show_password_1 = 2130837843;
 			
 			// aapt resource value: 0x7f020154
-			public const int avd_show_password_3 = 2130837844;
+			public const int avd_show_password_2 = 2130837844;
+			
+			// aapt resource value: 0x7f020155
+			public const int avd_show_password_3 = 2130837845;
 			
 			// aapt resource value: 0x7f020055
 			public const int common_full_open_on_phone = 2130837589;
@@ -3066,11 +3066,11 @@ namespace Steamboat.Mobile.Droid
 			// aapt resource value: 0x7f020146
 			public const int notification_icon_background = 2130837830;
 			
-			// aapt resource value: 0x7f02014d
-			public const int notification_template_icon_bg = 2130837837;
-			
 			// aapt resource value: 0x7f02014e
-			public const int notification_template_icon_low_bg = 2130837838;
+			public const int notification_template_icon_bg = 2130837838;
+			
+			// aapt resource value: 0x7f02014f
+			public const int notification_template_icon_low_bg = 2130837839;
 			
 			// aapt resource value: 0x7f020147
 			public const int notification_tile_bg = 2130837831;
@@ -3088,7 +3088,10 @@ namespace Steamboat.Mobile.Droid
 			public const int splash_screen = 2130837835;
 			
 			// aapt resource value: 0x7f02014c
-			public const int splashscreen = 2130837836;
+			public const int splashbackground = 2130837836;
+			
+			// aapt resource value: 0x7f02014d
+			public const int splashscreen = 2130837837;
 			
 			static Drawable()
 			{
@@ -3971,13 +3974,16 @@ namespace Steamboat.Mobile.Droid
 			public const int select_dialog_singlechoice_material = 2130903107;
 			
 			// aapt resource value: 0x7f030044
-			public const int support_simple_spinner_dropdown_item = 2130903108;
+			public const int SplashScreen = 2130903108;
 			
 			// aapt resource value: 0x7f030045
-			public const int Tabbar = 2130903109;
+			public const int support_simple_spinner_dropdown_item = 2130903109;
 			
 			// aapt resource value: 0x7f030046
-			public const int Toolbar = 2130903110;
+			public const int Tabbar = 2130903110;
+			
+			// aapt resource value: 0x7f030047
+			public const int Toolbar = 2130903111;
 			
 			static Layout()
 			{
