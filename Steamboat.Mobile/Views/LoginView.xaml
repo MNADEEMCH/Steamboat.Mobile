@@ -13,6 +13,7 @@
    <ContentPage.Resources>
         <ResourceDictionary>
             <extension:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+            <extension:StringNullOrEmptyBoolConverter x:Key="StringNullOrEmptyBoolConverter" />
             <Style x:Key="HeaderImage" TargetType="customControl:ResizableImage">
                 <Setter Property="Aspect" Value="AspectFill" />
                 <Setter Property="HeigthFactor" Value="2.45" />
@@ -48,7 +49,7 @@
                 <Setter Property="IsPassword" Value="True" />
             </Style>
             <Style x:Key="LoginButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
-                <Setter Property="Margin" Value="0,16,0,0" />
+                <Setter Property="Margin" Value="0,8,0,0" />
             </Style>
             <Style x:Key="ErrorLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
@@ -56,19 +57,29 @@
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="Margin" Value="0,2,0,0" />
             </Style>
-            <Style x:Key="PasswordLabel" TargetType="Label">
+            <Style x:Key="ForgotPasswordLinkButton" TargetType="customControl:LinkButton">
                 <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
-                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="Margin" Value="0,8,0,0"/>
                 <Setter Property="FontSize" Value="12" />
-                <Setter Property="Margin" Value="0,8,0,0" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="HorizontalOptions" Value="End" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
             </Style>
-            <Style x:Key="RegisterLabel" TargetType="Label">
+            <Style x:Key="RegisterLinkButton" TargetType="customControl:LinkButton">
                 <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
-                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="Margin" Value="0" />
                 <Setter Property="FontSize" Value="16" />
-                <Setter Property="Margin" Value="0,8,0,0" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
             </Style>
             <Style x:Key="MemberLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
@@ -111,7 +122,7 @@
                                     </DataTrigger>                               
                                 </customControl:ImageEntry.Triggers>
                             </customControl:ImageEntry>
-                            <Label Text="{Binding Username.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" />
+                            <Label x:Name="LblUsername" Text="{Binding Username.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" IsVisible="{Binding Path=Text, Source={x:Reference LblUsername}, Converter={StaticResource StringNullOrEmptyBoolConverter}}"/>
                             <customControl:ImageEntry Placeholder="PASSWORD" Text="{Binding Password.Value, Mode=TwoWay}" Style="{StaticResource PasswordEntry}" >
                                 <customControl:ImageEntry.Triggers>
                                     <DataTrigger TargetType="customControl:ImageEntry" Binding="{Binding Password.IsValid}" Value="False">
@@ -119,13 +130,13 @@
                                     </DataTrigger>                               
                                 </customControl:ImageEntry.Triggers>
                             </customControl:ImageEntry>
-                            <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" />
-                            <Label Text="FORGOT PASSWORD" Style="{StaticResource PasswordLabel}" />
+                            <Label x:Name="LblPassword" Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" IsVisible="{Binding Path=Text, Source={x:Reference LblPassword}, Converter={StaticResource StringNullOrEmptyBoolConverter}}"/>
+                            <customControl:LinkButton Text="FORGOT PASSWORD" Style="{StaticResource ForgotPasswordLinkButton}" Command="{Binding ForgotPasswordCommand}"/>
                             <customControl:GradientRoundedButton  Text="LOGIN" Command="{Binding LoginCommand}" Style="{StaticResource LoginButton}" IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"  />
                             <Grid IsVisible="false" />
-                            <views:MomentumSpinnerView Margin="0,26,0,0" IsVisible="{Binding IsBusy}" />
+                            <views:MomentumSpinnerView Margin="0,18,0,0" IsVisible="{Binding IsBusy}" />
                             <Label Text="Not a member yet?" Style="{StaticResource MemberLabel}" />
-                            <Label Text="REGISTER HERE" Style="{StaticResource RegisterLabel}" />
+                            <customControl:LinkButton Text="REGISTER HERE" Style="{StaticResource RegisterLinkButton}" Command="{Binding RegisterHereCommand}"/>
                         </StackLayout>
                     </Grid>
                 </Grid>

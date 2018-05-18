@@ -24,6 +24,8 @@ namespace Steamboat.Mobile.ViewModels
         private bool _isBusy;
 
         public ICommand LoginCommand { get; set; }
+        public ICommand RegisterHereCommand { get; set; }
+        public ICommand ForgotPasswordCommand { get; set; }
         public ValidatableObject<string> Username { set { SetPropertyValue(ref _username, value); } get { return _username; } }
         public ValidatableObject<string> Password { set { SetPropertyValue(ref _password, value); } get { return _password; } }
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
@@ -39,12 +41,18 @@ namespace Steamboat.Mobile.ViewModels
             _applicationManager = applicationManager ?? DependencyContainer.Resolve<IApplicationManager>();
 
             LoginCommand = new Command(async () => await this.Login());
+            RegisterHereCommand = new Command (() => this.OpenUrl("https://dev.momentumhealth.co/register"));
+            ForgotPasswordCommand = new Command(() => this.OpenUrl("https://dev.momentumhealth.co/account/resetpassword"));
             IsBusy = false;
 
             Username = new ValidatableObject<string>();
             Password = new ValidatableObject<string>();
 
             AddValidations();
+        }
+
+        private void OpenUrl(string url){
+            Device.OpenUri(new Uri(url));
         }
 
         public async override Task InitializeAsync(object parameter)

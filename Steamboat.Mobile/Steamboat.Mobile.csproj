@@ -333,6 +333,7 @@
     </Compile>
     <Compile Include="ViewModels\MessagingViewModel.cs" />
     <Compile Include="Models\Application\Logout.cs" />
+    <Compile Include="Extensions\Converters\StringNullOrEmptyBoolConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
