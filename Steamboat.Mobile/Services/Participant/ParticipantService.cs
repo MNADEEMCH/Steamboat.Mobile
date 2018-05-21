@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Steamboat.Mobile.Models.Participant;
+using Steamboat.Mobile.Models.Participant.Messaging;
 using Steamboat.Mobile.Models.Participant.Survey;
 using Steamboat.Mobile.Services.RequestProvider;
 
@@ -80,5 +81,23 @@ namespace Steamboat.Mobile.Services.Participant
             string url = string.Format(ApiUrlBase + "{0}/{1}", "survey", "complete");
             await _requestProvider.PostAsync(url, sessionID:sessionID);
         }
-    }
+
+        public async Task<CoachMessages> GetAllMessages(string sessionID)
+        {
+            string url = string.Format(ApiUrlBase + "{0}", "messages");
+            return await _requestProvider.GetAsync<CoachMessages>(url, sessionID:sessionID);
+        }
+
+		public async Task<CoachMessages> GetNewMessages(string dateFrom, string sessionID)
+		{			
+			string url = string.Format(ApiUrlBase + "{0}/{1}", "messages", dateFrom);
+			return await _requestProvider.GetAsync<CoachMessages>(url, sessionID: sessionID);
+		}
+
+		public async Task<CoachMessages.Message> SendMessage(UserMessage messageText, string sessionID)
+		{
+			string url = string.Format(ApiUrlBase + "{0}", "message");
+			return await _requestProvider.PostAsync<CoachMessages.Message,UserMessage>(url, messageText, sessionID: sessionID);
+		}
+	}
 }

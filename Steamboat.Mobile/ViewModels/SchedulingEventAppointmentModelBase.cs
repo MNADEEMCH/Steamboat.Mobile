@@ -40,8 +40,8 @@ namespace Steamboat.Mobile.ViewModels
         {
             await TryExecute(async () =>
             {
-            IsLoading = true;
-            await NavigateToStatusView();
+                IsLoading = true;
+                await NavigateToStatusView();
             });
         }
 

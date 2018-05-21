@@ -7,7 +7,7 @@
              xmlns:extension="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile"
              xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile">
     <ContentView.Resources>
-        <ResourceDictionary>    
+        <ResourceDictionary>
             <extension:TextChangedEventArgsConverter x:Key="TextChangedEventArgsConverter" />
             <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
                 <Setter Property="HeightRequest" Value="48"></Setter>

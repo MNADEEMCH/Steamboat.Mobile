@@ -82,6 +82,5 @@ namespace Steamboat.Mobile.ViewModels
 
             await Task.FromResult(true);
         }
-
     }
 }

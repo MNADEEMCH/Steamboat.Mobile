@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Steamboat.Mobile.Views.Messaging.CoachMessageView"
+             xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
+             xmlns:extensions="clr-namespace:Steamboat.Mobile.Extensions"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <extensions:MessagingDateConverter x:Key="MessagingDate" />
+            <Style x:Key="MainGrid" TargetType="Grid">
+                <Setter Property="Margin" Value="0,0,0,8"></Setter>
+                <Setter Property="ColumnSpacing" Value="0"></Setter>
+            </Style>
+            <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="48"></Setter>
+                <Setter Property="WidthRequest" Value="48"></Setter>
+                <Setter Property="VerticalOptions" Value="Start"></Setter>
+                <Setter Property="Margin" Value="-8,0,8,0" />
+            </Style>
+            <Style x:Key="LabelBubbleStack" TargetType="customControl:BubbleStack">
+                <Setter Property="BorderColor" Value="White" />
+                <Setter Property="BorderRadius" Value="12" />
+                <Setter Property="FillColor" Value="White" />
+                <Setter Property="IsLabel" Value="True" />
+                <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+                <Setter Property="Margin" Value="-8,0,0,0" />
+                <Style.Triggers>
+                     <DataTrigger TargetType="customControl:BubbleStack" Binding="{Binding ShowImage}" Value="True">
+                        <Setter Property="Margin" Value="-8,21,0,0" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="TextLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="24,16" />
+            </Style>
+            <Style x:Key="DateLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="Margin" Value="16,0,0,0" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid Style="{StaticResource MainGrid}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ffimageloading:CachedImage Grid.Column="0" Source="imgMomentumProfile.png" Style="{StaticResource MomentumImage}" IsVisible="{Binding ShowImage}" />
+            <customControl:BubbleStack Grid.Column="1" Style="{StaticResource LabelBubbleStack}">
+                <Label Text="{Binding Text}" Style="{StaticResource TextLabel}" />
+            </customControl:BubbleStack>
+            <Grid IsVisible="false" />
+            <Label Grid.Column="1" Grid.Row="1" Text="{Binding CreatedTimestamp, Converter={StaticResource MessagingDate}}" Style="{StaticResource DateLabel}" IsVisible="{Binding ShowDate}" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

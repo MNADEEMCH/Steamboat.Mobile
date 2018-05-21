@@ -80,7 +80,6 @@ namespace Steamboat.Mobile.ViewModels
 
                 Device.BeginInvokeOnMainThread(async () => await SetInitialQuestionIndex());
             }, null, () => IsLoading = false);
-
         }
 
         private async Task SetInitialQuestionIndex()
@@ -101,7 +100,6 @@ namespace Steamboat.Mobile.ViewModels
 
         private void SetAnsweredQuestionsCount()
         {
-
             _questionAnsweredCount = _answersList.GroupBy(q => q.QuestionKey).Count();
         }
 
@@ -121,6 +119,7 @@ namespace Steamboat.Mobile.ViewModels
             var progress = (double)(_questionAnsweredCount) / ((double)_countNotLabelQuestions - 1); //-1 because the I'm finished is not a question
             ChangeProgressCommand.Execute(progress);
         }
+
         private async Task ContinueSurvey(bool isFirstQuestion, bool resumingSurvey = false)
         {
             Question currentQuestion;
@@ -162,7 +161,8 @@ namespace Steamboat.Mobile.ViewModels
         {
             await TryExecute(async () =>
             {
-                Device.BeginInvokeOnMainThread(async () =>                 {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
                     _userTapped = true;
                     var lastQuestion = SurveyQuestions.Last();
 
@@ -238,7 +238,8 @@ namespace Steamboat.Mobile.ViewModels
         {
             await TryExecute(async () =>
             {
-                Device.BeginInvokeOnMainThread(async () =>                 {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
                     _userTapped = true;
                     var question = selectedQuestion as Question;
 
@@ -382,7 +383,7 @@ namespace Steamboat.Mobile.ViewModels
 
                 SetAnsweredQuestionsCount();
                 HandleProgress(true);
-                Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(null));
+                ScrollToBottomCommand.Execute(null);
             }
             await Task.FromResult(true);
         }

@@ -110,6 +110,8 @@ namespace Steamboat.Mobile.Services.Navigation
                 var mPage = Application.Current.MainPage as MainView;
                 var navigationPage = mPage.Detail as CustomNavigationView;
 
+				mPage.IsPresented = false;
+
                 if (navigationPage == null || mainPage)
                 {
                     Device.BeginInvokeOnMainThread(() =>
@@ -127,8 +129,6 @@ namespace Steamboat.Mobile.Services.Navigation
                         Device.BeginInvokeOnMainThread(async () => { await navigationPage.PushAsync(page); });
                     }
                 }
-
-                mPage.IsPresented = false;
             }
             else
             {

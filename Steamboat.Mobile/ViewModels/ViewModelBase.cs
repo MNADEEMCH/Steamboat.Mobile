@@ -145,6 +145,5 @@ namespace Steamboat.Mobile.ViewModels
                 return result;
             });
         }
-
     }
 }

@@ -2,11 +2,70 @@
 <views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
                          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                          x:Class="Steamboat.Mobile.Views.MessagingView"
-                         xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+                         xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels"
+                         xmlns:surveyControl="clr-namespace:Steamboat.Mobile.CustomControls.Messaging"
                          viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
                          xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
-                         xmlns:views="clr-namespace:Steamboat.Mobile.Views">
+                         xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+                         BackgroundColor="{StaticResource SubtleGrayColor}"
+                         Title="Messaging">
+     <ContentPage.Resources>
+        <ResourceDictionary>
+            <surveyControl:MessagesTemplateSelector x:Key="TemplateSelector" />
+            <Style x:Key="MainFormGrid" TargetType="Grid">
+                <Setter Property="RowSpacing" Value="0" />
+                <Setter Property="ColumnSpacing" Value="0" />
+                <Setter Property="IsVisible" Value="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+            </Style>
+            <Style x:Key="HeaderLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="BackgroundColor" Value="{StaticResource SubtleBlueColor}" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="InterviewScrollView"  TargetType="ScrollView">
+                <Setter Property="Orientation" Value="Vertical"></Setter>
+                <Setter Property="Padding" Value="16,24,16,0"></Setter>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"></Setter>
+            </Style>
+            <Style x:Key="Repeater" TargetType="customControl:RepeaterControl">
+                <Setter Property="HorizontalOptions" Value="Fill"></Setter>
+                <Setter Property="VerticalOptions" Value="StartAndExpand"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <Label Text="Messaging view" />
+         <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" Style="{StaticResource MainFormGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="72" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Text="ASK A QUESTION" Style="{StaticResource HeaderLabel}" />
+                <ScrollView Grid.Row="1" Style="{StaticResource InterviewScrollView}" x:Name="MessagingScroll" >
+                    <customControl:RepeaterControl 
+                        ItemsSource="{Binding AllMessages}" Style="{StaticResource Repeater}" 
+                        ItemTemplate="{StaticResource TemplateSelector}"
+                        ScrollToBottomCommand="{Binding ScrollToBottomCommand}"/>
+                </ScrollView>
+                <Grid Grid.Row="2" ColumnSpacing="0" BackgroundColor="{StaticResource MomentumBlueColor}" Padding="8" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Entry Grid.Column="0" Text="{Binding MessageText}" Margin="0,0,0,8" />
+                    <Button Grid.Column="1" Text="Send" TextColor="White" Margin="8,0,0,8" Command="{Binding SendMessageCommand}" />
+                </Grid>
+            </Grid>
+
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+        </Grid>
     </ContentPage.Content>
 </views:CustomContentPage>

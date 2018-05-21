@@ -40,7 +40,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
                 JsonConvert.DeserializeObject<TResult>(serialized, _serializerSettings));
 
             return result;
-        }
+        }       
 
         public async Task<TResult> PostAsync<TResult,TData>(string uri, TData data, string sessionID = "")
         {

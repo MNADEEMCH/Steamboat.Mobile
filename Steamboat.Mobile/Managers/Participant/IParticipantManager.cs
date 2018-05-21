@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Steamboat.Mobile.Models.Participant;
+using Steamboat.Mobile.Models.Participant.Messaging;
 using Steamboat.Mobile.Models.Participant.Survey;
 
 namespace Steamboat.Mobile.Managers.Participant
@@ -19,5 +20,8 @@ namespace Steamboat.Mobile.Managers.Participant
         Task<QuestionGroup> SendSurvey(int groupID, List<ParticipantConsent> answers);
         Task CompleteSurvey(int groupID, List<ParticipantConsent> answers);
         List<ParticipantConsent> GetSurveyResponses();
+        Task<CoachMessages> GetAllMessages();
+		Task<CoachMessages> GetNewMessages(string dateFrom);
+		Task<CoachMessages.Message> SendMessage(string messageText);
     }
 }

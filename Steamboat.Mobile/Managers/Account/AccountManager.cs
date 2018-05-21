@@ -14,128 +14,128 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.Managers.Account
 {
-    public class AccountManager : ManagerBase, IAccountManager
-    {
-        private IAccountService _accountService;
-        private IUserRepository _userRepository;
-        private IUserAlertRepository _userAlertRepository;
+	public class AccountManager : ManagerBase, IAccountManager
+	{
+		private IAccountService _accountService;
+		private IUserRepository _userRepository;
+		private IUserAlertRepository _userAlertRepository;
 
-        public AccountManager(IAccountService accountService = null,
-                              IUserRepository userRepository = null,
-                              IUserAlertRepository userAlertRepository = null)
-        {
-            _accountService = accountService ?? DependencyContainer.Resolve<IAccountService>();
-            _userRepository = userRepository ?? DependencyContainer.Resolve<IUserRepository>();
-            _userAlertRepository = userAlertRepository ?? DependencyContainer.Resolve<IUserAlertRepository>();
-        }
+		public AccountManager(IAccountService accountService = null,
+							  IUserRepository userRepository = null,
+							  IUserAlertRepository userAlertRepository = null)
+		{
+			_accountService = accountService ?? DependencyContainer.Resolve<IAccountService>();
+			_userRepository = userRepository ?? DependencyContainer.Resolve<IUserRepository>();
+			_userAlertRepository = userAlertRepository ?? DependencyContainer.Resolve<IUserAlertRepository>();
+		}
 
-        public async Task<AccountInfo> Login(string username, string password)
-        {
-            return await TryExecute<AccountInfo>(async()=>
-            {
-                var devicePlatform = CrossDeviceInfo.Current.Platform.ToString();
-                var deviceModel = CrossDeviceInfo.Current.Model;
-                var deviceLocalID = CrossDeviceInfo.Current.Id;
+		public async Task<AccountInfo> Login(string username, string password)
+		{
+			return await TryExecute<AccountInfo>(async () =>
+			{
+				var devicePlatform = CrossDeviceInfo.Current.Platform.ToString();
+				var deviceModel = CrossDeviceInfo.Current.Model;
+				var deviceLocalID = CrossDeviceInfo.Current.Id;
 
-                var account = await _accountService.AccountLogin(new AccountLogin()
-                {
-                    EmailAddress = username,
-                    Password = password,
-                    DevicePlatform = devicePlatform,
-                    DeviceModel = deviceModel,
-                    DeviceLocalID = deviceLocalID
-                });
-                 
-                if (account != null)
-                {
-                    account.AvatarUrl = ResolveUrl(account.AvatarUrl);
-                    var user = App.CurrentUser == null ?
-                                  await _userRepository.AddUser(username, account.AvatarUrl) : await _userRepository.UpdateUser(App.CurrentUser.Id, username, account.AvatarUrl);
+				var account = await _accountService.AccountLogin(new AccountLogin()
+				{
+					EmailAddress = username,
+					Password = password,
+					DevicePlatform = devicePlatform,
+					DeviceModel = deviceModel,
+					DeviceLocalID = deviceLocalID
+				});
 
-                    App.CurrentUser = user;
-                    App.SessionID = account.Session;
-                }
+				if (account != null)
+				{
+					account.AvatarUrl = ResolveUrl(account.AvatarUrl);
+					var user = App.CurrentUser == null ?
+								  await _userRepository.AddUser(username, account.AvatarUrl) : await _userRepository.UpdateUser(App.CurrentUser.Id, username, account.AvatarUrl);
 
-                return account;
+					App.CurrentUser = user;
+					App.SessionID = account.Session;
+				}
 
-            });
+				return account;
 
-        }
-       
-        public async Task<CurrentUser> GetLocalUser()
-        {
-            return await TryExecute<CurrentUser>(async () =>
-            {
-                return await _userRepository.GetCurrentUser();
+			});
 
-            });
-        }
+		}
 
-        public async Task<bool> Logout(bool callBackend=true)
-        {
-            return await TryExecute<bool>(async () =>
-            {
-                var sessionId = App.SessionID;
-                App.SessionID = null;
-                if (callBackend)
-                {
-                    var res = await _accountService.AccountLogout(sessionId);
-                    return res != null;
-                }
+		public async Task<CurrentUser> GetLocalUser()
+		{
+			return await TryExecute<CurrentUser>(async () =>
+			{
+				return await _userRepository.GetCurrentUser();
 
-                return true;
-            });
-        }
+			});
+		}
 
-        public async Task<AccountLogin> InitPassword(string password, string confirm)
-        {
-            return await TryExecute<AccountLogin>(async () =>
-            {
-                var initResponse = await _accountService.AccountInitPassword(new AccountInitPassword()
-                {
-                    Password = password,
-                    RetypePassword = confirm
-                }, App.SessionID);
+		public async Task<bool> Logout(bool callBackend = true)
+		{
+			return await TryExecute<bool>(async () =>
+			{
+				var sessionId = App.SessionID;
+				App.SessionID = null;
+				if (callBackend)
+				{
+					var res = await _accountService.AccountLogout(sessionId);
+					return res != null;
+				}
 
-                return initResponse;
-            });
-        }
+				return true;
+			});
+		}
 
-        public async Task<int> AddUserAlert(string username, int alertId)
-        {
-            return await TryExecute<int>(async () =>
-            {
-                return await _userAlertRepository.AddUserAlert(new UserAlert { UserName = username, AlertId = alertId });
-            
-            });
-        }
+		public async Task<AccountLogin> InitPassword(string password, string confirm)
+		{
+			return await TryExecute<AccountLogin>(async () =>
+			{
+				var initResponse = await _accountService.AccountInitPassword(new AccountInitPassword()
+				{
+					Password = password,
+					RetypePassword = confirm
+				}, App.SessionID);
 
-        public async Task<UserAlerts> GetUserAlerts(string username)
-        {
-            return await TryExecute<UserAlerts>(async () =>
-            {
-                var userAlertItems = await _userAlertRepository.GetUserAlert(username);
-                if (userAlertItems != null){
-                    var userAlerts = userAlertItems.GroupBy(x => x.UserName)
-                                           .Select(g => new UserAlerts()
-                                           {
-                                               AlertsIds = g.Select(x => x.AlertId).ToList(),
-                                               UserName = g.Key as string
-                                           }).FirstOrDefault();
-                    return userAlerts;
-                }
+				return initResponse;
+			});
+		}
 
-                return null;
-            });
+		public async Task<int> AddUserAlert(string username, int alertId)
+		{
+			return await TryExecute<int>(async () =>
+			{
+				return await _userAlertRepository.AddUserAlert(new UserAlert { UserName = username, AlertId = alertId });
 
-        }
+			});
+		}
 
-        private string ResolveUrl(string avatarUrl)
-        {
-            //TODO: Get BaseURL from config
-            var apiUrlBase = "https://dev.momentumhealth.co/";
-            return avatarUrl.Replace("~/", apiUrlBase);
-        }
-    
-    }
+		public async Task<UserAlerts> GetUserAlerts(string username)
+		{
+			return await TryExecute<UserAlerts>(async () =>
+			{
+				var userAlertItems = await _userAlertRepository.GetUserAlert(username);
+				if (userAlertItems != null)
+				{
+					var userAlerts = userAlertItems.GroupBy(x => x.UserName)
+										   .Select(g => new UserAlerts()
+										   {
+											   AlertsIds = g.Select(x => x.AlertId).ToList(),
+											   UserName = g.Key as string
+										   }).FirstOrDefault();
+					return userAlerts;
+				}
+
+				return null;
+			});
+
+		}
+
+		private string ResolveUrl(string avatarUrl)
+		{
+			//TODO: Get BaseURL from config
+			var apiUrlBase = "https://dev.momentumhealth.co/";
+			return avatarUrl.Replace("~/", apiUrlBase);
+		}
+	}
 }
