@@ -97,7 +97,7 @@ namespace Steamboat.Mobile.Managers
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await _dialogService.ShowAlertAsync("Your session has expired", "Atention", "OK");
+				await _dialogService.ShowAlertAsync("Your session has expired due to inactivity. Please log in again to restore your session.", "Session Timeout", "OK");
                 await _modalService.PopAllAsync();
                 await _navigationService.NavigateToAsync<ViewModels.LoginViewModel>(new Logout(){CallBackend=false});
             });

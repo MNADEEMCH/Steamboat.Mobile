@@ -14,7 +14,7 @@ namespace Steamboat.Mobile
     public partial class App : Application
     {
         private TimeSpan _inactivityTimeStamp;
-        private readonly int _timeoutLimit = 3;
+        private readonly int _timeoutLimit = 15;
 
         public static CurrentUser CurrentUser;
         public static string SessionID;
