@@ -388,6 +388,7 @@
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="CustomRenderers\SurveyEntryRenderer.cs" />
     <Compile Include="CustomRenderers\TapableGridRenderer.cs" />
+    <Compile Include="Helpers\ViewExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

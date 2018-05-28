@@ -23,6 +23,7 @@ namespace Steamboat.Mobile.ViewModels
 		private DateTime _requestTime;
 		private bool _firstRequest;
 		private string _messageText;
+		private bool _userTapped;
 
 		public ObservableCollection<Message> AllMessages { get { return _allMessages; } set { SetPropertyValue(ref _allMessages, value); } }
 		public string MessageText { get { return _messageText; } set { SetPropertyValue(ref _messageText, value); } }
@@ -40,6 +41,7 @@ namespace Steamboat.Mobile.ViewModels
 
 			_imgSource = App.CurrentUser.AvatarUrl;
 			_firstRequest = true;
+			AllMessages = new ObservableCollection<Message>();
 		}
 
 		public override async Task InitializeAsync(object parameter)
@@ -49,30 +51,29 @@ namespace Steamboat.Mobile.ViewModels
 				if (_firstRequest)
 				{
 					var allMessages = await _participantManager.GetAllMessages();
-					_requestTime = GetCreatedTimestamp(allMessages.Messages.Last());
-					AllMessages = ParseMessages(allMessages.Messages);
-					Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(false));
-					_firstRequest = false;
+					if(allMessages.Messages.Count > 0)
+					{
+						_requestTime = GetCreatedTimestamp(allMessages.Messages.Last());
+						AllMessages = ParseMessages(allMessages.Messages);
+						Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(false));
+						_firstRequest = false;
+					}
 				}
 				else
 				{
 					Device.BeginInvokeOnMainThread(async () =>
 					{
-						try
+						await TryExecute(async () =>
 						{
 							var newMessages = await _participantManager.GetNewMessages(_requestTime.ToString("yyyyMMddTHHmmssfff"));
-							if(newMessages.Messages.Count > 0)
+							if (newMessages.Messages.Count > 0)
 							{
 								_requestTime = GetCreatedTimestamp(newMessages.Messages.Last());
 								var observableMessages = ParseMessages(newMessages.Messages);
 								AllMessages.AddRange(observableMessages);
 								ScrollToBottomCommand.Execute(true);
 							}
-						}
-						catch (Exception e)
-						{
-							await DialogService.ShowAlertAsync(e.Message, "Error", "OK");
-						}
+						});
 					});
 				}
 
@@ -100,18 +101,23 @@ namespace Steamboat.Mobile.ViewModels
 
 		private async Task SendMessage()
 		{
+			if (_userTapped)
+				return;
+			_userTapped = true;
+
 			await TryExecute(async () =>
 			{
 				if (!string.IsNullOrEmpty(MessageText))
 				{
 					var newMessage = await _participantManager.SendMessage(MessageText);
-					var auxList = new List<Message>() { newMessage };
-					var observableMessages = ParseMessages(auxList);
+					//var auxList = new List<Message>() { newMessage };
+					var observableMessages = ParseSentMessage(newMessage);
 					Device.BeginInvokeOnMainThread(async () =>
 					{
 						AllMessages.AddRange(observableMessages);
-                        ScrollToBottomCommand.Execute(true);
+						ScrollToBottomCommand.Execute(true);
 						MessageText = string.Empty;
+						_userTapped = false;
 					});
 					_requestTime = GetCreatedTimestamp(newMessage);
 				}
@@ -152,5 +158,17 @@ namespace Steamboat.Mobile.ViewModels
 
 			return retList;
 		}
+
+		private ObservableCollection<Message> ParseSentMessage(Message message)
+		{
+			var retList = new ObservableCollection<Message>();
+			message.ShowImage = true;
+			message.ShowDate = false;
+			message.AvatarUrl = _imgSource;
+			retList.Add(message);
+
+			return retList;
+		}
+
 	}
 }

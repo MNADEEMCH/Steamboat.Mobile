@@ -7,6 +7,15 @@ namespace Steamboat.Mobile.Views
 {
     public partial class CustomContentPage : ContentPage
     {
+		public static readonly BindableProperty iOSKeyboardScrollProperty =
+			BindableProperty.Create(nameof(iOSKeyboardScroll), typeof(bool), typeof(CustomContentPage), false);
+
+		public bool iOSKeyboardScroll
+        {
+			get { return (bool)GetValue(iOSKeyboardScrollProperty); }
+			set { SetValue(iOSKeyboardScrollProperty, value); }
+        }
+		
         public CustomContentPage()
         {
             CustomNavigationView.SetImageSource(this, "icLogo.png");

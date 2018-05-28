@@ -6,6 +6,8 @@ using Xamarin.Forms.Platform.iOS;
 using CoreGraphics;
 using CoreAnimation;
 using Steamboat.Mobile.Views;
+using Foundation;
+using Steamboat.Mobile.iOS.Helpers;
 
 [assembly: ExportRenderer(typeof(CustomContentPage), typeof(CustomNavigationViewRenderer))]
 namespace Steamboat.Mobile.iOS.CustomRenderers
@@ -14,9 +16,12 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
     {
         private UIImageView _imageView;
         private UIView _containerView;
-        private nfloat _lastNavBarHeight = 0.0f;
-        private nfloat _lastNavBarWidth = 0.0f;
         private bool _firstLoad = true;
+		NSObject _keyboardShowObserver;
+        NSObject _keyboardHideObserver;
+        private bool _pageWasShiftedUp;
+        private double _activeViewBottom;
+        private bool _isKeyboardShown;
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
@@ -37,13 +42,33 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             base.ViewWillAppear(animated);
             var page = Element as CustomContentPage;
 
-            if (page != null && _firstLoad)
+            if (page != null)
             {
-                SetupNavBar(NavigationController.NavigationBar.Bounds.Size);
-                SetImageSource(CustomNavigationView.GetImageSource(Element));
-                SetImagePosition(CustomNavigationView.GetImagePosition(Element), CustomNavigationView.GetImageMargin(Element), new CGRect(0, 0, _imageView.IntrinsicContentSize.Width, _imageView.IntrinsicContentSize.Height));
-                _firstLoad = false;
+				if(page.iOSKeyboardScroll)
+				{
+					var contentScrollView = page.Content as ScrollView;
+
+					if (contentScrollView != null)
+						return;
+
+					RegisterForKeyboardNotifications();
+				}
+
+				if(_firstLoad)
+                {
+					SetupNavBar(NavigationController.NavigationBar.Bounds.Size);
+					SetImageSource(CustomNavigationView.GetImageSource(Element));
+					SetImagePosition(CustomNavigationView.GetImagePosition(Element), CustomNavigationView.GetImageMargin(Element), new CGRect(0, 0, _imageView.IntrinsicContentSize.Width, _imageView.IntrinsicContentSize.Height));
+					_firstLoad = false;
+				}
             }
+        }
+
+		public override void ViewWillDisappear(bool animated)
+        {
+            base.ViewWillDisappear(animated);
+
+            UnregisterForKeyboardNotifications();
         }
 
         void SetupNavBar(CGSize size)
@@ -215,6 +240,99 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             Element.PropertyChanged -= Element_PropertyChanged;
 
             base.ViewDidUnload();
+        }
+
+		void RegisterForKeyboardNotifications()
+        {
+            if (_keyboardShowObserver == null)
+                _keyboardShowObserver = NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, OnKeyboardShow);
+            if (_keyboardHideObserver == null)
+                _keyboardHideObserver = NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, OnKeyboardHide);
+        }
+
+        void UnregisterForKeyboardNotifications()
+        {
+            _isKeyboardShown = false;
+            if (_keyboardShowObserver != null)
+            {
+                NSNotificationCenter.DefaultCenter.RemoveObserver(_keyboardShowObserver);
+                _keyboardShowObserver.Dispose();
+                _keyboardShowObserver = null;
+            }
+
+            if (_keyboardHideObserver != null)
+            {
+                NSNotificationCenter.DefaultCenter.RemoveObserver(_keyboardHideObserver);
+                _keyboardHideObserver.Dispose();
+                _keyboardHideObserver = null;
+            }
+        }
+
+		protected virtual void OnKeyboardShow(NSNotification notification)
+        {
+            if (!IsViewLoaded || _isKeyboardShown)
+                return;
+
+            _isKeyboardShown = true;
+            var activeView = View.FindFirstResponder();
+
+            if (activeView == null)
+                return;
+
+            var keyboardFrame = UIKeyboard.FrameEndFromNotification(notification);
+            var isOverlapping = activeView.IsKeyboardOverlapping(View, keyboardFrame);
+
+            if (!isOverlapping)
+                return;
+
+            if (isOverlapping)
+            {
+                _activeViewBottom = activeView.GetViewRelativeBottom(View);
+                ShiftPageUp(keyboardFrame.Height, _activeViewBottom);
+            }
+        }
+
+        private void OnKeyboardHide(NSNotification notification)
+        {
+            if (!IsViewLoaded)
+                return;
+
+            _isKeyboardShown = false;
+            var keyboardFrame = UIKeyboard.FrameEndFromNotification(notification);
+
+            if (_pageWasShiftedUp)
+            {
+                ShiftPageDown(keyboardFrame.Height, _activeViewBottom);
+            }
+        }
+
+        private void ShiftPageUp(nfloat keyboardHeight, double activeViewBottom)
+        {
+            var pageFrame = Element.Bounds;
+
+            var newY = pageFrame.Y + CalculateShiftByAmount(pageFrame.Height, keyboardHeight, activeViewBottom);
+
+            Element.LayoutTo(new Rectangle(pageFrame.X, newY,
+                pageFrame.Width, pageFrame.Height));
+
+            _pageWasShiftedUp = true;
+        }
+
+        private void ShiftPageDown(nfloat keyboardHeight, double activeViewBottom)
+        {
+            var pageFrame = Element.Bounds;
+
+            var newY = pageFrame.Y - CalculateShiftByAmount(pageFrame.Height, keyboardHeight, activeViewBottom);
+
+            Element.LayoutTo(new Rectangle(pageFrame.X, newY,
+                pageFrame.Width, pageFrame.Height));
+
+            _pageWasShiftedUp = false;
+        }
+
+        private double CalculateShiftByAmount(double pageHeight, nfloat keyboardHeight, double activeViewBottom)
+        {
+            return (pageHeight - activeViewBottom) - keyboardHeight;
         }
     }
 }
