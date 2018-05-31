@@ -5,7 +5,6 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{895221BC-B483-429A-B246-E05AD1544BA9}</ProjectGuid>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <UseMSBuildEngine>true</UseMSBuildEngine>
     <OutputType>Library</OutputType>
     <RootNamespace>Steamboat.Mobile</RootNamespace>
     <AssemblyName>Steamboat.Mobile</AssemblyName>
@@ -24,6 +23,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>RELEASE;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Production|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Production</OutputPath>
+    <DefineConstants>PRODUCTION;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -353,6 +360,9 @@
     <Compile Include="ViewModels\Interfaces\IHandleView.cs" />
     <Compile Include="Models\Participant\Messaging\UserMessage.cs" />
     <Compile Include="Extensions\Converters\StringNullOrEmptyBoolConverter.cs" />
+    <Compile Include="Helpers\Settings\ISettings.cs" />
+    <Compile Include="Helpers\Settings\DevSettings.cs" />
+    <Compile Include="Helpers\Settings\ProdSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -485,6 +495,7 @@
     <Folder Include="CustomControls\Messaging\" />
     <Folder Include="Views\Messaging\" />
     <Folder Include="ViewModels\Interfaces\" />
+    <Folder Include="Helpers\Settings\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

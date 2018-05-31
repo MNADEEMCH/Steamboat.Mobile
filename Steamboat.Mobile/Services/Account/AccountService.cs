@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Steamboat.Mobile.Helpers.Settings;
 using Steamboat.Mobile.Models.Account;
 using Steamboat.Mobile.Services.RequestProvider;
 
@@ -8,11 +9,14 @@ namespace Steamboat.Mobile.Services.Account
     public class AccountService : IAccountService
     {
         private readonly IRequestProvider _requestProvider;
-        private const string ApiUrlBase = "https://dev.momentumhealth.co/account/";
+		private ISettings _settings;
+		private readonly string ApiUrlBase;
 
-        public AccountService(IRequestProvider requestProvider = null)
+		public AccountService(IRequestProvider requestProvider = null, ISettings settings = null)
         {
             _requestProvider = requestProvider ?? DependencyContainer.Resolve<IRequestProvider>();
+			_settings = settings ?? DependencyContainer.Resolve<ISettings>();
+			ApiUrlBase = _settings.BaseUrl + "account/";
         }
 
         public async Task<AccountInfo> AccountLogin(AccountLogin loginCredentials)

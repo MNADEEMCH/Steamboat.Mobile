@@ -9,16 +9,19 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Steamboat.Mobile.Exceptions;
 using Steamboat.Mobile.Helpers;
+using Steamboat.Mobile.Helpers.Settings;
 using Steamboat.Mobile.Models;
 
 namespace Steamboat.Mobile.Services.RequestProvider
 {
     public class RequestProvider : IRequestProvider
     {
+		private ISettings _settings;
         private readonly JsonSerializerSettings _serializerSettings;
 
-        public RequestProvider()
+		public RequestProvider(ISettings settings = null)
         {
+			_settings = settings ?? DependencyContainer.Resolve<ISettings>();
             _serializerSettings = new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
@@ -137,7 +140,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
             {
                 CookieContainer cookies = new CookieContainer();
                 HttpClientHandler handler = new HttpClientHandler();
-                cookies.Add(new Uri(uri),new Cookie("ASP.NET_SessionId", sessionID, "/", "momentumhealth.co"));
+				cookies.Add(new Uri(uri),new Cookie("ASP.NET_SessionId", sessionID, "/", _settings.RequestProviderCookieUrl));
                 handler.CookieContainer = cookies;
                 httpClient = new HttpClient(handler);
                 httpClient.DefaultRequestHeaders.Add("Momentum-Api-Session", sessionID);
@@ -145,7 +148,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
 
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Add("Momentum-Api","true");
-            httpClient.DefaultRequestHeaders.Add("Momentum-Api-Environment", "F5752008-E484-4691-B58A-3338A90F80AA");
+			httpClient.DefaultRequestHeaders.Add("Momentum-Api-Environment", _settings.RequestProviderApiEnvironment);
 
             return httpClient;
         }

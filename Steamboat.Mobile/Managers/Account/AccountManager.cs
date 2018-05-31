@@ -11,6 +11,7 @@ using System.Linq;
 using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Services.Dialog;
 using Xamarin.Forms;
+using Steamboat.Mobile.Helpers.Settings;
 
 namespace Steamboat.Mobile.Managers.Account
 {
@@ -19,14 +20,17 @@ namespace Steamboat.Mobile.Managers.Account
 		private IAccountService _accountService;
 		private IUserRepository _userRepository;
 		private IUserAlertRepository _userAlertRepository;
+		private ISettings _settings;
 
 		public AccountManager(IAccountService accountService = null,
 							  IUserRepository userRepository = null,
-							  IUserAlertRepository userAlertRepository = null)
+							  IUserAlertRepository userAlertRepository = null,
+		                      ISettings settings = null)
 		{
 			_accountService = accountService ?? DependencyContainer.Resolve<IAccountService>();
 			_userRepository = userRepository ?? DependencyContainer.Resolve<IUserRepository>();
 			_userAlertRepository = userAlertRepository ?? DependencyContainer.Resolve<IUserAlertRepository>();
+			_settings = settings ?? DependencyContainer.Resolve<ISettings>();
 		}
 
 		public async Task<AccountInfo> Login(string username, string password)
@@ -133,9 +137,7 @@ namespace Steamboat.Mobile.Managers.Account
 
 		private string ResolveUrl(string avatarUrl)
 		{
-			//TODO: Get BaseURL from config
-			var apiUrlBase = "https://dev.momentumhealth.co/";
-			return avatarUrl.Replace("~/", apiUrlBase);
+			return avatarUrl.Replace("~/", _settings.BaseUrl);
 		}
 	}
 }

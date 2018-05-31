@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Steamboat.Mobile.Helpers.Settings;
 using Steamboat.Mobile.Models.Participant;
 using Steamboat.Mobile.Models.Participant.Messaging;
 using Steamboat.Mobile.Models.Participant.Survey;
@@ -11,11 +12,13 @@ namespace Steamboat.Mobile.Services.Participant
     public class ParticipantService : IParticipantService
     {
         private readonly IRequestProvider _requestProvider;
-        private const string ApiUrlBase = "https://dev.momentumhealth.co/participant/";
+		private readonly string ApiUrlBase;
 
-        public ParticipantService(IRequestProvider requestProvider = null)
+		public ParticipantService(IRequestProvider requestProvider = null, ISettings settings = null)
         {
             _requestProvider = requestProvider ?? DependencyContainer.Resolve<IRequestProvider>();
+			var _settings = settings ?? DependencyContainer.Resolve<ISettings>();
+			ApiUrlBase = _settings.BaseUrl + "participant/";
         }
 
         public async Task<Status> GetStatus(string sessionId)

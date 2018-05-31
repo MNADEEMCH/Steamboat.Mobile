@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Steamboat.Mobile.Helpers.Settings;
 using Steamboat.Mobile.Managers.Application;
 using Steamboat.Mobile.Models.Notification;
 using Steamboat.Mobile.Models.User;
@@ -14,19 +15,22 @@ namespace Steamboat.Mobile
     public partial class App : Application
     {
         private TimeSpan _inactivityTimeStamp;
-        private readonly int _timeoutLimit = 15;
+        private readonly int _timeoutLimit;
 
         public static CurrentUser CurrentUser;
         public static string SessionID;
 
         public static IApplicationManager _applicationManager;
+		private ISettings _settings;
 
-        public App(PushNotification pushNotification = null)
+		public App(PushNotification pushNotification = null, ISettings settings = null)
         {
             InitializeComponent();
 
             _applicationManager = _applicationManager ?? DependencyContainer.Resolve<IApplicationManager>();
+			_settings = settings ?? DependencyContainer.Resolve<ISettings>();
             _applicationManager.InitializeApplication(pushNotification);
+			_timeoutLimit = _settings.TimeoutLimit;
         }
 
         public static async Task HandlePushNotification(PushNotification pushNotification)

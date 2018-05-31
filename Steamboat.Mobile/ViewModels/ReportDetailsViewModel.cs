@@ -5,14 +5,15 @@ using System.Net;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using Steamboat.Mobile.Models.Application;
+using Steamboat.Mobile.Helpers.Settings;
 
 namespace Steamboat.Mobile.ViewModels
 {
     public class ReportDetailsViewModel : ViewModelBase
     {
         #region Properties
-
-        private string _reportUri = "https://dev.momentumhealth.co/participant/report";
+        
+        private readonly string _reportUri;
         private bool _webViewLoadedSucessfully = false;
 
         public bool WebViewLoadedSucessfully { set { SetPropertyValue(ref _webViewLoadedSucessfully, value); } get { return _webViewLoadedSucessfully; } }
@@ -23,9 +24,12 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-        public ReportDetailsViewModel()
+		public ReportDetailsViewModel(ISettings settings = null)
         {
             IsLoading = true;
+			var _settings = settings ?? DependencyContainer.Resolve<ISettings>();
+			_reportUri = _settings.BaseUrl + "participant/report";
+
             SetWebView();
         }
 
@@ -58,7 +62,7 @@ namespace Steamboat.Mobile.ViewModels
             cookie.Name = "ASP.NET_SessionId";
             cookie.Value = App.SessionID;
             cookie.Path = "/";
-            cookie.Domain = "dev.momentumhealth.co";
+			cookie.Domain = GetDomain(_reportUri);
             WebViewCookies.Add(new Uri(_reportUri), cookie);
         }
 
@@ -69,6 +73,12 @@ namespace Steamboat.Mobile.ViewModels
             WebViewHeaders.Add("Momentum-Api-Environment", "F5752008-E484-4691-B58A-3338A90F80AA");
             WebViewHeaders.Add("Momentum-Api-Session", App.SessionID);
         }
+
+		private string GetDomain(string fullUrl)
+		{
+			var ret = fullUrl.Replace("http://", "").Replace("https://","");
+			return ret.Substring(0,ret.IndexOf("/"));
+		}
 
         public async Task LoadFinished(bool loadedSuccessfully)
         {
