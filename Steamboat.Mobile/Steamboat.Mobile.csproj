@@ -366,6 +366,7 @@
     <Compile Include="Helpers\Settings\ISettings.cs" />
     <Compile Include="Helpers\Settings\DevSettings.cs" />
     <Compile Include="Helpers\Settings\ProdSettings.cs" />
+    <Compile Include="Helpers\IDeviceInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

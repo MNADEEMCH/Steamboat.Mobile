@@ -300,6 +300,7 @@
     <Compile Include="Helpers\DisplayMetricsHelper.cs" />
     <Compile Include="CustomRenderers\TapableGridRenderer.cs" />
     <Compile Include="CustomRenderers\IconMasterDetailPageRenderer.cs" />
+    <Compile Include="Helpers\DeviceInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />

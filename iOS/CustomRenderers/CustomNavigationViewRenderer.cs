@@ -22,8 +22,9 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         private bool _pageWasShiftedUp;
         private double _activeViewBottom;
         private bool _isKeyboardShown;
-
-        protected override void OnElementChanged(VisualElementChangedEventArgs e)
+		private int _entryPadding => 12;
+      
+		protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
             base.OnElementChanged(e);
         }
@@ -310,7 +311,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         {
             var pageFrame = Element.Bounds;
 
-            var newY = pageFrame.Y + CalculateShiftByAmount(pageFrame.Height, keyboardHeight, activeViewBottom);
+			var newY = pageFrame.Y + CalculateShiftByAmount(pageFrame.Height, keyboardHeight, activeViewBottom) - _entryPadding;
 
             Element.LayoutTo(new Rectangle(pageFrame.X, newY,
                 pageFrame.Width, pageFrame.Height));
@@ -322,7 +323,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         {
             var pageFrame = Element.Bounds;
 
-            var newY = pageFrame.Y - CalculateShiftByAmount(pageFrame.Height, keyboardHeight, activeViewBottom);
+			var newY = pageFrame.Y - CalculateShiftByAmount(pageFrame.Height, keyboardHeight, activeViewBottom) + _entryPadding;
 
             Element.LayoutTo(new Rectangle(pageFrame.X, newY,
                 pageFrame.Width, pageFrame.Height));

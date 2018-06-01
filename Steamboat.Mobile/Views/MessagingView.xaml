@@ -68,21 +68,21 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid Grid.Row="0" Style="{StaticResource MainFormGrid}">
+            <Grid x:Name="MainGrid" Grid.Row="0" Style="{StaticResource MainFormGrid}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="72" />
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Text="ASK A QUESTION" Style="{StaticResource HeaderLabel}" />
+                <Label Grid.Row="0" Text="SEND AND RECEIVE MESSAGES" Style="{StaticResource HeaderLabel}" />
                 <ScrollView Grid.Row="1" Style="{StaticResource InterviewScrollView}" x:Name="MessagingScroll" >
                     <customControl:RepeaterControl 
                         ItemsSource="{Binding AllMessages}" Style="{StaticResource Repeater}" 
                         ItemTemplate="{StaticResource TemplateSelector}"
                         ScrollToBottomCommand="{Binding ScrollToBottomCommand}"/>
                 </ScrollView>
-                <Grid Grid.Row="2" ColumnSpacing="0" BackgroundColor="{StaticResource MomentumBlueColor}" Padding="16,12" >
+                <Grid x:Name="EntryGrid" Grid.Row="2" ColumnSpacing="0" BackgroundColor="{StaticResource MomentumBlueColor}" Padding="16,12" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
