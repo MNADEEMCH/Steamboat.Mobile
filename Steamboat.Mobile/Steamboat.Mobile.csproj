@@ -356,10 +356,13 @@
       <DependentUpon>CoachMessageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Application\Logout.cs" />
+    <Compile Include="CustomControls\Renderers\IconMasterDetailPage.cs" />
+    <Compile Include="Models\NavigationParameters\MainViewModelInitParameter.cs" />
     <Compile Include="Extensions\Converters\MessagingDateConverter.cs" />
     <Compile Include="ViewModels\Interfaces\IHandleView.cs" />
     <Compile Include="Models\Participant\Messaging\UserMessage.cs" />
     <Compile Include="Extensions\Converters\StringNullOrEmptyBoolConverter.cs" />
+    <Compile Include="Models\Notification\PushNotificationEventParam.cs" />
     <Compile Include="Helpers\Settings\ISettings.cs" />
     <Compile Include="Helpers\Settings\DevSettings.cs" />
     <Compile Include="Helpers\Settings\ProdSettings.cs" />

@@ -61,19 +61,20 @@ namespace Steamboat.Mobile.ViewModels
 				}
 				else
 				{
-					Device.BeginInvokeOnMainThread(async () =>
+					
+					await TryExecute(async () =>
 					{
-						await TryExecute(async () =>
+						var newMessages = await _participantManager.GetNewMessages(_requestTime.ToString("yyyyMMddTHHmmssfff"));
+						if (newMessages.Messages.Count > 0)
 						{
-							var newMessages = await _participantManager.GetNewMessages(_requestTime.ToString("yyyyMMddTHHmmssfff"));
-							if (newMessages.Messages.Count > 0)
-							{
-								_requestTime = GetCreatedTimestamp(newMessages.Messages.Last());
-								var observableMessages = ParseMessages(newMessages.Messages);
-								AllMessages.AddRange(observableMessages);
-								ScrollToBottomCommand.Execute(true);
-							}
-						});
+							_requestTime = GetCreatedTimestamp(newMessages.Messages.Last());
+							var observableMessages = ParseMessages(newMessages.Messages);
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                AllMessages.AddRange(observableMessages);
+                                ScrollToBottomCommand.Execute(true);
+                            });
+						}
 					});
 				}
 

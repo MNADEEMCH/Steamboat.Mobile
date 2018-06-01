@@ -16,6 +16,7 @@ namespace Steamboat.Mobile.Models.Participant
         public SchedulingStep SchedulingStep { get; set; }
         public ScreeningStep ScreeningStep { get; set; }
         public ReportStep ReportStep { get; set; }
+        public int UnreadMessageCount { get; set; }
     }
 
     public class Alert

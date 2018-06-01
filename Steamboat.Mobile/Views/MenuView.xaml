@@ -5,14 +5,10 @@
              xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels"
              xmlns:views="clr-namespace:Steamboat.Mobile.Views"
              xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
              x:Name="MenuView"
              Title="Title">
-    <ContentPage.Icon>
-        <OnPlatform x:TypeArguments="FileImageSource">
-            <On Platform="iOS" Value="icMenuOpen_Normal.png" />
-        </OnPlatform>
-    </ContentPage.Icon>
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="MenuGrid" TargetType="customControl:TapableGrid">
@@ -29,6 +25,12 @@
                 <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="FontSize" Value="16" />
                 <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+            </Style>
+            <Style x:Key="NotificationBadgeImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="HeightRequest" Value="8" />
+                <Setter Property="WidthRequest" Value="8" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -51,8 +53,17 @@
                                     <RowDefinition Height="56" />
                                     <RowDefinition Height="1" />
                                 </customControl:TapableGrid.RowDefinitions>
+                                <customControl:TapableGrid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*"/>
+                                </customControl:TapableGrid.ColumnDefinitions>
+                                
                                 <Label customControl:TapableGrid.Row="0" Text="{Binding Title}" Style="{StaticResource MenuLabel}" />
-                                <BoxView customControl:TapableGrid.Row="1" Color="{StaticResource LightGrayColor}" IsVisible="{Binding ShowSeparator}" />
+                                <StackLayout customControl:TapableGrid.Column="1">
+                                    <ffimageloading:CachedImage  Style="{StaticResource NotificationBadgeImage}" IsVisible="{Binding ShowNotificationBadge}" Source="icMenuNotification"/>
+                                </StackLayout>
+                               
+                                <BoxView customControl:TapableGrid.Row="1" customControl:TapableGrid.ColumnSpan="2" Color="{StaticResource LightGrayColor}" IsVisible="{Binding ShowSeparator}" />
 
                                 <customControl:TapableGrid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemSelectedCommand, Source={x:Reference MenuView}}" CommandParameter="{Binding .}" />

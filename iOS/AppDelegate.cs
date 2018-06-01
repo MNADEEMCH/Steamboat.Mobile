@@ -108,14 +108,19 @@ namespace Steamboat.Mobile.iOS
         }
 
         // iOS 9 <=, fire when recieve notification foreground
+        [Export("application:didReceiveRemoteNotification:fetchCompletionHandler:")]
         public async override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
             Messaging.SharedInstance.AppDidReceiveMessage(userInfo);
 
             PushNotification pushNotification = NotificationHelper.TryGetPushNotification(userInfo);
-            if(pushNotification!=null)
-                await App.HandlePushNotification(pushNotification);
 
+            if(pushNotification!=null){
+                await App.HandlePushNotification(IsApplicationInactive(),IsApplicationBackgrounded(),pushNotification);
+                if(pushNotification.IsContentAvailablePresent)
+                    completionHandler(UIBackgroundFetchResult.NewData);
+            }
+            
         }
 
         // iOS 10, fire when recieve notification foreground
@@ -125,8 +130,22 @@ namespace Steamboat.Mobile.iOS
 
             PushNotification pushNotification = NotificationHelper.TryGetPushNotification(notification.Request.Content.UserInfo);
             if (pushNotification != null)
-                await App.HandlePushNotification(pushNotification);
+                await App.HandlePushNotification(IsApplicationInactive(),IsApplicationBackgrounded(),pushNotification);
 
+        }
+
+
+        private bool IsApplicationBackgrounded(){
+            return GetAppState().Equals(UIApplicationState.Background); 
+        }
+
+        private bool IsApplicationInactive()
+        {
+            return GetAppState().Equals(UIApplicationState.Inactive);
+        }
+
+        private UIApplicationState GetAppState(){
+            return UIApplication.SharedApplication.ApplicationState;
         }
 
         private void ResolveDependencies()
@@ -134,5 +153,6 @@ namespace Steamboat.Mobile.iOS
             IOSDependencyContainer.RegisterDependencies();
             DependencyContainer.RegisterDependencies();
         }
+    
     }
 }

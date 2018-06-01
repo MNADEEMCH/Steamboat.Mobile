@@ -11,6 +11,8 @@ using Steamboat.Mobile.Models.Notification;
 using Steamboat.Mobile.Droid.Helpers;
 using Newtonsoft.Json;
 using Steamboat.Mobile.Services.Notification;
+using Steamboat.Mobile.Helpers;
+using Xamarin.ShortcutBadger;
 
 namespace Steamboat.Mobile.Droid.Services.Firebase
 {
@@ -21,42 +23,50 @@ namespace Steamboat.Mobile.Droid.Services.Firebase
 		public override void OnCreate()
 		{
 			base.OnCreate();
-            Xamarin.ShortcutBadger.ShortcutBadger.ApplyCount(this.ApplicationContext, 1);
 		}
 
 		public override void OnMessageReceived(RemoteMessage message)
         {
+            base.OnMessageReceived(message);
 
             var pushNotification = NotificationHelper.TryGetPushNotification(message);
             if (pushNotification != null)
             {
-                Task.Run(async () => await App.HandlePushNotification(pushNotification));
-                SendNotification(pushNotification);
+                if(!MainApplication.IsForeground())
+                    ShowNotification(pushNotification);
+                
+                Task.Run(async () => await App.HandlePushNotification(false,MainActivity.IsAppBackgrounded,pushNotification));
             }
 
         }
 
-        public void SendNotification(PushNotification pushNotification)
+        public void ShowNotification(PushNotification pushNotification)
         {
-            var intent = new Intent(this, typeof(MainActivity));
+            var intent = new Intent(this, typeof(SplashActivity));//MainActivity
             intent.AddFlags(ActivityFlags.SingleTop|ActivityFlags.ClearTop);
-           
-            //TODO: the extras doesnt get refreshed, they should be refreshed when PendingIntentFlags.UpdateCurrent is present
-            //var jsonPushNotification = JsonConvert.SerializeObject(pushNotification);
-            //intent.PutExtra("momentum_health", jsonPushNotification);
+
+            var jsonPushNotification = JsonConvert.SerializeObject(pushNotification);
+            intent.PutExtra(NotificationDataHelper.Flag, jsonPushNotification);
 
             var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.UpdateCurrent);
 
             var notificationBuilder = new NotificationCompat.Builder(this)
-                .SetContentText(pushNotification.Message)
-                .SetAutoCancel(true)
+                .SetSmallIcon(Resource.Drawable.icon)
+                .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification))
+                .SetContentText(pushNotification.Body)
+                .SetContentTitle(pushNotification.Title)
+                .SetNumber(pushNotification.Badge)//for Android 8.0
                 .SetContentIntent(pendingIntent)
-                .SetNumber(pushNotification.Badge);//for Android 8.0
+                .SetAutoCancel(true);
+
+            ShortcutBadger.ApplyCount(this.ApplicationContext, pushNotification.Badge);
 
             var notificationManager = NotificationManager.FromContext(this);
-            notificationManager.Notify(0, notificationBuilder.Build());
-
+            var uniqueid = (int)((DateTime.Now.Ticks / 1000L) % Int32.MaxValue);
+            notificationManager.Notify(uniqueid, notificationBuilder.Build());
 
         }
+
+
     }
 }

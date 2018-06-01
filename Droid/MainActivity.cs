@@ -25,13 +25,21 @@ namespace Steamboat.Mobile.Droid
     [Activity(LaunchMode = LaunchMode.SingleTask, Label = "Momentum", Icon = "@drawable/icon", Theme = "@style/MyTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        
         private static bool _newIntent = false;
+        private static bool _isAppBackgrounded = false;
         private static Context _mContext;
 
-        public static Context getContext()
+        public static bool IsAppBackgrounded
         {
-            return _mContext;
+            get { return _isAppBackgrounded; }
         }
+
+        public static Context Context
+        {
+            get { return _mContext; }
+        }
+
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -66,17 +74,23 @@ namespace Steamboat.Mobile.Droid
             //));
         }
 
-        protected override void OnResume()
+		protected override void OnPause()
+		{
+            base.OnPause();
+            _isAppBackgrounded = true;
+		}
+
+		protected override void OnResume()
         {
             base.OnResume();
-
+            _isAppBackgrounded = false;
             if (_newIntent)
             {
                 PushNotification pushNotificationParameter = NotificationHelper.TryGetPushNotification(this.Intent);
 
                 if (pushNotificationParameter != null)
                 {
-                    Task.Run(async () => await App.HandlePushNotification(pushNotificationParameter));
+                    Task.Run(async () => await App.HandlePushNotification(true,IsAppBackgrounded,pushNotificationParameter));
                 }
 
                 _newIntent = false;

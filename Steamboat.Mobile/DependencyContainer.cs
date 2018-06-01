@@ -47,40 +47,46 @@ namespace Steamboat.Mobile
 			Locator.CurrentMutable.RegisterConstant(new Database<CurrentUser>(), typeof(IDatabase<CurrentUser>));
 			Locator.CurrentMutable.RegisterConstant(new Database<UserAlert>(), typeof(IDatabase<UserAlert>));
 
+            //ViewModels
+            Locator.CurrentMutable.Register(() => new ReportDetailsViewModel());
+            Locator.CurrentMutable.Register(() => new ConsentsViewModel());
+            Locator.CurrentMutable.Register(() => new SchedulingEventTimeViewModel());
+            Locator.CurrentMutable.Register(() => new SchedulingEventDateViewModel());
+            Locator.CurrentMutable.Register(() => new SchedulingConfirmationViewModel());
+            Locator.CurrentMutable.Register(() => new ScreeningInterviewViewModel());
+            RegisterSingletonViewModels();
+
+            //ModalViewModels
+            Locator.CurrentMutable.Register(() => new DispositionMoreInfoModalViewModel());
+            Locator.CurrentMutable.Register(() => new WelcomeModalViewModel());
+            Locator.CurrentMutable.Register(() => new ScreeningCancelConfirmationModalViewModel());
+            Locator.CurrentMutable.Register(() => new InterviewEditQuestionModalViewModel());
+	
 			//Managers
 			Locator.CurrentMutable.RegisterLazySingleton(() => new AccountManager(), typeof(IAccountManager));
 			Locator.CurrentMutable.RegisterLazySingleton(() => new ParticipantManager(), typeof(IParticipantManager));
 			Locator.CurrentMutable.RegisterLazySingleton(() => new ApplicationManager(), typeof(IApplicationManager));
-
-			//ViewModels
-			Locator.CurrentMutable.RegisterLazySingleton(() => new LoginViewModel());
-			Locator.CurrentMutable.RegisterLazySingleton(() => new MainViewModel());
-			Locator.CurrentMutable.RegisterLazySingleton(() => new MenuViewModel());
-			Locator.CurrentMutable.RegisterLazySingleton(() => new InitPasswordViewModel());
-			Locator.CurrentMutable.RegisterLazySingleton(() => new InterviewViewModel());
-			Locator.CurrentMutable.RegisterLazySingleton(() => new SchedulingViewModel());
-			Locator.CurrentMutable.RegisterLazySingleton(() => new ScreeningViewModel());
-			Locator.CurrentMutable.RegisterLazySingleton(() => new ReportViewModel());
-			Locator.CurrentMutable.Register(() => new ReportDetailsViewModel());
-			Locator.CurrentMutable.Register(() => new ConsentsViewModel());
-			Locator.CurrentMutable.RegisterLazySingleton(() => new StepperViewModel());
-			Locator.CurrentMutable.Register(() => new SchedulingEventTimeViewModel());
-			Locator.CurrentMutable.Register(() => new SchedulingEventDateViewModel());
-			Locator.CurrentMutable.Register(() => new SchedulingConfirmationViewModel());
-			Locator.CurrentMutable.Register(() => new ScreeningInterviewViewModel());
-			Locator.CurrentMutable.RegisterLazySingleton(() => new MessagingViewModel());
-
-			//ModalViewModels
-			Locator.CurrentMutable.Register(() => new DispositionMoreInfoModalViewModel());
-			Locator.CurrentMutable.Register(() => new WelcomeModalViewModel());
-			Locator.CurrentMutable.Register(() => new ScreeningCancelConfirmationModalViewModel());
-			Locator.CurrentMutable.Register(() => new InterviewEditQuestionModalViewModel());
 		}
 
-		public static void RefreshDependencies()
-		{
-			RegisterDependencies();
-		}
+        public static void RefreshDependencies()
+        {
+            Resolve<MainViewModel>().Reset();
+            Resolve<MenuViewModel>().Reset();
+            RegisterSingletonViewModels();
+        }
+
+        public static void RegisterSingletonViewModels(){
+            Locator.CurrentMutable.RegisterLazySingleton(() => new LoginViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new MainViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new MenuViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new InitPasswordViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new InterviewViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new SchedulingViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new ScreeningViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new ReportViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new StepperViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new MessagingViewModel());
+        }
 
 		public static T Resolve<T>()
 		{

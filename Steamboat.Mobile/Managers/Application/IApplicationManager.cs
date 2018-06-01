@@ -8,7 +8,7 @@ namespace Steamboat.Mobile.Managers.Application
     {
         Task InitializeApplication(PushNotification pushNotification = null);
 
-        Task HandlePushNotification(PushNotification pushNotification);
+        Task HandlePushNotification(bool notificationOpenedByTouch, bool isAppBackgrounded,PushNotification pushNotification);
 
         void UpdateNotificationBadge(int notificationsOpened);
 
@@ -16,5 +16,12 @@ namespace Steamboat.Mobile.Managers.Application
 
         Task SessionExpired();
 
+        Task OnApplicationResume();
+
+        Task OnApplicationSleep();
+
+        Type GetPendingViewModelType();
+
+        event EventHandler<PushNotificationEventParam> OnNotification;
     }
 }

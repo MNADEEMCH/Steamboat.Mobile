@@ -8,5 +8,7 @@ namespace Steamboat.Mobile.Services.Notification
         bool IsValidToken();
 
         void SetNotificationBadge(int badge=0);
+
+        void SetMasterDetailMenuIcon(string menuIcon);
     }
 }

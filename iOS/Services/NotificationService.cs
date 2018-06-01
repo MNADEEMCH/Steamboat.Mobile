@@ -22,5 +22,11 @@ namespace Steamboat.Mobile.iOS.Services
             //TO MODIFY BADGE FROM APP
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = badge;
         }
+
+        public void SetMasterDetailMenuIcon(string menuIcon)
+        {
+            
+        }
+
     }
 }

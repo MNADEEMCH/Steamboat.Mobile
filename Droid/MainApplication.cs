@@ -12,6 +12,13 @@ namespace Steamboat.Mobile.Droid
     [Application]
     public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
+
+        private static int count = 0;
+        public static bool IsForeground()
+        {
+            return count > 0;
+        }
+
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
           :base(handle, transer)
         {
@@ -54,11 +61,13 @@ namespace Steamboat.Mobile.Droid
 
         public void OnActivityStarted(Activity activity)
         {
+            count++;
             CrossCurrentActivity.Current.Activity = activity;
         }
 
         public void OnActivityStopped(Activity activity)
         {
+            count--;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Plugin.DeviceInfo;
 using Steamboat.Mobile.Helpers;
+using Steamboat.Mobile.Helpers.Settings;
 using Steamboat.Mobile.Managers.Account;
 using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Models.Application;
@@ -21,47 +22,82 @@ namespace Steamboat.Mobile.Managers.Application
         private INotificationService _notificationService;
         private IAccountManager _accountManager;
         private IParticipantManager _participantManager;
+        private ISettings _settings;
 
-        private PushNotification _pushNotification;
-        public PushNotification PushNotification { get{return _pushNotification;} set {_pushNotification=value; }}
+        private TimeSpan? _inactivityTimeStamp;
+        private readonly int _timeoutLimit = 15;
+        private int _notificationsCount;
+        private PushNotificationType _notificationTypePending;
+
+        public event EventHandler<PushNotificationEventParam> OnNotification;
+
+        public int NotificationsBadge { get{return _notificationsCount;} set {_notificationsCount=value; }}
 
         public ApplicationManager(IApplicationService applicationService = null,
                                   INotificationService notificationService=null,
                                   IAccountManager accountManager = null,
-                                  IParticipantManager participantManager = null)
+                                  IParticipantManager participantManager = null,
+                                  ISettings settings = null)
 
         {
             _applicationService = applicationService ?? DependencyContainer.Resolve<IApplicationService>();
             _notificationService = notificationService ?? DependencyContainer.Resolve<INotificationService>();
             _accountManager= accountManager ?? DependencyContainer.Resolve<IAccountManager>();
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
+            _settings = settings ?? DependencyContainer.Resolve<ISettings>();
+
+            _timeoutLimit = _settings.TimeoutLimit;
         }
 
         public async Task InitializeApplication(PushNotification pushNotification = null)
         {
-            PushNotification = pushNotification;
-
             if (pushNotification != null)
+            {
+                NotificationsBadge = pushNotification.Badge;
                 UpdateNotificationBadge(0);
+                _notificationTypePending = pushNotification.Type;
+            }
+            else
+                NotificationsBadge = 0;
 
             await _navigationService.InitializeAsync();
         }
 
-        public async Task HandlePushNotification(PushNotification pushNotification)
+        public async Task HandlePushNotification(bool notificationOpenedByTouch,bool isAppBackgrounded,PushNotification pushNotification)
         {
 
-            PushNotification = pushNotification;
+            NotificationsBadge = pushNotification.Badge;
 
+            var inactivityDetected = CheckForInactivity();
             var isUserLoggedIn = App.SessionID != null;
-            if(isUserLoggedIn){
-                if (pushNotification.Data.ContainsKey(NotificationDataHelper.NavigateTo))
-                    await HandlePushNotificationNavigatTo(pushNotification.Data[NotificationDataHelper.NavigateTo]);
-                
-                UpdateNotificationBadge(pushNotification.Badge);
+
+            //NAVIGATE TO
+            if(notificationOpenedByTouch){
+                if (!inactivityDetected
+                    && isUserLoggedIn)
+                    await HandlePushNotificationNavigatTo(pushNotification.Type);
+                else
+                    _notificationTypePending = pushNotification.Type;
             }
-            else{
+            //BADGE
+            if (!isUserLoggedIn || isAppBackgrounded)
                 UpdateNotificationBadge(0);
+            else
+                UpdateNotificationBadge(NotificationsBadge);
+
+            //ON NOTIFICATION
+            if (!inactivityDetected && OnNotification != null){
+
+                var notificationEventParam = new PushNotificationEventParam()
+                {
+                    PushNotification = pushNotification,
+                    IsAppBackgrounded = isAppBackgrounded,
+                    NotificationOpenedByTouch = notificationOpenedByTouch
+                };
+
+                OnNotification(this, notificationEventParam);
             }
+
         }
 
         public void UpdateNotificationBadge(int notificationsOpened){
@@ -69,10 +105,12 @@ namespace Steamboat.Mobile.Managers.Application
             int updatedBadge = GetBadgeToSet(notificationsOpened);
 
             _notificationService.SetNotificationBadge(updatedBadge);
+
+            NotificationsBadge -=  notificationsOpened;
         }
 
         private int GetBadgeToSet(int notificationsOpened){
-            var currentBadge = PushNotification != null ? PushNotification.Badge : 0;
+            var currentBadge = NotificationsBadge;
 
             var updatedBadge = 0;
 
@@ -82,11 +120,11 @@ namespace Steamboat.Mobile.Managers.Application
             return updatedBadge;
         }
 
-        private async Task HandlePushNotificationNavigatTo(string navigateToKey){
+        private async Task HandlePushNotificationNavigatTo(PushNotificationType notificationType){
 
-            if(NotificationNavigateToHelper.NotificationNavigateToDictionary.ContainsKey(navigateToKey)){
+            if(NotificationNavigateToHelper.NotificationNavigateToDictionary.ContainsKey(notificationType)){
                 
-                var viewModelType = NotificationNavigateToHelper.NotificationNavigateToDictionary[navigateToKey];
+                var viewModelType = NotificationNavigateToHelper.NotificationNavigateToDictionary[notificationType];
                 if (viewModelType != null)
                     await NavigateToView(viewModelType);
                 else
@@ -135,9 +173,55 @@ namespace Steamboat.Mobile.Managers.Application
             });
         }
 
+
+        public async Task OnApplicationSleep()
+        {
+            StartTimingInactivity();
+        }
+
+        public async Task OnApplicationResume(){
+
+            if(CheckForInactivity())
+                await SessionExpired();
+            else if(App.SessionID != null)
+                Device.BeginInvokeOnMainThread(() => UpdateNotificationBadge(NotificationsBadge));
+
+            _inactivityTimeStamp = null;
+
+        }
+
+        private void StartTimingInactivity()
+        {
+            if (App.SessionID != null)
+                _inactivityTimeStamp = new TimeSpan(DateTime.Now.Ticks);
+        }
+
+        private bool CheckForInactivity()
+        {
+            if (_inactivityTimeStamp == null || App.SessionID == null)
+                return false;
+
+            TimeSpan? currentTimeSpan = new TimeSpan(DateTime.Now.Ticks);
+            var difference = currentTimeSpan - _inactivityTimeStamp;
+
+            return difference.Value.Minutes >= _timeoutLimit;
+                   
+        }
+
+
         Task IApplicationManager.SessionExpired()
         {
             return base.SessionExpired();
+        }
+
+        public Type GetPendingViewModelType()
+        {
+            Type viewModelType = null;
+            if (NotificationNavigateToHelper.NotificationNavigateToDictionary.ContainsKey(_notificationTypePending))
+                viewModelType= NotificationNavigateToHelper.NotificationNavigateToDictionary[_notificationTypePending];
+
+            _notificationTypePending = PushNotificationType.Unknown;
+            return viewModelType;
         }
     }
 }

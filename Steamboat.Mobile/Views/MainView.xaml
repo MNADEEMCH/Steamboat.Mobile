@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms" 
+<customControl:IconMasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms" 
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                   x:Class="Steamboat.Mobile.Views.MainView"
+                  xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
                   xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels"
                   xmlns:views="clr-namespace:Steamboat.Mobile.Views"
                   viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
                   MasterBehavior="Popover"
+                  ChangeMenuIconCommand="{Binding ChangeMenuIconCommand}"
+                  ClosedMenuIcon="icMenuClosed.png"
+                  ClosedNotificationMenuIcon="icMenuClosed_notification.png"
+                  OpenedMenuIcon="icMenuOpened.png"
+                  OpenedNotificationMenuIcon="icMenuOpened_notification.png"
                   Title="Title" >
-    <MasterDetailPage.Master>
-        <views:MenuView />
-    </MasterDetailPage.Master>
-    <MasterDetailPage.Detail>
+    <customControl:IconMasterDetailPage.Master>
+        <views:MenuView/>
+    </customControl:IconMasterDetailPage.Master>
+    <customControl:IconMasterDetailPage.Detail>
         <ContentPage BackgroundColor="Transparent" />
-    </MasterDetailPage.Detail>
-</MasterDetailPage>
+    </customControl:IconMasterDetailPage.Detail>
+</customControl:IconMasterDetailPage>

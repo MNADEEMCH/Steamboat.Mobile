@@ -299,6 +299,7 @@
     <Compile Include="CustomRenderers\SurveyEntryRenderer.cs" />
     <Compile Include="Helpers\DisplayMetricsHelper.cs" />
     <Compile Include="CustomRenderers\TapableGridRenderer.cs" />
+    <Compile Include="CustomRenderers\IconMasterDetailPageRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
@@ -419,7 +420,33 @@
     <AndroidResource Include="Resources\drawable-hdpi\icMoreInfo_Disabled.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icMoreInfo_Tap.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icSend_Tap.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icMenuOpen_Normal.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icMenuOpen_Normal.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icMenuClose_Normal.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icMenuNotifiacations_open.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icMenuNotifiacations_open.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icMenuNotifiacations_open.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icMenuNotification.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icMenuNotification.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icMenuNotification.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icMenuNotification.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\splashbackground.jpg" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icMenuClosed.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icMenuClosed_notification.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icMenuClosed.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icMenuClosed_notification.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icMenuClosed.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icMenuClosed_notification.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icMenuClosed.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icMenuClosed_notification.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icMenuOpened_notification.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icMenuOpened_notification.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icMenuOpened_notification.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icMenuOpened_notification.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icMenuOpened.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icMenuOpened.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icMenuOpened.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icMenuOpened.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

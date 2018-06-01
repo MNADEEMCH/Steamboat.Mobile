@@ -18,19 +18,8 @@ namespace Steamboat.Mobile.Droid.Helpers
 
             if (intent != null && intent.Extras != null && intent.HasExtra(NotificationDataHelper.Flag)){
 
-                var title = "";//Here I can not ready the push title
-                var msg = "";//Here I can not ready the push body
-                var badge = 0;
-                var navigateTo = "";
-
-                if (intent.HasExtra(NotificationDataHelper.Badge))
-                    Int32.TryParse(intent.GetStringExtra(NotificationDataHelper.Badge), out badge);
-                
-                if(intent.HasExtra(NotificationDataHelper.NavigateTo))
-                    navigateTo=intent.GetStringExtra(NotificationDataHelper.NavigateTo);
-
-                pushNotification = CreatePushNotification(title,msg,
-                                                         badge, navigateTo);
+                var serializedPushNot=intent.GetStringExtra(NotificationDataHelper.Flag);
+                pushNotification = JsonConvert.DeserializeObject<PushNotification>(serializedPushNot);
             }
 
             return pushNotification;
@@ -41,38 +30,32 @@ namespace Steamboat.Mobile.Droid.Helpers
 
             PushNotification pushNotification = null;
 
-            if (message.GetNotification()!=null && message.Data != null && message.Data.ContainsKey(NotificationDataHelper.Flag))
+            if (message.Data != null && message.Data.ContainsKey(NotificationDataHelper.Flag))
             {
-                var notification = message.GetNotification();
+                var notification = message.Data;
 
                 var badge = 0;
-                var navigateTo = "";
+                var type=PushNotificationType.Unknown;
+                var title = "";
+                var body = "";
 
                 if (message.Data.ContainsKey(NotificationDataHelper.Badge))
                     Int32.TryParse(message.Data[NotificationDataHelper.Badge], out badge);
 
-                if (message.Data.ContainsKey(NotificationDataHelper.NavigateTo))
-                    navigateTo = message.Data[NotificationDataHelper.NavigateTo];
+                if (message.Data.ContainsKey(NotificationDataHelper.Type))
+                    Enum.TryParse<PushNotificationType>(message.Data[NotificationDataHelper.Type], out type);
 
+                if (message.Data.ContainsKey(NotificationDataHelper.Title))
+                    title = message.Data[NotificationDataHelper.Title];
 
-                pushNotification = CreatePushNotification(notification.Title,
-                                                          notification.Body,
-                                                          badge, navigateTo);
+                if (message.Data.ContainsKey(NotificationDataHelper.Body))
+                    body = message.Data[NotificationDataHelper.Body];
+
+                pushNotification = new PushNotification() { Title = title, Body = body, Badge = badge, Type = type};
             }
 
             return pushNotification;
         }
 
-        private static PushNotification CreatePushNotification(string title, string msg, int badge, string navigateTo){
-
-            Dictionary<string, string> data = new Dictionary<string, string>();
-
-            if(!String.IsNullOrEmpty(navigateTo)){
-                data.Add(NotificationDataHelper.NavigateTo, navigateTo);
-            }
-
-            return new PushNotification() { Title = title, Message = msg, Badge = badge, Data = data };
-
-        }
     }
 }

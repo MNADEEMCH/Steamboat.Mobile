@@ -14,5 +14,6 @@ namespace Steamboat.Mobile.Droid
             Locator.CurrentMutable.RegisterConstant(new SQLiteHelper(), typeof(IConnectionHelper));
             Locator.CurrentMutable.RegisterConstant(new NotificationService(), typeof(INotificationService));
         }
+
     }
 }

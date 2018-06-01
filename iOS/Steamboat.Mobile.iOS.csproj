@@ -381,9 +381,21 @@
     <BundleResource Include="Resources\icSend_Tap.png" />
     <BundleResource Include="Resources\icSend_Tap%402x.png" />
     <BundleResource Include="Resources\icSend_Tap%403x.png" />
-    <BundleResource Include="Resources\icMenuOpen_Normal.png" />
-    <BundleResource Include="Resources\icMenuOpen_Normal%402x.png" />
-    <BundleResource Include="Resources\icMenuOpen_Normal%403x.png" />
+    <BundleResource Include="Resources\icMenuNotification.png" />
+    <BundleResource Include="Resources\icMenuNotification%402x.png" />
+    <BundleResource Include="Resources\icMenuNotification%403x.png" />
+    <BundleResource Include="Resources\icMenuClosed%403x.png" />
+    <BundleResource Include="Resources\icMenuClosed%402x.png" />
+    <BundleResource Include="Resources\icMenuClosed.png" />
+    <BundleResource Include="Resources\icMenuClosed_notification%403x.png" />
+    <BundleResource Include="Resources\icMenuClosed_notification%402x.png" />
+    <BundleResource Include="Resources\icMenuClosed_notification.png" />
+    <BundleResource Include="Resources\icMenuOpened_notification%403x.png" />
+    <BundleResource Include="Resources\icMenuOpened_notification%402x.png" />
+    <BundleResource Include="Resources\icMenuOpened_notification.png" />
+    <BundleResource Include="Resources\icMenuOpened%403x.png" />
+    <BundleResource Include="Resources\icMenuOpened%402x.png" />
+    <BundleResource Include="Resources\icMenuOpened.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

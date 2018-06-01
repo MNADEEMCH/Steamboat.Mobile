@@ -50,35 +50,39 @@ namespace Steamboat.Mobile.iOS.Helpers
             {
 
                 var title="";
-                var message="";
+                var body="";
                 var badge=0;
-                Dictionary<string, string> data = new Dictionary<string, string>();
-
+                var type = PushNotificationType.Unknown;
+                var isContentAvailablePresent = false;
 
                 var aps = options.ObjectForKey(new NSString("aps")) as NSDictionary;
                 if(aps!=null){
+
+                    var contentAvailable=aps.ObjectForKey(new NSString("content-available"));
+                    isContentAvailablePresent = contentAvailable != null;
 
                     var alert = aps.ObjectForKey(new NSString("alert")) as NSDictionary;
                     if (alert != null)
                     {
                         title = alert.ObjectForKey(new NSString("title")).ToString();
-                        message = alert.ObjectForKey(new NSString("body")).ToString();
+                        body = alert.ObjectForKey(new NSString("body")).ToString();
                     }
-                    if (aps.ObjectForKey(new NSString(NotificationDataHelper.Badge)) != null){  
+
+                    if (aps.ObjectForKey(new NSString(NotificationDataHelper.Badge)) != null) 
                         Int32.TryParse(aps.ObjectForKey(new NSString(NotificationDataHelper.Badge)).ToString(),out badge);
-                    }
 
                 }
 
-                if (options.ObjectForKey(new NSString(NotificationDataHelper.NavigateTo)) != null)
-                    data.Add(NotificationDataHelper.NavigateTo, options.ObjectForKey(new NSString(NotificationDataHelper.NavigateTo)).ToString());
+                if (options.ObjectForKey(new NSString(NotificationDataHelper.Type)) != null)
+                    Enum.TryParse<PushNotificationType>(options.ObjectForKey(new NSString(NotificationDataHelper.Type)).ToString(), out type);
 
                 pushNotification = new PushNotification()
                 {
                     Title = title,
-                    Message = message,
+                    Body = body,
                     Badge = badge,
-                    Data = data 
+                    Type = type,
+                    IsContentAvailablePresent = isContentAvailablePresent
                 };
             }
 
