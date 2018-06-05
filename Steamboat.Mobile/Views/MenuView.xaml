@@ -7,7 +7,7 @@
              xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
-             x:Name="MenuView"
+             x:Name="MenuView" BackgroundColor="{StaticResource SubtleGrayColor}"
              Title="Title">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -35,13 +35,17 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid RowSpacing="0">
+        <Grid RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="15*" />
-                <RowDefinition Height="85*" />
+                <RowDefinition Height="12*" />
+                <RowDefinition Height="88*" />
             </Grid.RowDefinitions>
-            <BoxView Grid.Row="0" Color="White" />
-            <Grid RowSpacing="0" Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Text="MENU" Font="{DynamicResource RalewayBold}" FontAttributes="Bold" FontSize="24" TextColor="{StaticResource LightGrayColor}" VerticalOptions="End" Margin="32,0,0,16" />
+            <Grid RowSpacing="0" Grid.Row="1" Grid.Column="0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -74,6 +78,7 @@
                     </customControl:RepeaterControl.ItemTemplate>
                 </customControl:RepeaterControl>
             </Grid>
+            <BoxView Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Color="{StaticResource GrayColor}" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

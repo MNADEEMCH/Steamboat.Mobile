@@ -5,7 +5,7 @@ namespace Steamboat.Mobile.Helpers.Settings
 	{
 		public string BaseUrl => "https://dev.momentumhealth.co/";
 
-		public int TimeoutLimit => 3;
+		public int TimeoutLimit => 5;
 
 		public string RequestProviderCookieUrl => "momentumhealth.co";
 
