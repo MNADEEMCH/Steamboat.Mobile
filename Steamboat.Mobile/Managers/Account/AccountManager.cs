@@ -25,7 +25,7 @@ namespace Steamboat.Mobile.Managers.Account
 		public AccountManager(IAccountService accountService = null,
 							  IUserRepository userRepository = null,
 							  IUserAlertRepository userAlertRepository = null,
-		                      ISettings settings = null)
+							  ISettings settings = null)
 		{
 			_accountService = accountService ?? DependencyContainer.Resolve<IAccountService>();
 			_userRepository = userRepository ?? DependencyContainer.Resolve<IUserRepository>();
@@ -132,7 +132,6 @@ namespace Steamboat.Mobile.Managers.Account
 
 				return null;
 			});
-
 		}
 
 		private string ResolveUrl(string avatarUrl)

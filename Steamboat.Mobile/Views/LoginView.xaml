@@ -137,6 +137,7 @@
                             <views:MomentumSpinnerView Margin="0,18,0,0" IsVisible="{Binding IsBusy}" />
                             <Label Text="Not a member yet?" Style="{StaticResource MemberLabel}" />
                             <customControl:LinkButton Text="REGISTER HERE" Style="{StaticResource RegisterLinkButton}" Command="{Binding RegisterHereCommand}"/>
+                            <Label Text="{Binding EnvironmentInfoText}" IsVisible="{Binding EnvironmentInfoText, Converter={StaticResource StringNullOrEmptyBoolConverter}}" TextColor="{StaticResource DarkGrayColor}" VerticalOptions="EndAndExpand" FontSize="12" />
                         </StackLayout>
                     </Grid>
                 </Grid>

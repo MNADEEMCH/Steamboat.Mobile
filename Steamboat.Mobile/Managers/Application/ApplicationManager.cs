@@ -16,212 +16,212 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.Managers.Application
 {
-    public class ApplicationManager : ManagerBase, IApplicationManager
-    {
-        private IApplicationService _applicationService;
-        private INotificationService _notificationService;
-        private IAccountManager _accountManager;
-        private IParticipantManager _participantManager;
-        private ISettings _settings;
+	public class ApplicationManager : ManagerBase, IApplicationManager
+	{
+		private IApplicationService _applicationService;
+		private INotificationService _notificationService;
+		private IAccountManager _accountManager;
+		private IParticipantManager _participantManager;
+		private ISettings _settings;
 
-        private TimeSpan? _inactivityTimeStamp;
-        private readonly int _timeoutLimit = 15;
-        private int _notificationsCount;
-        private PushNotificationType _notificationTypePending;
+		private TimeSpan? _inactivityTimeStamp;
+		private readonly int _timeoutLimit = 15;
+		private int _notificationsCount;
+		private PushNotificationType _notificationTypePending;
 
-        public event EventHandler<PushNotificationEventParam> OnNotification;
+		public event EventHandler<PushNotificationEventParam> OnNotification;
 
-        public int NotificationsBadge { get{return _notificationsCount;} set {_notificationsCount=value; }}
+		public int NotificationsBadge { get { return _notificationsCount; } set { _notificationsCount = value; } }
 
-        public ApplicationManager(IApplicationService applicationService = null,
-                                  INotificationService notificationService=null,
-                                  IAccountManager accountManager = null,
-                                  IParticipantManager participantManager = null,
-                                  ISettings settings = null)
+		public ApplicationManager(IApplicationService applicationService = null,
+								  INotificationService notificationService = null,
+								  IAccountManager accountManager = null,
+								  IParticipantManager participantManager = null,
+								  ISettings settings = null)
 
-        {
-            _applicationService = applicationService ?? DependencyContainer.Resolve<IApplicationService>();
-            _notificationService = notificationService ?? DependencyContainer.Resolve<INotificationService>();
-            _accountManager= accountManager ?? DependencyContainer.Resolve<IAccountManager>();
-            _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
-            _settings = settings ?? DependencyContainer.Resolve<ISettings>();
+		{
+			_applicationService = applicationService ?? DependencyContainer.Resolve<IApplicationService>();
+			_notificationService = notificationService ?? DependencyContainer.Resolve<INotificationService>();
+			_accountManager = accountManager ?? DependencyContainer.Resolve<IAccountManager>();
+			_participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
+			_settings = settings ?? DependencyContainer.Resolve<ISettings>();
 
-            _timeoutLimit = _settings.TimeoutLimit;
-        }
+			_timeoutLimit = _settings.TimeoutLimit;
+		}
 
-        public async Task InitializeApplication(PushNotification pushNotification = null)
-        {
-            if (pushNotification != null)
-            {
-                NotificationsBadge = pushNotification.Badge;
-                UpdateNotificationBadge(0);
-                _notificationTypePending = pushNotification.Type;
-            }
-            else
-                NotificationsBadge = 0;
+		public async Task InitializeApplication(PushNotification pushNotification = null)
+		{
+			if (pushNotification != null)
+			{
+				NotificationsBadge = pushNotification.Badge;
+				UpdateNotificationBadge(0);
+				_notificationTypePending = pushNotification.Type;
+			}
+			else
+				NotificationsBadge = 0;
 
-            await _navigationService.InitializeAsync();
-        }
+			await _navigationService.InitializeAsync();
+		}
 
-        public async Task HandlePushNotification(bool notificationOpenedByTouch,bool isAppBackgrounded,PushNotification pushNotification)
-        {
+		public async Task HandlePushNotification(bool notificationOpenedByTouch, bool isAppBackgrounded, PushNotification pushNotification)
+		{
+			NotificationsBadge = pushNotification.Badge;
 
-            NotificationsBadge = pushNotification.Badge;
+			var inactivityDetected = CheckForInactivity();
+			var isUserLoggedIn = App.SessionID != null;
 
-            var inactivityDetected = CheckForInactivity();
-            var isUserLoggedIn = App.SessionID != null;
+			//NAVIGATE TO
+			if (notificationOpenedByTouch)
+			{
+				if (!inactivityDetected
+					&& isUserLoggedIn)
+					await HandlePushNotificationNavigatTo(pushNotification.Type);
+				else
+					_notificationTypePending = pushNotification.Type;
+			}
+			//BADGE
+			if (!isUserLoggedIn || isAppBackgrounded)
+				UpdateNotificationBadge(0);
+			else
+				UpdateNotificationBadge(NotificationsBadge);
 
-            //NAVIGATE TO
-            if(notificationOpenedByTouch){
-                if (!inactivityDetected
-                    && isUserLoggedIn)
-                    await HandlePushNotificationNavigatTo(pushNotification.Type);
-                else
-                    _notificationTypePending = pushNotification.Type;
-            }
-            //BADGE
-            if (!isUserLoggedIn || isAppBackgrounded)
-                UpdateNotificationBadge(0);
-            else
-                UpdateNotificationBadge(NotificationsBadge);
+			//ON NOTIFICATION
+			if (!inactivityDetected && OnNotification != null)
+			{
 
-            //ON NOTIFICATION
-            if (!inactivityDetected && OnNotification != null){
+				var notificationEventParam = new PushNotificationEventParam()
+				{
+					PushNotification = pushNotification,
+					IsAppBackgrounded = isAppBackgrounded,
+					NotificationOpenedByTouch = notificationOpenedByTouch
+				};
 
-                var notificationEventParam = new PushNotificationEventParam()
-                {
-                    PushNotification = pushNotification,
-                    IsAppBackgrounded = isAppBackgrounded,
-                    NotificationOpenedByTouch = notificationOpenedByTouch
-                };
+				OnNotification(this, notificationEventParam);
+			}
+		}
 
-                OnNotification(this, notificationEventParam);
-            }
+		public void UpdateNotificationBadge(int notificationsOpened)
+		{         
+			int updatedBadge = GetBadgeToSet(notificationsOpened);
 
-        }
+			_notificationService.SetNotificationBadge(updatedBadge);
 
-        public void UpdateNotificationBadge(int notificationsOpened){
+			NotificationsBadge -= notificationsOpened;
+		}
 
-            int updatedBadge = GetBadgeToSet(notificationsOpened);
+		private int GetBadgeToSet(int notificationsOpened)
+		{
+			var currentBadge = NotificationsBadge;
 
-            _notificationService.SetNotificationBadge(updatedBadge);
+			var updatedBadge = 0;
 
-            NotificationsBadge -=  notificationsOpened;
-        }
+			if (currentBadge >= notificationsOpened)
+				updatedBadge = currentBadge - notificationsOpened;
 
-        private int GetBadgeToSet(int notificationsOpened){
-            var currentBadge = NotificationsBadge;
+			return updatedBadge;
+		}
 
-            var updatedBadge = 0;
+		private async Task HandlePushNotificationNavigatTo(PushNotificationType notificationType)
+		{
+			if (NotificationNavigateToHelper.NotificationNavigateToDictionary.ContainsKey(notificationType))
+			{
 
-            if (currentBadge >= notificationsOpened)
-                updatedBadge = currentBadge - notificationsOpened;
+				var viewModelType = NotificationNavigateToHelper.NotificationNavigateToDictionary[notificationType];
+				if (viewModelType != null)
+					await NavigateToView(viewModelType);
+				else
+					await NavigateToStatusView();
+			}
+		}
 
-            return updatedBadge;
-        }
+		private async Task NavigateToView(Type viewModelType)
+		{
+			await _navigationService.NavigateToAsync(viewModelType, null, mainPage: true);
+		}
 
-        private async Task HandlePushNotificationNavigatTo(PushNotificationType notificationType){
+		private async Task NavigateToStatusView()
+		{
+			var status = await _participantManager.GetStatus();
+			var viewModelType = DashboardHelper.GetViewModelForStatus(status);
 
-            if(NotificationNavigateToHelper.NotificationNavigateToDictionary.ContainsKey(notificationType)){
-                
-                var viewModelType = NotificationNavigateToHelper.NotificationNavigateToDictionary[notificationType];
-                if (viewModelType != null)
-                    await NavigateToView(viewModelType);
-                else
-                    await NavigateToStatusView();
-            }
-        }
+			Device.BeginInvokeOnMainThread(async () =>
+			{
+				await _navigationService.NavigateToAsync(viewModelType, status, mainPage: true);
+			});
 
-        private async Task NavigateToView(Type viewModelType)
-        {
-            await _navigationService.NavigateToAsync(viewModelType, null, mainPage: true);
-        }
+		}
 
-        private async Task NavigateToStatusView()
-        {
-            var status = await _participantManager.GetStatus();
-            var viewModelType = DashboardHelper.GetViewModelForStatus(status);
+		public async Task TrySendToken()
+		{
+			await TryExecute(async () =>
+			{
+				var isUserLoggedIn = App.SessionID != null;
+				var readyToSendToken = _notificationService.IsValidToken() && isUserLoggedIn;
+				if (readyToSendToken)
+				{
+					var devicePlatform = CrossDeviceInfo.Current.Platform.ToString();
+					var deviceModel = CrossDeviceInfo.Current.Model;
+					var deviceLocalID = _notificationService.GetToken();
 
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                await _navigationService.NavigateToAsync(viewModelType, status, mainPage: true);
-            });
+					var applicationDeviceInfo = new ApplicationDeviceInfo()
+					{
+						Platform = devicePlatform,
+						Model = deviceModel,
+						LocalID = deviceLocalID
+					};
 
-        }
+					await _applicationService.SendToken(applicationDeviceInfo, App.SessionID);
+				}
+			});
+		}
 
-        public async Task TrySendToken()
-        {
-            await TryExecute(async () =>
-            {
-                var isUserLoggedIn = App.SessionID != null;
-                var readyToSendToken = _notificationService.IsValidToken() && isUserLoggedIn;
-                if (readyToSendToken)
-                {
-                    var devicePlatform = CrossDeviceInfo.Current.Platform.ToString();
-                    var deviceModel = CrossDeviceInfo.Current.Model;
-                    var deviceLocalID = _notificationService.GetToken();
+		public async Task OnApplicationSleep()
+		{
+			StartTimingInactivity();
+		}
 
-                    var applicationDeviceInfo = new ApplicationDeviceInfo()
-                    {
-                        Platform = devicePlatform,
-                        Model = deviceModel,
-                        LocalID = deviceLocalID
-                    };
+		public async Task OnApplicationResume()
+		{
+			if (CheckForInactivity())
+				await SessionExpired();
+			else if (App.SessionID != null)
+				Device.BeginInvokeOnMainThread(() => UpdateNotificationBadge(NotificationsBadge));
 
-                    await _applicationService.SendToken(applicationDeviceInfo, App.SessionID);
-                }
-            });
-        }
+			_inactivityTimeStamp = null;
 
+		}
 
-        public async Task OnApplicationSleep()
-        {
-            StartTimingInactivity();
-        }
+		private void StartTimingInactivity()
+		{
+			if (App.SessionID != null)
+				_inactivityTimeStamp = new TimeSpan(DateTime.Now.Ticks);
+		}
 
-        public async Task OnApplicationResume(){
+		private bool CheckForInactivity()
+		{
+			if (_inactivityTimeStamp == null || App.SessionID == null)
+				return false;
 
-            if(CheckForInactivity())
-                await SessionExpired();
-            else if(App.SessionID != null)
-                Device.BeginInvokeOnMainThread(() => UpdateNotificationBadge(NotificationsBadge));
+			TimeSpan? currentTimeSpan = new TimeSpan(DateTime.Now.Ticks);
+			var difference = currentTimeSpan - _inactivityTimeStamp;
 
-            _inactivityTimeStamp = null;
+			return difference.Value.Minutes >= _timeoutLimit;
 
-        }
+		}
+        
+		Task IApplicationManager.SessionExpired()
+		{
+			return base.SessionExpired();
+		}
 
-        private void StartTimingInactivity()
-        {
-            if (App.SessionID != null)
-                _inactivityTimeStamp = new TimeSpan(DateTime.Now.Ticks);
-        }
+		public Type GetPendingViewModelType()
+		{
+			Type viewModelType = null;
+			if (NotificationNavigateToHelper.NotificationNavigateToDictionary.ContainsKey(_notificationTypePending))
+				viewModelType = NotificationNavigateToHelper.NotificationNavigateToDictionary[_notificationTypePending];
 
-        private bool CheckForInactivity()
-        {
-            if (_inactivityTimeStamp == null || App.SessionID == null)
-                return false;
-
-            TimeSpan? currentTimeSpan = new TimeSpan(DateTime.Now.Ticks);
-            var difference = currentTimeSpan - _inactivityTimeStamp;
-
-            return difference.Value.Minutes >= _timeoutLimit;
-                   
-        }
-
-
-        Task IApplicationManager.SessionExpired()
-        {
-            return base.SessionExpired();
-        }
-
-        public Type GetPendingViewModelType()
-        {
-            Type viewModelType = null;
-            if (NotificationNavigateToHelper.NotificationNavigateToDictionary.ContainsKey(_notificationTypePending))
-                viewModelType= NotificationNavigateToHelper.NotificationNavigateToDictionary[_notificationTypePending];
-
-            _notificationTypePending = PushNotificationType.Unknown;
-            return viewModelType;
-        }
-    }
+			_notificationTypePending = PushNotificationType.Unknown;
+			return viewModelType;
+		}
+	}
 }

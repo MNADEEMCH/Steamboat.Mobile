@@ -70,7 +70,7 @@ namespace Steamboat.Mobile.ViewModels
 		}
 
 		private void HandleNotificationsCount()
-		{         
+		{
 			var anyNotification = MenuItems.Any(mi => mi.ShowNotificationBadge);
 
 			if (OnShowNotifications != null)
@@ -172,6 +172,7 @@ namespace Steamboat.Mobile.ViewModels
 			IsLoading = true;
 			await TryExecute(async () =>
 			{
+				await DependencyContainer.RefreshDependencies();
 				Device.BeginInvokeOnMainThread(async () => await NavigationService.NavigateToAsync<LoginViewModel>(new Logout()));
 				_userTapped = false;
 			}, null, () =>
