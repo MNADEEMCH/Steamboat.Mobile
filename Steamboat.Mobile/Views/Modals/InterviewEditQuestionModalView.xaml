@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:modalViewModelBase="clr-namespace:Steamboat.Mobile.ViewModels.Modals" 
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+    x:Class="Steamboat.Mobile.Views.Modals.InterviewEditQuestionModalView"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
+    modalViewModelBase:ModalViewModelAutoWire.AutoWireViewModel="True"
+    BackgroundColor="{StaticResource ModalBackground}"
+    CloseWhenBackgroundIsClicked="False">
+
+    <popup:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MainGrid" TargetType="Grid">
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>0</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,0</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="MsgLabel"  TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource RalewaySemiBold}" />
+                <Setter Property="TextColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="Margin" Value="30,0,30,8" />
+            </Style>
+            <Style x:Key="DetailLabel"  TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Margin" Value="30,0,30,32" />
+            </Style>
+            <Style x:Key="ConfirmButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
+                <Setter Property="Margin">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>60,0,60,16</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>0</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="HorizontalOptions">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="LayoutOptions">
+                            <OnIdiom.Phone>FillAndExpand</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>Center</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="WidthRequest" Value="350" />
+                <Setter Property="ShadowColorEnabled" Value="Black"></Setter>
+                <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
+            </Style>
+            <Style x:Key="GoBackButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource WhiteColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </popup:PopupPage.Resources>
+            
+    <popup:PopupPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ScrollView Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" VerticalOptions="FillAndExpand">
+                <Grid Style="{StaticResource MainGrid}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Text="Would you like to return to this question?" Style="{StaticResource MsgLabel}"></Label>        
+                    <Label Grid.Row="1" Text="If you continue, your responses to later questions will be removed." Style="{StaticResource DetailLabel}"></Label>        
+                    <customControl:GradientRoundedButton Grid.Row="2" Text="YES, RETURN" Command="{Binding EditQuestionCommand}" Style="{StaticResource ConfirmButton}"/>
+                    <Grid IsVisible="false" />
+                    <customControl:LinkButton Grid.Row="3" Text="NO, CANCEL" Style="{StaticResource GoBackButton}" Command="{Binding CloseModalCommand}" />
+                    <views:MomentumSpinnerView Grid.Row="2" IsVisible="{Binding IsBusy}" />
+                </Grid>
+            </ScrollView>
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+        </Grid>
+    </popup:PopupPage.Content>
+</popup:PopupPage>

@@ -3,15 +3,24 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Steamboat.Mobile.Services.Dialog;
+using Steamboat.Mobile.Services.Navigation;
 using Xamarin.Forms;
+using Steamboat.Mobile.Services.Modal;
+using Steamboat.Mobile.Exceptions;
+using Steamboat.Mobile.Managers.Account;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class ViewModelBase : BindableObject, INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         #region PropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        protected readonly IDialogService DialogService;
+        protected readonly INavigationService NavigationService;
+        protected readonly IModalService ModalService;
 
         protected bool SetPropertyValue<T>(ref T storageField, T newValue, Expression<Func<T>> propExpr)
         {
@@ -59,13 +68,82 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
+        private bool isLoading;
+
+        public bool IsLoading { get { return isLoading; } set { SetPropertyValue(ref isLoading, value); } }
+
         public ViewModelBase()
         {
+            DialogService = DialogService ?? DependencyContainer.Resolve<IDialogService>();
+            NavigationService = NavigationService ?? DependencyContainer.Resolve<INavigationService>();
+            ModalService = ModalService ?? DependencyContainer.Resolve<IModalService>();
         }
 
         public virtual Task InitializeAsync(object navigationData)
         {
             return Task.FromResult(false);
+        }
+
+        public virtual Task Refresh()
+        {
+            return Task.FromResult(false);
+        }
+
+        protected async Task TryExecute(Func<Task> onTry, Func<Exception, Task> onCatch = null, Action onFinally = null)
+        {
+            await Task.Run(async () =>
+            {
+                try
+                {
+                    await onTry();
+                }
+                catch(SessionExpiredException){
+                    //this type of exception is handled on the manager layer
+                }
+                catch (Exception ex)
+                {
+                    if (onCatch != null)
+                        await onCatch(ex);
+                    else
+                        await DialogService.ShowAlertAsync(ex.Message, "Error", "OK");
+                }
+                finally
+                {
+                    if (onFinally != null)
+                        onFinally();
+                }
+            });
+        }
+
+        protected async Task<T> TryExecute<T>(Func<Task<T>> onTry, Func<Exception, Task> onCatch = null, Func<Task<T>> onFinally = null)
+        {
+            return await Task.Run(async () =>
+            {
+                var result = default(T);
+
+                try
+                {
+                    result = await onTry();
+                }
+                catch (SessionExpiredException)
+                {
+                    //this type of exception is handled on the manager layer
+                }
+                catch (Exception ex)
+                {
+                    if (onCatch != null)
+                        await onCatch(ex);
+                    else
+                        await DialogService.ShowAlertAsync(ex.Message, "Error", "OK");
+                }
+                finally
+                {
+                    if (onFinally != null)
+                        result = await onFinally();
+                }
+
+                return result;
+            });
         }
     }
 }

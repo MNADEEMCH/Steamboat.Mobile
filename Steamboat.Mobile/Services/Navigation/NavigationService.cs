@@ -20,66 +20,128 @@ namespace Steamboat.Mobile.Services.Navigation
             }
         }
 
-        ViewModelBase INavigationService.PreviousPageViewModel => throw new NotImplementedException();
-
         public Task InitializeAsync()
         {
-            throw new NotImplementedException();
-            //return NavigateToAsync<WelcomeViewModel>();
+            return NavigateToAsync<LoginViewModel>(true);
         }
 
-        public Task NavigateToAsync<TViewModel>() where TViewModel : ViewModelBase
+        public Task NavigateToAsync<TViewModel>(bool mainPage = false) where TViewModel : ViewModelBase
         {
-            return InternalNavigateToAsync(typeof(TViewModel), null);
+            return InternalNavigateToAsync(typeof(TViewModel), null, mainPage);
         }
 
-        public Task NavigateToAsync<TViewModel>(object parameter) where TViewModel : ViewModelBase
+        public Task NavigateToAsync<TViewModel>(object parameter, bool mainPage = false) where TViewModel : ViewModelBase
         {
-            return InternalNavigateToAsync(typeof(TViewModel), parameter);
+            return InternalNavigateToAsync(typeof(TViewModel), parameter, mainPage);
+        }
+
+        public Task NavigateToAsync(Type vm, bool mainPage = false)
+        {
+            return InternalNavigateToAsync(vm, null, mainPage);
+        }
+
+        public Task NavigateToAsync(Type vm, object parameter, bool mainPage = false)
+        {
+            return InternalNavigateToAsync(vm, parameter, mainPage);
+        }
+
+        public async Task PopAsync(object pages)
+        {
+            var navigationPage = GetCurrentNavigationPage();
+
+            if (pages != null)
+            {
+                int numberOfPages = 0;
+                if (int.TryParse(pages.ToString(), out numberOfPages))
+                {
+                    for (int i = 0; i < numberOfPages; i++)
+                    {
+                        if (i == numberOfPages - 1)
+                            Device.BeginInvokeOnMainThread(async () => await navigationPage.PopAsync());
+                        else
+                            Device.BeginInvokeOnMainThread(async () => await RemoveLastFromBackStackAsync());
+                    }
+                }
+            }
+            else
+            {
+                Device.BeginInvokeOnMainThread(async () => await navigationPage.PopAsync());
+            }
         }
 
         public Task RemoveLastFromBackStackAsync()
         {
-            var mainPage = Application.Current.MainPage as CustomNavigationView;
+            var navigationPage = GetCurrentNavigationPage();
 
-            if (mainPage != null)
-            {
-                mainPage.Navigation.RemovePage(
-                    mainPage.Navigation.NavigationStack[mainPage.Navigation.NavigationStack.Count - 2]);
-            }
-
+            navigationPage.Navigation.RemovePage(
+                navigationPage.Navigation.NavigationStack[navigationPage.Navigation.NavigationStack.Count - 2]);
+           
             return Task.FromResult(true);
         }
 
         public Task RemoveBackStackAsync()
         {
-            var mainPage = Application.Current.MainPage as CustomNavigationView;
+            var navigationPage = GetCurrentNavigationPage();
 
-            if (mainPage != null)
+            while (navigationPage.Navigation.NavigationStack.Count > 1)
             {
-                for (int i = 0; i < mainPage.Navigation.NavigationStack.Count - 1; i++)
-                {
-                    var page = mainPage.Navigation.NavigationStack[i];
-                    mainPage.Navigation.RemovePage(page);
-                }
+                var page = navigationPage.Navigation.NavigationStack[0];
+                navigationPage.Navigation.RemovePage(page);
             }
 
             return Task.FromResult(true);
         }
 
-        private async Task InternalNavigateToAsync(Type viewModelType, object parameter)
+        private async Task InternalNavigateToAsync(Type viewModelType, object parameter, bool mainPage)
         {
             Page page = CreatePage(viewModelType, parameter);
             NavigationPage.SetBackButtonTitle(page, string.Empty);
 
-            var navigationPage = Application.Current.MainPage as CustomNavigationView;
-            if (navigationPage != null)
+            if (page is MainView)
             {
-                await navigationPage.PushAsync(page, true);
+                Application.Current.MainPage = page;
+            }
+            else if (page is LoginView)
+            {
+                Application.Current.MainPage = new CustomNavigationView(page);
+            }
+            else if (Application.Current.MainPage is MainView)
+            {
+                var mPage = Application.Current.MainPage as MainView;
+                var navigationPage = mPage.Detail as CustomNavigationView;
+
+				mPage.IsPresented = false;
+
+                if (navigationPage == null || mainPage)
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        navigationPage = new CustomNavigationView(page);
+                        mPage.Detail = navigationPage;
+                    });
+                }
+                else
+                {
+                    var currentPage = navigationPage.CurrentPage;
+
+                    if (currentPage.GetType() != page.GetType())
+                    {
+                        Device.BeginInvokeOnMainThread(async () => { await navigationPage.PushAsync(page); });
+                    }
+                }
             }
             else
             {
-                Application.Current.MainPage = new CustomNavigationView(page);
+                var navigationPage = Application.Current.MainPage as CustomNavigationView;
+                if (IsMainPage(navigationPage, mainPage))
+                {
+                    Device.BeginInvokeOnMainThread(() => { Application.Current.MainPage = new CustomNavigationView(page); });
+
+                }
+                else
+                {
+                    Device.BeginInvokeOnMainThread(async () => { await navigationPage.PushAsync(page, true); });
+                }
             }
 
             await (page.BindingContext as ViewModelBase).InitializeAsync(parameter);
@@ -105,5 +167,22 @@ namespace Steamboat.Mobile.Services.Navigation
             Page page = Activator.CreateInstance(pageType) as Page;
             return page;
         }
+
+        private bool IsMainPage(CustomNavigationView page, bool mainPage)
+        {
+            return page != null && mainPage;
+        }
+
+        private CustomNavigationView GetCurrentNavigationPage(){
+            var navigationPage = Application.Current.MainPage as CustomNavigationView;
+            if (navigationPage == null)
+            {
+                var mPage = Application.Current.MainPage as MainView;
+                navigationPage = mPage.Detail as CustomNavigationView;
+            }
+
+            return navigationPage;
+        }
+
     }
 }

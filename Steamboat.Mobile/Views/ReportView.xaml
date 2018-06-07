@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.ReportView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    BackgroundColor="{StaticResource ViewBackground}"
+    Title="Report">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+             <Style x:Key="MainGrid"  TargetType="Grid">
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>16</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,16,80,16</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="Margin" Value="0,0,0,32"></Setter>
+            </Style>
+            <Style x:Key="ImageContainerAbsoluteLayout" TargetType="AbsoluteLayout">
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="IconBackgroundImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="150"></Setter>
+                <Setter Property="WidthRequest" Value="150"></Setter>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0.5,0.5,-1,-1"></Setter>
+                <Setter Property="AbsoluteLayout.LayoutFlags" Value="PositionProportional"></Setter>
+            </Style>
+            <Style x:Key="IconImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="208"></Setter>
+                <Setter Property="WidthRequest" Value="208"></Setter>
+            </Style>
+            <Style x:Key="TitleContainerStackLayout" TargetType="StackLayout">
+                <Setter Property="Orientation" Value="Horizontal"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="TitleLabel"  TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="30" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="MoreInfoButton" TargetType="customControl:LinkButton">
+                <Setter Property="ImageHeight" Value="24"></Setter>
+                <Setter Property="ImageWidth" Value="24"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="ActiveImage" Value="icMoreInfo.png"></Setter>
+                <Setter Property="TapImage" Value="icMoreInfo_Tap.png"></Setter>
+                <Setter Property="DisabledImage" Value="icMoreInfo_Disabled.png"></Setter>
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+            </Style>
+            <Style x:Key="IndicatorLabel"  TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
+                <Setter Property="TextColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="DescriptionLabel"  TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Margin" Value="12"></Setter>
+            </Style>
+            <Style x:Key="MainActionButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
+                <Setter Property="Margin" Value="0,5,0,0" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="IsVisible" Value="{Binding MainButtonVisible}"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ScrollView Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" VerticalOptions="FillAndExpand" >
+                <Grid Style="{StaticResource MainGrid}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <StackLayout Style="{StaticResource MainContainerStackLayout}">
+                        <AbsoluteLayout Style="{StaticResource ImageContainerAbsoluteLayout}">
+                            <ffimageloading:CachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}"/>
+                            <ffimageloading:CachedImage Source="{Binding IconSource}" Style="{StaticResource IconImage}"/>
+                        </AbsoluteLayout>
+
+                        <StackLayout Style="{StaticResource TitleContainerStackLayout}">
+                            <Label Text="{Binding Title}" Style="{StaticResource TitleLabel}"></Label>
+                            <customControl:LinkButton Style="{StaticResource MoreInfoButton}" Command="{Binding MoreInfoCommand}"/>
+                        </StackLayout>
+                        <Label Text="{Binding Steps}" Style="{StaticResource IndicatorLabel}"></Label>
+                        <Label Text ="{Binding Message}" Style="{StaticResource DescriptionLabel}"></Label>
+                        <customControl:GradientRoundedButton  Text="{Binding MainActionButtonText}" Style="{StaticResource MainActionButton}" Command="{Binding MainActionCommand}"/>
+                        <Grid IsVisible="false" />
+                    </StackLayout>
+                    <views:StepperView x:Name="Stepper" Grid.Row="1"/>
+                </Grid>
+            </ScrollView>
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</views:CustomContentPage>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.ConsentsView" 
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile" 
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+    xmlns:extension="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    BackgroundColor="{StaticResource ViewBackground}"
+    Title="Consents">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="HeaderLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="BackgroundColor" Value="{StaticResource SubtleBlueColor}" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="MainScrollView" TargetType="ScrollView">
+                <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>32,0</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,0,80,0</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="PleaseReadLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="0,32,0,8" />
+            </Style>
+            <Style x:Key="DisclosureLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="28" />
+            </Style>
+            <Style x:Key="ConsentLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="0,0,0,8" />
+            </Style>
+            <Style x:Key="FooterStackLayout" TargetType="StackLayout">
+                <Setter Property="BackgroundColor" Value="{StaticResource SubtleGrayColor}" />
+            </Style>
+            <Style x:Key="FooterMainGrid" TargetType="Grid">
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>0</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,0,80,0</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ColumnSpacing" Value="0" />
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                <Setter Property="Margin" Value="20,0,20,9" />
+            </Style>
+            <Style x:Key="CheckboxLabel" TargetType="customControl:Checkbox">
+                <Setter Property="FontName" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+            <Style x:Key="SuperButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
+                <Setter Property="Margin" Value="0,0,0,20" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+         <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <!--MAIN FORM-->
+            <Grid Grid.Row="0" RowSpacing="0" ColumnSpacing="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                
+                <!--CONTENTS HEADER-->
+                <Label Grid.Row="0" Text="{Binding ConsentNumber}" Style="{StaticResource HeaderLabel}" />
+
+                <!--DISCLOSURE-->
+                <ScrollView Grid.Row="1" Style="{StaticResource MainScrollView}">
+                    <Grid ColumnSpacing="0" RowSpacing="16">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Text="Please read the paragraphs below and indicate your acceptance or rejection." Style="{StaticResource PleaseReadLabel}" />
+                        <Label Grid.Row="1" Text="{Binding Title}" Style="{StaticResource DisclosureLabel}" IsVisible="{Binding Title, Converter={StaticResource StringIsEmpty}}"/>
+                        <Label Grid.Row="2" Text="{Binding Body}" Style="{StaticResource ConsentLabel}" />
+                    </Grid>
+                </ScrollView>
+
+                <!--FOOTER-->
+                <StackLayout x:Name="Footer" Grid.Row="2" Style="{StaticResource FooterStackLayout}" >
+                    <BoxView HeightRequest="1" Color="{StaticResource LightGrayColor}" Margin="0,0,0,7" />
+                    <Grid RowSpacing="0" Style="{StaticResource FooterMainGrid}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <customControl:Checkbox Grid.Row="0" CheckedText="{Binding AffirmationText}" UncheckedText="{Binding AffirmationText}" HorizontalOptions="FillAndExpand"
+                        Style="{StaticResource CheckboxLabel}" Command="{Binding AffirmationCommand}" Checked="{Binding IsAccepted}" Margin="0,0,0,5" />
+                        <customControl:Checkbox Grid.Row="1" CheckedText="{Binding RejectionText}" UncheckedText="{Binding RejectionText}" HorizontalOptions="FillAndExpand"
+                        Style="{StaticResource CheckboxLabel}" Command="{Binding RejectionCommand}" Checked="{Binding IsRejected}" IsVisible="{Binding RejectionText, Converter={StaticResource StringIsEmpty}}" />
+                        
+                    </Grid>
+                    <customControl:GradientRoundedButton Text="CONTINUE" Command="{Binding ContinueCommand}" Style="{StaticResource SuperButton}" 
+                         IsEnabled="{Binding IsEnabled}" IsVisible="{Binding IsFirstCheck}" />
+                        <Grid IsVisible="false" />
+                    <views:MomentumSpinnerView Margin="0,0,0,30" IsVisible="{Binding IsBusy}" />
+                </StackLayout>
+                
+            </Grid>
+            
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+            
+        </Grid>
+    </ContentPage.Content>
+</views:CustomContentPage>

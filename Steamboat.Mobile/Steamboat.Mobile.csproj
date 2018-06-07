@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{895221BC-B483-429A-B246-E05AD1544BA9}</ProjectGuid>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <UseMSBuildEngine>true</UseMSBuildEngine>
     <OutputType>Library</OutputType>
     <RootNamespace>Steamboat.Mobile</RootNamespace>
     <AssemblyName>Steamboat.Mobile</AssemblyName>
@@ -24,12 +23,19 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>RELEASE;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Production|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Production</OutputPath>
+    <DefineConstants>PRODUCTION;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml" />
-    <EmbeddedResource Include="Steamboat.MobilePage.xaml" />
     <EmbeddedResource Include="Views\CustomNavigationView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -38,15 +44,112 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\InitPasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\InterviewView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ConsentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SchedulingEventTimeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SchedulingConfirmationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ReportDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CustomContentPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Modals\ScreeningCancelConfirmationModalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ScreeningInterviewView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Survey\SurveyLabelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Survey\SurveySelectOneView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Survey\SurveySelectManyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Survey\SurveyFreeTextView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Modals\InterviewEditQuestionModalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MenuView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SharedResources\writing.gif" />
+    <EmbeddedResource Include="SharedResources\Spinner.gif" />
+    <EmbeddedResource Include="SharedResources\SpinnerLogo.png" />
+    <EmbeddedResource Include="Views\MomentumSpinnerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MessagingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Messaging\UserMessageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Messaging\CoachMessageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Steamboat.MobilePage.xaml.cs">
-      <DependentUpon>Steamboat.MobilePage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="CustomControls\CustomListView.cs" />
+    <Compile Include="CustomControls\Renderers\ColorProgressBar.cs" />
+    <Compile Include="CustomControls\Stepper.cs" />
+    <Compile Include="Models\Modal\ModalParam.cs" />
+    <Compile Include="Models\Stepper\StepperParam.cs" />
+    <Compile Include="Services\Modal\IModalService.cs" />
+    <Compile Include="Services\Modal\ModalService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Modals\DispositionMoreInfoModalViewModel.cs" />
+    <Compile Include="ViewModels\DispositionViewModelBase.cs" />
+    <Compile Include="ViewModels\Modals\ModalViewModelAutoWire.cs" />
+    <Compile Include="ViewModels\Modals\ModalViewModelBase.cs" />
+    <Compile Include="ViewModels\Modals\WelcomeModalViewModel.cs" />
+    <Compile Include="ViewModels\ReportViewModel.cs" />
+    <Compile Include="ViewModels\SchedulingEventDateViewModel.cs" />
+    <Compile Include="ViewModels\SchedulingViewModel.cs" />
+    <Compile Include="ViewModels\ScreeningViewModel.cs" />
+    <Compile Include="ViewModels\StepperViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="DependencyContainer.cs" />
     <Compile Include="Views\CustomNavigationView.xaml.cs">
@@ -68,39 +171,336 @@
     <Compile Include="Services\Account\AccountService.cs" />
     <Compile Include="Models\Account\AccountInfo.cs" />
     <Compile Include="Models\Account\AccountLogin.cs" />
+    <Compile Include="Views\Modals\DispositionMoreInfoModalView.xaml.cs">
+      <DependentUpon>DispositionMoreInfoModalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Modals\WelcomeModalView.xaml.cs">
+      <DependentUpon>WelcomeModalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportView.xaml.cs">
+      <DependentUpon>ReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SchedulingEventDateView.xaml.cs">
+      <DependentUpon>SchedulingEventDateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SchedulingView.xaml.cs">
+      <DependentUpon>SchedulingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScreeningView.xaml.cs">
+      <DependentUpon>ScreeningView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\User\IUserRepository.cs" />
+    <Compile Include="Repositories\User\UserRepository.cs" />
+    <Compile Include="Repositories\Database\IConnectionHelper.cs" />
+    <Compile Include="Repositories\Database\IDatabase.cs" />
+    <Compile Include="Repositories\Database\Database.cs" />
+    <Compile Include="Models\EntityBase.cs" />
+    <Compile Include="Models\User\CurrentUser.cs" />
+    <Compile Include="CustomControls\Renderers\GradientRoundedButton.cs" />
+    <Compile Include="CustomControls\Renderers\ImageEntry.cs" />
+    <Compile Include="Validations\IValidationRule.cs" />
+    <Compile Include="Validations\IValidity.cs" />
+    <Compile Include="Validations\IsNotNullOrEmptyRule.cs" />
+    <Compile Include="Validations\EmailRule.cs" />
+    <Compile Include="Validations\ValidatableObject.cs" />
+    <Compile Include="Validations\ExtendedBindableObject.cs" />
+    <Compile Include="Extensions\Converters\FirstValidationErrorConverter.cs" />
+    <Compile Include="Services\Dialog\IDialogService.cs" />
+    <Compile Include="Services\Dialog\DialogService.cs" />
+    <Compile Include="Models\Error\ErrorInfo.cs" />
+    <Compile Include="Exceptions\ServiceException.cs" />
+    <Compile Include="Exceptions\ExceptionBase.cs" />
+    <Compile Include="Extensions\Converters\InverseBoolConverter.cs" />
+    <Compile Include="Models\Account\AccountLogout.cs" />
+    <Compile Include="Views\InitPasswordView.xaml.cs">
+      <DependentUpon>InitPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\InitPasswordViewModel.cs" />
+    <Compile Include="Extensions\Behaviors\EventToCommandBehavior.cs" />
+    <Compile Include="Extensions\Behaviors\Base\BindableBehavior.cs" />
+    <Compile Include="Validations\PasswordRule.cs" />
+    <Compile Include="Extensions\Triggers\GradientClickedTriggerAction.cs" />
+    <Compile Include="Helpers\ErrorCodesHelper.cs" />
+    <Compile Include="Exceptions\PasswordExpiredException.cs" />
+    <Compile Include="Models\Account\AccountInitPassword.cs" />
+    <Compile Include="Services\Participant\ParticipantService.cs" />
+    <Compile Include="Services\Participant\IParticipantService.cs" />
+    <Compile Include="Managers\Participant\ParticipantManager.cs" />
+    <Compile Include="Managers\Participant\IParticipantManager.cs" />
+    <Compile Include="Models\Participant\Status.cs" />
+    <Compile Include="Helpers\DashboardHelper.cs" />
+    <Compile Include="ViewModels\InterviewViewModel.cs" />
+    <Compile Include="Views\InterviewView.xaml.cs">
+      <DependentUpon>InterviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConsentsView.xaml.cs">
+      <DependentUpon>ConsentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ConsentsViewModel.cs" />
+    <Compile Include="CustomControls\Renderers\Checkbox.cs" />
+    <Compile Include="Models\Participant\Consent.cs" />
+    <Compile Include="Extensions\Converters\StringIsEmpty.cs" />
+    <Compile Include="Models\Participant\ConsentResponse.cs" />
+    <Compile Include="Views\StepperView.xaml.cs">
+      <DependentUpon>StepperView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SchedulingTimeView.xaml.cs">
+      <DependentUpon>SchedulingEventTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\SchedulingEventTimeViewModel.cs" />
+    <Compile Include="Models\Participant\Event.cs" />
+    <Compile Include="Models\Participant\EventTime.cs" />
+    <Compile Include="Models\Participant\EventDate.cs" />
+    <Compile Include="ViewModels\SchedulingConfirmationViewModel.cs" />
+    <Compile Include="Views\SchedulingConfirmationView.xaml.cs">
+      <DependentUpon>SchedulingConfirmationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Participant\Appointment.cs" />
+    <Compile Include="CustomControls\Renderers\CustomFrame.cs" />
+    <Compile Include="CustomControls\DataGrid.cs" />
+    <Compile Include="Helpers\ObservableExtension.cs" />
+    <Compile Include="Helpers\EventTimeHelper.cs" />
+    <Compile Include="CustomControls\Renderers\WrappedButton.cs" />
+    <Compile Include="Extensions\Converters\EventDateConverter.cs" />
+    <Compile Include="Models\Participant\DispositionSteps\SurveyStep.cs" />
+    <Compile Include="Models\Participant\DispositionSteps\SchedulingStep.cs" />
+    <Compile Include="Models\Participant\DispositionSteps\ReportStep.cs" />
+    <Compile Include="Models\Participant\DispositionSteps\ScreeningStep.cs" />
+    <Compile Include="Models\Participant\DispositionSteps\DispositionStep.cs" />
+    <Compile Include="Models\NavigationParameters\EventParameter.cs" />
+    <Compile Include="Views\ReportDetailsView.xaml.cs">
+      <DependentUpon>ReportDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ReportDetailsViewModel.cs" />
+    <Compile Include="CustomControls\Renderers\WebViewer.cs" />
+    <Compile Include="CustomControls\Renderers\LinkButton.cs" />
+    <Compile Include="Helpers\WebViewRendererHelper.cs" />
+    <Compile Include="Models\Participant\RescheduleEvent.cs" />
+    <Compile Include="Views\CustomContentPage.xaml.cs">
+      <DependentUpon>CustomContentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Modals\ScreeningCancelConfirmationModalView.xaml.cs">
+      <DependentUpon>ScreeningCancelConfirmationModalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Modals\ScreeningCancelConfirmationModalViewModel.cs" />
+    <Compile Include="ViewModels\SchedulingEventAppointmentModelBase.cs" />
+    <Compile Include="CustomControls\ResizableImage.cs" />
+    <Compile Include="Models\User\UserAlert.cs" />
+    <Compile Include="Repositories\User\UserAlertRepository.cs" />
+    <Compile Include="Repositories\User\IUserAlertRepository.cs" />
+    <Compile Include="Models\User\UserAlerts.cs" />
+    <Compile Include="Views\ScreeningInterviewView.xaml.cs">
+      <DependentUpon>ScreeningInterviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ScreeningInterviewViewModel.cs" />
+    <Compile Include="Models\Participant\Survey\SurveyRequest.cs" />
+    <Compile Include="Models\BindableBase.cs" />
+    <Compile Include="CustomControls\Survey\SurveyTemplateSelector.cs" />
+    <Compile Include="Helpers\SurveyHelper.cs" />
+    <Compile Include="CustomControls\RepeaterControl.cs" />
+    <Compile Include="Views\Survey\SurveyLabelView.xaml.cs">
+      <DependentUpon>SurveyLabelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Survey\SurveySelectOneView.xaml.cs">
+      <DependentUpon>SurveySelectOneView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Renderers\BubbleStack.cs" />
+    <Compile Include="Models\Notification\PushNotification.cs" />
+    <Compile Include="Managers\Application\ApplicationManager.cs" />
+    <Compile Include="Managers\Application\IApplicationManager.cs" />
+    <Compile Include="Services\App\ApplicationService.cs" />
+    <Compile Include="Services\App\IApplicationService.cs" />
+    <Compile Include="Services\Notification\INotificationService.cs" />
+    <Compile Include="Models\Application\ApplicationDeviceInfo.cs" />
+    <Compile Include="Helpers\NotificationNavigateToHelper.cs" />
+    <Compile Include="Helpers\NotificationDataHelper.cs" />
+    <Compile Include="Models\Participant\Survey\SurveyResponse.cs" />
+    <Compile Include="Services\RequestProvider\AuthenticatedHttpClient.cs" />
+    <Compile Include="Views\Survey\SurveySelectManyView.xaml.cs">
+      <DependentUpon>SurveySelectManyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Survey\SurveyFreeTextView.xaml.cs">
+      <DependentUpon>SurveyFreeTextView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Renderers\SurveyEntry.cs" />
+    <Compile Include="Extensions\Converters\TextChangedEventArgsConverter.cs" />
+    <Compile Include="Views\Modals\InterviewEditQuestionModalView.xaml.cs">
+      <DependentUpon>InterviewEditQuestionModalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Modals\InterviewEditQuestionModalViewModel.cs" />
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuView.xaml.cs">
+      <DependentUpon>MenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="Models\Menu\MenuItem.cs" />
+    <Compile Include="Views\MomentumSpinnerView.xaml.cs">
+      <DependentUpon>MomentumSpinnerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions\SessionExpiredException.cs" />
+    <Compile Include="Managers\ManagerBase.cs" />
+    <Compile Include="CustomControls\Renderers\TapableGrid.cs" />
+    <Compile Include="Views\MessagingView.xaml.cs">
+      <DependentUpon>MessagingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\MessagingViewModel.cs" />
+    <Compile Include="Models\Participant\Messaging\CoachMessages.cs" />
+    <Compile Include="CustomControls\Messaging\MessagesTemplateSelector.cs" />
+    <Compile Include="Views\Messaging\UserMessageView.xaml.cs">
+      <DependentUpon>UserMessageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Messaging\CoachMessageView.xaml.cs">
+      <DependentUpon>CoachMessageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Application\Logout.cs" />
+    <Compile Include="CustomControls\Renderers\IconMasterDetailPage.cs" />
+    <Compile Include="Models\NavigationParameters\MainViewModelInitParameter.cs" />
+    <Compile Include="Extensions\Converters\MessagingDateConverter.cs" />
+    <Compile Include="ViewModels\Interfaces\IHandleView.cs" />
+    <Compile Include="Models\Participant\Messaging\UserMessage.cs" />
+    <Compile Include="Extensions\Converters\StringNullOrEmptyBoolConverter.cs" />
+    <Compile Include="Models\Notification\PushNotificationEventParam.cs" />
+    <Compile Include="Helpers\Settings\ISettings.cs" />
+    <Compile Include="Helpers\Settings\DevSettings.cs" />
+    <Compile Include="Helpers\Settings\ProdSettings.cs" />
+    <Compile Include="Helpers\IDeviceInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rg.Plugins.Popup.1.0.4\lib\portable-win+net45+wp8+win8+wpa81\Rg.Plugins.Popup.dll</HintPath>
+    </Reference>
+    <Reference Include="Rg.Plugins.Popup.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rg.Plugins.Popup.1.0.4\lib\portable-win+net45+wp8+win8+wpa81\Rg.Plugins.Popup.Platform.dll</HintPath>
+    </Reference>
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.2.0.0\lib\netstandard1.1\Splat.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Core">
-      <HintPath>..\packages\Xamarin.Forms.2.4.0.74863\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Platform">
-      <HintPath>..\packages\Xamarin.Forms.2.4.0.74863\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Xaml">
-      <HintPath>..\packages\Xamarin.Forms.2.4.0.74863\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\portable-net45+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\sqlite-net-pcl.1.4.118\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.9\lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.9\lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.9\lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamanimation">
+      <HintPath>..\packages\Xamanimation.1.1.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamanimation.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>..\packages\Xamarin.Forms.2.5.0.122203\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform">
+      <HintPath>..\packages\Xamarin.Forms.2.5.0.122203\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>..\packages\Xamarin.Forms.2.5.0.122203\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs">
+      <HintPath>..\packages\Acr.UserDialogs.6.5.1\lib\netstandard1.1\Acr.UserDialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs.Interface">
+      <HintPath>..\packages\Acr.UserDialogs.6.5.1\lib\netstandard1.1\Acr.UserDialogs.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.DeviceInfo.Abstractions">
+      <HintPath>..\packages\Xam.Plugin.DeviceInfo.3.1.0\lib\netstandard1.0\Plugin.DeviceInfo.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.DeviceInfo">
+      <HintPath>..\packages\Xam.Plugin.DeviceInfo.3.1.0\lib\netstandard1.0\Plugin.DeviceInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.3.6\lib\portable-win+net45+wp80+win81+wpa81\FFImageLoading.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Platform">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.3.6\lib\portable-win+net45+wp80+win81+wpa81\FFImageLoading.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Forms">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.3.6\lib\portable-win+net45+wp80+win81+wpa81\FFImageLoading.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp">
+      <HintPath>..\packages\SkiaSharp.1.60.0\lib\portable-net45+win8+wpa81+wp8\SkiaSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Svg.Platform">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Svg.2.3.6\lib\portable-win+net45+wp80+win81+wpa81\FFImageLoading.Svg.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Svg.Forms">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Svg.Forms.2.3.6\lib\portable-win+net45+wp80+win81+wpa81\FFImageLoading.Svg.Forms.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Gorilla.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
-    <Folder Include="Managers\" />
-    <Folder Include="Services\Navigation\" />
-    <Folder Include="Services\RequestProvider\" />
-    <Folder Include="Managers\Account\" />
-    <Folder Include="Services\Account\" />
-    <Folder Include="Models\" />
-    <Folder Include="Models\Account\" />
+    <EmbeddedResource Include="Views\ScreeningView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\SchedulingView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\ReportView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\StepperView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\SchedulingEventDateView.xaml">
+    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Modals\WelcomeModalView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Modals\DispositionMoreInfoModalView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Participant\DispositionSteps\" />
+    <Folder Include="Models\NavigationParameters\" />
+    <Folder Include="Models\Participant\Survey\" />
+    <Folder Include="CustomControls\Survey\" />
+    <Folder Include="Views\Survey\" />
+    <Folder Include="Models\Notification\" />
+    <Folder Include="Managers\Application\" />
+    <Folder Include="Services\App\" />
+    <Folder Include="Services\Notification\" />
+    <Folder Include="Models\Application\" />
+    <Folder Include="Models\Menu\" />
+    <Folder Include="SharedResources\" />
+    <Folder Include="Models\Participant\Messaging\" />
+    <Folder Include="CustomControls\Messaging\" />
+    <Folder Include="Views\Messaging\" />
+    <Folder Include="ViewModels\Interfaces\" />
+    <Folder Include="Helpers\Settings\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="..\packages\Xamarin.Forms.2.4.0.74863\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.4.0.74863\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
 </Project>

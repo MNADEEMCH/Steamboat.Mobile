@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="Steamboat.Mobile.Views.SchedulingEventDateView"
+    Title="Pick a place"
+    BackgroundColor="{StaticResource ViewBackground}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="HeaderLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="BackgroundColor" Value="{StaticResource SubtleBlueColor}" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="SchedulingEventDateListView" TargetType="customControl:CustomListView">
+                <Setter Property="SeparatorVisibility" Value="None"></Setter>
+                <Setter Property="BackgroundColor" Value="{StaticResource ViewBackground}"></Setter>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"></Setter>
+            </Style>
+            <Style x:Key="ViewCellFrame" TargetType="customControl:CustomFrame">
+                <Setter Property="Padding" Value="1"></Setter>
+                <Setter Property="Margin">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>25,5,25,5</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,5,80,5</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="CornerRadius" Value="5"></Setter>
+                <Setter Property="OutlineColor" Value="{StaticResource LightGrayColor}"></Setter>
+                <Setter Property="ActiveOutlineColor" Value="{StaticResource MomentumBlueColor}"></Setter>
+                <Setter Property="HasShadow" Value="False"></Setter>
+                <Setter Property="DefaultBorderWidth" Value="1.0"></Setter>
+                <Setter Property="ActiveBorderWidth" Value="3.0"></Setter>
+                <Setter Property="BackgroundColor">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="Color">
+                            <OnPlatform.iOS>#FFFFFF</OnPlatform.iOS>
+                            <OnPlatform.Android>Transparent</OnPlatform.Android>
+                        </OnPlatform>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ViewCellGrid" TargetType="Grid">
+                <Setter Property="Margin" Value="15,15,15,25"></Setter>
+                <Setter Property="BackgroundColor">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="Color">
+                            <OnPlatform.iOS>#FFFFFF</OnPlatform.iOS>
+                            <OnPlatform.Android>Transparent</OnPlatform.Android>
+                        </OnPlatform>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="RowSpacing" Value="2"></Setter>
+                <Setter Property="ColumnSpacing" Value="0"></Setter>
+            </Style>
+            <Style x:Key="LocationLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+            <Style x:Key="DistanceLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansItalic}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+            <Style x:Key="DateTimeLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+            <Style x:Key="DateTimeImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="19"></Setter>
+                <Setter Property="WidthRequest" Value="19"></Setter>
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+            <Style x:Key="ChevronButton" TargetType="customControl:LinkButton">
+                <Setter Property="ImageHeight" Value="24"></Setter>
+                <Setter Property="ImageWidth" Value="24"></Setter>
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="ActiveImage" Value="icChevron.png" />
+                <Setter Property="TapImage" Value="icChevron_Tap.png" />
+                <Setter Property="DisabledImage" Value="icChevron_Disabled.png" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+            </Style>
+            <Style x:Key="FooterStackLayout" TargetType="StackLayout">
+                <Setter Property="BackgroundColor" Value="{StaticResource SubtleGrayColor}" />
+                <Setter Property="HorizontalOptions" Value="Fill" />
+                <Setter Property="IsVisible" Value="{Binding ShowCancelAppointment}" />
+            </Style>
+            <Style x:Key="CancelAppointmentLinkButton" TargetType="customControl:LinkButton">                
+                <Setter Property="ImageTextDistance" Value="10"></Setter>
+                <Setter Property="ImageHeight" Value="24"></Setter>
+                <Setter Property="ImageWidth" Value="24"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="ActiveImage" Value="icDelete.png" />
+                <Setter Property="TapImage" Value="icDelete_Tap.png" />
+                <Setter Property="DisabledImage" Value="icDelete_Disabled.png" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,10" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowSpacing="0" BackgroundColor="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" RowSpacing="0" ColumnSpacing="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Text="CHOOSE A DATE AND LOCATION" Style="{StaticResource HeaderLabel}" />
+                <customControl:CustomListView x:Name="EventsList" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding SchedulingEventDate}" Command="{Binding CommandEventSelected}"
+                    Style="{StaticResource SchedulingEventDateListView}">
+
+                    <customControl:CustomListView.Header>
+                        <Grid HeightRequest="20" />
+                    </customControl:CustomListView.Header>
+                    
+                    <customControl:CustomListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <customControl:CustomFrame Style="{StaticResource ViewCellFrame}">
+                                    <customControl:CustomFrame.Triggers>
+                                        <DataTrigger TargetType="customControl:CustomFrame" Binding="{Binding IsActive}" Value="True">
+                                            <Setter Property="customControl:CustomFrame.IsActive" Value="True" />
+                                        </DataTrigger>
+                                    </customControl:CustomFrame.Triggers>
+                                    <Grid Style="{StaticResource ViewCellGrid}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="24"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text="{Binding FullAddress}" Style="{StaticResource LocationLabel}"/>
+                                        <Label Text="{Binding Distance}" Grid.Row="1" Style="{StaticResource DistanceLabel}"/>
+                                        <customControl:LinkButton Grid.Row="2" Grid.Column="1" Style="{StaticResource ChevronButton}" Command="{Binding Path=BindingContext.CommandEventSelected, Source={x:Reference EventsList}}" CommandParameter="{Binding}"/>
+                                        <StackLayout  Grid.Row="3" Orientation="Horizontal">
+                                            <ffimageloading:CachedImage Source="icCalendarDisabled.png" Style="{StaticResource DateTimeImage}"/>
+                                            <Label Text="{Binding Date}" Style="{StaticResource DateTimeLabel}"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Row="4" Orientation="Horizontal">
+                                            <ffimageloading:CachedImage Source="icClockDisabled.png" Style="{StaticResource DateTimeImage}"/>
+                                            <Label Text="{Binding Time}" Style="{StaticResource DateTimeLabel}"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </customControl:CustomFrame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </customControl:CustomListView.ItemTemplate>
+
+                    <customControl:CustomListView.Footer>
+                        <Grid HeightRequest="20" />
+                    </customControl:CustomListView.Footer>               
+                </customControl:CustomListView> 
+                <StackLayout Grid.Row="2"  Style="{StaticResource FooterStackLayout}">               
+                    <customControl:LinkButton Text="CANCEL APPOINTMENT" Command="{Binding CancelAppointmentConfirmCommand}" Style="{StaticResource CancelAppointmentLinkButton}" />
+                </StackLayout>
+            </Grid>  
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</views:CustomContentPage>

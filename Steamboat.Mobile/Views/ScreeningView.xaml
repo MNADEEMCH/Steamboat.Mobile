@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.ScreeningView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    BackgroundColor="{StaticResource ViewBackground}"
+    Title="Screening">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MainGrid"  TargetType="Grid">
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>16</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,16,80,16</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="ImageContainerAbsoluteLayout" TargetType="AbsoluteLayout">
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="IconBackgroundImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="150"></Setter>
+                <Setter Property="WidthRequest" Value="150"></Setter>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0.5,0.5,-1,-1"></Setter>
+                <Setter Property="AbsoluteLayout.LayoutFlags" Value="PositionProportional"></Setter>
+            </Style>
+            <Style x:Key="IconImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="208"></Setter>
+                <Setter Property="WidthRequest" Value="208"></Setter>
+            </Style>
+            <Style x:Key="TitleContainerStackLayout" TargetType="StackLayout">
+                <Setter Property="Orientation" Value="Horizontal"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="TitleLabel"  TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="30" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="MoreInfoButton" TargetType="customControl:LinkButton">
+                <Setter Property="ImageHeight" Value="24"></Setter>
+                <Setter Property="ImageWidth" Value="24"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="ActiveImage" Value="icMoreInfo.png"></Setter>
+                <Setter Property="TapImage" Value="icMoreInfo_Tap.png"></Setter>
+                <Setter Property="DisabledImage" Value="icMoreInfo_Disabled.png"></Setter>
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+            </Style>
+            <Style x:Key="IndicatorLabel"  TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
+                <Setter Property="TextColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="DescriptionLabel"  TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Margin" Value="12,12,12,8"></Setter>
+            </Style>
+            <Style x:Key="GridFrame" TargetType="customControl:CustomFrame">
+                <Setter Property="IsActive" Value="False"></Setter>
+                <Setter Property="HasShadow" Value="False"></Setter>
+                <Setter Property="Padding" Value="0"></Setter>
+                <Setter Property="Margin" Value="10,0"></Setter>
+                <Setter Property="OutlineColor" Value="{StaticResource LightGrayColor}"></Setter>
+                <Setter Property="IsVisible" Value="{Binding ShowDetails}"></Setter>
+                <Setter Property="CornerRadius" Value="5"></Setter>
+                <Setter Property="DefaultBorderWidth" Value="1.0"></Setter>
+            </Style>
+            <Style x:Key="ScreeningDetailsGrid" TargetType="Grid">
+                <Setter Property="HorizontalOptions" Value="Start"></Setter>
+                <Setter Property="Margin" Value="16,16,0,16"></Setter>
+            </Style>
+            <Style x:Key="ScreeningDetailsImage" TargetType="Image">
+                <Setter Property="HeightRequest" Value="19"></Setter>
+                <Setter Property="WidthRequest" Value="19"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="VerticalOptions" Value="Start"></Setter>
+            </Style>
+            <Style x:Key="ScreeningDetailsLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}"/>
+            </Style>
+            <Style x:Key="EditCancelGrid" TargetType="Grid">
+                <Setter Property="IsVisible" Value="{Binding ShowDetails}"></Setter>
+                <Setter Property="Margin" Value="12,0"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="RowSpacing" Value="0"></Setter>
+                <Setter Property="ColumnSpacing" Value="0"></Setter>
+            </Style>
+            <Style x:Key="EditCancelButton" TargetType="customControl:LinkButton">
+                <Setter Property="ImageTextDistance" Value="5"></Setter>
+                <Setter Property="ImageHeight" Value="24"></Setter>
+                <Setter Property="ImageWidth" Value="24"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource RalewaySemiBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="ActiveImage" Value="icEdit.png" />
+                <Setter Property="TapImage" Value="icEdit_Tap.png" />
+                <Setter Property="DisabledImage" Value="icEdit_Disabled.png" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ScrollView Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" VerticalOptions="FillAndExpand" >
+                <Grid Style="{StaticResource MainGrid}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <StackLayout Grid.Row="0" Style="{StaticResource MainContainerStackLayout}">
+                        <AbsoluteLayout Style="{StaticResource ImageContainerAbsoluteLayout}">
+                            <ffimageloading:CachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}"/>
+                            <ffimageloading:CachedImage Source="{Binding IconSource}" Style="{StaticResource IconImage}"/>
+                        </AbsoluteLayout>
+
+                        <StackLayout Style="{StaticResource TitleContainerStackLayout}">
+                            <Label Text="{Binding Title}" Style="{StaticResource TitleLabel}"></Label>
+                            <customControl:LinkButton Style="{StaticResource MoreInfoButton}" Command="{Binding MoreInfoCommand}"/>
+                        </StackLayout>
+                        
+                        <Label Text="{Binding Steps}" Style="{StaticResource IndicatorLabel}"></Label>
+                        <Label Text ="{Binding Message}" Style="{StaticResource DescriptionLabel}"></Label>
+                        <customControl:CustomFrame Style="{StaticResource GridFrame}">
+                            <Grid Style="{StaticResource ScreeningDetailsGrid}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <ffimageloading:CachedImage Grid.Row="0" Grid.Column="0" Source="icCalendarDisabled.png" Style="{StaticResource ScreeningDetailsImage}"/>
+                                <Label Text="{Binding Date}" Grid.Row="0" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                                <ffimageloading:CachedImage Grid.Row="1" Grid.Column="0" Source="icClockDisabled.png" Style="{StaticResource ScreeningDetailsImage}"/>
+                                <Label Text="{Binding Time}" Grid.Row="1" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                                <ffimageloading:CachedImage Grid.Row="2" Grid.Column="0" Source="icLocationDisabled.png" Style="{StaticResource ScreeningDetailsImage}" />
+                                <Label Text="{Binding Address}" Grid.Row="2" Grid.Column="1" Style="{StaticResource ScreeningDetailsLabel}"/>
+                            </Grid>
+                        </customControl:CustomFrame>
+
+                        <Grid Style="{StaticResource EditCancelGrid}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                           <customControl:LinkButton Grid.Column="1" Text="EDIT/CANCEL APPOINTMENT" Style="{StaticResource EditCancelButton}" Command="{Binding RescheduleCommand}" />
+                        </Grid>                        
+                    </StackLayout>
+                    <views:StepperView x:Name="Stepper" Grid.Row="1"/>
+                </Grid>
+            </ScrollView>
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</views:CustomContentPage>

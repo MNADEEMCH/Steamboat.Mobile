@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    x:Class="Steamboat.Mobile.Views.SchedulingConfirmationView"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    Title="Confirm">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="HeaderLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansBold}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="BackgroundColor" Value="{StaticResource SubtleBlueColor}" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="MainLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}"/>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="MainGrid"  TargetType="Grid">
+                 <Setter Property="VerticalOptions" Value="Center"></Setter>
+                 <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>20,0</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,0</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ScreeningDetailsTitle" BasedOn="{StaticResource MainLabel}" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,0,0,10" />
+            </Style>
+            <Style x:Key="GridFrame" TargetType="customControl:CustomFrame">
+                <Setter Property="IsActive" Value="False"></Setter>
+                <Setter Property="HasShadow" Value="False"></Setter>
+                <Setter Property="Margin" Value="10,10"></Setter>
+                <Setter Property="OutlineColor" Value="{StaticResource LightGrayColor}"></Setter>
+                <Setter Property="CornerRadius" Value="5"></Setter>
+                <Setter Property="DefaultBorderWidth" Value="1.0"></Setter>
+            </Style>
+            <Style x:Key="ScreeningDetailsGrid" TargetType="Grid">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+            </Style>
+            <Style x:Key="ScreeningDetailsImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="19"></Setter>
+                <Setter Property="WidthRequest" Value="19"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="ScreeningDetailsSeparatorBoxView" TargetType="BoxView">
+                <Setter Property="HeightRequest" Value="0.5"></Setter>
+                <Setter Property="Color" Value="{StaticResource LightGrayColor}"></Setter>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+            </Style>
+            <Style x:Key="MainActionButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
+                <Setter Property="Margin">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>40,10</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>0,10</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="HorizontalOptions">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="LayoutOptions">
+                            <OnIdiom.Phone>FillAndExpand</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>Center</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="WidthRequest" Value="350" />
+                <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
+            </Style>
+            <Style x:Key="NoEditButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewaySemiBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
+            </Style>
+            <Style x:Key="MainActionIndicator" TargetType="ActivityIndicator">
+                <Setter Property="WidthRequest" Value="40" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="Color" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="Margin" Value="0,29" />
+                <Setter Property="IsRunning" Value="true" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+	<ContentPage.Content>
+
+        <Grid RowSpacing="0" BackgroundColor="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" RowSpacing="0" ColumnSpacing="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Text="CONFIRM YOUR SCREENING" Style="{StaticResource HeaderLabel}" />
+                <Grid Grid.Row="1" Style="{StaticResource MainGrid}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="110" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Text="Is this information right?" Style="{StaticResource ScreeningDetailsTitle}"/>   
+                    <customControl:CustomFrame Grid.Row="1" Style="{StaticResource GridFrame}">
+                        <Grid Style="{StaticResource ScreeningDetailsGrid}" RowSpacing="15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <ffimageloading:CachedImage Source="icCalendarDisabled.png" Style="{StaticResource ScreeningDetailsImage}"/>
+                            <Label Text="{Binding Date}" Grid.Column="1" Style="{StaticResource MainLabel}"/>
+                            <BoxView Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource ScreeningDetailsSeparatorBoxView}"/>
+                            <ffimageloading:CachedImage Source="icClockDisabled.png" Grid.Row="2" Style="{StaticResource ScreeningDetailsImage}"/>
+                            <Label Text="{Binding Time}" Grid.Row="2" Grid.Column="1" Style="{StaticResource MainLabel}"/>
+                            <BoxView Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource ScreeningDetailsSeparatorBoxView}"/>
+                            <ffimageloading:CachedImage Source="icLocationDisabled.png" Grid.Row="4" Style="{StaticResource ScreeningDetailsImage}"/>
+                            <Label Text="{Binding Address}" Grid.Row="4" Grid.Column="1" Style="{StaticResource MainLabel}"/>
+                        </Grid>
+                    </customControl:CustomFrame>
+                    <StackLayout Grid.Row="2">
+                        <views:MomentumSpinnerView Margin="0,29" IsVisible="{Binding IsBusy}" />
+                        <customControl:GradientRoundedButton Text="YES, CONFIRM" Style="{StaticResource MainActionButton}" Command="{Binding ConfirmEventCommand}" />
+                        <customControl:LinkButton Text="NO, EDIT" Style="{StaticResource NoEditButton}" Command="{Binding NoEditCommand}" />
+                    </StackLayout>
+                </Grid>            
+            </Grid>         
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+        </Grid>
+	</ContentPage.Content>
+</views:CustomContentPage>

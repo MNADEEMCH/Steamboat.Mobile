@@ -4,26 +4,144 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Steamboat.Mobile.Views.LoginView"
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
-    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true" BackgroundColor="#60a7ea">
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    xmlns:extension="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true" NavigationPage.HasNavigationBar="false"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    BackgroundColor="{StaticResource ViewBackground}">
+   <ContentPage.Resources>
+        <ResourceDictionary>
+            <extension:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+            <extension:StringNullOrEmptyBoolConverter x:Key="StringNullOrEmptyBoolConverter" />
+            <Style x:Key="HeaderImage" TargetType="customControl:ResizableImage">
+                <Setter Property="Aspect" Value="AspectFill" />
+                <Setter Property="HeigthFactor" Value="2.45" />
+            </Style>
+            <Style x:Key="MainGrid"  TargetType="Grid">
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>40,0,40,50</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,0,80,50</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="WelcomeLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="TextColor" Value="{StaticResource GrayColor}" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+            <Style x:Key="TitleLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="30" />
+            </Style>
+            <Style x:Key="EmailEntry" TargetType="customControl:ImageEntry" BasedOn="{StaticResource MainFormEntry}">
+                <Setter Property="Margin" Value="0,24,0,0" />
+                <Setter Property="Image" Value="icUser.png" />
+                <Setter Property="Keyboard" Value="Email" />
+            </Style>
+            <Style x:Key="PasswordEntry" TargetType="customControl:ImageEntry" BasedOn="{StaticResource MainFormEntry}">
+                <Setter Property="Margin" Value="0,16,0,0" />
+                <Setter Property="Image" Value="icLock.png" />
+                <Setter Property="IsPassword" Value="True" />
+            </Style>
+            <Style x:Key="LoginButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
+                <Setter Property="Margin" Value="0,8,0,0" />
+            </Style>
+            <Style x:Key="ErrorLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="TextColor" Value="{StaticResource RedColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="0,2,0,0" />
+            </Style>
+            <Style x:Key="ForgotPasswordLinkButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="Margin" Value="0,8,0,0"/>
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="End" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+            </Style>
+            <Style x:Key="RegisterLinkButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+            </Style>
+            <Style x:Key="MemberLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Margin" Value="0,32,0,0" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 	<ContentPage.Content>
-        <Grid RowSpacing="0" Margin="20" VerticalOptions="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackLayout Grid.Row="0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Spacing="0" Margin="0,0,0,20" >
-                <Label Text="Username:" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" />
-                <Entry Text="{Binding Username}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="30"/>
-            </StackLayout>
-            <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Spacing="0" >
-                <Label Text="Password:" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" />
-                <Entry Text="{Binding Password}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="30"/>
-            </StackLayout>
-            <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Spacing="0" >
-                <Button Text="Login" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Command="{Binding LoginCommand}" />
-            </StackLayout>
-            <StackLayout Grid.Row="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Spacing="0" >
-                <Label Text="{Binding LoginResult}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
-            </StackLayout>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ScrollView>
+                <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <!--HEADER IMAGE-->
+                    <customControl:ResizableImage Style="{StaticResource HeaderImage}">
+                        <customControl:ResizableImage.Source>
+                            <OnIdiom x:TypeArguments="ImageSource">
+                                <OnIdiom.Phone>imgHeader.png</OnIdiom.Phone>    
+                                <OnIdiom.Tablet>imgHeaderTablet.png</OnIdiom.Tablet>    
+                            </OnIdiom> 
+                        </customControl:ResizableImage.Source>
+                    </customControl:ResizableImage>
+                    <!--LOGIN FORM-->
+                    <Grid Grid.Row="1" Style="{StaticResource MainGrid}">
+                        <StackLayout Spacing="0" VerticalOptions="Center">
+                            <Label Text="WELCOME TO" Style="{StaticResource WelcomeLabel}" />
+                            <Label Text="Momentum Health" Style="{StaticResource TitleLabel}" />
+                            <customControl:ImageEntry Placeholder="EMAIL" Text="{Binding Username.Value, Mode=TwoWay}" Style="{StaticResource EmailEntry}" >
+                                <customControl:ImageEntry.Triggers>
+                                    <DataTrigger TargetType="customControl:ImageEntry" Binding="{Binding Username.IsValid}" Value="False">
+                                        <Setter Property="BorderColor" Value="{StaticResource RedColor}" />
+                                    </DataTrigger>                               
+                                </customControl:ImageEntry.Triggers>
+                            </customControl:ImageEntry>
+                            <Label x:Name="LblUsername" Text="{Binding Username.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" IsVisible="{Binding Path=Text, Source={x:Reference LblUsername}, Converter={StaticResource StringNullOrEmptyBoolConverter}}"/>
+                            <customControl:ImageEntry Placeholder="PASSWORD" Text="{Binding Password.Value, Mode=TwoWay}" Style="{StaticResource PasswordEntry}" >
+                                <customControl:ImageEntry.Triggers>
+                                    <DataTrigger TargetType="customControl:ImageEntry" Binding="{Binding Password.IsValid}" Value="False">
+                                        <Setter Property="BorderColor" Value="{StaticResource RedColor}" />
+                                    </DataTrigger>                               
+                                </customControl:ImageEntry.Triggers>
+                            </customControl:ImageEntry>
+                            <Label x:Name="LblPassword" Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}" Style="{StaticResource ErrorLabel}" IsVisible="{Binding Path=Text, Source={x:Reference LblPassword}, Converter={StaticResource StringNullOrEmptyBoolConverter}}"/>
+                            <customControl:LinkButton Text="FORGOT PASSWORD" Style="{StaticResource ForgotPasswordLinkButton}" Command="{Binding ForgotPasswordCommand}"/>
+                            <customControl:GradientRoundedButton  Text="LOGIN" Command="{Binding LoginCommand}" Style="{StaticResource LoginButton}" IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"  />
+                            <Grid IsVisible="false" />
+                            <views:MomentumSpinnerView Margin="0,18,0,0" IsVisible="{Binding IsBusy}" />
+                            <Label Text="Not a member yet?" Style="{StaticResource MemberLabel}" />
+                            <customControl:LinkButton Text="REGISTER HERE" Style="{StaticResource RegisterLinkButton}" Command="{Binding RegisterHereCommand}"/>
+                            <Label Text="{Binding EnvironmentInfoText}" IsVisible="{Binding EnvironmentInfoText, Converter={StaticResource StringNullOrEmptyBoolConverter}}" TextColor="{StaticResource DarkGrayColor}" VerticalOptions="EndAndExpand" FontSize="12" />
+                        </StackLayout>
+                    </Grid>
+                </Grid>
+            </ScrollView>
         </Grid>
 	</ContentPage.Content>
 </ContentPage>

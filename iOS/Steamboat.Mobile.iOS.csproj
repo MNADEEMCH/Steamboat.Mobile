@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Xamarin.Forms.2.4.0.74863\build\netstandard1.0\Xamarin.Forms.props" Condition="Exists('..\packages\Xamarin.Forms.2.4.0.74863\build\netstandard1.0\Xamarin.Forms.props')" />
+  <Import Project="..\packages\Xamarin.Build.Download.0.4.6\build\Xamarin.Build.Download.props" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.6\build\Xamarin.Build.Download.props')" />
+  <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.props" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
@@ -28,27 +29,30 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
-    <CodesignProvision>MomentumHealt Provisioning Profile Dev</CodesignProvision>
+    <CodesignProvision>Momentum Health Provisioning Profile</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Release</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchArch>ARM64</MtouchArch>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <CodesignProvision>Momentum Health Provisioning Profile</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -56,6 +60,7 @@
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <CodesignProvision>Momentum Health Provisioning Profile</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,26 +81,55 @@
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <CodesignProvision>Momentum Health Provisioning Profile</CodesignProvision>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Production|iPhone' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Production</OutputPath>
+    <DefineConstants></DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchFloat32>true</MtouchFloat32>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <CodesignProvision>Momentum Health Provisioning Profile</CodesignProvision>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Production|iPhoneSimulator' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Production</OutputPath>
+    <DefineConstants></DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <CodesignProvision>Momentum Health Provisioning Profile</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rg.Plugins.Popup.1.0.4\lib\Xamarin.IOS\Rg.Plugins.Popup.dll</HintPath>
+    </Reference>
+    <Reference Include="Rg.Plugins.Popup.IOS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rg.Plugins.Popup.1.0.4\lib\Xamarin.IOS\Rg.Plugins.Popup.IOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Rg.Plugins.Popup.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rg.Plugins.Popup.1.0.4\lib\Xamarin.IOS\Rg.Plugins.Popup.Platform.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Xamarin.iOS" />
+    <Reference Include="Xamarin.iOS">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.2.0.0\lib\Xamarin.iOS10\Splat.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Core">
-      <HintPath>..\packages\Xamarin.Forms.2.4.0.74863\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Platform">
-      <HintPath>..\packages\Xamarin.Forms.2.4.0.74863\lib\Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Platform.iOS">
-      <HintPath>..\packages\Xamarin.Forms.2.4.0.74863\lib\Xamarin.iOS10\Xamarin.Forms.Platform.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Xaml">
-      <HintPath>..\packages\Xamarin.Forms.2.4.0.74863\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.IO.Compression" />
@@ -103,26 +137,305 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\sqlite-net-pcl.1.4.118\lib\netstandard1.1\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.9\lib\Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.sqlite3">
+      <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.ios_unified.1.1.9\lib\Xamarin.iOS10\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.9\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.9\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="UXDivers.Gorilla.Common">
+      <HintPath>..\packages\UXDivers.GorillaPlayer.Common.0.9.1.2\lib\Xamarin.iOS10\UXDivers.Gorilla.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="UXDivers.Gorilla.Common.iOS">
+      <HintPath>..\packages\UXDivers.GorillaPlayer.Common.0.9.1.2\lib\Xamarin.iOS10\UXDivers.Gorilla.Common.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.Support.iOS">
+      <HintPath>..\packages\Acr.Support.2.1.0\lib\Xamarin.iOS10\Acr.Support.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\packages\BTProgressHUD.1.2.0.5\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs">
+      <HintPath>..\packages\Acr.UserDialogs.6.5.1\lib\Xamarin.iOS10\Acr.UserDialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs.Interface">
+      <HintPath>..\packages\Acr.UserDialogs.6.5.1\lib\Xamarin.iOS10\Acr.UserDialogs.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamanimation">
+      <HintPath>..\packages\Xamanimation.1.1.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamanimation.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine">
+      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.9.0\lib\netstandard1.3\SuperSocket.ClientEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="WebSocket4Net">
+      <HintPath>..\packages\WebSocket4Net.0.15.1\lib\netstandard1.3\WebSocket4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="EngineIoClientDotNet">
+      <HintPath>..\packages\EngineIoClientDotNet.1.0.3\lib\netstandard1.3\EngineIoClientDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="SocketIoClientDotNet">
+      <HintPath>..\packages\SocketIoClientDotNet.1.0.3\lib\netstandard1.3\SocketIoClientDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="UXDivers.Gorilla.SDK">
+      <HintPath>..\packages\UXDivers.GorillaPlayer.SDK.1.2.0\lib\Xamarin.iOS10\UXDivers.Gorilla.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="UXDivers.Gorilla.SDK.iOS">
+      <HintPath>..\packages\UXDivers.GorillaPlayer.SDK.1.2.0\lib\Xamarin.iOS10\UXDivers.Gorilla.SDK.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.DeviceInfo.Abstractions">
+      <HintPath>..\packages\Xam.Plugin.DeviceInfo.3.1.0\lib\Xamarin.iOS10\Plugin.DeviceInfo.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.DeviceInfo">
+      <HintPath>..\packages\Xam.Plugin.DeviceInfo.3.1.0\lib\Xamarin.iOS10\Plugin.DeviceInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>..\packages\Xamarin.Forms.2.5.0.122203\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform">
+      <HintPath>..\packages\Xamarin.Forms.2.5.0.122203\lib\Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform.iOS">
+      <HintPath>..\packages\Xamarin.Forms.2.5.0.122203\lib\Xamarin.iOS10\Xamarin.Forms.Platform.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>..\packages\Xamarin.Forms.2.5.0.122203\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.Core">
+      <HintPath>..\packages\Xamarin.Firebase.iOS.Core.4.0.13\lib\Xamarin.iOS10\Firebase.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.InstanceID">
+      <HintPath>..\packages\Xamarin.Firebase.iOS.InstanceID.2.0.8\lib\Xamarin.iOS10\Firebase.InstanceID.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.Analytics">
+      <HintPath>..\packages\Xamarin.Firebase.iOS.Analytics.4.0.5\lib\Xamarin.iOS10\Firebase.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.CloudMessaging">
+      <HintPath>..\packages\Xamarin.Firebase.iOS.CloudMessaging.2.0.8\lib\Xamarin.iOS10\Firebase.CloudMessaging.dll</HintPath>
+    </Reference>
+    <Reference Include="WebP.Touch">
+      <HintPath>..\packages\WebP.Touch.1.0.8\lib\Xamarin.iOS10\WebP.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.3.6\lib\Xamarin.iOS10\FFImageLoading.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Platform">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.3.6\lib\Xamarin.iOS10\FFImageLoading.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Forms">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.3.6\lib\Xamarin.iOS10\FFImageLoading.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Forms.Touch">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.3.6\lib\Xamarin.iOS10\FFImageLoading.Forms.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp">
+      <HintPath>..\packages\SkiaSharp.1.60.0\lib\XamariniOS\SkiaSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Svg.Platform">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Svg.2.3.6\lib\Xamarin.iOS10\FFImageLoading.Svg.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Svg.Forms">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Svg.Forms.2.3.6\lib\Xamarin.iOS10\FFImageLoading.Svg.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="GetiOSModel">
+      <HintPath>..\packages\dannycabrera.GetiOSModel.1.4.0\lib\xamarinios10\GetiOSModel.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_40.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_60.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_58.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_87.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_80.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_120.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_180.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_20.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_29.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_76.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_152.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Appicon_167.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\splashscreen_1242-2208.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\splashscreen_750-1334.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\splashscreen_640x960.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\splashscreen_640x1136.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\splashscreen_320x480.png">
+      <InProject>false</InProject>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <BundleResource Include="Resources\iconBackground.png" />
+    <BundleResource Include="Resources\Checkbox\off.png" />
+    <BundleResource Include="Resources\Checkbox\off%402x.png" />
+    <BundleResource Include="Resources\Checkbox\off%403x.png" />
+    <BundleResource Include="Resources\Checkbox\on.png" />
+    <BundleResource Include="Resources\Checkbox\on%402x.png" />
+    <BundleResource Include="Resources\Checkbox\on%403x.png" />
+    <BundleResource Include="Resources\  icUser.png" />
+    <BundleResource Include="Resources\  icUser%402x.png" />
+    <BundleResource Include="Resources\  icUser%403x.png" />
+    <BundleResource Include="Resources\icLocationDisabled.png" />
+    <BundleResource Include="Resources\icLocationDisabled%402x.png" />
+    <BundleResource Include="Resources\icLocationDisabled%403x.png" />
+    <BundleResource Include="Resources\Splashscreen\splashscreen.png" />
+    <BundleResource Include="Resources\Splashscreen\splashscreen%402x.png" />
+    <BundleResource Include="Resources\Splashscreen\splashscreen%403x.png" />
+    <BundleResource Include="Resources\icEdit.png" />
+    <BundleResource Include="Resources\icEdit%402x.png" />
+    <BundleResource Include="Resources\icEdit%403x.png" />
+    <BundleResource Include="Resources\icLogo.png" />
+    <BundleResource Include="Resources\icLogo%402x.png" />
+    <BundleResource Include="Resources\icLogo%403x.png" />
+    <BundleResource Include="Resources\icDelete.png" />
+    <BundleResource Include="Resources\icDelete%402x.png" />
+    <BundleResource Include="Resources\icDelete%403x.png" />
+    <BundleResource Include="Resources\imgHeaderTablet.png" />
+    <BundleResource Include="Resources\imgHeaderTablet%402x.png" />
+    <BundleResource Include="Resources\imgHeaderTablet%403x.png" />
+    <BundleResource Include="Resources\imgMomentumProfile.png" />
+    <BundleResource Include="Resources\imgMomentumProfile%402x.png" />
+    <BundleResource Include="Resources\imgMomentumProfile%403x.png" />
+    <BundleResource Include="GoogleService-Info.plist" />
+    <BundleResource Include="Resources\Checkbox\offWhite.png" />
+    <BundleResource Include="Resources\Checkbox\offWhite%402x.png" />
+    <BundleResource Include="Resources\Checkbox\offWhite%403x.png" />
+    <BundleResource Include="Resources\Checkbox\onWhite.png" />
+    <BundleResource Include="Resources\Checkbox\onWhite%402x.png" />
+    <BundleResource Include="Resources\Checkbox\onWhite%403x.png" />
+    <BundleResource Include="Resources\icSend.png" />
+    <BundleResource Include="Resources\icSend%402x.png" />
+    <BundleResource Include="Resources\icSend%403x.png" />
+    <BundleResource Include="Resources\icSend_Disabled.png" />
+    <BundleResource Include="Resources\icSend_Disabled%402x.png" />
+    <BundleResource Include="Resources\icSend_Disabled%403x.png" />
+    <BundleResource Include="Resources\icDelete_Disabled.png" />
+    <BundleResource Include="Resources\icDelete_Disabled%402x.png" />
+    <BundleResource Include="Resources\icDelete_Disabled%403x.png" />
+    <BundleResource Include="Resources\icDelete_Tap.png" />
+    <BundleResource Include="Resources\icDelete_Tap%402x.png" />
+    <BundleResource Include="Resources\icDelete_Tap%403x.png" />
+    <BundleResource Include="Resources\icEdit_Disabled.png" />
+    <BundleResource Include="Resources\icEdit_Disabled%402x.png" />
+    <BundleResource Include="Resources\icEdit_Disabled%403x.png" />
+    <BundleResource Include="Resources\icEdit_Tap.png" />
+    <BundleResource Include="Resources\icEdit_Tap%402x.png" />
+    <BundleResource Include="Resources\icEdit_Tap%403x.png" />
+    <BundleResource Include="Resources\icChevron_Disabled.png" />
+    <BundleResource Include="Resources\icChevron_Disabled%402x.png" />
+    <BundleResource Include="Resources\icChevron_Disabled%403x.png" />
+    <BundleResource Include="Resources\icChevron_Tap.png" />
+    <BundleResource Include="Resources\icChevron_Tap%402x.png" />
+    <BundleResource Include="Resources\icChevron_Tap%403x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Disabled.png" />
+    <BundleResource Include="Resources\icMoreInfo_Disabled%402x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Disabled%403x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Tap.png" />
+    <BundleResource Include="Resources\icMoreInfo_Tap%402x.png" />
+    <BundleResource Include="Resources\icMoreInfo_Tap%403x.png" />
+    <BundleResource Include="Resources\icSend_Tap.png" />
+    <BundleResource Include="Resources\icSend_Tap%402x.png" />
+    <BundleResource Include="Resources\icSend_Tap%403x.png" />
+    <BundleResource Include="Resources\icMenuNotification.png" />
+    <BundleResource Include="Resources\icMenuNotification%402x.png" />
+    <BundleResource Include="Resources\icMenuNotification%403x.png" />
+    <BundleResource Include="Resources\icMenuClosed%403x.png" />
+    <BundleResource Include="Resources\icMenuClosed%402x.png" />
+    <BundleResource Include="Resources\icMenuClosed.png" />
+    <BundleResource Include="Resources\icMenuClosed_notification%403x.png" />
+    <BundleResource Include="Resources\icMenuClosed_notification%402x.png" />
+    <BundleResource Include="Resources\icMenuClosed_notification.png" />
+    <BundleResource Include="Resources\icMenuOpened_notification%403x.png" />
+    <BundleResource Include="Resources\icMenuOpened_notification%402x.png" />
+    <BundleResource Include="Resources\icMenuOpened_notification.png" />
+    <BundleResource Include="Resources\icMenuOpened%403x.png" />
+    <BundleResource Include="Resources\icMenuOpened%402x.png" />
+    <BundleResource Include="Resources\icMenuOpened.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
+    <BundleResource Include="Resources\Fonts\OpenSans-Italic.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomRenderers\ColorProgressBarRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="IOSDependencyContainer.cs" />
+    <Compile Include="Utilities\SQLiteHelper.cs" />
+    <Compile Include="CustomRenderers\GradientRoundedButtonRenderer.cs" />
+    <Compile Include="CustomRenderers\ImageEntryRenderer.cs" />
+    <Compile Include="CustomRenderers\CustomScrollViewRenderer.cs" />
+    <Compile Include="CustomRenderers\CheckboxRenderer.cs" />
+    <Compile Include="Controls\CheckBoxView.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
+    <Compile Include="CustomRenderers\CustomFrameRenderer.cs" />
+    <Compile Include="CustomRenderers\WrappedButtonRenderer.cs" />
+    <Compile Include="CustomRenderers\WebViewerRenderer.cs" />
+    <Compile Include="CustomRenderers\LinkButtonRenderer.cs" />
+    <Compile Include="CustomRenderers\CustomNavigationViewRenderer.cs" />
+    <Compile Include="CustomRenderers\BubbleStackRenderer.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
+    <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="CustomRenderers\SurveyEntryRenderer.cs" />
+    <Compile Include="CustomRenderers\TapableGridRenderer.cs" />
+    <Compile Include="Helpers\ViewExtensions.cs" />
+    <Compile Include="Helpers\DeviceInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
@@ -130,6 +443,182 @@
       <Name>Steamboat.Mobile</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Fonts\Raleway-Bold.ttf" />
+    <BundleResource Include="Resources\Fonts\Raleway-Light.ttf" />
+    <BundleResource Include="Resources\Fonts\Raleway-Medium.ttf" />
+    <BundleResource Include="Resources\Fonts\Raleway-Regular.ttf" />
+    <BundleResource Include="Resources\Fonts\Raleway-SemiBold.ttf" />
+    <BundleResource Include="Resources\Fonts\OpenSans-Bold.ttf" />
+    <BundleResource Include="Resources\Fonts\OpenSans-Light.ttf" />
+    <BundleResource Include="Resources\Fonts\OpenSans-Regular.ttf" />
+    <BundleResource Include="Resources\Fonts\OpenSans-SemiBold.ttf" />
+    <BundleResource Include="Resources\imgHeader.svg" />
+    <BundleResource Include="Resources\imgHeader.png" />
+    <BundleResource Include="Resources\imgHeader%402x.png" />
+    <BundleResource Include="Resources\imgHeader%403x.png" />
+    <BundleResource Include="Resources\ icLogout.png" />
+    <BundleResource Include="Resources\ icLogout%402x.png" />
+    <BundleResource Include="Resources\ icLogout%403x.png" />
+    <BundleResource Include="Resources\ icReenter.png" />
+    <BundleResource Include="Resources\ icReenter%402x.png" />
+    <BundleResource Include="Resources\ icReenter%403x.png" />
+    <BundleResource Include="Resources\ icLock.png" />
+    <BundleResource Include="Resources\ icLock%402x.png" />
+    <BundleResource Include="Resources\ icLock%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icInterview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icInterview%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icInterview%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icMoreInfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icMoreInfo%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icMoreInfo%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\iconBackground%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\iconBackground%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icReport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icReport%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icReport%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icScheduling.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icScheduling%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icScheduling%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icScreening.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icScreening%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icScreening%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepActive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepActive%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepActive%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepDone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepDone%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepDone%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepNonvisited.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepNonvisited%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icStepNonvisited%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icCalendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icCalendar%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icCalendar%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icClock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icClock%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icClock%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icLocation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icLocation%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icLocation%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icCalendarDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icCalendarDisabled%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icCalendarDisabled%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icChevron.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icChevron%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icChevron%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icClockDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icClockDisabled%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icClockDisabled%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icImago.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icImago%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icImago%403x.png" />
+  </ItemGroup>
+  <ItemGroup>  
+    <Folder Include="Resources\Splashscreen\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Import Project="..\packages\Xamarin.Forms.2.4.0.74863\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.4.0.74863\build\netstandard1.0\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Import Project="..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.122203\build\netstandard1.0\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\Xamarin.Build.Download.0.4.6\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.6\build\Xamarin.Build.Download.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.Core.4.0.13\build\Xamarin.Firebase.iOS.Core.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Core.4.0.13\build\Xamarin.Firebase.iOS.Core.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.InstanceID.2.0.8\build\Xamarin.Firebase.iOS.InstanceID.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.InstanceID.2.0.8\build\Xamarin.Firebase.iOS.InstanceID.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.Analytics.4.0.5\build\Xamarin.Firebase.iOS.Analytics.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Analytics.4.0.5\build\Xamarin.Firebase.iOS.Analytics.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.CloudMessaging.2.0.8\build\Xamarin.Firebase.iOS.CloudMessaging.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.CloudMessaging.2.0.8\build\Xamarin.Firebase.iOS.CloudMessaging.targets')" />
 </Project>
