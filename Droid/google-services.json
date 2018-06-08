@@ -8,51 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:746114027953:android:e89a05e0892cbfc5",
-        "android_client_info": {
-          "package_name": "com.MomentumHealth"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "746114027953-tt5bust6is71pha2sphogh4ddkfau8po.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "746114027953-tt5bust6is71pha2sphogh4ddkfau8po.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAtH7SHY3gFQ57gqKYx1FyLn6_nSk7qWBM"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:746114027953:android:0ef295a77fb35829",
         "android_client_info": {
           "package_name": "com.MomentumHealth.Steamboat_Mobile"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "746114027953-tt5bust6is71pha2sphogh4ddkfau8po.apps.googleusercontent.com",
-          "client_type": 3
-        },
         {
           "client_id": "746114027953-tt5bust6is71pha2sphogh4ddkfau8po.apps.googleusercontent.com",
           "client_type": 3
