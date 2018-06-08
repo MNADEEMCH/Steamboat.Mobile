@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Momentum</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.MomentumHealth.Steamboat-Mobile</string>
+	<string>com.MomentumHealth</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
