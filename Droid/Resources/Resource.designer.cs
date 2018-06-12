@@ -4190,26 +4190,14 @@ namespace Steamboat.Mobile.Droid
 			// aapt resource value: 0x7f080013
 			public const int common_signin_button_text_long = 2131230739;
 			
-			// aapt resource value: 0x7f080057
-			public const int default_web_client_id = 2131230807;
-			
-			// aapt resource value: 0x7f080058
-			public const int firebase_database_url = 2131230808;
+			// aapt resource value: 0x7f080056
+			public const int firebase_database_url = 2131230806;
 			
 			// aapt resource value: 0x7f080055
 			public const int gcm_defaultSenderId = 2131230805;
 			
-			// aapt resource value: 0x7f080059
-			public const int google_api_key = 2131230809;
-			
-			// aapt resource value: 0x7f080056
-			public const int google_app_id = 2131230806;
-			
-			// aapt resource value: 0x7f08005a
-			public const int google_crash_reporting_api_key = 2131230810;
-			
-			// aapt resource value: 0x7f08005b
-			public const int google_storage_bucket = 2131230811;
+			// aapt resource value: 0x7f080057
+			public const int google_storage_bucket = 2131230807;
 			
 			// aapt resource value: 0x7f080054
 			public const int library_name = 2131230804;
