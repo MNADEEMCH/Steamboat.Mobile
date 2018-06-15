@@ -281,8 +281,6 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 				return;
 
 			var keyboardFrame = UIKeyboard.FrameEndFromNotification(notification);
-			var foo = UIKeyboard.AnimationCurveFromNotification(notification);
-			var bar = UIKeyboard.AnimationDurationFromNotification(notification);
 			var isOverlapping = activeView.IsKeyboardOverlapping(View, keyboardFrame);
 
 			if (!isOverlapping)
@@ -302,8 +300,6 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
 			_isKeyboardShown = false;
 			var keyboardFrame = UIKeyboard.FrameEndFromNotification(notification);
-			var foo = UIKeyboard.AnimationCurveFromNotification(notification);
-            var bar = UIKeyboard.AnimationDurationFromNotification(notification);
 
 			if (_pageWasShiftedUp)
 			{
