@@ -110,17 +110,21 @@ namespace Steamboat.Mobile.ViewModels
 			{
 				if (!string.IsNullOrEmpty(MessageText))
 				{
-					var newMessage = await _participantManager.SendMessage(MessageText);
+					var auxMessage = new Message() {
+						IsSender = true,
+						Text = MessageText
+					};
 					//var auxList = new List<Message>() { newMessage };
-					var observableMessages = ParseSentMessage(newMessage);
+					var observableMessages = ParseSentMessage(auxMessage);
 					Device.BeginInvokeOnMainThread(async () =>
 					{
 						AllMessages.AddRange(observableMessages);
 						ScrollToBottomCommand.Execute(true);
 						MessageText = string.Empty;
-						_userTapped = false;
 					});
+					var newMessage = await _participantManager.SendMessage(MessageText);
 					_requestTime = GetCreatedTimestamp(newMessage);
+					_userTapped = false;
 				}
 			});
 		}

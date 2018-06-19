@@ -16,6 +16,7 @@ namespace Steamboat.Mobile.iOS
             Locator.CurrentMutable.RegisterConstant(new SQLiteHelper(), typeof(IConnectionHelper));
             Locator.CurrentMutable.RegisterConstant(new NotificationService(), typeof(INotificationService));
 			Locator.CurrentMutable.RegisterConstant<IDeviceInfo>(new DeviceInfo());
+			Locator.CurrentMutable.RegisterConstant(new KeyboardHelperIOS(), typeof(IKeyboardHelper));
         }
     }
 }
