@@ -13,6 +13,7 @@ namespace Steamboat.Mobile.ViewModels
     {
         #region Properties
         
+		private ISettings _settings;
         private readonly string _reportUri;
         private bool _webViewLoadedSucessfully = false;
 
@@ -27,7 +28,7 @@ namespace Steamboat.Mobile.ViewModels
 		public ReportDetailsViewModel(ISettings settings = null)
         {
             IsLoading = true;
-			var _settings = settings ?? DependencyContainer.Resolve<ISettings>();
+			_settings = settings ?? DependencyContainer.Resolve<ISettings>();
 			_reportUri = _settings.BaseUrl + "participant/report";
 
             SetWebView();
@@ -70,7 +71,7 @@ namespace Steamboat.Mobile.ViewModels
         {
             WebViewHeaders = new Dictionary<string, string>();
             WebViewHeaders.Add("Momentum-Api", "true");
-            WebViewHeaders.Add("Momentum-Api-Environment", "F5752008-E484-4691-B58A-3338A90F80AA");
+			WebViewHeaders.Add("Momentum-Api-Environment", _settings.RequestProviderApiEnvironment);
             WebViewHeaders.Add("Momentum-Api-Session", App.SessionID);
         }
 
