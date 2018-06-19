@@ -25,6 +25,13 @@ namespace Steamboat.Mobile.Views
 					MainGrid.RowDefinitions[2].Height = actualHeight + 12;
                 }
             }
+
+			KeyboardHelper.KeyboardChanged += (sender, e) => {
+				var bottomOffset = MainGrid.Bounds.Bottom - EntryGrid.Bounds.Bottom;   // This offset allows us to only raise the stack by the amount required to stay above the keyboard. 
+                var ty = e.Visible ? -e.Height : -1;
+				MainGrid.TranslateTo(MainGrid.TranslationX, ty, e.Duration, Easing.CubicInOut);               
+                //              spacer.HeightRequest = e.Visible ? e.Height : -1;
+            };
 		}
 
 		protected override async void OnAppearing()

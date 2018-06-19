@@ -8,7 +8,6 @@
                          xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
                          xmlns:views="clr-namespace:Steamboat.Mobile.Views"
                          BackgroundColor="{StaticResource SubtleGrayColor}"
-                         iOSKeyboardScroll="true"
                          Title="Messaging">
      <ContentPage.Resources>
         <ResourceDictionary>
