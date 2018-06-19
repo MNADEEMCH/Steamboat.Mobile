@@ -45,15 +45,15 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
 			if (page != null)
 			{
-				if (page.iOSKeyboardScroll)
-				{
-					var contentScrollView = page.Content as ScrollView;
+				//if (page.iOSKeyboardScroll)
+				//{
+				//	var contentScrollView = page.Content as ScrollView;
 
-					if (contentScrollView != null)
-						return;
+				//	if (contentScrollView != null)
+				//		return;
 
-					RegisterForKeyboardNotifications();
-				}
+				//	RegisterForKeyboardNotifications();
+				//}
 
 				if (_firstLoad)
 				{
