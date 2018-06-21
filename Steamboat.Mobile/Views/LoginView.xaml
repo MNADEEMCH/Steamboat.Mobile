@@ -135,9 +135,9 @@
                             <customControl:GradientRoundedButton  Text="LOGIN" Command="{Binding LoginCommand}" Style="{StaticResource LoginButton}" IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"  />
                             <Grid IsVisible="false" />
                             <views:MomentumSpinnerView Margin="0,18,0,0" IsVisible="{Binding IsBusy}" />
-                            <Label Text="Not a member yet?" Style="{StaticResource MemberLabel}" />
-                            <customControl:LinkButton Text="REGISTER HERE" Style="{StaticResource RegisterLinkButton}" Command="{Binding RegisterHereCommand}"/>
-                            <Label Text="{Binding EnvironmentInfoText}" IsVisible="{Binding EnvironmentInfoText, Converter={StaticResource StringNullOrEmptyBoolConverter}}" TextColor="{StaticResource DarkGrayColor}" VerticalOptions="EndAndExpand" FontSize="12" />
+                            <!--<Label Text="Not a member yet?" Style="{StaticResource MemberLabel}" />
+                            <customControl:LinkButton Text="REGISTER HERE" Style="{StaticResource RegisterLinkButton}" Command="{Binding RegisterHereCommand}"/>-->
+                            <Label Text="{Binding EnvironmentInfoText}" IsVisible="{Binding EnvironmentInfoText, Converter={StaticResource StringNullOrEmptyBoolConverter}}" TextColor="{StaticResource DarkGrayColor}" VerticalOptions="EndAndExpand" FontSize="12" Margin="0,16,0,0" />
                         </StackLayout>
                     </Grid>
                 </Grid>
