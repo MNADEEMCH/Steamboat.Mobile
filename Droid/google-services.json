@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:746114027953:android:0ef295a77fb35829",
+        "mobilesdk_app_id": "1:746114027953:android:e89a05e0892cbfc5",
         "android_client_info": {
-          "package_name": "com.MomentumHealth.Steamboat_Mobile"
+          "package_name": "com.MomentumHealth"
         }
       },
       "oauth_client": [

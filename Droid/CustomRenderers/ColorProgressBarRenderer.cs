@@ -52,7 +52,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
             if(e.PropertyName.Equals("Progress")){
 
-                if (Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.Lollipop){
+                if (Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.M){
                     Control.Invalidate();
                 }
             }
@@ -65,7 +65,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             var element = Element as ColorProgressBar;
             // http://stackoverflow.com/a/29199280
 
-            if (Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.Lollipop)
+            if (Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.M)
             {
                 Drawable progressDrawable = DrawableCompat.Wrap(Control.ProgressDrawable);
                 DrawableCompat.SetTintList(progressDrawable, Android.Content.Res.ColorStateList.ValueOf(element.FilledColor.ToAndroid()));

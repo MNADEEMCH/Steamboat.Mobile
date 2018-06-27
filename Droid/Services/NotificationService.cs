@@ -1,5 +1,6 @@
 ﻿using System;
 using Android.App;
+using Android.OS;
 using Firebase.Iid;
 using Steamboat.Mobile.Droid.CustomRenderers;
 using Steamboat.Mobile.Services.Notification;
@@ -28,7 +29,12 @@ namespace Steamboat.Mobile.Droid.Services
 
         private void RemoveAllNotificationBubbles()
         {
-            NotificationManager notifManager = (NotificationManager)MainActivity.Context.GetSystemService(Java.Lang.Class.FromType(typeof(Android.App.NotificationManager)));
+
+            var isOldVersion = Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.M;
+            NotificationManager notifManager = (NotificationManager) (isOldVersion ?
+                                                                      MainActivity.Context.GetSystemService(Service.NotificationService):
+                                                                      MainActivity.Context.GetSystemService(Java.Lang.Class.FromType(typeof(Android.App.NotificationManager))));
+            
             notifManager.CancelAll();
            
         }
