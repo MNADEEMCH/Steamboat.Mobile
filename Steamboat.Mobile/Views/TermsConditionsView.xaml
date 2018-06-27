@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.TermsConditionsView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    BackgroundColor="{StaticResource ViewBackground}">
+    <ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <customControl:WebViewer Grid.Row="0"
+                IsVisible="{Binding WebViewLoadedSucessfully}"
+                Uri="{Binding WebViewUri}"
+                Cookies="{Binding WebViewCookies}" 
+                Headers="{Binding WebViewHeaders}"
+                LoadFinishedCommand="{Binding LoadFinishedCommand}"
+                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+
+           <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</views:CustomContentPage>

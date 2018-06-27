@@ -157,7 +157,7 @@ namespace Steamboat.Mobile.ViewModels
 					message.ShowDate = true;
 					message.AvatarUrl = _imgSource;
 				}
-
+				message.Text = message.Text.Replace("<br/>", "\n");	
 				retList.Add(message);
 			}
 

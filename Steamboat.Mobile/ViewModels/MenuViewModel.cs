@@ -116,6 +116,13 @@ namespace Steamboat.Mobile.ViewModels
 			});
 
 			MenuItems.Add(new Models.Menu.MenuItem
+            {
+				Title = "Privacy Policy",
+				IsSelected = false,
+                NavigationAction = NavigateToTermsCondition
+            });
+
+			MenuItems.Add(new Models.Menu.MenuItem
 			{
 				Title = "Logout",
 				ShowSeparator = false,
@@ -167,6 +174,12 @@ namespace Steamboat.Mobile.ViewModels
 			await NavigationService.NavigateToAsync<MessagingViewModel>(mainPage: true);
 		}
 
+		private async Task NavigateToTermsCondition()
+		{
+			await NavigationService.NavigateToAsync<TermsConditionsViewModel>(mainPage: true);
+			_userTapped = false;  
+		}
+			
 		private async Task Logout()
 		{
 			IsLoading = true;

@@ -40,7 +40,7 @@ namespace Steamboat.Mobile.ViewModels
         }
 
         private void SetWebView()
-        {
+		{         
             try
             {
                 WebViewLoadedSucessfully = false;

@@ -4,7 +4,7 @@ namespace Steamboat.Mobile.Helpers
 	// Provides static access to keyboard events
     public static class KeyboardHelper
     {
-        private static IKeyboardHelper keyboardHelper = null;
+        private static IKeyboardHelper keyboardHelper = null; 
 
         public static void Init()
         {

@@ -78,7 +78,6 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         {
             if (Element.Uri != null)
             {
-
                 Control.SetWebViewClient(new AuthWebViewClient(e));
                 if (e.HasCookiesOrHeaders)
                 {

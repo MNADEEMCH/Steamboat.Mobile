@@ -127,6 +127,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\TermsConditionsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -368,6 +372,10 @@
     <Compile Include="Helpers\Settings\ProdSettings.cs" />
     <Compile Include="Helpers\IDeviceInfo.cs" />
     <Compile Include="Helpers\KeyboardHelper.cs" />
+    <Compile Include="Views\TermsConditionsView.xaml.cs">
+      <DependentUpon>TermsConditionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\TermsConditionsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
