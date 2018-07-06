@@ -34,21 +34,21 @@
                 <Setter Property="HorizontalOptions" Value="Fill"></Setter>
                 <Setter Property="VerticalOptions" Value="StartAndExpand"></Setter>
             </Style>
-            <Style x:Key="EntryField" TargetType="customControl:SurveyEntry">
+            <Style x:Key="EditorField" TargetType="customControl:MultiLineEditor">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
                 <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="Margin" Value="0" />
-                <Setter Property="GlobalPadding">
+                <Setter Property="Padding">
                     <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double" iOS="5" Android="8" />
+                        <OnPlatform x:TypeArguments="Thickness" iOS="8" Android="8" />
                     </Setter.Value>
                  </Setter>
                 <Setter Property="CornerRadius">
                     <Setter.Value>
                         <OnPlatform x:TypeArguments="x:Double" iOS="16" Android="32" />
                     </Setter.Value>
-                 </Setter>
+                </Setter>
             </Style>
             <Style x:Key="SendButton" TargetType="customControl:LinkButton">
                 <Setter Property="Margin" Value="8,0,0,0" />
@@ -71,7 +71,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="72" />
+                    <RowDefinition Height="76" />
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Text="SEND AND RECEIVE MESSAGES" Style="{StaticResource HeaderLabel}" />
@@ -86,7 +86,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>                   
-                    <customControl:SurveyEntry Grid.Column="0" x:Name="MainEntry" Style="{StaticResource EntryField}" Text="{Binding MessageText}" />
+                    <customControl:MultiLineEditor Grid.Column="0" x:Name="MainEntry" Style="{StaticResource EditorField}" Text="{Binding MessageText}" />
                     <customControl:LinkButton Grid.Column="1" Style="{StaticResource SendButton}" Command="{Binding SendMessageCommand}" >
                         <customControl:LinkButton.Triggers>
                             <DataTrigger TargetType="customControl:LinkButton" Binding="{Binding Source={x:Reference MainEntry}, Path=Text.Length}" Value="0">

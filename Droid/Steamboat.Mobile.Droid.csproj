@@ -301,6 +301,7 @@
     <Compile Include="CustomRenderers\TapableGridRenderer.cs" />
     <Compile Include="CustomRenderers\IconMasterDetailPageRenderer.cs" />
     <Compile Include="Helpers\DeviceInfo.cs" />
+    <Compile Include="CustomRenderers\MultiLineEditorRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />

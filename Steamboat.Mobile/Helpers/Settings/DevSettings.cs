@@ -3,7 +3,7 @@ namespace Steamboat.Mobile.Helpers.Settings
 {
 	public class DevSettings : ISettings
 	{
-		public string BaseUrl => "https://dev.momentumhealth.co/";
+		public string BaseUrl => "http://dev.momentumhealth.co/";
 
 		public int TimeoutLimit => 5;
 

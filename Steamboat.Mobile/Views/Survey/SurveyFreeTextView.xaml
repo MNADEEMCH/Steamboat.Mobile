@@ -27,26 +27,21 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-            <Style x:Key="EntryField" TargetType="customControl:SurveyEntry">
+            <Style x:Key="EditorField" TargetType="customControl:MultiLineEditor">
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
                 <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="Margin" Value="0" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="GlobalPadding">
+                <Setter Property="Padding">
                     <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double"
-                              iOS="7.5"
-                              Android="10" />
+                        <OnPlatform x:TypeArguments="Thickness" iOS="7,5" Android="10" />
                     </Setter.Value>
                  </Setter>
                 <Setter Property="CornerRadius">
                     <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double"
-                              iOS="5"
-                              Android="10" />
+                        <OnPlatform x:TypeArguments="x:Double" iOS="5" Android="10" />
                     </Setter.Value>
-                 </Setter>
+                </Setter>
             </Style>
             <Style x:Key="SendButton" TargetType="customControl:LinkButton">
                 <Setter Property="Margin" Value="0" />
@@ -90,14 +85,14 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                     <customControl:SurveyEntry x:Name="MainEntry" Style="{StaticResource EntryField}" Text="{Binding AnswerText}" >
-                        <customControl:SurveyEntry.Behaviors>
-                                <extension:EventToCommandBehavior
+                    <customControl:MultiLineEditor Grid.Column="0" x:Name="MainEntry" Style="{StaticResource EditorField}" Text="{Binding MessageText}" HeightRequest="40" >
+                        <customControl:MultiLineEditor.Behaviors>
+                            <extension:EventToCommandBehavior
                                     EventName="TextChanged"
                                     Command="{Binding ParentBindingContext.ValidateFreeTextContinueCommand, Source={x:Reference FreeTextView}}"
                                     EventArgsConverter="{StaticResource TextChangedEventArgsConverter}"/>
-                        </customControl:SurveyEntry.Behaviors>
-                    </customControl:SurveyEntry>
+                        </customControl:MultiLineEditor.Behaviors>
+                    </customControl:MultiLineEditor>
                     <customControl:LinkButton Grid.Column="1" Style="{StaticResource SendButton}" 
                                               Command="{Binding Path=ParentBindingContext.HandleFreeTextCommand, Source={x:Reference FreeTextView}}"
                                               CommandParameter="{Binding Source={x:Reference MainEntry}, Path=Text}"/>

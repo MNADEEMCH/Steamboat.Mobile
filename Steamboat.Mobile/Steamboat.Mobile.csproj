@@ -376,6 +376,7 @@
       <DependentUpon>TermsConditionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\TermsConditionsViewModel.cs" />
+    <Compile Include="CustomControls\Renderers\MultiLineEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rg.Plugins.Popup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

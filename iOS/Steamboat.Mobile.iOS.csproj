@@ -437,6 +437,7 @@
     <Compile Include="Helpers\ViewExtensions.cs" />
     <Compile Include="Helpers\DeviceInfo.cs" />
     <Compile Include="Helpers\KeyboardHelperIOS.cs" />
+    <Compile Include="CustomRenderers\MultiLineEditorRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
