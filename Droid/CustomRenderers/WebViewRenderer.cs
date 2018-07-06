@@ -52,18 +52,15 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
         private void SetUpControl()
         {
-            var webView = new Android.Webkit.WebView(Forms.Context);
+            var webView = new Android.Webkit.WebView(this.Context);
             webView.Settings.JavaScriptEnabled = true;
             webView.Settings.DomStorageEnabled = true;
             webView.SetBackgroundColor(Android.Graphics.Color.Transparent);
 
             webView.Settings.MinimumFontSize = 0;
             webView.SetInitialScale(0);
-            webView.Settings.LoadWithOverviewMode = true;//loads the WebView completely zoomed out
-
-            if (Build.VERSION.SdkInt < BuildVersionCodes.Lollipop)
-                webView.Settings.UseWideViewPort = true;
-
+            webView.Settings.LoadWithOverviewMode = true;
+            webView.Settings.UseWideViewPort = true;
 
             SetNativeControl(webView);
 
@@ -107,13 +104,23 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             _webViewer = webViewer;
         }
 
-        public override bool ShouldOverrideUrlLoading(Android.Webkit.WebView view, IWebResourceRequest request)
+        public override bool ShouldOverrideUrlLoading(Android.Webkit.WebView view, string url)
         {
-            if (WebViewRendererHelper.IsAnHttpUrl(request.Url.ToString()))
+            return OverrideUrl(view, url);
+        }
+
+        public override bool ShouldOverrideUrlLoading(Android.Webkit.WebView view, IWebResourceRequest request){
+
+            return OverrideUrl(view, request.Url.ToString());
+        }
+
+        private bool OverrideUrl(Android.Webkit.WebView view, string url){
+
+            if (WebViewRendererHelper.IsAnHttpUrl(url))
             {
-                AddCookies(request.Url.ToString());
+                AddCookies(url);
                 //Add headers
-                view.LoadUrl(request.Url.ToString(), _webViewer.Headers);
+                view.LoadUrl(url, _webViewer.Headers);
 
             }
             return true;
@@ -137,6 +144,13 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
             }
 
+        }
+
+        public override void OnReceivedError(Android.Webkit.WebView view, Android.Webkit.ClientError clientError, String description, String failingUrl)
+        {
+            base.OnReceivedError(view, clientError, description, failingUrl);
+
+            LoadCompletedWithErrors();
         }
 
         public override void OnReceivedError(Android.Webkit.WebView view, IWebResourceRequest request, WebResourceError error)
