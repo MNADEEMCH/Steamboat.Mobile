@@ -12,21 +12,25 @@ using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Services.Dialog;
 using Xamarin.Forms;
 using Steamboat.Mobile.Helpers.Settings;
+using Steamboat.Mobile.Managers.Application;
 
 namespace Steamboat.Mobile.Managers.Account
 {
 	public class AccountManager : ManagerBase, IAccountManager
 	{
+		private IApplicationManager _applicationManager;
 		private IAccountService _accountService;
 		private IUserRepository _userRepository;
 		private IUserAlertRepository _userAlertRepository;
 		private ISettings _settings;
 
-		public AccountManager(IAccountService accountService = null,
+		public AccountManager(IApplicationManager applicationManager = null,
+			                  IAccountService accountService = null,
 							  IUserRepository userRepository = null,
 							  IUserAlertRepository userAlertRepository = null,
 							  ISettings settings = null)
 		{
+			_applicationManager = applicationManager ?? DependencyContainer.Resolve<IApplicationManager>();
 			_accountService = accountService ?? DependencyContainer.Resolve<IAccountService>();
 			_userRepository = userRepository ?? DependencyContainer.Resolve<IUserRepository>();
 			_userAlertRepository = userAlertRepository ?? DependencyContainer.Resolve<IUserAlertRepository>();
@@ -100,6 +104,8 @@ namespace Steamboat.Mobile.Managers.Account
 					Password = password,
 					RetypePassword = confirm
 				}, App.SessionID);
+
+				_applicationManager.ResetTimer();
 
 				return initResponse;
 			});

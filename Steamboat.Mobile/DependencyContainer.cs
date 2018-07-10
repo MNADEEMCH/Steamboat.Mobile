@@ -65,9 +65,9 @@ namespace Steamboat.Mobile
 			Locator.CurrentMutable.Register(() => new InterviewEditQuestionModalViewModel());
 
 			//Managers
-			Locator.CurrentMutable.RegisterLazySingleton(() => new AccountManager(), typeof(IAccountManager));
-			Locator.CurrentMutable.RegisterLazySingleton(() => new ParticipantManager(), typeof(IParticipantManager));
-			Locator.CurrentMutable.RegisterLazySingleton(() => new ApplicationManager(), typeof(IApplicationManager));
+			Locator.CurrentMutable.RegisterConstant(new ApplicationManager(), typeof(IApplicationManager));
+			Locator.CurrentMutable.RegisterConstant(new AccountManager(), typeof(IAccountManager));
+			Locator.CurrentMutable.RegisterConstant(new ParticipantManager(), typeof(IParticipantManager));
 		}
 
 		public async static Task RefreshDependencies()

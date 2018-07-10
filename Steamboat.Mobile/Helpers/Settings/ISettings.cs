@@ -7,6 +7,8 @@ namespace Steamboat.Mobile.Helpers.Settings
 
 		int TimeoutLimit { get; }
 
+		int ReportTimeoutLimit { get; }
+
 		string RequestProviderCookieUrl { get; }
 
 		string RequestProviderApiEnvironment { get; }

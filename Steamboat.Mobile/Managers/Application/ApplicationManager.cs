@@ -25,9 +25,11 @@ namespace Steamboat.Mobile.Managers.Application
 		private ISettings _settings;
 
 		private TimeSpan? _inactivityTimeStamp;
-		private readonly int _timeoutLimit = 15;
+		private int _timeoutLimit;
+		private int _stopwatchTimeoutLimit;
 		private int _notificationsCount;
 		private PushNotificationType _notificationTypePending;
+		private static Stopwatch _stopWatch;
 
 		public event EventHandler<PushNotificationEventParam> OnNotification;
 
@@ -46,7 +48,9 @@ namespace Steamboat.Mobile.Managers.Application
 			_participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
 			_settings = settings ?? DependencyContainer.Resolve<ISettings>();
 
+			_stopWatch = new Stopwatch();
 			_timeoutLimit = _settings.TimeoutLimit;
+			_stopwatchTimeoutLimit = _settings.TimeoutLimit;
 		}
 
 		public async Task InitializeApplication(PushNotification pushNotification = null)
@@ -101,7 +105,7 @@ namespace Steamboat.Mobile.Managers.Application
 		}
 
 		public void UpdateNotificationBadge(int notificationsOpened)
-		{         
+		{
 			int updatedBadge = GetBadgeToSet(notificationsOpened);
 
 			_notificationService.SetNotificationBadge(updatedBadge);
@@ -175,6 +179,26 @@ namespace Steamboat.Mobile.Managers.Application
 			});
 		}
 
+
+		public async Task OnApplicationStart()
+		{
+			if (App.SessionID != null)
+			{
+				StartTimer();
+			}
+
+			Device.StartTimer(new TimeSpan(0, 0, 1), () =>
+			{
+				if (_stopWatch.IsRunning && _stopWatch.Elapsed.Minutes >= _stopwatchTimeoutLimit)
+				{
+					Task.Run(async () => await SessionExpired());
+					ResetTimer();
+				}
+
+				return true;
+			});
+		}
+
 		public async Task OnApplicationSleep()
 		{
 			StartTimingInactivity();
@@ -185,16 +209,21 @@ namespace Steamboat.Mobile.Managers.Application
 			if (CheckForInactivity())
 				await SessionExpired();
 			else if (App.SessionID != null)
+			{
+				StartTimer();
 				Device.BeginInvokeOnMainThread(() => UpdateNotificationBadge(NotificationsBadge));
+			}
 
 			_inactivityTimeStamp = null;
-
 		}
 
 		private void StartTimingInactivity()
 		{
 			if (App.SessionID != null)
+			{
 				_inactivityTimeStamp = new TimeSpan(DateTime.Now.Ticks);
+				ResetTimer();
+			}
 		}
 
 		private bool CheckForInactivity()
@@ -208,7 +237,7 @@ namespace Steamboat.Mobile.Managers.Application
 			return difference.Value.Minutes >= _timeoutLimit;
 
 		}
-        
+
 		Task IApplicationManager.SessionExpired()
 		{
 			return base.SessionExpired();
@@ -222,6 +251,32 @@ namespace Steamboat.Mobile.Managers.Application
 
 			_notificationTypePending = PushNotificationType.Unknown;
 			return viewModelType;
+		}
+
+		public void StartTimer()
+		{
+			if (!_stopWatch.IsRunning)
+				_stopWatch.Start();
+		}
+
+		public void ResetTimer()
+		{
+			_stopWatch.Reset();
+		}
+
+		public void RestartTimer()
+		{
+			_stopWatch.Restart();
+		}
+
+		public void IncreaseTimer()
+		{
+			_stopwatchTimeoutLimit = _settings.ReportTimeoutLimit;
+		}
+
+		public void DecreaseTimer()
+		{
+			_stopwatchTimeoutLimit = _settings.TimeoutLimit;
 		}
 	}
 }

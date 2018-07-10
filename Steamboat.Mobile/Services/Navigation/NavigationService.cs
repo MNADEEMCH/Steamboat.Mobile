@@ -144,6 +144,9 @@ namespace Steamboat.Mobile.Services.Navigation
                 }
             }
 
+			if(!(page is LoginView))
+			    (page.BindingContext as ViewModelBase).NavigateTimer();
+			
             await (page.BindingContext as ViewModelBase).InitializeAsync(parameter);
         }
 

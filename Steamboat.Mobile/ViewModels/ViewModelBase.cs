@@ -9,6 +9,7 @@ using Xamarin.Forms;
 using Steamboat.Mobile.Services.Modal;
 using Steamboat.Mobile.Exceptions;
 using Steamboat.Mobile.Managers.Account;
+using Steamboat.Mobile.Managers.Application;
 
 namespace Steamboat.Mobile.ViewModels
 {
@@ -21,6 +22,7 @@ namespace Steamboat.Mobile.ViewModels
         protected readonly IDialogService DialogService;
         protected readonly INavigationService NavigationService;
         protected readonly IModalService ModalService;
+		private IApplicationManager _applicationManager;
 
         protected bool SetPropertyValue<T>(ref T storageField, T newValue, Expression<Func<T>> propExpr)
         {
@@ -77,12 +79,18 @@ namespace Steamboat.Mobile.ViewModels
             DialogService = DialogService ?? DependencyContainer.Resolve<IDialogService>();
             NavigationService = NavigationService ?? DependencyContainer.Resolve<INavigationService>();
             ModalService = ModalService ?? DependencyContainer.Resolve<IModalService>();
+			_applicationManager = _applicationManager ?? DependencyContainer.Resolve<IApplicationManager>();
         }
 
         public virtual Task InitializeAsync(object navigationData)
         {
             return Task.FromResult(false);
         }
+
+        public void NavigateTimer()
+		{
+			_applicationManager.RestartTimer();
+		}
 
         public virtual Task Refresh()
         {

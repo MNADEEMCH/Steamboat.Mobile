@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.Helpers;
+using Steamboat.Mobile.Managers.Application;
 using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Models.Participant.Survey;
 using Steamboat.Mobile.ViewModels.Modals;
@@ -21,6 +22,7 @@ namespace Steamboat.Mobile.ViewModels
 
         private bool _isBusy;
         private IParticipantManager _participantManager;
+		private IApplicationManager _applicationManager;
         private ObservableCollection<Question> _surveyQuestions;
         private List<Question> _localQuestions;
         private int _questionIndex;
@@ -49,10 +51,11 @@ namespace Steamboat.Mobile.ViewModels
         public ICommand ScrollToBottomCommand { get; set; }
         #endregion
 
-        public ScreeningInterviewViewModel(IParticipantManager participantManager = null)
+		public ScreeningInterviewViewModel(IApplicationManager applicationManager = null, IParticipantManager participantManager = null)
         {
             IsLoading = true;
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
+			_applicationManager = applicationManager ?? DependencyContainer.Resolve<IApplicationManager>();
             HandleSelectOneCommand = new Command(async (selectedAnswer) => await HandleSelectOneAnswer(selectedAnswer));
             HandleFreeTextCommand = new Command(async (freeTexAnswer) => await HandleFreeTextAnswer(freeTexAnswer));
             HandleSelectManyCommand = new Command(async (selectedOption) => await HandleSelectMany(selectedOption));
@@ -170,6 +173,7 @@ namespace Steamboat.Mobile.ViewModels
                     lastQuestion.AnswerText = answer.Text;
                     MarkQuestionAsCompleted(lastQuestion);
                     answer.IsSelected = true;
+					_applicationManager.RestartTimer();
 
                     SaveAnswer(lastQuestion, answer);
                     _questionAnsweredCount++;
@@ -215,6 +219,7 @@ namespace Steamboat.Mobile.ViewModels
                         lastQuestion.AnswerText = (freeText as string).Trim();
                         MarkQuestionAsCompleted(lastQuestion);
                         answer.IsSelected = true;
+						_applicationManager.RestartTimer();
 
                         SaveAnswer(lastQuestion, answer);
                         _questionAnsweredCount++;
@@ -249,6 +254,7 @@ namespace Steamboat.Mobile.ViewModels
                     var addSeparator = selectedAnswers.Count() > 1;
                     var lastItemKey = selectedAnswers.Last().Key;
                     MarkQuestionAsCompleted(question);
+					_applicationManager.RestartTimer();
 
                     foreach (var item in selectedAnswers)
                     {

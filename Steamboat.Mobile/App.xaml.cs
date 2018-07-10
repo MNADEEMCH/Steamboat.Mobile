@@ -47,8 +47,8 @@ namespace Steamboat.Mobile
         }
 
         protected override void OnStart()
-        {   
-          
+        {
+			_applicationManager.OnApplicationStart();
         }
 
         protected override void OnSleep()

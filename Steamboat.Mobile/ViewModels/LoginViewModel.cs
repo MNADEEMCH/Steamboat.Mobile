@@ -83,6 +83,7 @@ namespace Steamboat.Mobile.ViewModels
 		{
 			await TryExecute(async () =>
 			{
+				_applicationManager.ResetTimer();
 				await _accountManager.Logout(logout.CallBackend);
 			});
 		}
@@ -97,6 +98,7 @@ namespace Steamboat.Mobile.ViewModels
 				await TryExecute(async () =>
 				{
 					var result = await _accountManager.Login(_username.Value, _password.Value);
+					_applicationManager.StartTimer();
 
 					if (result.IsPasswordExpired)
 					{

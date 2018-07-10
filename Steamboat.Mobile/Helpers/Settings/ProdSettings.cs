@@ -7,6 +7,8 @@ namespace Steamboat.Mobile.Helpers.Settings
 
 		public int TimeoutLimit => 15;
 
+		public int ReportTimeoutLimit => 30;
+
 		public string RequestProviderCookieUrl => "momentumhealth.co";
 
 		public string RequestProviderApiEnvironment => "AD78E2AD-0599-4653-BD97-251F675F636D";

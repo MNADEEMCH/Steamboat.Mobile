@@ -6,13 +6,16 @@ using Xamarin.Forms;
 using System.Collections.Generic;
 using Steamboat.Mobile.Models.Application;
 using Steamboat.Mobile.Helpers.Settings;
+using Steamboat.Mobile.ViewModels.Interfaces;
+using Steamboat.Mobile.Managers.Application;
 
 namespace Steamboat.Mobile.ViewModels
 {
-    public class ReportDetailsViewModel : ViewModelBase
+	public class ReportDetailsViewModel : ViewModelBase, IHandleViewAppearing, IHandleViewDisappearing
     {
         #region Properties
         
+		private IApplicationManager _applicationManager;
 		private ISettings _settings;
         private readonly string _reportUri;
         private bool _webViewLoadedSucessfully = false;
@@ -25,9 +28,10 @@ namespace Steamboat.Mobile.ViewModels
 
         #endregion
 
-		public ReportDetailsViewModel(ISettings settings = null)
+		public ReportDetailsViewModel(IApplicationManager applicationManager = null, ISettings settings = null)
         {
             IsLoading = true;
+			_applicationManager = applicationManager ?? DependencyContainer.Resolve<IApplicationManager>();
 			_settings = settings ?? DependencyContainer.Resolve<ISettings>();
 			_reportUri = _settings.BaseUrl + "participant/report";
 
@@ -93,5 +97,18 @@ namespace Steamboat.Mobile.ViewModels
 
             await Task.FromResult(true);
         }
-    }
+
+		public async Task OnViewAppearingAsync(VisualElement view)
+		{
+			_applicationManager.IncreaseTimer();
+			await Task.FromResult(true);
+		}
+
+		public async Task OnViewDisappearingAsync(VisualElement view)
+		{
+			_applicationManager.RestartTimer();
+			_applicationManager.DecreaseTimer();
+			await Task.FromResult(true);
+		}
+	}
 }
