@@ -207,14 +207,15 @@ namespace Steamboat.Mobile.Managers.Application
 		public async Task OnApplicationResume()
 		{
 			if (CheckForInactivity())
+			{ 
 				await SessionExpired();
+				ResetTimer();
+			}
 			else if (App.SessionID != null)
 			{
 				StartTimer();
 				Device.BeginInvokeOnMainThread(() => UpdateNotificationBadge(NotificationsBadge));
 			}
-
-			_inactivityTimeStamp = null;
 		}
 
 		private void StartTimingInactivity()

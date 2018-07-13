@@ -112,7 +112,7 @@ namespace Steamboat.Mobile.ViewModels
 				{
 					var auxMessage = new Message() {
 						IsSender = true,
-						Text = MessageText
+						Text = MessageText.Trim()
 					};
 					//var auxList = new List<Message>() { newMessage };
 					var observableMessages = ParseSentMessage(auxMessage);
