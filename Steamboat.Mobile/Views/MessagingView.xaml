@@ -71,7 +71,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="76" />
+                    <RowDefinition Height="80" />
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Text="SEND AND RECEIVE MESSAGES" Style="{StaticResource HeaderLabel}" />

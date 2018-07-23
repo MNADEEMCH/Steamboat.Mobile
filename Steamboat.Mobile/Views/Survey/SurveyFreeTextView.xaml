@@ -32,9 +32,10 @@
                 <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="Margin" Value="0" />
+                <Setter Property="HeightRequest" Value="50" />
                 <Setter Property="Padding">
                     <Setter.Value>
-                        <OnPlatform x:TypeArguments="Thickness" iOS="7,5" Android="10" />
+                        <OnPlatform x:TypeArguments="Thickness" iOS="7,5" Android="7,5" />
                     </Setter.Value>
                  </Setter>
                 <Setter Property="CornerRadius">
@@ -85,7 +86,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <customControl:MultiLineEditor Grid.Column="0" x:Name="MainEntry" Style="{StaticResource EditorField}" Text="{Binding MessageText}" HeightRequest="40" >
+                    <customControl:MultiLineEditor Grid.Column="0" x:Name="MainEntry" Style="{StaticResource EditorField}" Text="{Binding MessageText}" >
                         <customControl:MultiLineEditor.Behaviors>
                             <extension:EventToCommandBehavior
                                     EventName="TextChanged"
