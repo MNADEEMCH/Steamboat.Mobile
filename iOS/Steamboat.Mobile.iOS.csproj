@@ -97,6 +97,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <BuildIpa>true</BuildIpa>
     <CodesignProvision>Momentum Health Provisioning Profile Prod</CodesignProvision>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Production|iPhoneSimulator' ">
     <DebugType>pdbonly</DebugType>
