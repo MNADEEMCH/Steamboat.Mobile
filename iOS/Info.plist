@@ -62,5 +62,7 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>5</string>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 </dict>
 </plist>
