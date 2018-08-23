@@ -67,6 +67,13 @@
                 <Setter Property="FontName" Value="{DynamicResource OpenSansRegular}" />
                 <Setter Property="TextColor" Value="{StaticResource DarkGrayColor}" />
                 <Setter Property="FontSize" Value="12" />
+                <Setter Property="MinimumHeightRequest">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="x:Double">  
+                            <OnIdiom.Tablet>24</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
             </Style>
             <Style x:Key="SuperButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
                 <Setter Property="Margin" Value="0,0,0,20" />

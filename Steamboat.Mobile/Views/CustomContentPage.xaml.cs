@@ -25,6 +25,7 @@ namespace Steamboat.Mobile.Views
             CustomNavigationView.SetGradientDirection(this, CustomNavigationView.GradientDirection.LeftToRight);
             CustomNavigationView.SetHasShadow(this, false);
             InitializeComponent();
+            NavigationPage.SetTitleIcon(this, "icLogo.png");
         }
     }
 }

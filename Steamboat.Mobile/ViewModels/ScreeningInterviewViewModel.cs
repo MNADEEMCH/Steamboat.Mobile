@@ -23,6 +23,7 @@ namespace Steamboat.Mobile.ViewModels
         private bool _isBusy;
         private IParticipantManager _participantManager;
 		private IApplicationManager _applicationManager;
+        private IDeviceInfo _deviceInfo;
         private ObservableCollection<Question> _surveyQuestions;
         private List<Question> _localQuestions;
         private int _questionIndex;
@@ -36,6 +37,7 @@ namespace Steamboat.Mobile.ViewModels
         private int _countNotLabelQuestions;
         private Answers _answerWithPendingRejoinder = null;
         private int _maxLengthTextToShowDots = 110;
+        private bool _shouldAnimate;
 
         public bool IsBusy { set { SetPropertyValue(ref _isBusy, value); } get { return _isBusy; } }
         public string ImgSource { set { SetPropertyValue(ref _imgSource, value); } get { return _imgSource; } }
@@ -49,13 +51,16 @@ namespace Steamboat.Mobile.ViewModels
         public ObservableCollection<Question> SurveyQuestions { get { return _surveyQuestions; } set { SetPropertyValue(ref _surveyQuestions, value); } }
         public bool EnableContinue { set { SetPropertyValue(ref _enableContinue, value); } get { return _enableContinue; } }
         public ICommand ScrollToBottomCommand { get; set; }
+        public bool ShouldAnimate { set { SetPropertyValue(ref _shouldAnimate, value); } get { return _shouldAnimate; } }
+
         #endregion
 
-		public ScreeningInterviewViewModel(IApplicationManager applicationManager = null, IParticipantManager participantManager = null)
+        public ScreeningInterviewViewModel(IApplicationManager applicationManager = null, IParticipantManager participantManager = null, IDeviceInfo deviceInfo = null)
         {
             IsLoading = true;
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
 			_applicationManager = applicationManager ?? DependencyContainer.Resolve<IApplicationManager>();
+            _deviceInfo = deviceInfo ?? DependencyContainer.Resolve<IDeviceInfo>();
             HandleSelectOneCommand = new Command(async (selectedAnswer) => await HandleSelectOneAnswer(selectedAnswer));
             HandleFreeTextCommand = new Command(async (freeTexAnswer) => await HandleFreeTextAnswer(freeTexAnswer));
             HandleSelectManyCommand = new Command(async (selectedOption) => await HandleSelectMany(selectedOption));
@@ -68,6 +73,7 @@ namespace Steamboat.Mobile.ViewModels
             _questionIndex = 0;
             EnableContinue = false;
             ImgSource = App.CurrentUser.AvatarUrl;
+            ShouldAnimate = !_deviceInfo.IsAndroid;
             SurveyQuestions = new ObservableCollection<Question>();
         }
 
@@ -389,7 +395,7 @@ namespace Steamboat.Mobile.ViewModels
 
                 SetAnsweredQuestionsCount();
                 HandleProgress(true);
-                ScrollToBottomCommand.Execute(null);
+                ScrollToBottomCommand.Execute(!_deviceInfo.IsAndroid);
             }
             await Task.FromResult(true);
         }
@@ -435,7 +441,7 @@ namespace Steamboat.Mobile.ViewModels
                 fakeQuestion.IsFirstQuestion = true;
                 fakeQuestion.ShowQuestionDots = false;
                 _answerWithPendingRejoinder = null;
-                Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(null));
+                Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(!_deviceInfo.IsAndroid));
                 await WaitAnimation();
                 pendingRejoinderHandled = true;
             }
@@ -451,7 +457,7 @@ namespace Steamboat.Mobile.ViewModels
             rejoinderQuestion.IsAnswer = false;
             rejoinderQuestion.IsFirstQuestion = true;
             await AddQuestion(rejoinderQuestion);
-            Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(null));
+            Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(!_deviceInfo.IsAndroid));
         }
 
 
@@ -504,9 +510,7 @@ namespace Steamboat.Mobile.ViewModels
                 var remainderQuestions = _localQuestions.GetRange(_questionIndex, _localQuestions.Count - _questionIndex);
                 var followingQuestion = remainderQuestions.Where(q => q.IsEnabled && !q.IsAnswer).FirstOrDefault();
                 return followingQuestion != null && followingQuestion.Text.Length > _maxLengthTextToShowDots;
-
             }
-
         }
 
         private async Task AddQuestion(Question question)
@@ -516,7 +520,7 @@ namespace Steamboat.Mobile.ViewModels
             else
                 SurveyQuestions.Add(question);
 
-            Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(null));
+            Device.BeginInvokeOnMainThread(() => ScrollToBottomCommand.Execute(!_deviceInfo.IsAndroid));
             await WaitAnimation();
         }
         private async Task ReplaceQuestion(Question question)

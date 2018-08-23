@@ -59,7 +59,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <ScrollView x:Name="ScreeningScrollView" Style="{StaticResource InterviewScrollView}">
-                    <customControl:RepeaterControl 
+                    <customControl:RepeaterControl AnimateInsert="{Binding ShouldAnimate}"
                         ItemsSource="{Binding SurveyQuestions}" Style="{StaticResource Repeater}" 
                         ItemTemplate="{StaticResource QuestionTemplateSelector}" ItemCreated="Handle_ItemCreated"
                         ScrollToBottomCommand="{Binding ScrollToBottomCommand}" />

@@ -131,6 +131,9 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         private Typeface TrySetFont(string fontName)
         {
             Typeface tf = Typeface.Default;
+
+            fontName = fontName.Split('#')[0];
+
             try
             {
                 tf = Typeface.CreateFromAsset(Context.Assets, fontName);

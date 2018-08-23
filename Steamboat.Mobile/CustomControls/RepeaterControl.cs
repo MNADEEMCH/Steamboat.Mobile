@@ -175,7 +175,7 @@ namespace Steamboat.Mobile.CustomControls
                     var paddingBottom = scroll.Padding.Bottom;
 
                     if (height > currentHeight)
-						await scroll.ScrollToAsync(0, height+paddingTop+paddingBottom - currentHeight + 10, animate);
+                        await scroll.ScrollToAsync(0, height+paddingTop+paddingBottom - currentHeight + 10, animate);
                     else
                         await Task.FromResult(true);
                 });
@@ -190,7 +190,7 @@ namespace Steamboat.Mobile.CustomControls
 				if (lastItem != null)
 				{
 					var animate = param != null ? bool.Parse(param.ToString()) : true;
-					Device.BeginInvokeOnMainThread(() => ScrollToBottom(lastItem, animate));
+                    Device.BeginInvokeOnMainThread(() => ScrollToBottom(lastItem, false));
 				}
 			}
         }

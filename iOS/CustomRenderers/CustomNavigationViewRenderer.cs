@@ -58,8 +58,8 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 				if (_firstLoad)
 				{
 					SetupNavBar(NavigationController.NavigationBar.Bounds.Size);
-					SetImageSource(CustomNavigationView.GetImageSource(Element));
-					SetImagePosition(CustomNavigationView.GetImagePosition(Element), CustomNavigationView.GetImageMargin(Element), new CGRect(0, 0, _imageView.IntrinsicContentSize.Width, _imageView.IntrinsicContentSize.Height));
+					//SetImageSource(CustomNavigationView.GetImageSource(Element));
+					//SetImagePosition(CustomNavigationView.GetImagePosition(Element), CustomNavigationView.GetImageMargin(Element), new CGRect(0, 0, _imageView.IntrinsicContentSize.Width, _imageView.IntrinsicContentSize.Height));
 					_firstLoad = false;
 				}
 			}
@@ -83,8 +83,8 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 				{
 					SetupBackground();
 
-					ParentViewController.NavigationItem.TitleView = _imageView;
-					ParentViewController.NavigationItem.TitleView.SetNeedsDisplay();
+					//ParentViewController.NavigationItem.TitleView = _imageView;
+					//ParentViewController.NavigationItem.TitleView.SetNeedsDisplay();
 				}
 			}
 		}
@@ -94,40 +94,40 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 			base.ViewDidAppear(animated);
 		}
 
-		void SetImagePosition(CustomNavigationView.ImageAlignment alignment, Thickness margin, CGRect vFrame)
-		{
+		//void SetImagePosition(CustomNavigationView.ImageAlignment alignment, Thickness margin, CGRect vFrame)
+		//{
 
-			var marginX = margin.Top;
-			var marginY = margin.Left;
-			var marginWidth = margin.Left + margin.Right;
-			var marginHeight = margin.Top + margin.Bottom;
+		//	var marginX = margin.Top;
+		//	var marginY = margin.Left;
+		//	var marginWidth = margin.Left + margin.Right;
+		//	var marginHeight = margin.Top + margin.Bottom;
 
-			double offset = 0;
+		//	double offset = 0;
 
-			_imageView.ContentMode = UIViewContentMode.Top;
-			switch (alignment)
-			{
-				case CustomNavigationView.ImageAlignment.Start:
-					_imageView.Frame = new CGRect(vFrame.X, _imageView.Frame.Y, _imageView.Bounds.Width + marginWidth, _imageView.Bounds.Height + marginHeight);
-					var startCenter = _imageView.Center;
-					startCenter.Y = _containerView.Center.Y;
-					_imageView.Center = startCenter;
-					offset = marginX;
-					break;
-				case CustomNavigationView.ImageAlignment.Center:
-					offset = marginX;
-					_imageView.Frame = new CGRect(_imageView.Frame.X, _imageView.Frame.Y, _imageView.Bounds.Width + marginWidth, _imageView.Bounds.Height + marginHeight);
-					_imageView.Center = new CGPoint(_containerView.Center.X - 8, _containerView.Center.Y);
-					break;
-				case CustomNavigationView.ImageAlignment.End:
-					var endCenter = _imageView.Center;
-					endCenter.Y = _imageView.Superview.Center.Y;
-					_imageView.Center = endCenter;
-					_imageView.Frame = new CGRect(_containerView.Frame.Width - _imageView.Frame.Width - offset - marginWidth, _imageView.Frame.Y, _imageView.Bounds.Width + marginWidth, _imageView.Bounds.Height + marginHeight);
-					offset = _imageView.Frame.Width - vFrame.Width - marginX;
-					break;
-			}
-		}
+		//	_imageView.ContentMode = UIViewContentMode.Top;
+		//	switch (alignment)
+		//	{
+		//		case CustomNavigationView.ImageAlignment.Start:
+		//			_imageView.Frame = new CGRect(vFrame.X, _imageView.Frame.Y, _imageView.Bounds.Width + marginWidth, _imageView.Bounds.Height + marginHeight);
+		//			var startCenter = _imageView.Center;
+		//			startCenter.Y = _containerView.Center.Y;
+		//			_imageView.Center = startCenter;
+		//			offset = marginX;
+		//			break;
+		//		case CustomNavigationView.ImageAlignment.Center:
+		//			offset = marginX;
+		//			_imageView.Frame = new CGRect(_imageView.Frame.X, _imageView.Frame.Y, _imageView.Bounds.Width + marginWidth, _imageView.Bounds.Height + marginHeight);
+		//			_imageView.Center = new CGPoint(_containerView.Center.X - 8, _containerView.Center.Y);
+		//			break;
+		//		case CustomNavigationView.ImageAlignment.End:
+		//			var endCenter = _imageView.Center;
+		//			endCenter.Y = _imageView.Superview.Center.Y;
+		//			_imageView.Center = endCenter;
+		//			_imageView.Frame = new CGRect(_containerView.Frame.Width - _imageView.Frame.Width - offset - marginWidth, _imageView.Frame.Y, _imageView.Bounds.Width + marginWidth, _imageView.Bounds.Height + marginHeight);
+		//			offset = _imageView.Frame.Width - vFrame.Width - marginX;
+		//			break;
+		//	}
+		//}
 
 		public override void ViewWillTransitionToSize(CGSize toSize, IUIViewControllerTransitionCoordinator coordinator)
 		{
@@ -212,15 +212,15 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 		{
 			var page = sender as Page;
 
-			if (e.PropertyName == CustomNavigationView.ImagePositionProperty.PropertyName || e.PropertyName == CustomNavigationView.ImageMarginProperty.PropertyName)
-			{
-				SetImagePosition(CustomNavigationView.GetImagePosition(page), CustomNavigationView.GetImageMargin(Element), new CGRect(0, 0, _imageView.IntrinsicContentSize.Width, _imageView.IntrinsicContentSize.Height));
-			}
-			else if (e.PropertyName == CustomNavigationView.ImageSourceProperty.PropertyName)
-			{
-				SetImageSource(CustomNavigationView.GetImageSource(page));
-			}
-			else if (e.PropertyName == CustomNavigationView.GradientColorsProperty.PropertyName || e.PropertyName == CustomNavigationView.GradientDirectionProperty.PropertyName || e.PropertyName == CustomNavigationView.BarBackgroundProperty.PropertyName)
+			//if (e.PropertyName == CustomNavigationView.ImagePositionProperty.PropertyName || e.PropertyName == CustomNavigationView.ImageMarginProperty.PropertyName)
+			//{
+			//	SetImagePosition(CustomNavigationView.GetImagePosition(page), CustomNavigationView.GetImageMargin(Element), new CGRect(0, 0, _imageView.IntrinsicContentSize.Width, _imageView.IntrinsicContentSize.Height));
+			//}
+			//else if (e.PropertyName == CustomNavigationView.ImageSourceProperty.PropertyName)
+			//{
+			//	SetImageSource(CustomNavigationView.GetImageSource(page));
+			//}
+			if (e.PropertyName == CustomNavigationView.GradientColorsProperty.PropertyName || e.PropertyName == CustomNavigationView.GradientDirectionProperty.PropertyName || e.PropertyName == CustomNavigationView.BarBackgroundProperty.PropertyName)
 			{
 				SetupBackground();
 			}
