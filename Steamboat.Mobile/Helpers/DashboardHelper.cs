@@ -63,7 +63,7 @@ namespace Steamboat.Mobile.Helpers
                     break;
                 default:
                     {
-                        var reportReady = status.Dashboard.SurveyStep.Status.Equals(StatusEnum.Complete);
+                        var reportReady = status.Dashboard.SurveyStep.Status.Equals(StatusEnum.Complete) || status.Dashboard.SurveyStep.Status.Equals(StatusEnum.None);
                         status.Dashboard.ReportStep.ReportReady = reportReady;
                         dispositionStep = status.Dashboard.ReportStep;
                         break;
