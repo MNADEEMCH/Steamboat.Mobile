@@ -36,7 +36,8 @@ namespace Steamboat.Mobile.iOS
 			RegisterForPushNotifications();
 
 			ResolveDependencies();
-			CachedImageRenderer.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+            Rg.Plugins.Popup.Popup.Init();
 			ImageService.Instance.Initialize(new FFImageLoading.Config.Configuration
 			{
 				HttpClient = new HttpClient(new AuthenticatedHttpClient())

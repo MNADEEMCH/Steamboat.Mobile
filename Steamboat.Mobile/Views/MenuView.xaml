@@ -7,7 +7,7 @@
              xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
-             x:Name="MenuView" BackgroundColor="{StaticResource SubtleGrayColor}"
+             x:Name="LeftMenuView" BackgroundColor="{StaticResource SubtleGrayColor}"
              Title="Title">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -70,7 +70,7 @@
                                 <BoxView customControl:TapableGrid.Row="1" customControl:TapableGrid.ColumnSpan="2" Color="{StaticResource LightGrayColor}" IsVisible="{Binding ShowSeparator}" />
 
                                 <customControl:TapableGrid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemSelectedCommand, Source={x:Reference MenuView}}" CommandParameter="{Binding .}" />
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemSelectedCommand, Source={x:Reference LeftMenuView}}" CommandParameter="{Binding .}" />
                                 </customControl:TapableGrid.GestureRecognizers>
                                 
                             </customControl:TapableGrid>
