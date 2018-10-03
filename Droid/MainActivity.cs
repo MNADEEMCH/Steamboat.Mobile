@@ -57,7 +57,8 @@ namespace Steamboat.Mobile.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             ResolveDependencies();
-            CachedImageRenderer.Init(true);
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+            Rg.Plugins.Popup.Popup.Init(_mContext, bundle);
             ImageService.Instance.Initialize(new FFImageLoading.Config.Configuration
             {
                 HttpClient = new HttpClient(new AuthenticatedHttpClient())
