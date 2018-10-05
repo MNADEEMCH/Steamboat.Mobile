@@ -1,5 +1,8 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steamboat.Mobile.Views.CustomContentPage">
-	<ContentPage.Content>
-	</ContentPage.Content>
+	<!--<NavigationPage.TitleView>
+        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Start" >
+            <Label Text="My TitleView" HorizontalTextAlignment="Start" />
+        </StackLayout>
+    </NavigationPage.TitleView>-->
 </ContentPage>
