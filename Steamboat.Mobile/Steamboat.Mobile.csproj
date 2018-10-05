@@ -20,4 +20,14 @@
     <PackageReference Include="Rg.Plugins.Popup" Version="1.1.4.168" />
     <PackageReference Include="Xamanimation" Version="1.2.0" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="SharedResources\Spinner.gif" />
+    <None Remove="SharedResources\SpinnerLogo.png" />
+    <None Remove="SharedResources\writing.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SharedResources\Spinner.gif" />
+    <EmbeddedResource Include="SharedResources\SpinnerLogo.png" />
+    <EmbeddedResource Include="SharedResources\writing.gif" />
+  </ItemGroup>
 </Project>

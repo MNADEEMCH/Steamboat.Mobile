@@ -63,6 +63,7 @@ namespace Steamboat.Mobile.Droid
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::Steamboat.Mobile.Droid.Resource.Styleable.ProgressWheel_ahText;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::Steamboat.Mobile.Droid.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::Steamboat.Mobile.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
+			global::Splat.Resource.String.library_name = global::Steamboat.Mobile.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::Steamboat.Mobile.Droid.Resource.Attribute.actionBarSize;
 		}
 		
