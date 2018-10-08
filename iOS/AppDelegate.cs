@@ -42,7 +42,7 @@ namespace Steamboat.Mobile.iOS
 			{
 				HttpClient = new HttpClient(new AuthenticatedHttpClient())
 			});
-			//var ignore = typeof(SvgCachedImage);
+			var ignore = typeof(SvgCachedImage);
 			LoadApplication(new App(pushNotification));
 
 			//LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(

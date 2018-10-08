@@ -396,6 +396,7 @@
     <BundleResource Include="Resources\icMenuOpened%403x.png" />
     <BundleResource Include="Resources\icMenuOpened%402x.png" />
     <BundleResource Include="Resources\icMenuOpened.png" />
+    <BundleResource Include="Resources\svgLogo.svg" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

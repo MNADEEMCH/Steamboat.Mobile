@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Steamboat.Mobile.Views.CustomContentPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Steamboat.Mobile.Views.CustomContentPage"
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms">
 	<NavigationPage.TitleView>
         <OnPlatform x:TypeArguments="View">
             <OnPlatform.iOS>
                 <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Start" >
-                    <Label Text="My TitleView" HorizontalTextAlignment="Start" />
+                    <ffimageloadingsvg:SvgCachedImage HeightRequest="44" WidthRequest="120" Source="svgLogo.svg"/>
                 </StackLayout>
             </OnPlatform.iOS>
         </OnPlatform>

@@ -7,12 +7,6 @@ namespace Steamboat.Mobile.Views
 {
     public partial class CustomNavigationView : NavigationPage
     {
-        public enum ImageAlignment
-        {
-            Start,
-            Center,
-            End
-        }
 
         public enum GradientDirection
         {
@@ -32,48 +26,7 @@ namespace Steamboat.Mobile.Views
             InitializeComponent();
         }
 
-        public static readonly BindableProperty ImageSourceProperty =
-            BindableProperty.CreateAttached("ImageSource", typeof(string), typeof(CustomNavigationView), default(string));
-
-        public static string GetImageSource(BindableObject view)
-        {
-            return (string)view.GetValue(ImageSourceProperty);
-        }
-
-        public static void SetImageSource(BindableObject view, string value)
-        {
-            view.SetValue(ImageSourceProperty, value);
-        }
-
-        public static readonly BindableProperty ImagePositionProperty = 
-            BindableProperty.CreateAttached("ImagePosition", typeof(ImageAlignment), typeof(CustomNavigationView), ImageAlignment.Center);
-
-        public static ImageAlignment GetImagePosition(BindableObject view)
-        {
-
-            return (ImageAlignment)view.GetValue(ImagePositionProperty);
-        }
-
-        public static void SetImagePosition(BindableObject view, ImageAlignment value)
-        {
-            view.SetValue(ImagePositionProperty, value);
-        }
-
-        public static readonly BindableProperty ImageMarginProperty = 
-            BindableProperty.CreateAttached("ImageMargin", typeof(Thickness), typeof(CustomNavigationView), default(Thickness));
-
-        public static Thickness GetImageMargin(BindableObject view)
-        {
-
-            return (Thickness)view.GetValue(ImageMarginProperty);
-        }
-
-        public static void SetImageMargin(BindableObject view, Thickness value)
-        {
-            view.SetValue(ImageMarginProperty, value);
-        }
-
-        public static readonly BindableProperty BarBackgroundProperty = 
+        public static readonly BindableProperty BarBackgroundProperty =
             BindableProperty.CreateAttached("BarBackground", typeof(string), typeof(CustomNavigationView), string.Empty);
 
         public static string GetBarBackground(BindableObject view)
@@ -87,7 +40,7 @@ namespace Steamboat.Mobile.Views
             view.SetValue(BarBackgroundProperty, value);
         }
 
-        public static readonly BindableProperty GradientColorsProperty = 
+        public static readonly BindableProperty GradientColorsProperty =
             BindableProperty.CreateAttached("GradientColors", typeof(Tuple<Color, Color>), typeof(CustomNavigationView), null);
 
         public static Tuple<Color, Color> GetGradientColors(BindableObject view)
@@ -101,7 +54,7 @@ namespace Steamboat.Mobile.Views
             view.SetValue(GradientColorsProperty, value);
         }
 
-        public static readonly BindableProperty GradientDirectionProperty = 
+        public static readonly BindableProperty GradientDirectionProperty =
             BindableProperty.CreateAttached("GradientDirection", typeof(GradientDirection), typeof(CustomNavigationView), GradientDirection.TopToBottom);
 
         public static GradientDirection GetGradientDirection(BindableObject view)
@@ -115,7 +68,7 @@ namespace Steamboat.Mobile.Views
             view.SetValue(GradientDirectionProperty, value);
         }
 
-        public static readonly BindableProperty HasShadowProperty = 
+        public static readonly BindableProperty HasShadowProperty =
             BindableProperty.CreateAttached("HasShadow", typeof(bool), typeof(CustomNavigationView), false);
 
         public static bool GetHasShadow(BindableObject view)
@@ -129,8 +82,5 @@ namespace Steamboat.Mobile.Views
             view.SetValue(HasShadowProperty, value);
         }
 
-        public class TitleAlignment
-        {
-        }
     }
 }
