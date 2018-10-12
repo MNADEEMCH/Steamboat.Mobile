@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                         x:Class="Steamboat.Mobile.Views.CameraView"
+                         xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile" 
+                         viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+                         xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+                         NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <FlexLayout 
+            JustifyContent="SpaceBetween" 
+            Direction="Column">
+            <StackLayout BackgroundColor="Silver" HeightRequest="40" />
+            <StackLayout />
+            <StackLayout BackgroundColor="Silver" HeightRequest="56" />
+        </FlexLayout>
+    </ContentPage.Content>
+    
+</views:CustomContentPage>

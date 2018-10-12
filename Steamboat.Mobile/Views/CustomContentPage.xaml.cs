@@ -23,5 +23,10 @@ namespace Steamboat.Mobile.Views
             CustomNavigationView.SetHasShadow(this, false);
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+        }
     }
 }

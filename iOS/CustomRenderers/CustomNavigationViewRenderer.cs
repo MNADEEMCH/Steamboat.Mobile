@@ -30,6 +30,8 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
         public override void ViewWillAppear(bool animated)
         {
+            //UIApplication.SharedApplication.SetStatusBarHidden(true, UIStatusBarAnimation.Fade);
+
             base.ViewWillAppear(animated);
 
             if (Element is CustomContentPage page && _firstLoad)

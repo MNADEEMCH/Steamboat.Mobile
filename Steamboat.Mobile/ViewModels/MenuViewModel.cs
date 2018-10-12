@@ -122,14 +122,21 @@ namespace Steamboat.Mobile.ViewModels
                 NavigationAction = NavigateToTermsCondition
             });
 
-			MenuItems.Add(new Models.Menu.MenuItem
+            MenuItems.Add(new Models.Menu.MenuItem
+            {
+                Title = "Photos",
+                IsSelected = false,
+                NavigationAction = NavigateToPhotos
+            });
+
+            MenuItems.Add(new Models.Menu.MenuItem
 			{
 				Title = "Logout",
 				ShowSeparator = false,
 				NavigationAction = Logout
 			});
 
-			var selectedItem = isDispositionStepSelected ? GetDispositionStepMenuItem() : GetMessagesMenuItem();
+            var selectedItem = isDispositionStepSelected ? GetDispositionStepMenuItem() : GetMessagesMenuItem();
 			SelectItem(selectedItem, false);
 			HandleNotificationsCount();
 		}
@@ -179,8 +186,14 @@ namespace Steamboat.Mobile.ViewModels
 			await NavigationService.NavigateToAsync<TermsConditionsViewModel>(mainPage: true);
 			_userTapped = false;  
 		}
-			
-		private async Task Logout()
+
+        private async Task NavigateToPhotos()
+        {
+            await NavigationService.NavigateToAsync<CameraViewModel>(mainPage: true);
+            _userTapped = false;
+        }
+
+        private async Task Logout()
 		{
 			IsLoading = true;
 			await TryExecute(async () =>
