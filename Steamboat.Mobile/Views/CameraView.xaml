@@ -5,13 +5,14 @@
                          xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile" 
                          viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
                          xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+                         xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
                          NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <FlexLayout 
             JustifyContent="SpaceBetween" 
             Direction="Column">
-            <StackLayout BackgroundColor="Silver" HeightRequest="40" />
-            <StackLayout />
+            <StackLayout BackgroundColor="Silver" HeightRequest="40"  />
+            <customControl:CameraPreview FlexLayout.Grow="1" />
             <StackLayout BackgroundColor="Silver" HeightRequest="56" />
         </FlexLayout>
     </ContentPage.Content>

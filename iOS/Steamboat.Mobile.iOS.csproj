@@ -245,6 +245,9 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.3.2.0.871581\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Essentials">
+      <HintPath>..\packages\Xamarin.Essentials.0.10.0-preview\lib\xamarinios10\Xamarin.Essentials.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -434,6 +437,8 @@
     <Compile Include="Helpers\DeviceInfo.cs" />
     <Compile Include="Helpers\KeyboardHelperIOS.cs" />
     <Compile Include="CustomRenderers\MultiLineEditorRenderer.cs" />
+    <Compile Include="CustomRenderers\CameraPreviewRenderer.cs" />
+    <Compile Include="Utilities\CameraManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
