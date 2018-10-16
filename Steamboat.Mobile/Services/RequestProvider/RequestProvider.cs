@@ -106,7 +106,25 @@ namespace Steamboat.Mobile.Services.RequestProvider
 			await HandleResponse(response);
 		}
 
-		public async Task<TResult> PutAsync<TResult>(string uri, TResult data, string sessionID = "")
+        public async Task<TResult> PostImageAsync<TResult>(string uri, byte[] mediaFile, string sessionID = "")
+        {
+            HttpClient httpClient = CreateHttpClient(uri, sessionID);
+
+            var imageStream = new ByteArrayContent(mediaFile);
+            var multi = new MultipartFormDataContent();
+            multi.Add(imageStream);
+            HttpResponseMessage response = await httpClient.PostAsync(uri, multi);
+
+            await HandleResponse(response);
+            string serialized = await response.Content.ReadAsStringAsync();
+
+            TResult result = await Task.Run(() =>
+                JsonConvert.DeserializeObject<TResult>(serialized, _serializerSettings));
+
+            return result;
+        }
+
+        public async Task<TResult> PutAsync<TResult>(string uri, TResult data, string sessionID = "")
 		{
 			HttpClient httpClient = CreateHttpClient(uri, sessionID);
 
@@ -176,5 +194,5 @@ namespace Steamboat.Mobile.Services.RequestProvider
 					throw new HttpRequestExceptionEx(response.StatusCode, content);
 			}
 		}
-	}
+    }
 }

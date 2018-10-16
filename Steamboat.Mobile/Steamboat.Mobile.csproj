@@ -30,4 +30,7 @@
     <EmbeddedResource Include="SharedResources\SpinnerLogo.png" />
     <EmbeddedResource Include="SharedResources\writing.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Participant\Photojournaling\" />
+  </ItemGroup>
 </Project>

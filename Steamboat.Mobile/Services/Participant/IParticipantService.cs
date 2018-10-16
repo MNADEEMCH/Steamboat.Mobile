@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Steamboat.Mobile.Models.Participant;
 using Steamboat.Mobile.Models.Participant.Messaging;
+using Steamboat.Mobile.Models.Participant.Photojournaling;
 using Steamboat.Mobile.Models.Participant.Survey;
 
 namespace Steamboat.Mobile.Services.Participant
@@ -22,5 +23,6 @@ namespace Steamboat.Mobile.Services.Participant
         Task<CoachMessages> GetAllMessages(string sessionID);
 		Task<CoachMessages> GetNewMessages(string dateFrom, string sessionID);
 		Task<CoachMessages.Message> SendMessage(UserMessage messageText, string sessionID);
+        Task<PhotoResponse> UploadPhoto(byte[] media, string sessionID);
     }
 }

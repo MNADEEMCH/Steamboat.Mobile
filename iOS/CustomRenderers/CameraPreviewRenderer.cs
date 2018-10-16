@@ -103,21 +103,21 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             {
                 cameraManager.CapturePicture(async (img, err) =>
                 {
-                    string jpgFilename = System.IO.Path.Combine(
-                        FileSystem.AppDataDirectory,
-                        $"{Element.Filename}"
-                    );
+                    //string jpgFilename = System.IO.Path.Combine(
+                    //    FileSystem.AppDataDirectory,
+                    //    $"{Element.Filename}"
+                    //);
                     NSData imgData = img.AsJPEG();
-                    NSError error = null;
-                    if (imgData.Save(jpgFilename, false, out err))
-                    {
-                        Console.WriteLine("saved as " + jpgFilename);
-                        FinalizeSave(jpgFilename);
-                    }
-                    else
-                    {
-                        Console.WriteLine("NOT saved as " + jpgFilename + " because" + error.LocalizedDescription);
-                    }
+                    //NSError error = null;
+                    //if (imgData.Save(jpgFilename, false, out err))
+                    //{
+                    //    Console.WriteLine("saved as " + jpgFilename);
+                    //    FinalizeSave(jpgFilename);
+                    //}
+                    //else
+                    //{
+                    //    Console.WriteLine("NOT saved as " + jpgFilename + " because" + err.LocalizedDescription);
+                    //}
                 });
             }
             else

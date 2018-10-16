@@ -12,8 +12,10 @@
             JustifyContent="SpaceBetween" 
             Direction="Column">
             <StackLayout BackgroundColor="Silver" HeightRequest="40"  />
-            <customControl:CameraPreview FlexLayout.Grow="1" />
-            <StackLayout BackgroundColor="Silver" HeightRequest="56" />
+            <customControl:CameraPreview x:Name="Camera" FlexLayout.Grow="1" />
+            <StackLayout BackgroundColor="Silver" HeightRequest="56" >
+                <Button Text="BOOM" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="40" HeightRequest="40" BorderRadius="10" Clicked="Handle_Clicked" />
+            </StackLayout>
         </FlexLayout>
     </ContentPage.Content>
     
