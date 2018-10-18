@@ -70,6 +70,8 @@ namespace Steamboat.Mobile.CustomControls
         public Action StartRecording;
         public Action StopRecording;
         public Action Dispose;
+        public Action ToggleFlash;
+        public Action SwapCamera;
 
         public void OnMediaSaved(string mediaPath, string posterPath, bool isLandscape, long totalBytes)
         {
@@ -78,6 +80,11 @@ namespace Steamboat.Mobile.CustomControls
             SetValue(FilenameProperty, mediaPath);
             SetValue(TotalBytesProperty, totalBytes);
             SaveCommand.Execute(isLandscape);
+        }
+
+        public void OnPhotoTaken(byte[] media)
+        {
+            SaveCommand.Execute(media);
         }
     }
 }

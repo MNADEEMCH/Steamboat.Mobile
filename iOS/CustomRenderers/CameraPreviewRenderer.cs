@@ -70,7 +70,27 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
                 e.NewElement.StartRecording = (() => { StartRecording(); });
                 e.NewElement.StopRecording = (() => { StopRecording(); });
                 e.NewElement.Dispose = (() => { OnDispose(); });
+                e.NewElement.ToggleFlash = (() => { ToggleFlash(); });
+                e.NewElement.SwapCamera = (() => { SwapCamera(); });
             }
+        }
+
+
+
+        private void ToggleFlash()
+        {
+            if (cameraManager.FlashMode == CameraFlashMode.On)
+                cameraManager.FlashMode = CameraFlashMode.Off;
+            else
+                cameraManager.FlashMode = CameraFlashMode.On;
+        }
+
+        private void SwapCamera()
+        {
+            if (cameraManager.CameraDevice == CameraDevice.Back)
+                cameraManager.CameraDevice = CameraDevice.Front;
+            else
+                cameraManager.CameraDevice = CameraDevice.Back;
         }
 
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -103,22 +123,11 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             {
                 cameraManager.CapturePicture(async (img, err) =>
                 {
-                    //string jpgFilename = System.IO.Path.Combine(
-                    //    FileSystem.AppDataDirectory,
-                    //    $"{Element.Filename}"
-                    //);
-                    NSData imgData = img.AsJPEG();
-                    //NSError error = null;
-                    //if (imgData.Save(jpgFilename, false, out err))
-                    //{
-                    //    Console.WriteLine("saved as " + jpgFilename);
-                    //    FinalizeSave(jpgFilename);
-                    //}
-                    //else
-                    //{
-                    //    Console.WriteLine("NOT saved as " + jpgFilename + " because" + err.LocalizedDescription);
-                    //}
+                    NSData imgData = img.AsJPEG(0.1f);
+
+                    Element.OnPhotoTaken(imgData.ToArray());
                 });
+                //cameraManager.FlashMode = CameraFlashMode.On;
             }
             else
             {

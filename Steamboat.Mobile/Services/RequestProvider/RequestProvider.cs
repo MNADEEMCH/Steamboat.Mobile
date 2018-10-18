@@ -110,9 +110,16 @@ namespace Steamboat.Mobile.Services.RequestProvider
         {
             HttpClient httpClient = CreateHttpClient(uri, sessionID);
 
-            var imageStream = new ByteArrayContent(mediaFile);
             var multi = new MultipartFormDataContent();
+            var imageStream = new  ByteArrayContent(mediaFile);
+            imageStream.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+            {
+                FileName = "fileData",
+                Name = "fileData"
+            };
+            imageStream.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
             multi.Add(imageStream);
+
             HttpResponseMessage response = await httpClient.PostAsync(uri, multi);
 
             await HandleResponse(response);

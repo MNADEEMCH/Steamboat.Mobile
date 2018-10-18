@@ -138,6 +138,7 @@ namespace Steamboat.Mobile.iOS.Utilities
                     {
                         _flashMode = value;
                         _updateFlasMode(value);
+                        _updateTorch(value);
                     }
                 }
             }

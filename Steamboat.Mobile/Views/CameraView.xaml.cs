@@ -16,5 +16,15 @@ namespace Steamboat.Mobile.Views
         {
             Camera.StartRecording();
         }
+
+        void Handle_Clicked_1(object sender, System.EventArgs e)
+        {
+            Camera.ToggleFlash();
+        }
+
+        void Handle_Clicked_2(object sender, System.EventArgs e)
+        {
+            Camera.SwapCamera();
+        }
     }
 }
