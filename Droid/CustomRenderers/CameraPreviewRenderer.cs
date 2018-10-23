@@ -36,16 +36,18 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         private MyCameraStateCallback stateListener;
         private MySurfaceTextureListener surfaceTextureListener;
         private HandlerThread backgroundThread;
-        private Handler backgroundHandler;
         private CaptureRequest.Builder previewBuilder;
         private ImageReader mImageReader;
+        public Java.IO.File mFile;
+        private ImageAvailableListener mOnImageAvailableListener;
 
         public CameraDevice mCameraDevice { get; set; }
         public Semaphore mCameraOpenCloseLock { get; set; }
         public CameraCaptureSession mCaptureSession { get; set; }
         public Activity mActivity { get; set; }
         public AutoFitTextureView mTextureView { get; set; }
-        public MediaRecorder mediaRecorder;
+        public Handler mBackgroundHandler { get; set; }
+        //public MediaRecorder mediaRecorder;
 
         public CameraPreviewRenderer(Context context) : base(context)
         {
@@ -85,6 +87,8 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 surfaceTextureListener = new MySurfaceTextureListener(this);
                 stateListener = new MyCameraStateCallback(this);
                 mCameraOpenCloseLock = new Semaphore(1);
+                mFile = new Java.IO.File("");
+                mOnImageAvailableListener = new ImageAvailableListener(this, mFile);
 
                 StartTheCamera();
             }
@@ -100,13 +104,25 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 {
                     return;
                 }
-                var foo = mCameraDevice.CreateCaptureRequest(CameraTemplate.StillCapture);
+                var stillCaptureBuilder = mCameraDevice.CreateCaptureRequest(CameraTemplate.StillCapture);
+                stillCaptureBuilder.AddTarget(mImageReader.Surface);
 
+                stillCaptureBuilder.Set(CaptureRequest.ControlAfMode, (int)ControlAFMode.ContinuousPicture);
+                int rotation = (int)mActivity.WindowManager.DefaultDisplay.Rotation;
+                stillCaptureBuilder.Set(CaptureRequest.JpegOrientation, ORIENTATIONS.Get(rotation));
+
+                mCaptureSession.StopRepeating();
+                mCaptureSession.Capture(stillCaptureBuilder.Build(), new CameraCaptureStillPictureSessionCallback(this), null);
             }
             catch(Java.Lang.Exception e)
             {
                 e.PrintStackTrace();
             }
+        }
+
+        public void OnCaptureComplete(byte[] imageArray)
+        {
+            Element.OnPhotoTaken(imageArray);
         }
 
         private void StartTheCamera()
@@ -159,11 +175,17 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 CameraCharacteristics characteristics = manager.GetCameraCharacteristics(cameraId);
                 StreamConfigurationMap map = (StreamConfigurationMap)characteristics.Get(CameraCharacteristics.ScalerStreamConfigurationMap);
 
-                videoSize = ChooseVideoSize(map.GetOutputSizes(Class.FromType(typeof(MediaRecorder))));
-                previewSize = ChooseOptimalSize(map.GetOutputSizes(Class.FromType(typeof(MediaRecorder))), width, height, videoSize);
+                //videoSize = ChooseVideoSize(map.GetOutputSizes(Class.FromType(typeof(MediaRecorder))));
+                //previewSize = ChooseOptimalSize(map.GetOutputSizes(Class.FromType(typeof(MediaRecorder))), width, height, videoSize);
 
+                //ConfigureTransform(width, height);
+                //mediaRecorder = new MediaRecorder();
+
+                videoSize = ChooseVideoSize(map.GetOutputSizes(Class.FromType(typeof(ImageReader))));
+                previewSize = ChooseOptimalSize(map.GetOutputSizes(Class.FromType(typeof(ImageReader))), width, height, videoSize);
                 ConfigureTransform(width, height);
-                mediaRecorder = new MediaRecorder();
+                mImageReader = ImageReader.NewInstance(width, height, ImageFormatType.Jpeg, 2);
+                mImageReader.SetOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
 
                 SetDisplayMetrics();
                 SetAspectRatioTextureView(DSI_width, DSI_height);
@@ -201,11 +223,13 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 surfaces.Add(previewSurface);
                 previewBuilder.AddTarget(previewSurface);
 
+                surfaces.Add(mImageReader.Surface);
+
                 //var recorderSurface = mediaRecorder.Surface;
                 //surfaces.Add(recorderSurface);
                 //previewBuilder.AddTarget(recorderSurface);
 
-                mCameraDevice.CreateCaptureSession(surfaces, new PreviewCaptureStateCallback(this), backgroundHandler);
+                mCameraDevice.CreateCaptureSession(surfaces, new PreviewCaptureStateCallback(this), mBackgroundHandler);
 
             }
             catch (CameraAccessException e)
@@ -224,23 +248,23 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             {
                 if (null == mActivity)
                     return;
-                mediaRecorder.SetAudioSource(AudioSource.Mic);
-                mediaRecorder.SetVideoSource(VideoSource.Surface);
-                mediaRecorder.SetProfile(CamcorderProfile.Get(CamcorderQuality.Low));
-                //ROCKO
-                //if I set quality I cant set SetOutputFormat,SetVideoEncoder,SetAudioEncoder
-                mediaRecorder.SetOutputFormat(OutputFormat.Mpeg4);
-                //mediaRecorder.SetOutputFile(GetVideoFile(mActivity).AbsolutePath);
-                mediaRecorder.SetVideoEncodingBitRate(10000000);
-                mediaRecorder.SetVideoFrameRate(30);
-                mediaRecorder.SetVideoSize(videoSize.Width, videoSize.Height);
-                mediaRecorder.SetVideoEncoder(VideoEncoder.H264);
-                mediaRecorder.SetAudioEncoder(AudioEncoder.Aac);
+                //mediaRecorder.SetAudioSource(AudioSource.Mic);
+                //mediaRecorder.SetVideoSource(VideoSource.Surface);
+                //mediaRecorder.SetProfile(CamcorderProfile.Get(CamcorderQuality.Low));
+                ////ROCKO
+                ////if I set quality I cant set SetOutputFormat,SetVideoEncoder,SetAudioEncoder
+                //mediaRecorder.SetOutputFormat(OutputFormat.Mpeg4);
+                ////mediaRecorder.SetOutputFile(GetVideoFile(mActivity).AbsolutePath);
+                //mediaRecorder.SetVideoEncodingBitRate(10000000);
+                //mediaRecorder.SetVideoFrameRate(30);
+                //mediaRecorder.SetVideoSize(videoSize.Width, videoSize.Height);
+                //mediaRecorder.SetVideoEncoder(VideoEncoder.H264);
+                //mediaRecorder.SetAudioEncoder(AudioEncoder.Aac);
 
-                int rotation = (int)mActivity.WindowManager.DefaultDisplay.Rotation;
-                int orientation = ORIENTATIONS.Get(rotation);
-                mediaRecorder.SetOrientationHint(orientation);
-                mediaRecorder.Prepare();
+                //int rotation = (int)mActivity.WindowManager.DefaultDisplay.Rotation;
+                //int orientation = ORIENTATIONS.Get(rotation);
+                //mediaRecorder.SetOrientationHint(orientation);
+                //mediaRecorder.Prepare();
             }
             catch (Java.Lang.Exception ex)
             {
@@ -258,7 +282,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 SetUpCaptureRequestBuilder(previewBuilder);
                 HandlerThread thread = new HandlerThread("CameraPreview");
                 thread.Start();
-                mCaptureSession.SetRepeatingRequest(previewBuilder.Build(), null, backgroundHandler);
+                mCaptureSession.SetRepeatingRequest(previewBuilder.Build(), null, mBackgroundHandler);
             }
             catch (CameraAccessException e)
             {
@@ -282,11 +306,11 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                     mCameraDevice.Close();
                     mCameraDevice = null;
                 }
-                if (null != mediaRecorder)
-                {
-                    mediaRecorder.Release();
-                    mediaRecorder = null;
-                }
+                //if (null != mediaRecorder)
+                //{
+                //    mediaRecorder.Release();
+                //    mediaRecorder = null;
+                //}
                 mCameraOpened = false;
             }
             catch (InterruptedException e)
@@ -363,7 +387,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         {
             backgroundThread = new HandlerThread("CameraBackground");
             backgroundThread.Start();
-            backgroundHandler = new Handler(backgroundThread.Looper);
+            mBackgroundHandler = new Handler(backgroundThread.Looper);
         }
     }
 }

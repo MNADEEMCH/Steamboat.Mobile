@@ -331,6 +331,8 @@
     <Compile Include="Helpers\Camera\MyCameraStateCallback.cs" />
     <Compile Include="Helpers\Camera\MySurfaceTextureListener.cs" />
     <Compile Include="Helpers\Camera\PreviewCaptureStateCallback.cs" />
+    <Compile Include="Helpers\Camera\CameraCaptureStillPictureSessionCallback.cs" />
+    <Compile Include="Helpers\Camera\ImageAvailableListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
