@@ -324,6 +324,13 @@
     <Compile Include="Helpers\DeviceInfo.cs" />
     <Compile Include="CustomRenderers\MultiLineEditorRenderer.cs" />
     <Compile Include="CustomRenderers\CustomNavigationViewRenderer.cs" />
+    <Compile Include="CustomRenderers\CameraPreviewRenderer.cs" />
+    <Compile Include="Helpers\Camera\AutoFitTextureView.cs" />
+    <Compile Include="Helpers\Camera\ICamera2.cs" />
+    <Compile Include="Helpers\Camera\CompareSizesByArea.cs" />
+    <Compile Include="Helpers\Camera\MyCameraStateCallback.cs" />
+    <Compile Include="Helpers\Camera\MySurfaceTextureListener.cs" />
+    <Compile Include="Helpers\Camera\PreviewCaptureStateCallback.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
@@ -649,6 +656,7 @@
     <Folder Include="Services\" />
     <Folder Include="Helpers\" />
     <Folder Include="Services\Firebase\" />
+    <Folder Include="Helpers\Camera\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
