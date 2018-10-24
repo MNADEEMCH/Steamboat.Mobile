@@ -28,7 +28,8 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
     public class CameraPreviewRenderer : ViewRenderer<CameraPreview, AutoFitTextureView>, ICamera2
     {
         private SparseIntArray ORIENTATIONS = new SparseIntArray();
-        int _cameraId = 0;
+        int _camera = 0;
+        string[] _camerasIds = null;
         private int DSI_height;
         private int DSI_width;
         private Size videoSize;
@@ -113,9 +114,11 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 stillCaptureBuilder.Set(CaptureRequest.JpegOrientation, ORIENTATIONS.Get(rotation));
 
                 mCaptureSession.StopRepeating();
+                MediaActionSound sound = new MediaActionSound();
+                sound.Play(MediaActionSoundType.ShutterClick);
                 mCaptureSession.Capture(stillCaptureBuilder.Build(), new CameraCaptureStillPictureSessionCallback(this), null);
             }
-            catch(Java.Lang.Exception e)
+            catch (Java.Lang.Exception e)
             {
                 e.PrintStackTrace();
             }
@@ -161,8 +164,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
         public async Task SwapCamera()
         {
-
-            _cameraId = _cameraId == 0 ? 1 : 0;
+            _camera = (_camera + 1) % _camerasIds.Length;
             OpenCamera(mTextureView.Width, mTextureView.Height);
         }
 
@@ -179,7 +181,12 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             {
                 if (!mCameraOpenCloseLock.TryAcquire(2500, TimeUnit.Milliseconds))
                     throw new RuntimeException("Time out waiting to lock camera opening.");
-                string cameraId = manager.GetCameraIdList()[_cameraId];
+
+
+                if (_camerasIds == null)
+                    _camerasIds = manager.GetCameraIdList();
+
+                string cameraId = manager.GetCameraIdList()[_camera];
                 CameraCharacteristics characteristics = manager.GetCameraCharacteristics(cameraId);
                 StreamConfigurationMap map = (StreamConfigurationMap)characteristics.Get(CameraCharacteristics.ScalerStreamConfigurationMap);
 
