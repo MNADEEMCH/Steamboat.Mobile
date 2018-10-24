@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -74,7 +75,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 e.NewElement.StartRecording = (() => { TakePicture(); });
                 //e.NewElement.StopRecording = (() => { StopRecordingVideo(); });
                 //e.NewElement.RetrySending = (() => { RetrySendingVideo(); });
-                //e.NewElement.ToggleCamera = (() => { ToggleCamera(); });
+                e.NewElement.SwapCamera = (() => { SwapCamera(); });
                 e.NewElement.Dispose = (() => { Dispose(true); });
 
                 if (Control == null)
@@ -158,6 +159,13 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             mTextureView.SetTransform(matrix);
         }
 
+        public async Task SwapCamera()
+        {
+
+            _cameraId = _cameraId == 0 ? 1 : 0;
+            OpenCamera(mTextureView.Width, mTextureView.Height);
+        }
+
         public void OpenCamera(int width, int height)
         {
             if (null == mActivity || mActivity.IsFinishing)// || mCameraOpened
@@ -181,8 +189,8 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 //ConfigureTransform(width, height);
                 //mediaRecorder = new MediaRecorder();
 
-                videoSize = ChooseVideoSize(map.GetOutputSizes(Class.FromType(typeof(ImageReader))));
-                previewSize = ChooseOptimalSize(map.GetOutputSizes(Class.FromType(typeof(ImageReader))), width, height, videoSize);
+                videoSize = ChooseVideoSize(map.GetOutputSizes(Class.FromType(typeof(MediaRecorder))));
+                previewSize = ChooseOptimalSize(map.GetOutputSizes(Class.FromType(typeof(MediaRecorder))), width, height, videoSize);
                 ConfigureTransform(width, height);
                 mImageReader = ImageReader.NewInstance(width, height, ImageFormatType.Jpeg, 2);
                 mImageReader.SetOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);

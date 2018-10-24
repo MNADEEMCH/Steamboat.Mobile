@@ -18,7 +18,7 @@ namespace Steamboat.Mobile.Droid.Helpers.Camera
 
         public override void OnCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result)
         {
-            //owner.UnlockFocus();
+            owner.StartPreview();
         }
 
     }

@@ -8,17 +8,15 @@
                          xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
                          NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <FlexLayout 
-            JustifyContent="SpaceBetween" 
-            Direction="Column">
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="0">
             <StackLayout BackgroundColor="Silver" HeightRequest="40"  />
-            <customControl:CameraPreview x:Name="Camera" FlexLayout.Grow="1" SaveCommand="{Binding SaveCommand}" />
+            <customControl:CameraPreview x:Name="Camera" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SaveCommand="{Binding SaveCommand}" />
             <StackLayout BackgroundColor="Silver" HeightRequest="56" Orientation="Horizontal" >
                 <Button Text="BOOM" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="80" HeightRequest="40" BorderRadius="10" Clicked="Handle_Clicked" />
                 <Button Text="LIGHTS" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="80" HeightRequest="40" BorderRadius="10" Clicked="Handle_Clicked_1" />
                 <Button Text="SELFIE" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="80" HeightRequest="40" BorderRadius="10" Clicked="Handle_Clicked_2" />
             </StackLayout>
-        </FlexLayout>
+        </StackLayout>
     </ContentPage.Content>
     
 </views:CustomContentPage>
