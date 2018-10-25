@@ -20,6 +20,7 @@ using Steamboat.Mobile.Droid.CustomRenderers;
 using Steamboat.Mobile.Droid.Helpers.Camera;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+using static Android.Hardware.Camera;
 using Size = Android.Util.Size;
 
 [assembly: ExportRenderer(typeof(CameraPreview), typeof(CameraPreviewRenderer))]
@@ -27,9 +28,14 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 {
     public class CameraPreviewRenderer : ViewRenderer<CameraPreview, AutoFitTextureView>, ICamera2
     {
+
+        private int _camera = 0;
+        private bool _isFlashTurnedOn = false;
+        private string[] _camerasIds = null;
+        private bool _isFlashSupported = false;
+
         private SparseIntArray ORIENTATIONS = new SparseIntArray();
-        int _camera = 0;
-        string[] _camerasIds = null;
+
         private int DSI_height;
         private int DSI_width;
         private Size videoSize;
@@ -75,7 +81,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             {
                 e.NewElement.StartRecording = (() => { TakePicture(); });
                 //e.NewElement.StopRecording = (() => { StopRecordingVideo(); });
-                //e.NewElement.RetrySending = (() => { RetrySendingVideo(); });
+                e.NewElement.ToggleFlash = (() => { ToggleFlash(); });
                 e.NewElement.SwapCamera = (() => { SwapCamera(); });
                 e.NewElement.Dispose = (() => { Dispose(true); });
 
@@ -162,10 +168,39 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             mTextureView.SetTransform(matrix);
         }
 
-        public async Task SwapCamera()
+        private async Task SwapCamera()
         {
             _camera = (_camera + 1) % _camerasIds.Length;
             OpenCamera(mTextureView.Width, mTextureView.Height);
+        }
+
+        private async Task ToggleFlash(){
+
+            if(_isFlashSupported){
+
+                try
+                {
+                    _isFlashTurnedOn = !_isFlashTurnedOn;
+                    if (_isFlashTurnedOn)
+                    {
+                        //2 is FLASH_MODE_TORCH https://developer.android.com/reference/android/hardware/camera2/CameraMetadata#FLASH_MODE_TORCH
+                        previewBuilder.Set(CaptureRequest.FlashMode, 2);
+                        mCaptureSession.SetRepeatingRequest(previewBuilder.Build(), null, null);
+
+                        _isFlashTurnedOn = true;
+                    }
+                    else
+                    {
+                        // 0 is FLASH_MODE_OFF https://developer.android.com/reference/android/hardware/camera2/CameraMetadata#FLASH_MODE_OFF
+                        previewBuilder.Set(CaptureRequest.FlashMode, 0);
+                        mCaptureSession.SetRepeatingRequest(previewBuilder.Build(), null, null);
+                        _isFlashTurnedOn = false;
+                    }
+                }
+                catch(Java.Lang.Exception ex){
+
+                }
+            }
         }
 
         public void OpenCamera(int width, int height)
@@ -179,22 +214,28 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             CameraManager manager = (CameraManager)mActivity.GetSystemService(Context.CameraService);
             try
             {
+                _isFlashTurnedOn = false;
+
                 if (!mCameraOpenCloseLock.TryAcquire(2500, TimeUnit.Milliseconds))
                     throw new RuntimeException("Time out waiting to lock camera opening.");
-
+                   
 
                 if (_camerasIds == null)
                     _camerasIds = manager.GetCameraIdList();
 
-                string cameraId = manager.GetCameraIdList()[_camera];
+                string cameraId = _camerasIds[_camera];
+
                 CameraCharacteristics characteristics = manager.GetCameraCharacteristics(cameraId);
+
+                // Check if the flash is supported.
+                var available = characteristics.Get(CameraCharacteristics.FlashInfoAvailable);
+                if (available == null)
+                    _isFlashSupported = false;
+                else
+                    _isFlashSupported = (bool)available;
+
+
                 StreamConfigurationMap map = (StreamConfigurationMap)characteristics.Get(CameraCharacteristics.ScalerStreamConfigurationMap);
-
-                //videoSize = ChooseVideoSize(map.GetOutputSizes(Class.FromType(typeof(MediaRecorder))));
-                //previewSize = ChooseOptimalSize(map.GetOutputSizes(Class.FromType(typeof(MediaRecorder))), width, height, videoSize);
-
-                //ConfigureTransform(width, height);
-                //mediaRecorder = new MediaRecorder();
 
                 videoSize = ChooseVideoSize(map.GetOutputSizes(Class.FromType(typeof(MediaRecorder))));
                 previewSize = ChooseOptimalSize(map.GetOutputSizes(Class.FromType(typeof(MediaRecorder))), width, height, videoSize);
