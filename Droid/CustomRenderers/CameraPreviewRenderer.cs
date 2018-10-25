@@ -412,8 +412,8 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         private void SetDisplayMetrics()
         {
             DisplayMetrics displayMetrics = Resources.DisplayMetrics;
-            DSI_height = displayMetrics.HeightPixels;
-            DSI_width = displayMetrics.WidthPixels;
+            DSI_height = this.Height;//displayMetrics.HeightPixels;
+            DSI_width = this.Width;//displayMetrics.WidthPixels;
         }
 
         private void SetAspectRatioTextureView(int ResolutionWidth, int ResolutionHeight)
