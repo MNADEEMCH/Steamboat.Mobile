@@ -64,5 +64,9 @@
 	<true/>
 	<key>CFBundleVersion</key>
 	<string>9</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to the camera to take photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs to access the photo library.</string>
 </dict>
 </plist>

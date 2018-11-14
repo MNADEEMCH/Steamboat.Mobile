@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Steamboat.Mobile.Views.CameraView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile" 
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="0">
+            <customControl:CameraPreview x:Name="Camera" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SaveCommand="{Binding SaveCommand}" />
+            <StackLayout BackgroundColor="Silver" HeightRequest="56" Orientation="Horizontal" >
+                <Button Text="BOOM" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="80" HeightRequest="40" BorderRadius="10" Clicked="Handle_Clicked" />
+                <Button Text="LIGHTS" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="80" HeightRequest="40" BorderRadius="10" Clicked="Handle_Clicked_1" />
+                <Button Text="SELFIE" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="80" HeightRequest="40" BorderRadius="10" Clicked="Handle_Clicked_2" />
+                <Button Text="BACK" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="80" HeightRequest="40" BorderRadius="10" Command="{Binding GoBackCommand}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</views:CustomContentPage>

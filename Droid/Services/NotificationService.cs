@@ -4,7 +4,7 @@ using Android.OS;
 using Firebase.Iid;
 using Steamboat.Mobile.Droid.CustomRenderers;
 using Steamboat.Mobile.Services.Notification;
-using Xamarin.ShortcutBadger;
+using XamarinShortcutBadger;
 
 namespace Steamboat.Mobile.Droid.Services
 {

@@ -14,7 +14,7 @@
                   OpenedNotificationMenuIcon="icMenuOpened_notification.png"
                   Title="Title" >
     <customControl:IconMasterDetailPage.Master>
-        <views:MenuView/>
+        <views:MenuView />
     </customControl:IconMasterDetailPage.Master>
     <customControl:IconMasterDetailPage.Detail>
         <ContentPage BackgroundColor="Transparent" />

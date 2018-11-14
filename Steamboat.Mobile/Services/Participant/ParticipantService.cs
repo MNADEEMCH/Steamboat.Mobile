@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Steamboat.Mobile.Helpers.Settings;
 using Steamboat.Mobile.Models.Participant;
 using Steamboat.Mobile.Models.Participant.Messaging;
+using Steamboat.Mobile.Models.Participant.Photojournaling;
 using Steamboat.Mobile.Models.Participant.Survey;
 using Steamboat.Mobile.Services.RequestProvider;
 
@@ -102,5 +103,11 @@ namespace Steamboat.Mobile.Services.Participant
 			string url = string.Format(ApiUrlBase + "{0}", "message");
 			return await _requestProvider.PostAsync<CoachMessages.Message,UserMessage>(url, messageText, sessionID: sessionID);
 		}
-	}
+
+        public async Task<PhotoResponse> UploadPhoto(byte[] media, string sessionID)
+        {
+            string url = string.Format(ApiUrlBase + "{0}/{1}", "photograph", "upload");
+            return await _requestProvider.PostImageAsync<PhotoResponse>(url, media, sessionID);
+        }
+    }
 }

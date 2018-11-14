@@ -98,7 +98,7 @@
                                
                     <StackLayout Style="{StaticResource MainContainerStackLayout}">
                         <AbsoluteLayout Style="{StaticResource ImageContainerAbsoluteLayout}">
-                            <ffimageloading:CachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}"/>
+                            <ffimageloading:CachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}" />
                             <ffimageloading:CachedImage Source="{Binding IconSource}" Style="{StaticResource IconImage}"/>
                         </AbsoluteLayout>
                         

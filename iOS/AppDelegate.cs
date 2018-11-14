@@ -36,12 +36,13 @@ namespace Steamboat.Mobile.iOS
 			RegisterForPushNotifications();
 
 			ResolveDependencies();
-			CachedImageRenderer.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+
 			ImageService.Instance.Initialize(new FFImageLoading.Config.Configuration
 			{
 				HttpClient = new HttpClient(new AuthenticatedHttpClient())
 			});
-			//var ignore = typeof(SvgCachedImage);
+			var ignore = typeof(SvgCachedImage);
 			LoadApplication(new App(pushNotification));
 
 			//LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(

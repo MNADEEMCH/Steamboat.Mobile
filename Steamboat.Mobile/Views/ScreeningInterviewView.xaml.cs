@@ -14,7 +14,7 @@ namespace Steamboat.Mobile.Views
             InitializeComponent();
         }
 
-        async Task Handle_ItemCreated(object sender, CustomControls.RepeaterControlItemAddedEventArgs args)
+        async void Handle_ItemCreated(object sender, CustomControls.RepeaterControlItemAddedEventArgs args)
         {
             var view = args.View;
             view.Opacity = 0;

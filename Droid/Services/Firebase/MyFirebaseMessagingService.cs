@@ -12,7 +12,8 @@ using Steamboat.Mobile.Droid.Helpers;
 using Newtonsoft.Json;
 using Steamboat.Mobile.Services.Notification;
 using Steamboat.Mobile.Helpers;
-using Xamarin.ShortcutBadger;
+using XamarinShortcutBadger;
+using Android.Support.V4.App;
 
 namespace Steamboat.Mobile.Droid.Services.Firebase
 {

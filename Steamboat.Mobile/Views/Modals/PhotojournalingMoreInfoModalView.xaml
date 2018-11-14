@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<popup:PopupPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.Modals.PhotojournalingMoreInfoModalView"
+    xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:modalViewModelBase="clr-namespace:Steamboat.Mobile.ViewModels.Modals"
+    modalViewModelBase:ModalViewModelAutoWire.AutoWireViewModel="True"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    BackgroundColor="{StaticResource ModalBackground}"
+    CloseWhenBackgroundIsClicked="False">
+    
+    <popup:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MainGrid"  TargetType="Grid">
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>30</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,30</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="IconImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+                <Setter Property="HeightRequest" Value="208"></Setter>
+                <Setter Property="WidthRequest" Value="208"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="TitleLabel"  TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="MessageLabel"  TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource WhiteColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Margin" Value="12"></Setter>
+            </Style>
+            <Style x:Key="GoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
+                <Setter Property="Margin" Value="0,16,0,0"></Setter>
+                <Setter Property="ShadowColorEnabled" Value="Black"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </popup:PopupPage.Resources>
+
+    <popup:PopupPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ScrollView Grid.Row="0" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" VerticalOptions="FillAndExpand">
+                <Grid Style="{StaticResource MainGrid}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackLayout Style="{StaticResource MainContainerStackLayout}">
+                    
+                        <ffimageloadingsvg:SvgCachedImage Source="icPhotojournalNB.svg" Style="{StaticResource IconImage}"/>
+
+                        <Label Text="What is Nutrition Photojournaling?" Style="{StaticResource TitleLabel}"></Label>
+
+                        <Label Text="Sometimes we eat without being truly engaged and aware of what we're putting in our bodies." Style="{StaticResource MessageLabel}" />
+                        
+                        <Label Text="By keeping a food journal, you can keep track of our choices and receive feedback from your health coach." Style="{StaticResource MessageLabel}" />
+                        
+                        <customControl:GradientRoundedButton  Text="GOT IT" Command="{Binding CloseModalCommand}" Style="{StaticResource GoButton}"/>
+                        <Grid IsVisible="false" />
+
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+           <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+        </Grid>
+    </popup:PopupPage.Content>
+    
+</popup:PopupPage>

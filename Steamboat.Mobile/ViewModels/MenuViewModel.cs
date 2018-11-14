@@ -107,7 +107,14 @@ namespace Steamboat.Mobile.ViewModels
 				NavigationAction = NavigateToDispositionStep
 			});
 
-			MenuItems.Add(new Models.Menu.MenuItem
+            MenuItems.Add(new Models.Menu.MenuItem
+            {
+                Title = "Photojournaling",
+                IsSelected = false,
+                NavigationAction = NavigateToPhotos
+            });
+
+            MenuItems.Add(new Models.Menu.MenuItem
 			{
 				Title = "Messages",
 				IsSelected = !isDispositionStepSelected,
@@ -166,7 +173,13 @@ namespace Steamboat.Mobile.ViewModels
 			}, null, () => _userTapped = false);
 		}
 
-		private async Task NavigateToMessaging()
+        private async Task NavigateToPhotos()
+        {
+            await NavigationService.NavigateToAsync<PhotojournalingViewModel>(mainPage: true);
+            _userTapped = false;
+        }
+
+        private async Task NavigateToMessaging()
 		{
 			_userTapped = false;
 			GetMessagesMenuItem().NotificationsCount = 0;

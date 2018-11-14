@@ -7,6 +7,7 @@ using Steamboat.Mobile.Managers.Account;
 using Steamboat.Mobile.Managers.Application;
 using Steamboat.Mobile.Models.Participant;
 using Steamboat.Mobile.Models.Participant.Messaging;
+using Steamboat.Mobile.Models.Participant.Photojournaling;
 using Steamboat.Mobile.Models.Participant.Survey;
 using Steamboat.Mobile.Services.Participant;
 
@@ -180,5 +181,13 @@ namespace Steamboat.Mobile.Managers.Participant
 				return await _participantService.SendMessage(text, App.SessionID);
 			});
 		}
-	}
+
+        public async Task<PhotoResponse> UploadPhoto(byte[] media)
+        {
+            return await TryExecute<PhotoResponse>(async () =>
+            {
+                return await _participantService.UploadPhoto(media, App.SessionID);
+            });
+        }
+    }
 }

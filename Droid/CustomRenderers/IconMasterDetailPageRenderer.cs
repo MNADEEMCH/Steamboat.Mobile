@@ -18,9 +18,10 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
     public class IconMasterDetailPageRenderer : MasterDetailPageRenderer
     {
         private static Context _context;
-        private static int _currentMenuIconId=-1;
+        private static int _currentMenuIconId = -1;
         private static Android.Support.V7.Widget.Toolbar _toolbar;
         private static ImageButton _menuImageButton;
+        private bool _disposed;
 
         public IconMasterDetailPageRenderer(Context context) : base(context)
         {
@@ -32,10 +33,17 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         {
             base.OnLayout(changed, l, t, r, b);
             _toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            if(_currentMenuIconId!=-1){
+            if (_currentMenuIconId != -1)
+            {
                 ChangeMenuIcon();
             }
 
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            _toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
         }
 
         public static void ChangeMenuIcon()
@@ -43,13 +51,16 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             if (_toolbar != null)
             {
                 var app = Xamarin.Forms.Application.Current;
-                if(app!=null){
+                if (app != null)
+                {
                     var masterDetailPage = (app.MainPage as MasterDetailPage);
-                    if(masterDetailPage!=null){
+                    if (masterDetailPage != null)
+                    {
                         var detailPage = masterDetailPage.Detail;
                         var displayBack = detailPage.Navigation.NavigationStack.Count > 1;
                         SetMenuButton();
-                        if (!displayBack){
+                        if (!displayBack)
+                        {
                             _menuImageButton.SetImageDrawable(ContextCompat.GetDrawable(_context, _currentMenuIconId));
                             if (_toolbar != null)
                                 _toolbar.RefreshDrawableState();
@@ -59,8 +70,9 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             }
         }
 
-        private static void SetMenuButton(){
-            for (var i = 0; i < _toolbar.ChildCount; i++)
+        private static void SetMenuButton()
+        {
+           for (var i = 0; i < _toolbar.ChildCount; i++)
             {
                 var imageButton = _toolbar.GetChildAt(i) as ImageButton;
 
@@ -72,8 +84,8 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             }
         }
 
-        public static void ChangeMenuIcon(int menuIconId){
-
+        public static void ChangeMenuIcon(int menuIconId)
+        {
             _currentMenuIconId = menuIconId;
             ChangeMenuIcon();
         }

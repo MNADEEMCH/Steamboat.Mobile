@@ -56,16 +56,19 @@ namespace Steamboat.Mobile
 			Locator.CurrentMutable.Register(() => new SchedulingConfirmationViewModel());
 			Locator.CurrentMutable.Register(() => new ScreeningInterviewViewModel());
 			Locator.CurrentMutable.Register(() => new TermsConditionsViewModel());
-			RegisterSingletonViewModels();
+            Locator.CurrentMutable.Register(() => new PhotojournalingViewModel());
+            Locator.CurrentMutable.Register(() => new CameraViewModel());
+            RegisterSingletonViewModels();
 
 			//ModalViewModels
 			Locator.CurrentMutable.Register(() => new DispositionMoreInfoModalViewModel());
 			Locator.CurrentMutable.Register(() => new WelcomeModalViewModel());
 			Locator.CurrentMutable.Register(() => new ScreeningCancelConfirmationModalViewModel());
 			Locator.CurrentMutable.Register(() => new InterviewEditQuestionModalViewModel());
+            Locator.CurrentMutable.Register(() => new PhotojournalingMoreInfoModalViewModel());
 
-			//Managers
-			Locator.CurrentMutable.RegisterConstant(new ApplicationManager(), typeof(IApplicationManager));
+            //Managers
+            Locator.CurrentMutable.RegisterConstant(new ApplicationManager(), typeof(IApplicationManager));
 			Locator.CurrentMutable.RegisterConstant(new AccountManager(), typeof(IAccountManager));
 			Locator.CurrentMutable.RegisterConstant(new ParticipantManager(), typeof(IParticipantManager));
 		}

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.PhotojournalingView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views;assembly=Steamboat.Mobile"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    Title="PhotoJournaling">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MainContainerStackLayout"  TargetType="StackLayout">
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="Padding">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>16</OnIdiom.Phone>    
+                            <OnIdiom.Tablet>80,16,80,16</OnIdiom.Tablet>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="IconImage" TargetType="ffimageloadingsvg:SvgCachedImage">
+                <Setter Property="HeightRequest" Value="208"></Setter>
+                <Setter Property="WidthRequest" Value="208"></Setter>
+            </Style>
+            <Style x:Key="TitleContainerStackLayout" TargetType="StackLayout">
+                <Setter Property="Orientation" Value="Horizontal"></Setter>
+                <Setter Property="Spacing" Value="0"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+           <Style x:Key="TitleLabel"  TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="30" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+                <Setter Property="WidthRequest" Value="235" />
+                <Setter Property="WidthRequest">
+                    <Setter.Value>
+                        <OnIdiom x:TypeArguments="x:Double">
+                            <OnIdiom.Phone>235</OnIdiom.Phone>    
+                        </OnIdiom> 
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="MoreInfoButton" TargetType="customControl:LinkButton">
+                <Setter Property="ImageHeight" Value="24"></Setter>
+                <Setter Property="ImageWidth" Value="24"></Setter>
+                <Setter Property="VerticalOptions" Value="End"></Setter>
+                <Setter Property="ActiveImage" Value="icMoreInfo.png"></Setter>
+                <Setter Property="TapImage" Value="icMoreInfo_Tap.png"></Setter>
+                <Setter Property="DisabledImage" Value="icMoreInfo_Disabled.png"></Setter>
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+            </Style>
+            <Style x:Key="DescriptionLabel"  TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Margin" Value="12"></Setter>
+            </Style>
+            <Style x:Key="MainActionButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
+                <Setter Property="Margin" Value="0,5,0,10" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="IsVisible" Value="{Binding MainButtonVisible}"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand" >
+                <StackLayout Grid.Row="0" Style="{StaticResource MainContainerStackLayout}">
+                    <!--<AbsoluteLayout Style="{StaticResource ImageContainerAbsoluteLayout}">
+                        <ffimageloading:CachedImage Source="iconBackground.png" Style="{StaticResource IconBackgroundImage}"/>
+                        <ffimageloading:CachedImage Source="icReport.png" Style="{StaticResource IconImage}"/>
+                        <ffimageloadingsvg:SvgCachedImage Source="icPhotojournal.svg" Style="{StaticResource IconImage}"/>
+                    </AbsoluteLayout>-->
+                    
+                    <ffimageloadingsvg:SvgCachedImage Source="icPhotojournal.svg" Style="{StaticResource IconImage}"/>
+                    
+                    <StackLayout Style="{StaticResource TitleContainerStackLayout}" >
+                        <Label Text="Nutrition Photojournaling" Style="{StaticResource TitleLabel}" />
+                        <customControl:LinkButton Style="{StaticResource MoreInfoButton}" Command="{Binding MoreInfoCommand}" />
+                    </StackLayout>
+                    
+                    <Label Text="Add a meal photo and send it to your coach for review." Style="{StaticResource DescriptionLabel}"></Label>
+                    
+                    <customControl:GradientRoundedButton  Text="ADD A PHOTO" Style="{StaticResource MainActionButton}" Command="{Binding OpenCameraCommand}"/>
+                    <Grid IsVisible="false" />
+                </StackLayout>
+            </ScrollView>
+            
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="false" VerticalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</views:CustomContentPage>

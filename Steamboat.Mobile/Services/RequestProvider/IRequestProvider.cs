@@ -10,7 +10,8 @@ namespace Steamboat.Mobile.Services.RequestProvider
 		Task<TResult> PostAsync<TResult>(string uri, TResult data, string sessionID = "");
 		Task<TResult> PostAsync<TResult>(string uri, string sessionID = "");
 		Task PostAsync(string uri, string sessionID = "");
-		Task<TResult> PutAsync<TResult>(string uri, TResult data, string sessionID = "");
+        Task<TResult> PostImageAsync<TResult>(string uri, byte[] mediaFile, string sessionID = "");
+        Task<TResult> PutAsync<TResult>(string uri, TResult data, string sessionID = "");
 		Task DeleteAsync(string uri, string sessionID = "");
 	}
 }
