@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Steamboat.Mobile.Models.NavigationParameters;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.CustomControls
@@ -21,10 +22,15 @@ namespace Steamboat.Mobile.CustomControls
             set { SetValue(SaveCommandProperty, value); }
         }
 
-        public void OnPhotoTaken(byte[] media)
+        public void OnPhotoTaken(byte[] media, ImageSource imageSource)
         {
-            SaveCommand.Execute(media);
-        }
+            var param = new PhotoTakenParameter()
+            {
+                Media = media,
+                ImageSource = imageSource
+            };
 
+            SaveCommand.Execute(param);
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task OpenCamera()
         {
-            await NavigationService.NavigateToAsync<CameraViewModel>();
+            await NavigationService.NavigateToAsync<CameraViewModel>(animate:false);
         }
 
         private async Task MoreInfo()

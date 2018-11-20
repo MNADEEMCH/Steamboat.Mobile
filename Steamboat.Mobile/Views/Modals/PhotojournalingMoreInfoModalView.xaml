@@ -70,9 +70,9 @@
 
                         <Label Text="What is Nutrition Photojournaling?" Style="{StaticResource TitleLabel}"></Label>
 
-                        <Label Text="Sometimes we eat without being truly engaged and aware of what we're putting in our bodies." Style="{StaticResource MessageLabel}" />
+                        <Label Text="Sometimes we eat without being truly engaged and aware of what we're putting in our bodies." Style="{StaticResource MessageLabel}" />                        
                         
-                        <Label Text="By keeping a food journal, you can keep track of our choices and receive feedback from your health coach." Style="{StaticResource MessageLabel}" />
+                        <Label Text="By keeping a food journal, you can keep track of your choices and receive feedback from your health coach." Style="{StaticResource MessageLabel}" />
                         
                         <customControl:GradientRoundedButton  Text="GOT IT" Command="{Binding CloseModalCommand}" Style="{StaticResource GoButton}"/>
                         <Grid IsVisible="false" />

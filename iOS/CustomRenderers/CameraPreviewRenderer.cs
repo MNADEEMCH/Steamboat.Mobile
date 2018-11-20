@@ -99,8 +99,9 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
                 cameraManager.CapturePicture(async (img, err) =>
                 {
                     NSData imgData = img.AsJPEG(0.1f);
+                    var foo = ImageSource.FromStream(imgData.AsStream);
 
-                    Element.OnPhotoTaken(imgData.ToArray());
+                    Element.OnPhotoTaken(imgData.ToArray(), foo);
                 });
             }
             else

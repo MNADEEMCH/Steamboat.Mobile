@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Steamboat.Mobile.Managers.Participant;
+using Steamboat.Mobile.Models.NavigationParameters;
 using Xamarin.Forms;
 
 namespace Steamboat.Mobile.ViewModels
@@ -21,25 +22,21 @@ namespace Steamboat.Mobile.ViewModels
         {
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
 
-            SaveCommand = new Command(async (imageArray) => await SendPhoto(imageArray));
+            SaveCommand = new Command(async (param) => await SendPhoto(param));
             GoBackCommand = new Command(async () => await GoBack());
         }
 
-        private async Task SendPhoto(object imageArray)
+        private async Task SendPhoto(object param)
         {
             await TryExecute(async () =>
             {
-                var image = imageArray as byte[];
-
-                var foo = await _participantManager.UploadPhoto(image);
-                await DialogService.ShowAlertAsync($"GUID: {foo.Guid}", "YEAH", "OK");
+                await NavigationService.NavigateToAsync<PhotoReviewViewModel>(param, animate: false);
             });
         }
 
         private async Task GoBack()
         {
-            await NavigationService.NavigateToAsync<PhotojournalingViewModel>(mainPage: true);
+            await NavigationService.NavigateToAsync<PhotojournalingViewModel>(mainPage: true, animate: false);
         }
-
     }
 }

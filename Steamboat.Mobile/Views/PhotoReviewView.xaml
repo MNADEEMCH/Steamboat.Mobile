@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage    
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.PhotoReviewView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile" 
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"   
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MainLayout" TargetType="AbsoluteLayout">
+                <Setter Property="VerticalOptions" Value="FillAndExpand"></Setter>   
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
+                <Setter Property="BackgroundColor" Value="#242A30"></Setter>
+                <Setter Property="IsVisible" Value="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"></Setter>
+            </Style>
+            <Style x:Key="MainActionButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
+                <Setter Property="Margin" Value="0,-24,0,0" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>   
+                <Setter Property="ShadowColorEnabled" Value="Black"></Setter>
+                <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
+            </Style>
+            <Style x:Key="MainPhoto" TargetType="ffimageloading:CachedImage">
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="IsVisible" Value="{Binding IsUploaded, Converter={StaticResource InverseBoolConverter}}" />
+            </Style>
+            <Style x:Key="GoBackButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource WhiteColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
+            </Style>
+            <Style x:Key="MessageLabel" TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource WhiteColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Margin" Value="12"></Setter>
+            </Style>
+            <Style x:Key="TitleLabel" TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowSpacing="0" BackgroundColor="#242A30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <AbsoluteLayout Grid.Row="0" Style="{StaticResource MainLayout}">
+                <ffimageloading:CachedImage Source="{Binding ImageSource}" Style="{StaticResource MainPhoto}" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" FinishCommand="{Binding ImageFinishedCommand}" />
+                <StackLayout BackgroundColor="#242A30" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" AbsoluteLayout.LayoutBounds="1,1,1,172" >
+                    <customControl:GradientRoundedButton Text="SUBMIT" Command="{Binding SubmitCommand}" Style="{StaticResource MainActionButton}"  />
+                    <Grid IsVisible="false" />
+                    <customControl:LinkButton Text="RE-TAKE PHOTO" Style="{StaticResource GoBackButton}" VerticalOptions="Start" Margin="0,16,0,0" Command="{Binding GoBackCommand}" />
+                    <!--<views:MomentumSpinnerView IsVisible="{Binding IsBusy}" HorizontalOptions="Center" Margin="0,16,0,0" />-->
+                    <Label Text="{Binding ResultLabel}" Style="{StaticResource MessageLabel}" IsVisible="{Binding IsBusy}" />
+                </StackLayout>
+                <StackLayout AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,.33,1,100" IsVisible="{Binding IsUploaded}">
+                    <Label Text="Looking good!" Style="{StaticResource TitleLabel}" />
+                    <Label Text="Remember to post a photo every day, and stay engaged!" Style="{StaticResource MessageLabel}" />
+                </StackLayout>
+            </AbsoluteLayout>
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</views:CustomContentPage>

@@ -126,7 +126,19 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
         public void OnCaptureComplete(byte[] imageArray)
         {
-            Element.OnPhotoTaken(imageArray);
+            //var bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
+            //var imgsrc = ImageSource.FromStream(() =>
+            //{            
+            //    using (System.IO.Stream stream = new MemoryStream(imageArray))
+            //    {
+            //        bitmap.Compress(Bitmap.CompressFormat.Jpeg, 10, stream);
+            //        return stream;
+            //    }
+            //}); 
+
+            //Element.OnPhotoTaken(imageArray, imgsrc);
+            ImageSource foo = ImageSource.FromStream(() => new MemoryStream(imageArray));
+            Element.OnPhotoTaken(imageArray, foo);
         }
 
         private void StartTheCamera()
@@ -216,7 +228,6 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 if (!mCameraOpenCloseLock.TryAcquire(2500, TimeUnit.Milliseconds))
                     throw new RuntimeException("Time out waiting to lock camera opening.");
 
-
                 if (_camerasIds == null)
                     _camerasIds = manager.GetCameraIdList();
 
@@ -242,6 +253,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
                 SetDisplayMetrics();
                 SetAspectRatioTextureView(DSI_width, DSI_height);
+                //mTextureView.SetAspectRatio(previewSize.Height, previewSize.Width);
 
                 manager.OpenCamera(cameraId, stateListener, null);
 
@@ -288,7 +300,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             {
                 //e.PrintStackTrace();
             }
-        }             
+        }
 
         public void UpdatePreview()
         {
@@ -386,7 +398,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             {
                 int newWidth = DSI_width;
                 int newHeight = ((DSI_width * ResolutionHeight) / ResolutionWidth);
-                UpdateTextureViewSize(newWidth, newHeight);
+                UpdateTextureViewSize(newHeight, newWidth);
             }
 
         }

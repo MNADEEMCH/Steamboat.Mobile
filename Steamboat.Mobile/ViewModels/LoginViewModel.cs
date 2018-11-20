@@ -103,7 +103,7 @@ namespace Steamboat.Mobile.ViewModels
 
 					if (result.IsPasswordExpired)
 					{
-						await NavigationService.NavigateToAsync<InitPasswordViewModel>(result.AreConsentsAccepted);
+                        await NavigationService.NavigateToAsync<InitPasswordViewModel>(parameter:result.AreConsentsAccepted);
 					}
 					else if (!result.AreConsentsAccepted)
 					{
@@ -117,7 +117,7 @@ namespace Steamboat.Mobile.ViewModels
 						Device.BeginInvokeOnMainThread(async () => await NavigationService.NavigateToAsync<MainViewModel>(status, mainPage: true));
 
 					}
-				}, null, () => IsBusy = false);
+                }, null, ResetDataOnNavigation);
 			}
 			else
 				IsBusy = false;
@@ -139,6 +139,12 @@ namespace Steamboat.Mobile.ViewModels
 
 			return userEmail;
 		}
+
+        private void ResetDataOnNavigation()
+        {
+            IsBusy = false; 
+            Password.Value = string.Empty;
+        }
 
 		private void AddEnvironmentInfo()
 		{

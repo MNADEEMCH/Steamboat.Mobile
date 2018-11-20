@@ -75,6 +75,7 @@ namespace Steamboat.Mobile.ViewModels
                     else
                     {
                         await NavigationService.NavigateToAsync<ConsentsViewModel>();
+                        Device.BeginInvokeOnMainThread(async () => await NavigationService.RemoveLastFromBackStackAsync());
                     }
                 }, null, () => IsBusy = false);
             }
