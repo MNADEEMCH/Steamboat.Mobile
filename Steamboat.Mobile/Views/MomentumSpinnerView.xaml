@@ -3,28 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="Steamboat.Mobile.Views.MomentumSpinnerView"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
              BackgroundColor="Transparent">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="SpinnerLayout" TargetType="AbsoluteLayout">
-                <Setter Property="HorizontalOptions" Value="Center"></Setter>
-            </Style>
-            <Style x:Key="SpinnerGif" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="40"></Setter>
-                <Setter Property="WidthRequest" Value="40"></Setter>
-            </Style>
-            <Style x:Key="SpinnerLogo" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="17"></Setter>
-                <Setter Property="WidthRequest" Value="17"></Setter>
-                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0.5,0.5,-1,-1"></Setter>
-                <Setter Property="AbsoluteLayout.LayoutFlags" Value="PositionProportional"></Setter>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <ContentView.Content>
-        <AbsoluteLayout Style="{StaticResource SpinnerLayout}">
-            <ffimageloading:CachedImage x:Name="SpinnerGif" Source="resource://Steamboat.Mobile.SharedResources.Spinner.gif" Style="{StaticResource SpinnerGif}" />
-            <ffimageloading:CachedImage x:Name="SpinnerLogo" Source="resource://Steamboat.Mobile.SharedResources.SpinnerLogo.png" Style="{StaticResource SpinnerLogo}" />
-        </AbsoluteLayout>
+        <customControl:LottieView x:Name="SpinnerLottie" Animation="spinner_loop.json" Loop="true" AutoPlay="true" WidthRequest="40" HeightRequest="40" HorizontalOptions="Center"  />
     </ContentView.Content>
 </ContentView>

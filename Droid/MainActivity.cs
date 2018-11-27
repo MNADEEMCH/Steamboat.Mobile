@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using FFImageLoading;
 using System.Net.Http;
 using Steamboat.Mobile.Services.RequestProvider;
+using Lottie.Forms.Droid;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -62,6 +63,8 @@ namespace Steamboat.Mobile.Droid
             {
                 HttpClient = new HttpClient(new AuthenticatedHttpClient())
             });
+            AnimationViewRenderer.Init();
+
             //var ignore = typeof(SvgCachedImage);
             UserDialogs.Init(this);
             LoadApplication(new App(pushNotification));

@@ -19,6 +19,7 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.3.840" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.0.4" />
     <PackageReference Include="Xamanimation" Version="1.2.0" />
+    <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="2.6.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="SharedResources\Spinner.gif" />

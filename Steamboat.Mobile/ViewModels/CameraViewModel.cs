@@ -38,5 +38,6 @@ namespace Steamboat.Mobile.ViewModels
         {
             await NavigationService.NavigateToAsync<PhotojournalingViewModel>(mainPage: true, animate: false);
         }
+
     }
 }

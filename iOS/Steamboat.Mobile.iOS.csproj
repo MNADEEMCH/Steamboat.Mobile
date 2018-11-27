@@ -248,6 +248,12 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.3.2.0.871581\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="Lottie.iOS">
+      <HintPath>..\packages\Com.Airbnb.iOS.Lottie.2.5.6\lib\xamarinios10\Lottie.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Lottie.Forms">
+      <HintPath>..\packages\Com.Airbnb.Xamarin.Forms.Lottie.2.6.0\lib\xamarinios10\Lottie.Forms.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -402,6 +408,9 @@
     <BundleResource Include="Resources\svgLogo.svg" />
     <BundleResource Include="Resources\icPhotojournal.svg" />
     <BundleResource Include="Resources\icPhotojournalNB.svg" />
+    <BundleResource Include="Resources\spinner_loop.json" />
+    <BundleResource Include="Resources\spinner_check.json" />
+    <BundleResource Include="Resources\spinner_progress.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
