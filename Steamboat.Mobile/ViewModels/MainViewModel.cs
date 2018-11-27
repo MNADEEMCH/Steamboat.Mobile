@@ -54,7 +54,8 @@ namespace Steamboat.Mobile.ViewModels
 			{
 				DispositionStepType = dispositionViewModelType,
 				NavigatingToDispositionStep = navigatingToDispositionStep,
-				UnreadMessageCount = unreadMessageCount
+				UnreadMessageCount = unreadMessageCount,
+                ShowNP = status.Dashboard.NutritionStrategy != null
 			};
 
 			return Task.WhenAll

@@ -17,6 +17,7 @@ namespace Steamboat.Mobile.Models.Participant
         public ScreeningStep ScreeningStep { get; set; }
         public ReportStep ReportStep { get; set; }
         public int UnreadMessageCount { get; set; }
+        public string NutritionStrategy { get; set; }
     }
 
     public class Alert
@@ -26,11 +27,4 @@ namespace Steamboat.Mobile.Models.Participant
         public string Message { get; set; }
         public string ButtonText { get; set; }
     }
-
-
-
-
-
-
-
 }

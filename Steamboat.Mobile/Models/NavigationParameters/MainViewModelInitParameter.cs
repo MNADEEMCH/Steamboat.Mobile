@@ -6,5 +6,6 @@ namespace Steamboat.Mobile.Models.NavigationParameters
         public Type DispositionStepType { get; set;}
         public bool NavigatingToDispositionStep { get; set; }
         public int UnreadMessageCount { get; set; }
+        public bool ShowNP { get; set; }
     }
 }

@@ -107,12 +107,15 @@ namespace Steamboat.Mobile.ViewModels
 				NavigationAction = NavigateToDispositionStep
 			});
 
-            MenuItems.Add(new Models.Menu.MenuItem
+            if(initParameter.ShowNP)
             {
-                Title = "Photojournaling",
-                IsSelected = false,
-                NavigationAction = NavigateToPhotos
-            });
+                MenuItems.Add(new Models.Menu.MenuItem
+                {
+                    Title = "Photojournaling",
+                    IsSelected = false,
+                    NavigationAction = NavigateToPhotos
+                });
+            }
 
             MenuItems.Add(new Models.Menu.MenuItem
 			{
