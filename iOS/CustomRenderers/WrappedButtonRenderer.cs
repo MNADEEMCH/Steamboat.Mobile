@@ -21,7 +21,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             Control.TitleLabel.LineBreakMode = UIKit.UILineBreakMode.WordWrap;
             Control.TitleLabel.TextAlignment = UIKit.UITextAlignment.Center;
 
-            UpdatePadding();
+            //UpdatePadding();
         }
 
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -32,7 +32,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
 
             if (e.PropertyName == nameof(WrappedButton.Padding))
             {
-                UpdatePadding();
+                //UpdatePadding();
             }
             if (element.AutoFitText && e.PropertyName == nameof(WrappedButton.Height))
             {

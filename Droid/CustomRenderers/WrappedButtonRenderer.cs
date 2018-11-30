@@ -26,7 +26,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 return;
 
             Control.SetAllCaps(false);
-            UpdatePadding();
+            //UpdatePadding();
         }
 
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -35,7 +35,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
             if (e.PropertyName == nameof(WrappedButton.Padding))
             {
-                UpdatePadding();
+                //UpdatePadding();
             }
         }
 

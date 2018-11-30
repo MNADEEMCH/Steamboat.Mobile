@@ -55,6 +55,10 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
+
+            var element = this.Element as CustomContentPage;
+
+            UIApplication.SharedApplication.SetStatusBarHidden(!element.ShowStatusBar, false);
         }
 
         public override void ViewWillTransitionToSize(CGSize toSize, IUIViewControllerTransitionCoordinator coordinator)

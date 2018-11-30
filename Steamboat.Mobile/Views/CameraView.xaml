@@ -7,16 +7,101 @@
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     xmlns:views="clr-namespace:Steamboat.Mobile.Views"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
+    ShowStatusBar="false"
+    BackgroundColor="{StaticResource CameraBackground}"
     NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="CameraBackground">#CC242A30</Color>
+            <Style x:Key="MainLayout" TargetType="AbsoluteLayout">
+                <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+            <Style x:Key="TopStack" TargetType="StackLayout">
+                <Setter Property="BackgroundColor" Value="{StaticResource CameraBackground}" />
+                <Setter Property="Orientation" Value="Horizontal"/>
+            </Style>
+            <Style x:Key="BottomStack" TargetType="StackLayout">
+                <Setter Property="BackgroundColor" Value="{StaticResource CameraBackground}" />
+                <Setter Property="HeightRequest" Value="64"/>
+            </Style>
+            <Style x:Key="BackButton" TargetType="customControl:LinkButton">
+                <Setter Property="ImageHeight" Value="32"/>
+                <Setter Property="ImageWidth" Value="32"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="ActiveImage" Value="icBack.png"/>
+                <Setter Property="TapImage" Value="icBack_Tap.png"/>
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="Margin" Value="8,0,0,0" />
+            </Style>
+            <Style x:Key="GalleryButton" TargetType="customControl:LinkButton">
+                <Setter Property="ImageHeight" Value="32"/>
+                <Setter Property="ImageWidth" Value="32"/>
+                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="ActiveImage" Value="icGallery.png"/>
+                <Setter Property="TapImage" Value="icGallery_Tap.png"/>
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="Margin" Value="0,0,16,0" />
+            </Style>
+            <Style x:Key="SwapCameraButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
+                <Setter Property="Margin" Value="0,16,20,0" />
+                <Setter Property="VerticalOptions" Value="Start"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="ShadowColorEnabled" Value="Transparent"/>
+                <Setter Property="IOSBorderRadius" Value="24" />
+                <Setter Property="AndroidBorderRadius" Value="70" />
+                <Setter Property="WidthRequest" Value="48" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="Image" Value="icRotate.png" />
+            </Style>
+            <Style x:Key="TakePhotoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="VerticalOptions" Value="Start"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>   
+                <Setter Property="ShadowColorEnabled" Value="Transparent"/>
+                <Setter Property="IOSBorderRadius" Value="40" />
+                <Setter Property="AndroidBorderRadius" Value="120" />
+                <Setter Property="WidthRequest" Value="80" />
+                <Setter Property="HeightRequest" Value="80" />
+                <Setter Property="Image" Value="icCamera.png" />
+            </Style>
+            <Style x:Key="ToggleFlashButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
+                <Setter Property="Margin" Value="20,16,0,0" />
+                <Setter Property="VerticalOptions" Value="Start"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>   
+                <Setter Property="ShadowColorEnabled" Value="Transparent"/>
+                <Setter Property="IOSBorderRadius" Value="24" />
+                <Setter Property="AndroidBorderRadius" Value="70" />
+                <Setter Property="WidthRequest" Value="48" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="Image" Value="icFlash.png" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="0">
-            <customControl:CameraPreview x:Name="Camera" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SaveCommand="{Binding SaveCommand}" />
-            <StackLayout BackgroundColor="Silver" HeightRequest="56" Orientation="Horizontal" >
-                <Button Text="BOOM" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="80" HeightRequest="40" BorderRadius="10" Clicked="Handle_Clicked" />
-                <Button Text="LIGHTS" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="80" HeightRequest="40" BorderRadius="10" Clicked="Handle_Clicked_1" />
-                <Button Text="SELFIE" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="80" HeightRequest="40" BorderRadius="10" Clicked="Handle_Clicked_2" />
-                <Button Text="BACK" BackgroundColor="Blue" TextColor="White" Margin="0,-20,0,20" WidthRequest="80" HeightRequest="40" BorderRadius="10" Command="{Binding GoBackCommand}" />
+        <AbsoluteLayout Grid.Row="0" Style="{StaticResource MainLayout}">
+            <customControl:CameraPreview x:Name="Camera" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" SaveCommand="{Binding SaveCommand}" />
+            <!--<BoxView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" />-->
+            <StackLayout AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,0,1,44" Style="{StaticResource TopStack}" >
+                <customControl:LinkButton Style="{StaticResource BackButton}" Command="{Binding GoBackCommand}" />
+                <customControl:LinkButton Style="{StaticResource GalleryButton}" />
             </StackLayout>
-        </StackLayout>
+            <Grid AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,1,1,104" >
+                <StackLayout Grid.Row="0" VerticalOptions="End" HorizontalOptions="FillAndExpand" Style="{StaticResource BottomStack}" />
+                <StackLayout Grid.Row="0" VerticalOptions="Fill" HorizontalOptions="CenterAndExpand" Orientation="Horizontal" >
+                    <customControl:GradientRoundedButton Style="{StaticResource SwapCameraButton}" Clicked="Handle_Clicked_2" />
+                    <customControl:GradientRoundedButton Style="{StaticResource TakePhotoButton}" Clicked="Handle_Clicked" />
+                    <customControl:GradientRoundedButton Style="{StaticResource ToggleFlashButton}" Clicked="Handle_Clicked_1" />
+                </StackLayout>
+            </Grid>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </views:CustomContentPage>

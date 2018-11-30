@@ -342,6 +342,7 @@
     <Compile Include="Helpers\Camera\CameraCaptureStillPictureSessionCallback.cs" />
     <Compile Include="Helpers\Camera\PreviewCaptureStateCallback.cs" />
     <Compile Include="Helpers\Camera\CompareSizesByArea.cs" />
+    <Compile Include="CustomRenderers\CustomContentPageRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
@@ -494,6 +495,30 @@
     <AndroidResource Include="Resources\layout\Toolbar.axml" />
     <AndroidResource Include="Resources\drawable\icPhotojournal.svg" />
     <AndroidResource Include="Resources\drawable\icPhotojournalNB.svg" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icRotate.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icCamera.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icFlash.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icCamera.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icFlash.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icRotate.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icBack.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icRotate.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icGallery.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icFlash.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icCamera.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icGallery_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icRotate.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icGallery_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icGallery.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icFlash.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icCamera.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icBack.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icGallery_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icGallery.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icBack.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icGallery_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icGallery.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icBack.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

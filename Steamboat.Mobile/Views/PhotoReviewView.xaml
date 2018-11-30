@@ -64,7 +64,7 @@
             <AbsoluteLayout Grid.Row="0" Style="{StaticResource MainLayout}">
                 <ffimageloading:CachedImage Source="{Binding ImageSource}" Style="{StaticResource MainPhoto}" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" FinishCommand="{Binding ImageFinishedCommand}" />
                 <StackLayout BackgroundColor="#242A30" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" AbsoluteLayout.LayoutBounds="1,1,1,172" >
-                    <customControl:GradientRoundedButton Text="SUBMIT" Command="{Binding SubmitCommand}" Style="{StaticResource MainActionButton}"  />
+                    <customControl:GradientRoundedButton Text="SUBMIT" Command="{Binding SubmitCommand}" Style="{StaticResource MainActionButton}" />
                     <Grid IsVisible="false" />
                     <customControl:LinkButton Text="RE-TAKE PHOTO" Style="{StaticResource GoBackButton}" VerticalOptions="Start" Margin="0,16,0,0" Command="{Binding GoBackCommand}" />
                     <!--<views:MomentumSpinnerView IsVisible="{Binding IsBusy}" HorizontalOptions="Center" Margin="0,16,0,0" />-->
