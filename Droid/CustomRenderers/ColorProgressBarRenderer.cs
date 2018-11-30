@@ -79,9 +79,8 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 Control.ProgressBackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(element.EmptyColor.ToAndroid());
                 Control.ProgressBackgroundTintMode = PorterDuff.Mode.Overlay;
             }
-            
 
-            Control.ScaleY = (float)element.ProgressBarHeigth; //Changes the height
+            //Control.ScaleY = (float)element.ProgressBarHeigth; //Changes the height
         }
     }
 }

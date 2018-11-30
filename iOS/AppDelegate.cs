@@ -24,7 +24,9 @@ namespace Steamboat.Mobile.iOS
 
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
-			global::Xamarin.Forms.Forms.Init();
+            Rg.Plugins.Popup.Popup.Init();
+
+            global::Xamarin.Forms.Forms.Init();
 
 			DisableDefaultLineBreakStrategy();
 

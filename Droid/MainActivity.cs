@@ -54,6 +54,7 @@ namespace Steamboat.Mobile.Droid
             //CHECK IF THERE IS A NOTIFICATION
             PushNotification pushNotification = NotificationHelper.TryGetPushNotification(this.Intent);
             _newIntent = false;
+            Rg.Plugins.Popup.Popup.Init(this, bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 

@@ -20,7 +20,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         private static Context _context;
         private static int _currentMenuIconId = -1;
         private static Android.Support.V7.Widget.Toolbar _toolbar;
-        private static ImageButton _menuImageButton;
+        private static Android.Widget.ImageButton _menuImageButton;
         private bool _disposed;
 
         public IconMasterDetailPageRenderer(Context context) : base(context)
@@ -74,7 +74,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         {
            for (var i = 0; i < _toolbar.ChildCount; i++)
             {
-                var imageButton = _toolbar.GetChildAt(i) as ImageButton;
+                var imageButton = _toolbar.GetChildAt(i) as Android.Widget.ImageButton;
 
                 var drawerArrow = imageButton?.Drawable as DrawerArrowDrawable;
                 if (drawerArrow == null)
