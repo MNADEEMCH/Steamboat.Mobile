@@ -3,6 +3,6 @@ namespace Steamboat.Mobile.Models.Participant.Photojournaling
 {
     public class PhotoResponse
     {
-        public Guid Guid { get; set; }
+        public Photograph Photograph { get; set; }
     }
 }

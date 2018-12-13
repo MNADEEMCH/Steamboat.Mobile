@@ -17,7 +17,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -517,6 +516,22 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\icGallery.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icBack.png" />
     <AndroidResource Include="Resources\drawable\imgPhotos.svg" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgPhotoPlaceholder.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgPhotoPlaceholder.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgPhotoPlaceholder.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgPhotoPlaceholder.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgBad.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgBad.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgBad.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgBad.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgGood.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgNeutral.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgGood.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgNeutral.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgGood.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgNeutral.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgGood.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgNeutral.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

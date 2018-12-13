@@ -186,7 +186,18 @@ namespace Steamboat.Mobile.Managers.Participant
         {
             return await TryExecute<PhotoResponse>(async () =>
             {
+                _applicationManager.RestartTimer();
                 return await _participantService.UploadPhoto(media, App.SessionID);
+            });
+        }
+
+        public async Task<List<Photograph>> GetPhotographs()
+        {
+            return await TryExecute<List<Photograph>>(async () =>
+            {
+                _applicationManager.RestartTimer();
+                var photos = await _participantService.GetPhotographs(App.SessionID);
+                return photos.Photographs;
             });
         }
     }

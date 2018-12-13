@@ -25,5 +25,6 @@ namespace Steamboat.Mobile.Managers.Participant
 		Task<CoachMessages> GetNewMessages(string dateFrom);
 		Task<CoachMessages.Message> SendMessage(string messageText);
         Task<PhotoResponse> UploadPhoto(byte[] media);
+        Task<List<Photograph>> GetPhotographs();
     }
 }

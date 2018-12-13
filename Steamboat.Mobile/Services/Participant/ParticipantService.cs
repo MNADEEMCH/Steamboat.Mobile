@@ -109,5 +109,11 @@ namespace Steamboat.Mobile.Services.Participant
             string url = string.Format(ApiUrlBase + "{0}/{1}", "photograph", "upload");
             return await _requestProvider.PostImageAsync<PhotoResponse>(url, media, sessionID);
         }
+
+        public async Task<PhotographResponse> GetPhotographs(string sessionID)
+        {
+            string url = string.Format(ApiUrlBase + "{0}", "photographs");
+            return await _requestProvider.GetAsync<PhotographResponse>(url, sessionID: sessionID);
+        }
     }
 }

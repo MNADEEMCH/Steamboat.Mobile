@@ -427,6 +427,18 @@
     <BundleResource Include="Resources\spinner_check.json" />
     <BundleResource Include="Resources\spinner_progress.json" />
     <BundleResource Include="Resources\imgPhotos.svg" />
+    <BundleResource Include="Resources\imgPhotoPlaceholder%403x.png" />
+    <BundleResource Include="Resources\imgPhotoPlaceholder.png" />
+    <BundleResource Include="Resources\imgPhotoPlaceholder%402x.png" />
+    <BundleResource Include="Resources\imgBad%403x.png" />
+    <BundleResource Include="Resources\imgBad%402x.png" />
+    <BundleResource Include="Resources\imgBad.png" />
+    <BundleResource Include="Resources\imgGood.png" />
+    <BundleResource Include="Resources\imgGood%402x.png" />
+    <BundleResource Include="Resources\imgGood%403x.png" />
+    <BundleResource Include="Resources\imgNeutral.png" />
+    <BundleResource Include="Resources\imgNeutral%402x.png" />
+    <BundleResource Include="Resources\imgNeutral%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
