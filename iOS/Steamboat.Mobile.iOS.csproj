@@ -426,6 +426,7 @@
     <BundleResource Include="Resources\spinner_loop.json" />
     <BundleResource Include="Resources\spinner_check.json" />
     <BundleResource Include="Resources\spinner_progress.json" />
+    <BundleResource Include="Resources\imgPhotos.svg" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

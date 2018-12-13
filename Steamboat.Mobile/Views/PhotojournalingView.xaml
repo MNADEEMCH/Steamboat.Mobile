@@ -9,6 +9,7 @@
     xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    BackgroundColor="{StaticResource SubtleBlueColor}"
     Title="PhotoJournaling">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -72,16 +73,29 @@
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
                 <Setter Property="IsVisible" Value="{Binding MainButtonVisible}"></Setter>
             </Style>
+            <Style x:Key="PreviousMonthsLinkButton" TargetType="customControl:LinkButton">                
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,48,0,0" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     
     <ContentPage.Content>
-        <Grid RowSpacing="0">
+        <Grid RowSpacing="0" BackgroundColor="{StaticResource WhiteColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             
-            <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand" >
+            <ScrollView x:Name="main" Grid.Row="0" VerticalOptions="FillAndExpand" >
                 <StackLayout Grid.Row="0" Style="{StaticResource MainContainerStackLayout}">
                     
                     <ffimageloadingsvg:SvgCachedImage Source="icPhotojournal.svg" Style="{StaticResource IconImage}"/>
@@ -97,8 +111,29 @@
                     <Grid IsVisible="false" />
                 </StackLayout>
             </ScrollView>
+
+            <Grid Grid.Row="0" HorizontalOptions="Fill" BackgroundColor="{StaticResource SubtleBlueColor}" VerticalOptions="End" RowSpacing="0" ColumnSpacing="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackLayout x:Name="PhotosBar" Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" Orientation="Horizontal" Padding="24,12" >
+                    <Label Text="PHOTOS THIS MONTH" VerticalTextAlignment="Center" FontFamily="{DynamicResource OpenSansSemiBold}" TextColor="{StaticResource DarkBlueColor}" FontSize="11" />
+                    <Label Text="0/20" VerticalTextAlignment="Center" HorizontalOptions="EndAndExpand" FontFamily="{DynamicResource RalewayBold}" TextColor="{StaticResource StoneBlueColor}" FontSize="16" />
+                    <BoxView Color="{StaticResource LightBlueColor}" WidthRequest="1" VerticalOptions="FillAndExpand" Margin="12,0" />
+                    <ffimageloading:CachedImage x:Name="ChevronIcon" Source="icChevron" HeightRequest="24" WidthRequest="24" Rotation="90" />
+                </StackLayout>
+                <ScrollView Grid.Row="1" x:Name="PhotosContent" VerticalOptions="FillAndExpand" HeightRequest="0" BackgroundColor="{StaticResource SubtleGrayColor}" Margin="0" >
+                    <StackLayout Style="{StaticResource MainContainerStackLayout}" Padding="28,0" VerticalOptions="CenterAndExpand" Spacing="8">
+                        <ffimageloadingsvg:SvgCachedImage Source="imgPhotos.svg" HeightRequest="104" WidthRequest="104" Margin="16,0" />
+                        <Label Text="You do not yet have any photos this month." HorizontalTextAlignment="Center" FontFamily="{DynamicResource RalewaySemiBold}" TextColor="{StaticResource StoneBlueColor}" FontSize="24" />
+                        <Label Text="Complete your monthly goal and get rewards!" HorizontalTextAlignment="Center" FontFamily="{DynamicResource OpenSansRegular}" TextColor="{StaticResource DarkGrayColor}" FontSize="14" />
+                        <customControl:LinkButton Text="SEE PREVIOUS MONTHS" Style="{StaticResource PreviousMonthsLinkButton}" IsVisible="false" />
+                    </StackLayout>
+                </ScrollView>
+            </Grid>
             
-            <views:MomentumSpinnerView Grid.Row="0" IsVisible="false" VerticalOptions="Center"  />
+            <views:MomentumSpinnerView  Grid.Row="0" IsVisible="false" VerticalOptions="Center" />
         </Grid>
     </ContentPage.Content>
 </views:CustomContentPage>

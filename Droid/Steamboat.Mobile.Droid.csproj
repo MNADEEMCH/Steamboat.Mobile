@@ -516,6 +516,7 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\icGallery_Tap.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icGallery.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icBack.png" />
+    <AndroidResource Include="Resources\drawable\imgPhotos.svg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
