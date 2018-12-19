@@ -248,6 +248,9 @@
    <Reference Include="Firebase.CloudMessaging">
      <HintPath>..\packages\Xamarin.Firebase.iOS.CloudMessaging.2.0.8\lib\Xamarin.iOS10\Firebase.CloudMessaging.dll</HintPath>
    </Reference>
+   <Reference Include="Plugin.Permissions">
+     <HintPath>..\packages\Plugin.Permissions.3.0.0.12\lib\xamarinios10\Plugin.Permissions.dll</HintPath>
+   </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -439,6 +442,7 @@
     <BundleResource Include="Resources\imgNeutral.png" />
     <BundleResource Include="Resources\imgNeutral%402x.png" />
     <BundleResource Include="Resources\imgNeutral%403x.png" />
+    <BundleResource Include="Resources\icCamera.svg" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

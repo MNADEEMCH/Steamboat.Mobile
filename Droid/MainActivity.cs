@@ -20,6 +20,7 @@ using FFImageLoading;
 using System.Net.Http;
 using Steamboat.Mobile.Services.RequestProvider;
 using Lottie.Forms.Droid;
+using Plugin.Permissions;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -55,6 +56,7 @@ namespace Steamboat.Mobile.Droid
             PushNotification pushNotification = NotificationHelper.TryGetPushNotification(this.Intent);
             _newIntent = false;
             Rg.Plugins.Popup.Popup.Init(this, bundle);
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
@@ -99,6 +101,12 @@ namespace Steamboat.Mobile.Droid
 
                 _newIntent = false;
             }
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         private void ResolveDependencies()

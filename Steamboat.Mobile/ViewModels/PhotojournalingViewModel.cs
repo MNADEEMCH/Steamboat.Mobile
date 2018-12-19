@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FFImageLoading;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Participant;
 using Steamboat.Mobile.Models.Participant.Photojournaling;
@@ -52,7 +54,29 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task OpenCamera()
         {
-            await NavigationService.NavigateToAsync<CameraViewModel>(animate:false);
+            await TryExecute(async () =>
+            {
+                var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
+                if (status != PermissionStatus.Granted)
+                {
+                    var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
+                    //Best practice to always check that the key exists
+                    if (results.ContainsKey(Permission.Camera))
+                        status = results[Permission.Camera];
+                }
+
+                if (status == PermissionStatus.Granted)
+                {
+                    await NavigationService.NavigateToAsync<CameraViewModel>(animate: false);
+                }
+                else if (status != PermissionStatus.Unknown)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await ModalService.PushAsync<CameraAccessModalViewModel>();
+                    });
+                }
+            }, null, null);
         }
 
         private async Task MoreInfo()

@@ -20,6 +20,7 @@
     <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.180" />
     <PackageReference Include="Xamanimation" Version="1.2.0" />
     <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="2.6.3" />
+    <PackageReference Include="Plugin.Permissions" Version="3.0.0.12" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="SharedResources\Spinner.gif" />

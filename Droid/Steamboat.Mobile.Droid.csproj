@@ -299,6 +299,9 @@
     <Reference Include="Lottie.Forms">
       <HintPath>..\packages\Com.Airbnb.Xamarin.Forms.Lottie.2.6.3\lib\monoandroid81\Lottie.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Plugin.Permissions">
+      <HintPath>..\packages\Plugin.Permissions.3.0.0.12\lib\monoandroid71\Plugin.Permissions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomRenderers\ColorProgressBarRenderer.cs" />
@@ -532,6 +535,11 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\imgNeutral.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\imgGood.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\imgNeutral.png" />
+    <AndroidResource Include="Resources\drawable\icCamera.svg" />
+    <AndroidResource Include="Resources\drawable-hdpi\icBack_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icBack_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icBack_Tap.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icBack_Tap.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

@@ -6,5 +6,7 @@ namespace Steamboat.Mobile.Helpers
 	{
 		bool IsAndroid { get; }
 		string Model { get; }
-	}
+
+        void OpenAppSettings();
+    }
 }
