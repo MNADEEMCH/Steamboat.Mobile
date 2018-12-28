@@ -26,7 +26,7 @@ namespace Steamboat.Mobile.CustomControls
         {
             this.Animate(new Xamanimation.ScaleToAnimation()
             {
-                Duration = "800",
+                Duration = "500",
                 Easing = EasingType.SinInOut,
                 Scale = 0.92
             });
