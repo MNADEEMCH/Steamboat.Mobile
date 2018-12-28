@@ -443,6 +443,24 @@
     <BundleResource Include="Resources\imgNeutral%402x.png" />
     <BundleResource Include="Resources\imgNeutral%403x.png" />
     <BundleResource Include="Resources\icCamera.svg" />
+    <BundleResource Include="Resources\imgBad_normal.png" />
+    <BundleResource Include="Resources\imgBad_normal%402x.png" />
+    <BundleResource Include="Resources\imgBad_normal%403x.png" />
+    <BundleResource Include="Resources\imgBad_unselected.png" />
+    <BundleResource Include="Resources\imgBad_unselected%402x.png" />
+    <BundleResource Include="Resources\imgBad_unselected%403x.png" />
+    <BundleResource Include="Resources\imgGood_normal.png" />
+    <BundleResource Include="Resources\imgGood_normal%402x.png" />
+    <BundleResource Include="Resources\imgGood_normal%403x.png" />
+    <BundleResource Include="Resources\imgGood_unselected.png" />
+    <BundleResource Include="Resources\imgGood_unselected%402x.png" />
+    <BundleResource Include="Resources\imgGood_unselected%403x.png" />
+    <BundleResource Include="Resources\imgNeutral_normal.png" />
+    <BundleResource Include="Resources\imgNeutral_normal%402x.png" />
+    <BundleResource Include="Resources\imgNeutral_normal%403x.png" />
+    <BundleResource Include="Resources\imgNeutral_unselected.png" />
+    <BundleResource Include="Resources\imgNeutral_unselected%402x.png" />
+    <BundleResource Include="Resources\imgNeutral_unselected%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -482,6 +500,7 @@
     <Compile Include="CustomRenderers\MultiLineEditorRenderer.cs" />
     <Compile Include="CustomRenderers\CameraPreviewRenderer.cs" />
     <Compile Include="Utilities\CameraManager.cs" />
+    <Compile Include="CustomRenderers\FeedbackEditorRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

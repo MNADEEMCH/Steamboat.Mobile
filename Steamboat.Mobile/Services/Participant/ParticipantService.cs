@@ -104,10 +104,10 @@ namespace Steamboat.Mobile.Services.Participant
 			return await _requestProvider.PostAsync<CoachMessages.Message,UserMessage>(url, messageText, sessionID: sessionID);
 		}
 
-        public async Task<PhotoResponse> UploadPhoto(byte[] media, string sessionID)
+        public async Task<PhotoResponse> UploadPhoto(byte[] media, string comment, string opinion, string sessionID)
         {
             string url = string.Format(ApiUrlBase + "{0}/{1}", "photograph", "upload");
-            return await _requestProvider.PostImageAsync<PhotoResponse>(url, media, sessionID);
+            return await _requestProvider.PostImageAsync<PhotoResponse>(url, media, comment, opinion, sessionID);
         }
 
         public async Task<PhotographResponse> GetPhotographs(string sessionID)

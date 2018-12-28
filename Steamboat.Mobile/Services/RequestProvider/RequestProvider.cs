@@ -106,7 +106,7 @@ namespace Steamboat.Mobile.Services.RequestProvider
 			await HandleResponse(response);
 		}
 
-        public async Task<TResult> PostImageAsync<TResult>(string uri, byte[] mediaFile, string sessionID = "")
+        public async Task<TResult> PostImageAsync<TResult>(string uri, byte[] mediaFile, string comment, string opinion, string sessionID = "")
         {
             HttpClient httpClient = CreateHttpClient(uri, sessionID);
 
@@ -119,6 +119,18 @@ namespace Steamboat.Mobile.Services.RequestProvider
             };
             imageStream.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
             multi.Add(imageStream);
+
+            if (!string.IsNullOrEmpty(comment))
+            {
+                var commentContent = new StringContent(comment);
+                multi.Add(commentContent, "ParticipantComment");
+            }
+
+            if (!string.IsNullOrEmpty(opinion))
+            {
+                var opinionContent = new StringContent(opinion);
+                multi.Add(opinionContent, "ParticipantOpinionRatingName");
+            }
 
             HttpResponseMessage response = await httpClient.PostAsync(uri, multi);
 

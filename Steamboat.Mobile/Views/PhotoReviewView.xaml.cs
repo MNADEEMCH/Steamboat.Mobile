@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace Steamboat.Mobile.Views
 {
@@ -10,6 +11,8 @@ namespace Steamboat.Mobile.Views
         public PhotoReviewView()
         {
             InitializeComponent();
+
+            On<Xamarin.Forms.PlatformConfiguration.iOS>().SetUseSafeArea(true);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Steamboat.Mobile.Services.Participant
         Task<CoachMessages> GetAllMessages(string sessionID);
 		Task<CoachMessages> GetNewMessages(string dateFrom, string sessionID);
 		Task<CoachMessages.Message> SendMessage(UserMessage messageText, string sessionID);
-        Task<PhotoResponse> UploadPhoto(byte[] media, string sessionID);
+        Task<PhotoResponse> UploadPhoto(byte[] media, string comment, string opinion, string sessionID);
         Task<PhotographResponse> GetPhotographs(string sessionID);
     }
 }

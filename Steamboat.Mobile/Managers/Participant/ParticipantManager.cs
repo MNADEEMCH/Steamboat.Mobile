@@ -182,12 +182,12 @@ namespace Steamboat.Mobile.Managers.Participant
 			});
 		}
 
-        public async Task<PhotoResponse> UploadPhoto(byte[] media)
+        public async Task<PhotoResponse> UploadPhoto(byte[] media, string comment, string opinion)
         {
             return await TryExecute<PhotoResponse>(async () =>
             {
                 _applicationManager.RestartTimer();
-                return await _participantService.UploadPhoto(media, App.SessionID);
+                return await _participantService.UploadPhoto(media, comment, opinion, App.SessionID);
             });
         }
 

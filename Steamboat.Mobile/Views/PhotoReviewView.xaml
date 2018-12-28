@@ -6,26 +6,100 @@
     xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile" 
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     xmlns:views="clr-namespace:Steamboat.Mobile.Views"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"   
-    NavigationPage.HasNavigationBar="False">
+    NavigationPage.HasNavigationBar="False"
+    ShowStatusBar="false"
+    BackgroundColor="#242A30">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style x:Key="MainLayout" TargetType="AbsoluteLayout">
-                <Setter Property="VerticalOptions" Value="FillAndExpand"></Setter>   
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"></Setter>
-                <Setter Property="BackgroundColor" Value="#242A30"></Setter>
+            <Style x:Key="MainLayout" TargetType="Grid">
+                <Setter Property="BackgroundColor" Value="#CC242A30"></Setter>
                 <Setter Property="IsVisible" Value="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"></Setter>
+                <Setter Property="Padding" Value="16"></Setter>
+            </Style>            
+            <Style x:Key="MainPhoto" TargetType="customControl:AnimatedPhoto">
+                <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                <Setter Property="HorizontalOptions" Value="Fill" />
+            </Style>
+            <Style x:Key="OptionalLabel" TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+            <Style x:Key="TitleLabel" TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource RalewaySemiBold}" />
+                <Setter Property="TextColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Margin" Value="0,8,0,0" />
+            </Style>
+            <Style x:Key="GoodImage" TargetType="Button">
+                <Setter Property="HeightRequest" Value="96" />
+                <Setter Property="WidthRequest" Value="96" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Style.Triggers>
+                     <DataTrigger TargetType="Button" Binding="{Binding IsGoodSelected}" Value="True">
+                        <Setter Property="Image" Value="imgGood_normal.png" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding IsGoodSelected}" Value="False">
+                        <Setter Property="Image" Value="imgGood_unselected.png" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="NeutralImage" TargetType="Button">
+                <Setter Property="HeightRequest" Value="96" />
+                <Setter Property="WidthRequest" Value="96" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Style.Triggers>
+                     <DataTrigger TargetType="Button" Binding="{Binding IsNeutralSelected}" Value="True">
+                        <Setter Property="Image" Value="imgNeutral_normal.png" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding IsNeutralSelected}" Value="False">
+                        <Setter Property="Image" Value="imgNeutral_unselected.png" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="BadImage" TargetType="Button">
+                <Setter Property="HeightRequest" Value="96" />
+                <Setter Property="WidthRequest" Value="96" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Style.Triggers>
+                     <DataTrigger TargetType="Button" Binding="{Binding IsBadSelected}" Value="True">
+                        <Setter Property="Image" Value="imgBad_normal.png" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding IsBadSelected}" Value="False">
+                        <Setter Property="Image" Value="imgBad_unselected.png" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="QuestionLabel" TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource SubtleGrayColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+                <Setter Property="Margin" Value="0,8" />
+            </Style>  
+            <Style x:Key="FeedbackEditor" TargetType="customControl:FeedbackEditor">
+                <Setter Property="FontFamily" Value="{DynamicResource RelawaySemiBold}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="HeightRequest" Value="112" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderColor" Value="White" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="Margin" Value="0,0,0,16" />
             </Style>
             <Style x:Key="MainActionButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
-                <Setter Property="Margin" Value="0,-24,0,0" />
+                <Setter Property="Margin" Value="0,16" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>   
                 <Setter Property="ShadowColorEnabled" Value="Black"></Setter>
-                <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
-            </Style>
-            <Style x:Key="MainPhoto" TargetType="ffimageloading:CachedImage">
-                <Setter Property="VerticalOptions" Value="Start" />
-                <Setter Property="IsVisible" Value="{Binding IsUploaded, Converter={StaticResource InverseBoolConverter}}" />
             </Style>
             <Style x:Key="GoBackButton" TargetType="customControl:LinkButton">
                 <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
@@ -37,44 +111,65 @@
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="BorderWidth" Value="0" />
                 <Setter Property="BorderRadius" Value="0" />
-                <Setter Property="IsVisible" Value="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"></Setter>
             </Style>
-            <Style x:Key="MessageLabel" TargetType="Label">
+            <Style x:Key="UploadingLabel" TargetType="Label">
                 <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
                 <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
                 <Setter Property="TextColor" Value="{StaticResource WhiteColor}" />
-                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontSize" Value="16" />
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
-                <Setter Property="Margin" Value="12"></Setter>
-            </Style>
-            <Style x:Key="TitleLabel" TargetType="Label">
-                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
-                <Setter Property="FontFamily" Value="{DynamicResource RalewayRegular}" />
-                <Setter Property="TextColor" Value="{StaticResource LightBlueColor}" />
-                <Setter Property="FontSize" Value="25" />
-                <Setter Property="HorizontalOptions" Value="Center"></Setter>
-            </Style>
+                <Setter Property="Margin" Value="0,16,0,0" />
+            </Style> 
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid RowSpacing="0" BackgroundColor="#242A30">
+        <Grid RowSpacing="0" VerticalOptions="FillAndExpand" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <AbsoluteLayout Grid.Row="0" Style="{StaticResource MainLayout}">
-                <ffimageloading:CachedImage Source="{Binding ImageSource}" Style="{StaticResource MainPhoto}" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" FinishCommand="{Binding ImageFinishedCommand}" />
-                <StackLayout BackgroundColor="#242A30" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" AbsoluteLayout.LayoutBounds="1,1,1,172" >
-                    <customControl:GradientRoundedButton Text="SUBMIT" Command="{Binding SubmitCommand}" Style="{StaticResource MainActionButton}" />
-                    <Grid IsVisible="false" />
-                    <customControl:LinkButton Text="RE-TAKE PHOTO" Style="{StaticResource GoBackButton}" VerticalOptions="Start" Margin="0,16,0,0" Command="{Binding GoBackCommand}" />
-                    <!--<views:MomentumSpinnerView IsVisible="{Binding IsBusy}" HorizontalOptions="Center" Margin="0,16,0,0" />-->
-                    <Label Text="{Binding ResultLabel}" Style="{StaticResource MessageLabel}" IsVisible="{Binding IsBusy}" />
-                </StackLayout>
-                <StackLayout AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,.33,1,100" IsVisible="{Binding IsUploaded}">
-                    <Label Text="Looking good!" Style="{StaticResource TitleLabel}" />
-                    <Label Text="Remember to post a photo every day, and stay engaged!" Style="{StaticResource MessageLabel}" />
-                </StackLayout>
-            </AbsoluteLayout>
+
+            <customControl:AnimatedPhoto Grid.Row="0" Source="{Binding ImageSource}" Style="{StaticResource MainPhoto}" FinishCommand="{Binding ImageFinishedCommand}" AnimatePhotoCommand="{Binding AnimatePhotoCommand}" Aspect="AspectFill" />
+            <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand" >
+                <Grid Style="{StaticResource MainLayout}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <StackLayout Spacing="0" VerticalOptions="CenterAndExpand" IsVisible="{Binding IsUploading, Converter={StaticResource InverseBoolConverter}}" >
+                        <Label Text="OPTIONAL INFORMATION" Style="{StaticResource OptionalLabel}" />
+                        <Label Text="How did you feel about this meal?" Style="{StaticResource TitleLabel}" />
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,16" Spacing="0" >
+                            <Button Style="{StaticResource GoodImage}" Command="{Binding GoodSelectedCommand}" BackgroundColor="Transparent" />
+                            <Button Style="{StaticResource NeutralImage}" Command="{Binding NeutralSelectedCommand}" />
+                            <Button Style="{StaticResource BadImage}" Command="{Binding BadSelectedCommand}" />
+                        </StackLayout>
+                        <Label Text="Anything you'd like your coach to know about this meal?" Style="{StaticResource QuestionLabel}" />
+                        <customControl:FeedbackEditor Text="{Binding Comment}" Style="{StaticResource FeedbackEditor}" >
+                            <customControl:FeedbackEditor.Keyboard>
+                                <Keyboard x:FactoryMethod="Create">
+                                    <x:Arguments>
+                                        <KeyboardFlags>CapitalizeSentence</KeyboardFlags>
+                                    </x:Arguments>
+                                </Keyboard>
+                            </customControl:FeedbackEditor.Keyboard>
+                        </customControl:FeedbackEditor>
+                        <customControl:GradientRoundedButton Text="SUBMIT" Command="{Binding SubmitCommand}" Style="{StaticResource MainActionButton}" />
+                        <Grid IsVisible="false" />
+                        <customControl:LinkButton Text="RE-TAKE PHOTO" Style="{StaticResource GoBackButton}" Command="{Binding GoBackCommand}" />
+                    </StackLayout>
+                    
+                    <AbsoluteLayout IsVisible="{Binding IsUploading}" BackgroundColor="Transparent" >
+                        <StackLayout Spacing="0" AbsoluteLayout.LayoutBounds=".5,.42,1,120" AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" >
+                            <customControl:LottieView Animation="spinner_check.json" LoopThreshold="100" EndThreshold="139" PlayLoopCommand="{Binding PlayLoopCommand}" EndLoopCommand="{Binding EndLoopCommand}" WidthRequest="40" HeightRequest="40" HorizontalOptions="Center" />
+                            <Label Text="Uploading..." Style="{StaticResource UploadingLabel}" IsVisible="{Binding IsUploaded, Converter={StaticResource InverseBoolConverter}}" />
+                            <Label Text="Looking good!" Style="{StaticResource TitleLabel}" IsVisible="{Binding IsUploaded}" />
+                            <Label Text="Remember to post a photo every day, and stay engaged!" Style="{StaticResource UploadingLabel}" IsVisible="{Binding IsUploaded}" />
+                        </StackLayout>
+                    </AbsoluteLayout>
+                    
+                </Grid>
+            </ScrollView>
+            
             <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
         </Grid>
     </ContentPage.Content>

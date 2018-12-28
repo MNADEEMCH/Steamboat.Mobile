@@ -342,6 +342,7 @@
     <Compile Include="Helpers\Camera\PreviewCaptureStateCallback.cs" />
     <Compile Include="Helpers\Camera\CompareSizesByArea.cs" />
     <Compile Include="CustomRenderers\CustomContentPageRenderer.cs" />
+    <Compile Include="CustomRenderers\FeedbackEditorRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
@@ -540,6 +541,30 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icBack_Tap.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icBack_Tap.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icBack_Tap.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgBad_normal.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgBad_unselected.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgGood_normal.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgGood_unselected.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgNeutral_normal.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgNeutral_unselected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgBad_normal.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgBad_unselected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgGood_normal.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgGood_unselected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgNeutral_normal.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgNeutral_unselected.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgBad_normal.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgBad_unselected.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgGood_normal.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgGood_unselected.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgNeutral_normal.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgNeutral_unselected.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgBad_normal.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgBad_unselected.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgGood_normal.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgGood_unselected.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgNeutral_normal.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgNeutral_unselected.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
