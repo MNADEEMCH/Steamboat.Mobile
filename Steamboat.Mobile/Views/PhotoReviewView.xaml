@@ -84,7 +84,7 @@
                 <Setter Property="Margin" Value="0,8" />
             </Style>  
             <Style x:Key="FeedbackEditor" TargetType="customControl:FeedbackEditor">
-                <Setter Property="FontFamily" Value="{DynamicResource RelawaySemiBold}" />
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />

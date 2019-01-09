@@ -25,6 +25,7 @@ namespace Steamboat.Mobile.ViewModels
 
         public ICommand OpenCameraCommand { get; set; }
         public ICommand MoreInfoCommand { get; set; }
+        public ICommand OpenPhotoDetailCommand { get; set; }
         public ObservableCollection<Photograph> PhotoCollection { get { return _photoCollection; } set { SetPropertyValue(ref _photoCollection, value); } }
         public string PhotosTaken { get { return _photosTaken; } set { SetPropertyValue(ref _photosTaken, value); } }
         public bool ShowPhotos { get { return _showPhotos; } set { SetPropertyValue(ref _showPhotos, value); } }
@@ -36,6 +37,7 @@ namespace Steamboat.Mobile.ViewModels
             IsLoading = true;
             OpenCameraCommand = new Command(async () => await OpenCamera());
             MoreInfoCommand = new Command(async () => await MoreInfo());
+            OpenPhotoDetailCommand = new Command(async (selectedPhoto) => await OpenPhoto(selectedPhoto));
 
             _participantManager = participantManager ?? DependencyContainer.Resolve<IParticipantManager>();
         }
@@ -88,9 +90,14 @@ namespace Steamboat.Mobile.ViewModels
         {
             foreach (var photo in photos)
             {
-                photo.ReviewPending = photo.ReviewerComment == null && photo.ReviewerOpinionRating == null;
+                photo.ReviewPending = photo.ReviewerComment == null && photo.ReviewerOpinionRatingName == null;
                 photo.Acknowledged = photo.ReviewPending && photo.ReviewedTimestamp != DateTime.MinValue;
             }
+        }
+
+        private async Task OpenPhoto(object selectedPhoto)
+        {
+            await NavigationService.NavigateToAsync<PhotoDetailsViewModel>(selectedPhoto);
         }
     }
 }

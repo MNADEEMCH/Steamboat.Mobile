@@ -565,6 +565,10 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\imgGood_unselected.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\imgNeutral_normal.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\imgNeutral_unselected.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icExpand.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icExpand.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icExpand.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icExpand.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

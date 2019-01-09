@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<views:CustomContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.PhotoDetailsView"
+    xmlns:viewModelBase="clr-namespace:Steamboat.Mobile.ViewModels;assembly=Steamboat.Mobile" 
+    viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+    xmlns:comment="clr-namespace:Steamboat.Mobile.Views.Photojournaling"
+    xmlns:extensions="clr-namespace:Steamboat.Mobile.Extensions"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    x:Name="PhotoDetails"
+    BackgroundColor="{StaticResource SubtleGrayColor}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <extensions:MessagingDateConverter x:Key="MessagingDate" />
+            <Style x:Key="MessageButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="Margin" Value="0,0,0,8" />
+            </Style>
+            <Style x:Key="CoachComment" TargetType="StackLayout">
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="Spacing" Value="0" />
+                <Style.Triggers>
+                     <DataTrigger TargetType="StackLayout" Binding="{Binding ShowUserComment}" Value="False">
+                        <Setter Property="Margin" Value="0,8,0,0" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <Grid RowSpacing="0" VerticalOptions="FillAndExpand" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" BackgroundColor="{StaticResource SubtleGrayColor}" >
+                <StackLayout VerticalOptions="FillAndExpand" Orientation="Vertical" Spacing="0" >
+                    <Frame Margin="0" Padding="0" IsClippedToBounds="true" HeightRequest="168" BorderColor="Transparent" CornerRadius="0" >
+                        <Grid> 
+                            <ffimageloading:CachedImage Source="{Binding UserPhotograph.Url}" Aspect="AspectFill" />
+                            <Button Image="icExpand.png" CornerRadius="20" BackgroundColor="#CC242A30" VerticalOptions="End" HorizontalOptions="End" Margin="0,0,8,8" HeightRequest="40" WidthRequest="40" Command="{Binding OpenImageCommand}" />
+                        </Grid>
+                    </Frame>
+                    <StackLayout HeightRequest="64" BackgroundColor="White" Orientation="Horizontal" Padding="24,0" >
+                        <Label Text="UPLOADED ON" FontFamily="{DynamicResource OpenSansSemiBold}" TextColor="{StaticResource StoneBlueColor}" VerticalTextAlignment="Center" FontSize="10" />
+                        <Label Text="{Binding UserPhotograph.SubmittedTimestamp, Converter={StaticResource MessagingDate}}" FontFamily="{DynamicResource OpenSansRegular}" TextColor="{StaticResource StoneBlueColor}" VerticalTextAlignment="Center" FontSize="11" HorizontalOptions="EndAndExpand" />
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding ShowUserComment}" Margin="0" Spacing="0">
+                        <comment:UserCommentView  BindingContext="{Binding UserComment}" Margin="8,16,8,0" />
+                    </StackLayout>
+                    <StackLayout Style="{StaticResource CoachComment}">
+                        <comment:CoachCommentView BindingContext="{Binding CoachComment}" ShowComment="{Binding Source={x:Reference PhotoDetails}, Path=BindingContext.ShowCoachComment}}" IsAcknowledged="{Binding Source={x:Reference PhotoDetails}, Path=BindingContext.IsCoachAcknowledged}}" Margin="8,0" />
+                    </StackLayout>
+                    <StackLayout VerticalOptions="EndAndExpand">
+                        <BoxView HeightRequest="1" Margin="40,24,40,8" Color="{StaticResource LightGrayColor}" />
+                        <Label Text="Ask a coach a question about this meal." FontFamily="{DynamicResource OpenSansRegular}" TextColor="{StaticResource StoneBlueColor}" FontSize="16" HorizontalTextAlignment="Center" IsVisible="{Binding ReplyCoach, Converter={StaticResource InverseBoolConverter}}" />
+                        <customControl:LinkButton Text="ASK A QUESTION" Style="{StaticResource MessageButton}" Command="{Binding NavigateToMessagesCommand}" IsVisible="{Binding ReplyCoach, Converter={StaticResource InverseBoolConverter}}" />
+                        <customControl:LinkButton Text="REPLY TO COACH" Style="{StaticResource MessageButton}" VerticalOptions="Center" Command="{Binding NavigateToMessagesCommand}" IsVisible="{Binding ReplyCoach}" />
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+            
+            <!--<views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />-->
+        </Grid>
+    </ContentPage.Content>
+    
+</views:CustomContentPage>

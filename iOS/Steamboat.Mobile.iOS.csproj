@@ -461,6 +461,9 @@
     <BundleResource Include="Resources\imgNeutral_unselected.png" />
     <BundleResource Include="Resources\imgNeutral_unselected%402x.png" />
     <BundleResource Include="Resources\imgNeutral_unselected%403x.png" />
+    <BundleResource Include="Resources\icExpand.png" />
+    <BundleResource Include="Resources\icExpand%402x.png" />
+    <BundleResource Include="Resources\icExpand%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

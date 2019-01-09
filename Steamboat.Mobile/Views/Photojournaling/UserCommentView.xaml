@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Steamboat.Mobile.Views.Photojournaling.UserCommentView"
+             xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
+             xmlns:extensions="clr-namespace:Steamboat.Mobile.Extensions"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <extensions:MessagingDateConverter x:Key="MessagingDate" />
+            <Style x:Key="MainGrid" TargetType="Grid">
+                <Setter Property="Margin" Value="0,8,0,0"></Setter>
+                <Setter Property="ColumnSpacing" Value="0"></Setter>
+            </Style>
+            <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="48"></Setter>
+                <Setter Property="WidthRequest" Value="48"></Setter>
+                <Setter Property="VerticalOptions" Value="End"></Setter>
+                <Setter Property="Margin" Value="8,0,-8,-4" />
+            </Style>
+            <Style x:Key="LabelBubbleStack" TargetType="customControl:BubbleStack">
+                <Setter Property="BorderColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="BorderRadius" Value="12" />
+                <Setter Property="FillColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="IsLabel" Value="False" />
+                <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+                <Setter Property="Margin" Value="0,0,-8,24" />
+            </Style>
+            <Style x:Key="TextLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="24,16" />
+                <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+            </Style>
+            <Style x:Key="Emoji" TargetType="ffimageloading:CachedImage">
+                <Setter Property="WidthRequest" Value="24" />
+                <Setter Property="HeightRequest" Value="24" />
+                <Setter Property="Margin" Value="24,12,0,0" />
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Style.Triggers>
+                     <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding Emoji}" Value="Happy">
+                        <Setter Property="Source" Value="imgGood.png" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding Emoji}" Value="Meh">
+                        <Setter Property="Source" Value="imgNeutral.png" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding Emoji}" Value="Sad">
+                        <Setter Property="Source" Value="imgBad.png" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding Text}" Value="">
+                        <Setter Property="Margin" Value="24,16" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid Style="{StaticResource MainGrid}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="48" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Column="0" Grid.Row="0" HorizontalOptions="EndAndExpand" Orientation="Vertical" >
+                <customControl:BubbleStack Style="{StaticResource LabelBubbleStack}" Orientation="Horizontal" >
+                    <Grid>                                        
+                        <Label Text="{Binding Text}" Style="{StaticResource TextLabel}" />
+                        <ffimageloading:CachedImage Style="{StaticResource Emoji}" />
+                    </Grid>
+                </customControl:BubbleStack>
+            </StackLayout>
+            <ffimageloading:CachedImage Grid.Column="1" Grid.Row="0" Source="{Binding AvatarUrl}" Style="{StaticResource MomentumImage}" />           
+        </Grid>
+    </ContentView.Content>
+</ContentView>

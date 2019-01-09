@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="CoachComment"
+             x:Class="Steamboat.Mobile.Views.Photojournaling.CoachCommentView"
+             xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
+             xmlns:extensions="clr-namespace:Steamboat.Mobile.Extensions"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <extensions:MessagingDateConverter x:Key="MessagingDate" />
+            <Style x:Key="MainGrid" TargetType="Grid">
+                <Setter Property="Margin" Value="0,0,0,8"></Setter>
+                <Setter Property="ColumnSpacing" Value="0"></Setter>
+            </Style>
+            <Style x:Key="MomentumImage" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HeightRequest" Value="48"></Setter>
+                <Setter Property="WidthRequest" Value="48"></Setter>
+                <Setter Property="VerticalOptions" Value="Start"></Setter>
+                <Setter Property="Margin" Value="-8,0,8,0" />
+            </Style>
+            <Style x:Key="LabelBubbleStack" TargetType="customControl:BubbleStack">
+                <Setter Property="BorderColor" Value="White" />
+                <Setter Property="BorderRadius" Value="12" />
+                <Setter Property="FillColor" Value="White" />
+                <Setter Property="IsLabel" Value="True" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="Margin" Value="-8,21,0,0" />
+            </Style>
+            <Style x:Key="TextLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource DarkBlueColor}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="24,16" />
+            </Style>
+            <Style x:Key="ReviewLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansSemiBold}" />
+                <Setter Property="TextColor" Value="{StaticResource MomentumBlueColor}" />
+                <Setter Property="FontSize" Value="10" />
+                <Setter Property="Margin" Value="24,16" />
+            </Style>
+            <Style x:Key="DateLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource OpenSansRegular}" />
+                <Setter Property="TextColor" Value="{StaticResource StoneBlueColor}" />
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="Margin" Value="16,0,0,0" />
+            </Style>
+            <Style x:Key="Emoji" TargetType="ffimageloading:CachedImage">
+                <Setter Property="WidthRequest" Value="24" />
+                <Setter Property="HeightRequest" Value="24" />
+                <Setter Property="Margin" Value="24,12,0,0" />
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Style.Triggers>
+                     <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding Emoji}" Value="Happy">
+                        <Setter Property="Source" Value="imgGood.png" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding Emoji}" Value="Meh">
+                        <Setter Property="Source" Value="imgNeutral.png" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding Emoji}" Value="Sad">
+                        <Setter Property="Source" Value="imgBad.png" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid Style="{StaticResource MainGrid}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ffimageloading:CachedImage Grid.Column="0" Source="imgMomentumProfile.png" Style="{StaticResource MomentumImage}" />
+            <customControl:BubbleStack Grid.Column="1" Style="{StaticResource LabelBubbleStack}" Orientation="Horizontal" IsVisible="{Binding IsAcknowledged, Source={x:Reference CoachComment}, Converter={StaticResource InverseBoolConverter}}" >
+                <Grid IsVisible="{Binding ShowComment, Source={x:Reference CoachComment}}">
+                    <Label Text="{Binding Text}" Style="{StaticResource TextLabel}" />
+                    <ffimageloading:CachedImage Style="{StaticResource Emoji}" />
+                </Grid>
+                <Label Text="REVIEW PENDING..." Style="{StaticResource ReviewLabel}" IsVisible="{Binding ShowComment, Source={x:Reference CoachComment}, Converter={StaticResource InverseBoolConverter}}" />
+            </customControl:BubbleStack>
+            <Grid IsVisible="false" />
+            <StackLayout Grid.Column="1" Orientation="Horizontal" IsVisible="{Binding IsAcknowledged, Source={x:Reference CoachComment}}" Spacing="0" VerticalOptions="Center" >
+                <Label Text="Viewed on " Style="{StaticResource DateLabel}" Margin="4,0,0,0" />
+                <Label Text="{Binding CreatedTimestamp, Converter={StaticResource MessagingDate}}" Style="{StaticResource DateLabel}" Margin="0" />
+            </StackLayout>          
+            <Label Grid.Column="1" Grid.Row="1" Text="{Binding CreatedTimestamp, Converter={StaticResource MessagingDate}}" Style="{StaticResource DateLabel}" IsVisible="{Binding IsAcknowledged, Source={x:Reference CoachComment}, Converter={StaticResource InverseBoolConverter}}" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

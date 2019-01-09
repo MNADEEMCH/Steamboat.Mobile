@@ -9,6 +9,7 @@
     xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
     xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls;assembly=Steamboat.Mobile"
     xmlns:extensions="clr-namespace:Steamboat.Mobile.Extensions;assembly=Steamboat.Mobile"
+    x:Name="PJView"
     viewModelBase:ViewModelAutoWire.AutoWireViewModel="true"
     BackgroundColor="{StaticResource SubtleBlueColor}"
     Title="PhotoJournaling">
@@ -93,13 +94,13 @@
                 <Setter Property="WidthRequest" Value="24" />
                 <Setter Property="Margin" Value="0,0,8,0" />
                 <Style.Triggers>
-                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding ReviewerOpinionRating}" Value="Happy" >
+                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding ReviewerOpinionRatingName}" Value="Happy" >
                         <Setter Property="Source" Value="imgGood.png" />
                     </DataTrigger>
-                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding ReviewerOpinionRating}" Value="Sad" >
+                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding ReviewerOpinionRatingName}" Value="Sad" >
                         <Setter Property="Source" Value="imgBad.png" />
                     </DataTrigger>
-                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding ReviewerOpinionRating}" Value="Meh" >
+                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding ReviewerOpinionRatingName}" Value="Meh" >
                         <Setter Property="Source" Value="imgNeutral.png" />
                     </DataTrigger>
                 </Style.Triggers>
@@ -178,8 +179,12 @@
                                                         <Label Text="Review pending…" IsVisible="{Binding ReviewPending}" FontFamily="{DynamicResource OpenSansSemiBold}" TextColor="{StaticResource MomentumBlueColor}" FontSize="11" VerticalTextAlignment="Center" Margin="4,0,0,0" />
                                                         <Label Text="{Binding ReviewerComment}" IsVisible="{Binding ReviewPending, Converter={StaticResource InverseBoolConverter}}" FontFamily="{DynamicResource OpenSansRegular}" TextColor="{StaticResource DarkGrayColor}" FontSize="14" VerticalTextAlignment="Center" LineBreakMode="TailTruncation" Margin="0,0,8,0" />
                                                     </StackLayout>
-                                                </StackLayout>                                        
-                                            </Grid>
+                                                </StackLayout>
+                                            
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={x:Reference PJView}, Path=BindingContext.OpenPhotoDetailCommand}}" CommandParameter="{Binding .}" />
+                                                </Grid.GestureRecognizers>
+                                            </Grid>           
                                         </Frame>
                                     <!--</Frame>-->
                                 </DataTemplate>

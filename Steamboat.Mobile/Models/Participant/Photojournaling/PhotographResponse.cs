@@ -18,7 +18,7 @@ namespace Steamboat.Mobile.Models.Participant.Photojournaling
         public string ParticipantComment { get; set; }
         public string ParticipantOpinionRatingName { get; set; }
         public string ReviewerComment { get; set; }
-        public string ReviewerOpinionRating { get; set; }
+        public string ReviewerOpinionRatingName { get; set; }
         public DateTime SubmittedTimestamp { get; set; }
         public DateTime ReviewedTimestamp { get; set; }
 

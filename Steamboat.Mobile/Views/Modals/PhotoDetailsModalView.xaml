@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<popup:PopupPage
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Steamboat.Mobile.Views.Modals.PhotoDetailsModalView"
+    xmlns:views="clr-namespace:Steamboat.Mobile.Views"
+    xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:modalViewModelBase="clr-namespace:Steamboat.Mobile.ViewModels.Modals;assembly=Steamboat.Mobile"
+    xmlns:customControl="clr-namespace:Steamboat.Mobile.CustomControls"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    modalViewModelBase:ModalViewModelAutoWire.AutoWireViewModel="True"
+    BackgroundColor="{StaticResource ModalBackground}"
+    CloseWhenBackgroundIsClicked="False">
+    <popup:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="GoBackButton" TargetType="customControl:LinkButton">
+                <Setter Property="FontFamily" Value="{DynamicResource RalewayBold}" />
+                <Setter Property="ActiveColor" Value="{StaticResource WhiteColor}" />
+                <Setter Property="TapColor" Value="{StaticResource LightBlueColor}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="BorderColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderRadius" Value="0" />                
+            </Style>
+        </ResourceDictionary>
+    </popup:PopupPage.Resources>
+    <popup:PopupPage.Content>
+         <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="7*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!--<StackLayout Grid.Row="1" BackgroundColor="White" Padding="2" Margin="16,0" HorizontalOptions="Fill" VerticalOptions="StartAndExpand" >
+                <ffimageloading:CachedImage VerticalOptions="FillAndExpand" HorizontalOptions="Fill" Source="{Binding Url}" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+            </StackLayout>-->
+            <customControl:UniformImage Grid.Row="1" Margin="16,0" AspectEx="Uniform" Source="{Binding Url}" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+            <customControl:LinkButton Grid.Row="3" Text="CLOSE" Style="{StaticResource GoBackButton}" Command="{Binding CloseModalCommand}" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+            <views:MomentumSpinnerView Grid.Row="1" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
+        </Grid>
+    </popup:PopupPage.Content>
+</popup:PopupPage >
