@@ -60,7 +60,7 @@
                 <Setter Property="AndroidBorderRadius" Value="70" />
                 <Setter Property="WidthRequest" Value="48" />
                 <Setter Property="HeightRequest" Value="48" />
-                <Setter Property="Image" Value="icRotate.png" />
+                <Setter Property="Image" Value="icRotate.png" />                
             </Style>
             <Style x:Key="TakePhotoButton" TargetType="customControl:GradientRoundedButton" BasedOn="{StaticResource MainGradientButton}">
                 <Setter Property="Margin" Value="0" />
@@ -81,15 +81,27 @@
                 <Setter Property="IOSBorderRadius" Value="24" />
                 <Setter Property="AndroidBorderRadius" Value="70" />
                 <Setter Property="WidthRequest" Value="48" />
-                <Setter Property="HeightRequest" Value="48" />
-                <Setter Property="Image" Value="icFlash.png" />
+                <Setter Property="HeightRequest" Value="48" />                
+                <Style.Triggers>
+                     <DataTrigger TargetType="customControl:GradientRoundedButton" Binding="{Binding EnableFlash}" Value="True">
+                        <Setter Property="Image" Value="icFlash.png" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="customControl:GradientRoundedButton" Binding="{Binding EnableFlash}" Value="False">
+                        <Setter Property="Image" Value="icFlash_off.png" />
+                    </DataTrigger>
+                </Style.Triggers>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <AbsoluteLayout Grid.Row="0" Style="{StaticResource MainLayout}">
-            <customControl:CameraPreview x:Name="Camera" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" SaveCommand="{Binding SaveCommand}" />
-            <!--<BoxView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" />-->
+        <AbsoluteLayout Grid.Row="0" Style="{StaticResource MainLayout}">            
+            <customControl:CameraPreview x:Name="Camera" 
+                                         AbsoluteLayout.LayoutFlags="All" 
+                                         AbsoluteLayout.LayoutBounds="0,0,1,1"
+                                         CameraReadyCommand="{Binding CameraReadyCommand}"
+                                         TakePictureCommand="{Binding CameraTakePictureCommand}"
+                                         PictureTakenCommand="{Binding PictureTakenCommand}"
+                                         ToggleCameraCommand="{Binding CameraToggleCameraCommand}" />
             <StackLayout AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,0,1,44" Style="{StaticResource TopStack}" >
                 <customControl:LinkButton Style="{StaticResource BackButton}" Command="{Binding GoBackCommand}" />
                 <customControl:LinkButton Style="{StaticResource GalleryButton}" />
@@ -97,9 +109,9 @@
             <Grid AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,1,1,104" >
                 <StackLayout Grid.Row="0" VerticalOptions="End" HorizontalOptions="FillAndExpand" Style="{StaticResource BottomStack}" />
                 <StackLayout Grid.Row="0" VerticalOptions="Fill" HorizontalOptions="CenterAndExpand" Orientation="Horizontal" >
-                    <customControl:GradientRoundedButton Style="{StaticResource SwapCameraButton}" Clicked="Handle_Clicked_2" />
-                    <customControl:GradientRoundedButton Style="{StaticResource TakePhotoButton}" Clicked="Handle_Clicked" />
-                    <customControl:GradientRoundedButton Style="{StaticResource ToggleFlashButton}" Clicked="Handle_Clicked_1" />
+                    <customControl:GradientRoundedButton Command="{Binding ToggleCameraCommand}" Style="{StaticResource SwapCameraButton}" IsEnabled="{Binding IsFrontCameraAvailable}" />
+                    <customControl:GradientRoundedButton Style="{StaticResource TakePhotoButton}" Command="{Binding TakePictureCommand}" />
+                    <customControl:GradientRoundedButton Command="{Binding ToggleFlashCommand}" Style="{StaticResource ToggleFlashButton}" IsEnabled="{Binding IsFlashAvailable}" />
                 </StackLayout>
             </Grid>
         </AbsoluteLayout>

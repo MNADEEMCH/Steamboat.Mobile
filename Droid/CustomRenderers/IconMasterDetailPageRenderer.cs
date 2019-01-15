@@ -28,7 +28,6 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             _context = context;
         }
 
-
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
             base.OnLayout(changed, l, t, r, b);
@@ -72,7 +71,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
         private static void SetMenuButton()
         {
-           for (var i = 0; i < _toolbar.ChildCount; i++)
+            for (var i = 0; i < _toolbar.ChildCount; i++)
             {
                 var imageButton = _toolbar.GetChildAt(i) as Android.Widget.ImageButton;
 
@@ -89,6 +88,5 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             _currentMenuIconId = menuIconId;
             ChangeMenuIcon();
         }
-
     }
 }

@@ -333,16 +333,23 @@
     <Compile Include="CustomRenderers\MultiLineEditorRenderer.cs" />
     <Compile Include="CustomRenderers\CustomNavigationViewRenderer.cs" />
     <Compile Include="CustomRenderers\CameraPreviewRenderer.cs" />
-    <Compile Include="Helpers\Camera\AutoFitTextureView.cs" />
-    <Compile Include="Helpers\Camera\ICamera2.cs" />
-    <Compile Include="Helpers\Camera\MyCameraStateCallback.cs" />
-    <Compile Include="Helpers\Camera\MySurfaceTextureListener.cs" />
-    <Compile Include="Helpers\Camera\ImageAvailableListener.cs" />
-    <Compile Include="Helpers\Camera\CameraCaptureStillPictureSessionCallback.cs" />
-    <Compile Include="Helpers\Camera\PreviewCaptureStateCallback.cs" />
-    <Compile Include="Helpers\Camera\CompareSizesByArea.cs" />
     <Compile Include="CustomRenderers\CustomContentPageRenderer.cs" />
     <Compile Include="CustomRenderers\FeedbackEditorRenderer.cs" />
+    <Compile Include="Helpers\Camera\Callbacks\CameraCaptureStillPictureSessionCallback.cs" />
+    <Compile Include="Helpers\Camera\ICamera2.cs" />
+    <Compile Include="Helpers\Camera\Callbacks\PreviewCaptureStateCallback.cs" />
+    <Compile Include="Helpers\Camera\Listeners\CameraCaptureListener.cs" />
+    <Compile Include="Helpers\Camera\Listeners\CameraStateListener.cs" />
+    <Compile Include="Helpers\Camera\Listeners\ImageAvailableListener.cs" />
+    <Compile Include="Helpers\Camera\Listeners\SurfaceTextureListener.cs" />
+    <Compile Include="Helpers\Camera\AutoFitTextureView.cs" />
+    <Compile Include="Helpers\Camera\Camera2BasicState.cs" />
+    <Compile Include="Helpers\Files\ImageBytes.cs" />
+    <Compile Include="Helpers\Files\ImageCompression.cs" />
+    <Compile Include="Helpers\Files\ImageMetadata.cs" />
+    <Compile Include="Helpers\Files\ImageSaver.cs" />
+    <Compile Include="Helpers\Files\ImageTransformations.cs" />
+    <Compile Include="Services\Orientation\DeviceOrientationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\OpenSans-Italic.ttf" />
@@ -569,6 +576,10 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icExpand.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icExpand.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icExpand.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icFlash_off.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icFlash_off.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icFlash_off.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\icFlash_off.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
@@ -748,6 +759,10 @@
     <Folder Include="Helpers\" />
     <Folder Include="Services\Firebase\" />
     <Folder Include="Helpers\Camera\" />
+    <Folder Include="Helpers\Camera\Callbacks\" />
+    <Folder Include="Helpers\Camera\Listeners\" />
+    <Folder Include="Helpers\Files\" />
+    <Folder Include="Services\Orientation\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />

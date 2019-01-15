@@ -464,6 +464,9 @@
     <BundleResource Include="Resources\icExpand.png" />
     <BundleResource Include="Resources\icExpand%402x.png" />
     <BundleResource Include="Resources\icExpand%403x.png" />
+    <BundleResource Include="Resources\icFlash_off.png" />
+    <BundleResource Include="Resources\icFlash_off%402x.png" />
+    <BundleResource Include="Resources\icFlash_off%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -502,8 +505,11 @@
     <Compile Include="Helpers\KeyboardHelperIOS.cs" />
     <Compile Include="CustomRenderers\MultiLineEditorRenderer.cs" />
     <Compile Include="CustomRenderers\CameraPreviewRenderer.cs" />
-    <Compile Include="Utilities\CameraManager.cs" />
     <Compile Include="CustomRenderers\FeedbackEditorRenderer.cs" />
+    <Compile Include="Utilities\Camera\CameraEnums.cs" />
+    <Compile Include="Utilities\Camera\CameraManager.cs" />
+    <Compile Include="Utilities\Files\ImageTransformations.cs" />
+    <Compile Include="Services\Orientation\DeviceOrientationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
@@ -680,6 +686,9 @@
     <Folder Include="Resources\Splashscreen\" />
     <Folder Include="Helpers\" />
     <Folder Include="Services\" />
+    <Folder Include="Utilities\Camera\" />
+    <Folder Include="Utilities\Files\" />
+    <Folder Include="Services\Orientation\" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />

@@ -35,5 +35,7 @@
   <ItemGroup>
     <Folder Include="Models\Participant\Photojournaling\" />
     <Folder Include="Views\Photojournaling\" />
+    <Folder Include="Models\Camera\" />
+    <Folder Include="Services\Orientation\" />
   </ItemGroup>
 </Project>

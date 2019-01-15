@@ -21,6 +21,7 @@ using System.Net.Http;
 using Steamboat.Mobile.Services.RequestProvider;
 using Lottie.Forms.Droid;
 using Plugin.Permissions;
+using Steamboat.Mobile.Services.Orientation;
 
 namespace Steamboat.Mobile.Droid
 {
@@ -31,6 +32,7 @@ namespace Steamboat.Mobile.Droid
         private static bool _newIntent = false;
         private static bool _isAppBackgrounded = false;
         private static Context _mContext;
+        private IDeviceOrientationService _deviceOrientationListener;
 
         public static bool IsAppBackgrounded
         {
@@ -67,6 +69,7 @@ namespace Steamboat.Mobile.Droid
                 HttpClient = new HttpClient(new AuthenticatedHttpClient())
             });
             AnimationViewRenderer.Init();
+            _deviceOrientationListener = AndroidDependencyContainer.Resolve<IDeviceOrientationService>();
 
             //var ignore = typeof(SvgCachedImage);
             UserDialogs.Init(this);
@@ -84,7 +87,8 @@ namespace Steamboat.Mobile.Droid
 		{
             base.OnPause();
             _isAppBackgrounded = true;
-		}
+            _deviceOrientationListener.UnregisterListener();
+        }
 
 		protected override void OnResume()
         {
@@ -101,6 +105,7 @@ namespace Steamboat.Mobile.Droid
 
                 _newIntent = false;
             }
+            _deviceOrientationListener.RegisterListener();
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

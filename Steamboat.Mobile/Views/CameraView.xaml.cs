@@ -15,19 +15,16 @@ namespace Steamboat.Mobile.Views
             On<Xamarin.Forms.PlatformConfiguration.iOS>().SetUseSafeArea(true);
         }
 
-        void Handle_Clicked(object sender, System.EventArgs e)
+        protected override void OnDisappearing()
         {
-            Camera.StartRecording();
+            Camera.CloseCamera();
+            base.OnDisappearing();
         }
 
-        void Handle_Clicked_1(object sender, System.EventArgs e)
+        protected override void OnAppearing()
         {
-            Camera.ToggleFlash();
-        }
-
-        void Handle_Clicked_2(object sender, System.EventArgs e)
-        {
-            Camera.SwapCamera();
+            Camera.StartCamera();
+            base.OnAppearing();
         }
     }
 }

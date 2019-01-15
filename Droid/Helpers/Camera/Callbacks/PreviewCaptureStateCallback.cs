@@ -1,19 +1,19 @@
 ﻿using System;
 using Android.Hardware.Camera2;
 
-namespace Steamboat.Mobile.Droid.Helpers.Camera
+namespace Steamboat.Mobile.Droid.Helpers.Camera.Callbacks
 {
     public class PreviewCaptureStateCallback : CameraCaptureSession.StateCallback
     {
-        ICamera2 fragment;
-        public PreviewCaptureStateCallback(ICamera2 frag)
+        ICamera2 _camera;
+        public PreviewCaptureStateCallback(ICamera2 camera)
         {
-            fragment = frag;
+            _camera = camera;
         }
         public override void OnConfigured(CameraCaptureSession session)
         {
-            fragment.mCaptureSession = session;
-            fragment.UpdatePreview();
+            _camera.mCaptureSession = session;
+            _camera.UpdatePreview();
 
         }
 

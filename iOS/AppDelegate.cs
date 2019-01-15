@@ -11,6 +11,7 @@ using Foundation;
 using Steamboat.Mobile.CustomControls;
 using Steamboat.Mobile.iOS.Helpers;
 using Steamboat.Mobile.Models.Notification;
+using Steamboat.Mobile.Services.Orientation;
 using Steamboat.Mobile.Services.RequestProvider;
 using UIKit;
 using UserNotifications;
@@ -21,8 +22,9 @@ namespace Steamboat.Mobile.iOS
 	[Register("AppDelegate")]
 	public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IUNUserNotificationCenterDelegate, Firebase.CloudMessaging.IMessagingDelegate
 	{
+        private IDeviceOrientationService _deviceOrientationListener;
 
-		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
             Rg.Plugins.Popup.Popup.Init();
 
@@ -38,6 +40,8 @@ namespace Steamboat.Mobile.iOS
 			RegisterForPushNotifications();
 
 			ResolveDependencies();
+            _deviceOrientationListener = IOSDependencyContainer.Resolve<IDeviceOrientationService>();
+            _deviceOrientationListener.RegisterListener();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
 
 			ImageService.Instance.Initialize(new FFImageLoading.Config.Configuration
@@ -159,5 +163,17 @@ namespace Steamboat.Mobile.iOS
 			DependencyContainer.RegisterDependencies();
 		}
 
-	}
+        [Export("applicationDidEnterBackground:")]
+        public override void DidEnterBackground(UIApplication application)
+        {
+            _deviceOrientationListener.UnregisterListener();
+        }
+
+        [Export("applicationWillEnterForeground:")]
+        public override void WillEnterForeground(UIApplication application)
+        {
+            _deviceOrientationListener.RegisterListener();
+        }
+
+    }
 }

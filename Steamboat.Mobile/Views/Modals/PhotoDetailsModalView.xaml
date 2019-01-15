@@ -29,16 +29,15 @@
     <popup:PopupPage.Content>
          <Grid RowSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="7*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="85*" />
+                <RowDefinition Height="10*" />
             </Grid.RowDefinitions>
             <!--<StackLayout Grid.Row="1" BackgroundColor="White" Padding="2" Margin="16,0" HorizontalOptions="Fill" VerticalOptions="StartAndExpand" >
                 <ffimageloading:CachedImage VerticalOptions="FillAndExpand" HorizontalOptions="Fill" Source="{Binding Url}" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
             </StackLayout>-->
             <customControl:UniformImage Grid.Row="1" Margin="16,0" AspectEx="Uniform" Source="{Binding Url}" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
-            <customControl:LinkButton Grid.Row="3" Text="CLOSE" Style="{StaticResource GoBackButton}" Command="{Binding CloseModalCommand}" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+            <customControl:LinkButton Grid.Row="2" Text="CLOSE" Style="{StaticResource GoBackButton}" Command="{Binding CloseModalCommand}" IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
             <views:MomentumSpinnerView Grid.Row="1" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
         </Grid>
     </popup:PopupPage.Content>

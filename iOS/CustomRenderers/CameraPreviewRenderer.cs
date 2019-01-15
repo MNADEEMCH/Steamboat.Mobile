@@ -7,128 +7,93 @@ using Xamarin.Forms.Platform.iOS;
 using AVFoundation;
 using CoreGraphics;
 using Foundation;
-using Steamboat.Mobile.iOS.Utilities;
 using System.Diagnostics;
+using Steamboat.Mobile.iOS.Utilities.Camera;
+using Steamboat.Mobile.Models.Camera;
+using Steamboat.Mobile.Models.NavigationParameters;
 
 [assembly: ExportRenderer(typeof(CameraPreview), typeof(CameraPreviewRenderer))]
 namespace Steamboat.Mobile.iOS.CustomRenderers
 {
     public class CameraPreviewRenderer : ViewRenderer<CameraPreview, UIView>
     {
-        AVCaptureVideoOrientation orientation;
-        CameraManager cameraManager = new CameraManager();
-        UIView cameraPreview;
-
-        public override void LayoutSubviews()
-        {
-            base.LayoutSubviews();
-
-            if (Xamarin.Forms.DesignMode.IsDesignModeEnabled)
-            {
-                return;
-            }
-
-            if (cameraManager != null)
-            {
-                InitManager();
-            }
-        }
+        UIView _cameraPreview;
+        CameraManager _cameraManager = new CameraManager();
 
         protected override void OnElementChanged(ElementChangedEventArgs<CameraPreview> e)
         {
             base.OnElementChanged(e);
 
             if (Xamarin.Forms.DesignMode.IsDesignModeEnabled)
-            {
                 return;
-            }
 
             if (Control == null)
             {
-                cameraPreview = new UIView(new CGRect());
-                cameraPreview.BackgroundColor = UIColor.Red;
-                SetNativeControl(cameraPreview);
+                _cameraPreview = new UIView(new CGRect());
+                _cameraPreview.BackgroundColor = UIColor.Black;
+                SetNativeControl(_cameraPreview);
 
-                this.BackgroundColor = UIColor.Cyan;
-            }
-
-            if (e.NewElement != null)
-            {
-                e.NewElement.StartRecording = (() => { StartRecording(); });
-                e.NewElement.Dispose = (() => { OnDispose(); });
-                e.NewElement.ToggleFlash = (() => { ToggleFlash(); });
-                e.NewElement.SwapCamera = (() => { SwapCamera(); });
+                e.NewElement.StartCamera = (() => { });
+                e.NewElement.CloseCamera = (() => { });
+                e.NewElement.ToggleCamera = (() => { ToggleCamera(); });
+                e.NewElement.TakePicture = ((pictureSettings) => { TakePicture(pictureSettings); });
             }
         }
 
-        private void ToggleFlash()
+        public override void LayoutSubviews()
         {
-            if (cameraManager.FlashMode == CameraFlashMode.On)
-                cameraManager.FlashMode = CameraFlashMode.Off;
-            else
-                cameraManager.FlashMode = CameraFlashMode.On;
-        }
+            base.LayoutSubviews();
 
-        private void SwapCamera()
-        {
-            if (cameraManager.CameraDevice == CameraDevice.Back)
-                cameraManager.CameraDevice = CameraDevice.Front;
-            else
-                cameraManager.CameraDevice = CameraDevice.Back;
-        }
+            if (Xamarin.Forms.DesignMode.IsDesignModeEnabled)
+                return;
 
-        protected override void Dispose(bool disposing)
-        {
-            Debug.WriteLine("Dispose");
-            if (disposing)
+            if (_cameraManager != null)
             {
-                if (Control != null)
+                InitManager();
+            }
+        }
+
+        private void InitManager()
+        {
+            _cameraManager.CameraReadyEventHandler += CameraReady;
+            _cameraManager.AddPreviewLayerToView(Control);
+        }
+
+        private void CameraReady(object sender, CamCharacteristics cameraCharacteristics)
+        {
+            Element.OnCameraReady(cameraCharacteristics);
+        }
+
+        private void ToggleCamera()
+        {
+            _cameraManager?.ToggleCamera();
+        }
+
+        private void TakePicture(PictureSettings pictureSettings)
+        {
+            _cameraManager?.ToggleFlash(pictureSettings.EnableFlash);
+            _cameraManager?.TakePicture(
+                ((image, err) =>
                 {
-                    Control.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
+                    NSData imageData = null;
+                    ImageSource imageSource = null;
 
-        public void StartRecording()
-        {
-            Debug.WriteLine("StartRecording");
+                    //COMPRESSION
+                    if (pictureSettings.ApplyCompression)
+                        imageData = image.AsJPEG((float)pictureSettings.CompressionQuality);
+                    else
+                        imageData = image.AsJPEG(1);
 
-            if (cameraManager.OutputMode == CameraOutputMode.StillImage)
-            {
-                cameraManager.CapturePicture(async (img, err) =>
-                {
-                    NSData imgData = img.AsJPEG(0.1f);
-                    var foo = ImageSource.FromStream(imgData.AsStream);
+                    imageSource = ImageSource.FromStream(imageData.AsStream);
 
-                    Element.OnPhotoTaken(imgData.ToArray(), foo);
-                });
-            }
-            else
-            {
-                cameraManager.startRecordingVideo();
-            }
-        }
-
-        void InitManager()
-        {
-            if (cameraManager == null)
-            {
-                cameraManager = new CameraManager();
-            }
-            cameraManager.AddPreviewLayerToView(Control, CameraOutputMode.StillImage, OnCameraReady);
-            Debug.WriteLine("^^^ NEW CAMERA ^^^");
-        }
-
-        private void OnCameraReady()
-        {
-
-        }
-
-        public void OnDispose()
-        {
-            Debug.WriteLine("OnDispose");
-            Dispose(true);
+                    var pictureTakenOutput = new PhotoTakenParameter
+                    {
+                        ImageSource = imageSource,
+                        Media = imageData.ToArray()
+                    };
+                    Element.OnPictureTaken(pictureTakenOutput);
+                })
+            );
         }
     }
 }

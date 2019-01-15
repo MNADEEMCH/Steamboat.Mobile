@@ -2,25 +2,25 @@
 using Android.Graphics;
 using Android.Views;
 
-namespace Steamboat.Mobile.Droid.Helpers.Camera
+namespace Steamboat.Mobile.Droid.Helpers.Camera.Listeners
 {
-    public class MySurfaceTextureListener : Java.Lang.Object, TextureView.ISurfaceTextureListener
+    public class SurfaceTextureListener : Java.Lang.Object, TextureView.ISurfaceTextureListener
     {
-        ICamera2 fragment;
+        ICamera2 _camera;
 
-        public MySurfaceTextureListener(ICamera2 frag)
+        public SurfaceTextureListener(ICamera2 camera)
         {
-            fragment = frag;
+            _camera = camera;
         }
 
         public void OnSurfaceTextureAvailable(SurfaceTexture surface_texture, int width, int height)
         {
-            fragment.OpenCamera(width, height);
+            _camera.OpenCamera(width, height);
         }
 
         public void OnSurfaceTextureSizeChanged(SurfaceTexture surface_texture, int width, int height)
         {
-            fragment.ConfigureTransform(width, height);
+            _camera.ConfigureTransform(width, height);
         }
 
         public bool OnSurfaceTextureDestroyed(SurfaceTexture surface_texture)
@@ -30,7 +30,7 @@ namespace Steamboat.Mobile.Droid.Helpers.Camera
 
         public void OnSurfaceTextureUpdated(SurfaceTexture surface_texture)
         {
-        }
 
+        }
     }
 }
