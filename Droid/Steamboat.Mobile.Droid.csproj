@@ -580,6 +580,10 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icFlash_off.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icFlash_off.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icFlash_off.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\imgAchievement.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\imgAchievement.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\imgAchievement.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\imgAchievement.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

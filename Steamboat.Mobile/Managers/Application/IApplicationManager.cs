@@ -35,5 +35,9 @@ namespace Steamboat.Mobile.Managers.Application
 		void DecreaseTimer();
 
 		event EventHandler<PushNotificationEventParam> OnNotification;
+
+        Task ChangeMenuOrder();
+
+        event EventHandler<EventArgs> OnChangeMenuOrder;
 	}
 }

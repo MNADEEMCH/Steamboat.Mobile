@@ -32,8 +32,9 @@ namespace Steamboat.Mobile.Managers.Application
 		private static Stopwatch _stopWatch;
 
 		public event EventHandler<PushNotificationEventParam> OnNotification;
+        public event EventHandler<EventArgs> OnChangeMenuOrder;
 
-		public int NotificationsBadge { get { return _notificationsCount; } set { _notificationsCount = value; } }
+        public int NotificationsBadge { get { return _notificationsCount; } set { _notificationsCount = value; } }
 
 		public ApplicationManager(IApplicationService applicationService = null,
 								  INotificationService notificationService = null,
@@ -279,5 +280,11 @@ namespace Steamboat.Mobile.Managers.Application
 		{
 			_stopwatchTimeoutLimit = _settings.TimeoutLimit;
 		}
-	}
+
+        public async Task ChangeMenuOrder()
+        {
+            OnChangeMenuOrder?.Invoke(this, new EventArgs());
+            await Task.FromResult(true);
+        }
+    }
 }

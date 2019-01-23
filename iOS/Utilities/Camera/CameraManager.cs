@@ -466,13 +466,13 @@ namespace Steamboat.Mobile.iOS.Utilities.Camera
         {
 
             var validPreviewLayerConnection = _previewLayer.Connection;
-            if (validPreviewLayerConnection != null)
-            {
-                if (validPreviewLayerConnection.SupportsVideoOrientation)
-                {
-                    validPreviewLayerConnection.VideoOrientation = CurrentVideoOrientation();
-                }
-            }
+            //if (validPreviewLayerConnection != null)
+            //{
+            //    if (validPreviewLayerConnection.SupportsVideoOrientation)
+            //    {
+            //        validPreviewLayerConnection.VideoOrientation = CurrentVideoOrientation();
+            //    }
+            //}
 
             if (_embeddingView != null)
                 _previewLayer.Frame = _embeddingView.Bounds;

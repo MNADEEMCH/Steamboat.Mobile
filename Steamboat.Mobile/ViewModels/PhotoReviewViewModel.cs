@@ -79,7 +79,7 @@ namespace Steamboat.Mobile.ViewModels
                 IsUploaded = true;
                 EndLoopCommand.Execute(null);
                 await Task.Delay(1500);
-            }, null, async () => await NavigationService.NavigateToAsync<PhotojournalingViewModel>(mainPage: true));
+            }, null, async () => await NavigationService.NavigateToAsync<PhotojournalingViewModel>(new PhotoUploadedParameter(), mainPage: true));
         }
 
         private async Task GoBack()

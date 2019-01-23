@@ -48,7 +48,7 @@
             <Style x:Key="Emoji" TargetType="ffimageloading:CachedImage">
                 <Setter Property="WidthRequest" Value="24" />
                 <Setter Property="HeightRequest" Value="24" />
-                <Setter Property="Margin" Value="24,12,0,0" />
+                <Setter Property="Margin" Value="24,14,0,0" />
                 <Setter Property="VerticalOptions" Value="Start" />
                 <Setter Property="HorizontalOptions" Value="Start" />
                 <Style.Triggers>

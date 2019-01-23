@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Steamboat.Mobile.Models.Participant.DispositionSteps;
+using Steamboat.Mobile.Models.Participant.Photojournaling;
 
 namespace Steamboat.Mobile.Models.Participant
 {
@@ -18,6 +19,7 @@ namespace Steamboat.Mobile.Models.Participant
         public ReportStep ReportStep { get; set; }
         public int UnreadMessageCount { get; set; }
         public string NutritionStrategy { get; set; }
+        public Nutrition Nutrition { get; set; }
     }
 
     public class Alert

@@ -70,6 +70,7 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.Register(() => new PhotojournalingMoreInfoModalViewModel());
             Locator.CurrentMutable.Register(() => new CameraAccessModalViewModel());
             Locator.CurrentMutable.Register(() => new PhotoDetailsModalViewModel());
+            Locator.CurrentMutable.Register(() => new PhotojournalingGoalViewModel());
 
             //Managers
             Locator.CurrentMutable.RegisterConstant(new ApplicationManager(), typeof(IApplicationManager));

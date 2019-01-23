@@ -94,6 +94,8 @@ namespace Steamboat.Mobile.ViewModels
             {
                 await DialogService.ShowAlertAsync("Loaded with errors", "Error", "OK");
             }
+            else
+                await _applicationManager.ChangeMenuOrder();
 
             await Task.FromResult(true);
         }

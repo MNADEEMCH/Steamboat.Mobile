@@ -1,4 +1,6 @@
 ﻿using System;
+using Steamboat.Mobile.Models.Participant.Photojournaling;
+
 namespace Steamboat.Mobile.Models.NavigationParameters
 {
     public class MainViewModelInitParameter
@@ -6,6 +8,6 @@ namespace Steamboat.Mobile.Models.NavigationParameters
         public Type DispositionStepType { get; set;}
         public bool NavigatingToDispositionStep { get; set; }
         public int UnreadMessageCount { get; set; }
-        public bool ShowNP { get; set; }
+        public Nutrition NutritionPlan { get; set; }
     }
 }

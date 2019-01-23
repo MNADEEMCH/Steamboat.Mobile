@@ -467,6 +467,9 @@
     <BundleResource Include="Resources\icFlash_off.png" />
     <BundleResource Include="Resources\icFlash_off%402x.png" />
     <BundleResource Include="Resources\icFlash_off%403x.png" />
+    <BundleResource Include="Resources\imgAchievement.png" />
+    <BundleResource Include="Resources\imgAchievement%402x.png" />
+    <BundleResource Include="Resources\imgAchievement%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

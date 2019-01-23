@@ -28,8 +28,8 @@
                 <Setter Property="VerticalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="IconImage" TargetType="ffimageloading:CachedImage">
-                <Setter Property="HeightRequest" Value="208"></Setter>
-                <Setter Property="WidthRequest" Value="208"></Setter>
+                <Setter Property="HeightRequest" Value="198"></Setter>
+                <Setter Property="WidthRequest" Value="198"></Setter>
                 <Setter Property="HorizontalOptions" Value="Center"></Setter>
             </Style>
             <Style x:Key="TitleLabel"  TargetType="Label">

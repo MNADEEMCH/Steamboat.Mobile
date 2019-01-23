@@ -39,45 +39,46 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
-            if (parameter is Photograph photo)
+            await TryExecute(async () =>
             {
-                UserPhotograph = photo;
-                ShowUserComment = !string.IsNullOrEmpty(photo.ParticipantComment) || !string.IsNullOrEmpty(photo.ParticipantOpinionRatingName);
-                if (ShowUserComment)
+                if (parameter is Photograph photo)
                 {
-                    UserComment = new PhotojournalingCommentEmoji()
+                    UserPhotograph = photo;
+                    ShowUserComment = !string.IsNullOrEmpty(photo.ParticipantComment) || !string.IsNullOrEmpty(photo.ParticipantOpinionRatingName);
+                    if (ShowUserComment)
                     {
-                        AvatarUrl = App.CurrentUser.AvatarUrl,
-                        Emoji = photo.ParticipantOpinionRatingName
-                    };
-                    UserComment.Text = HandlePhotoText(photo.ParticipantComment, photo.ParticipantOpinionRatingName);
-                }
+                        UserComment = new PhotojournalingCommentEmoji()
+                        {
+                            AvatarUrl = App.CurrentUser.AvatarUrl,
+                            Emoji = photo.ParticipantOpinionRatingName
+                        };
+                        UserComment.Text = HandlePhotoText(photo.ParticipantComment, photo.ParticipantOpinionRatingName);
+                    }
 
-                IsCoachAcknowledged = photo.ReviewedTimestamp != DateTime.MinValue && string.IsNullOrEmpty(photo.ReviewerComment);
-                if (!IsCoachAcknowledged)
-                {
-                    ShowCoachComment = !string.IsNullOrEmpty(photo.ReviewerComment) || !string.IsNullOrEmpty(photo.ReviewerOpinionRatingName);
-                    if (ShowCoachComment)
+                    IsCoachAcknowledged = photo.ReviewedTimestamp != DateTime.MinValue && string.IsNullOrEmpty(photo.ReviewerComment);
+                    if (!IsCoachAcknowledged)
+                    {
+                        ShowCoachComment = !string.IsNullOrEmpty(photo.ReviewerComment) || !string.IsNullOrEmpty(photo.ReviewerOpinionRatingName);
+                        if (ShowCoachComment)
+                        {
+                            CoachComment = new PhotojournalingCommentEmoji()
+                            {
+                                CreatedTimestamp = photo.ReviewedTimestamp,
+                                Emoji = photo.ReviewerOpinionRatingName
+                            };
+                            CoachComment.Text = HandlePhotoText(photo.ReviewerComment, photo.ReviewerOpinionRatingName);
+                        }
+                    }
+                    else
                     {
                         CoachComment = new PhotojournalingCommentEmoji()
                         {
-                            CreatedTimestamp = photo.ReviewedTimestamp,
-                            Emoji = photo.ReviewerOpinionRatingName
+                            CreatedTimestamp = photo.ReviewedTimestamp
                         };
-                        CoachComment.Text = HandlePhotoText(photo.ReviewerComment, photo.ReviewerOpinionRatingName);
                     }
+                    ReplyCoach = IsCoachAcknowledged || ShowCoachComment;
                 }
-                else
-                {
-                    CoachComment = new PhotojournalingCommentEmoji()
-                    {
-                        CreatedTimestamp = photo.ReviewedTimestamp
-                    };
-                }
-                ReplyCoach = IsCoachAcknowledged || ShowCoachComment;
-            }
-
-            await base.InitializeAsync(parameter);
+            }, null, () => IsLoading = false);
         }
 
         private string HandlePhotoText(string comment, string emoji)
@@ -92,14 +93,21 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task OpenMessages()
         {
-            await NavigationService.NavigateToAsync<MessagingViewModel>(mainPage: false);
+            await TryExecute(async () =>
+            {
+                await NavigationService.NavigateToAsync<MessagingViewModel>(mainPage: false);
+            });
         }
 
         private async Task OpenImage()
         {
-            await ModalService.PushAsync<PhotoDetailsModalViewModel>(UserPhotograph.Url);
+            await TryExecute(async () =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await ModalService.PushAsync<PhotoDetailsModalViewModel>(UserPhotograph.Url);
+                });
+            });
         }
-
-        //cambiar svg x png
     }
 }

@@ -8,6 +8,7 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Steamboat.Mobile.Helpers;
 using Steamboat.Mobile.Managers.Participant;
+using Steamboat.Mobile.Models.NavigationParameters;
 using Steamboat.Mobile.Models.Participant.Photojournaling;
 using Steamboat.Mobile.ViewModels.Modals;
 using Xamarin.Forms;
@@ -22,6 +23,7 @@ namespace Steamboat.Mobile.ViewModels
         private ObservableCollection<Photograph> _photoCollection;
         private string _photosTaken;
         private bool _showPhotos;
+        private const int _photoGoal = 20;
 
         public ICommand OpenCameraCommand { get; set; }
         public ICommand MoreInfoCommand { get; set; }
@@ -44,14 +46,23 @@ namespace Steamboat.Mobile.ViewModels
 
         public async override Task InitializeAsync(object parameter)
         {
-            var photos = await _participantManager.GetPhotographs();
-            PreparePhotos(ref photos);
-            PhotoCollection = photos.ToObservableCollection();
-            var photosCount = PhotoCollection.Count;
-            PhotosTaken = string.Format("{0}/{1}", photosCount, "20");
-            ShowPhotos = photosCount > 0;
+            await TryExecute(async () =>
+            {
+                var photos = await _participantManager.GetPhotographs();
+                PreparePhotos(ref photos);
+                PhotoCollection = photos.ToObservableCollection();
+                var photosCount = PhotoCollection.Count;
+                PhotosTaken = string.Format("{0}/{1}", photosCount, _photoGoal.ToString());
+                ShowPhotos = photosCount > 0;
 
-            IsLoading = false;
+                if (parameter is PhotoUploadedParameter && photosCount == _photoGoal)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await ModalService.PushAsync<PhotojournalingGoalViewModel>();
+                    });
+                }
+            }, null, () => IsLoading = false);
         }
 
         private async Task OpenCamera()
@@ -83,7 +94,13 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task MoreInfo()
         {
-            await ModalService.PushAsync<PhotojournalingMoreInfoModalViewModel>();
+            await TryExecute(async () =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await ModalService.PushAsync<PhotojournalingMoreInfoModalViewModel>();
+                });
+            });
         }
 
         private void PreparePhotos(ref List<Photograph> photos)
@@ -97,7 +114,10 @@ namespace Steamboat.Mobile.ViewModels
 
         private async Task OpenPhoto(object selectedPhoto)
         {
-            await NavigationService.NavigateToAsync<PhotoDetailsViewModel>(selectedPhoto);
+            await TryExecute(async () =>
+            {
+                await NavigationService.NavigateToAsync<PhotoDetailsViewModel>(selectedPhoto);
+            });
         }
     }
 }
