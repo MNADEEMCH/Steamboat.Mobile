@@ -42,7 +42,7 @@
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Style.Triggers>
                      <DataTrigger TargetType="Button" Binding="{Binding IsGoodSelected}" Value="True">
-                        <Setter Property="Image" Value="imgGood_normal.png" />
+                        <Setter Property="Image" Value="imgGood.png" />
                     </DataTrigger>
                     <DataTrigger TargetType="Button" Binding="{Binding IsGoodSelected}" Value="False">
                         <Setter Property="Image" Value="imgGood_unselected.png" />
@@ -55,7 +55,7 @@
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Style.Triggers>
                      <DataTrigger TargetType="Button" Binding="{Binding IsNeutralSelected}" Value="True">
-                        <Setter Property="Image" Value="imgNeutral_normal.png" />
+                        <Setter Property="Image" Value="imgNeutral.png" />
                     </DataTrigger>
                     <DataTrigger TargetType="Button" Binding="{Binding IsNeutralSelected}" Value="False">
                         <Setter Property="Image" Value="imgNeutral_unselected.png" />
@@ -63,15 +63,15 @@
                 </Style.Triggers>
             </Style>
             <Style x:Key="BadImage" TargetType="Button">
-                <Setter Property="HeightRequest" Value="96" />
-                <Setter Property="WidthRequest" Value="96" />
+                <Setter Property="HeightRequest" Value="104" />
+                <Setter Property="WidthRequest" Value="104" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Style.Triggers>
                      <DataTrigger TargetType="Button" Binding="{Binding IsBadSelected}" Value="True">
-                        <Setter Property="Image" Value="imgBad_normal.png" />
+                        <Setter Property="Image" Value="imgSad.png" />
                     </DataTrigger>
                     <DataTrigger TargetType="Button" Binding="{Binding IsBadSelected}" Value="False">
-                        <Setter Property="Image" Value="imgBad_unselected.png" />
+                        <Setter Property="Image" Value="imgSad_unselected.png" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
