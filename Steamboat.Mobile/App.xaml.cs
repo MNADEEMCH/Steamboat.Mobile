@@ -8,6 +8,9 @@ using Steamboat.Mobile.Services.Navigation;
 using Steamboat.Mobile.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Steamboat.Mobile
@@ -19,12 +22,14 @@ namespace Steamboat.Mobile
         public static string SessionID;
 
         public static IApplicationManager _applicationManager;
+        private ISettings _settings;
 
-		public App(PushNotification pushNotification = null, ISettings settings = null)
+        public App(PushNotification pushNotification = null, ISettings settings = null)
         {
             InitializeComponent();
 
             _applicationManager = _applicationManager ?? DependencyContainer.Resolve<IApplicationManager>();
+            _settings = settings ?? DependencyContainer.Resolve<ISettings>();
             _applicationManager.InitializeApplication(pushNotification);
         }
 
@@ -49,6 +54,11 @@ namespace Steamboat.Mobile
         protected override void OnStart()
         {
 			_applicationManager.OnApplicationStart();
+
+            AppCenter.Start(
+                $"ios={_settings.iOSAppCenter}; android={_settings.AndroidAppCenter}",
+                typeof(Analytics),
+                typeof(Crashes));
         }
 
         protected override void OnSleep()

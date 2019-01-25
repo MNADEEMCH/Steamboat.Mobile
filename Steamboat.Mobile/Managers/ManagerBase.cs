@@ -90,7 +90,7 @@ namespace Steamboat.Mobile.Managers
         }
 
         private void LogException(Exception ex){
-            Debug.WriteLine($"Error: {ex}");
+            //Debug.WriteLine($"Error: {ex}");
         }
     
         protected async Task SessionExpired()

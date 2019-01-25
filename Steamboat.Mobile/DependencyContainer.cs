@@ -17,6 +17,7 @@ using Steamboat.Mobile.Managers.Application;
 using Steamboat.Mobile.Services.App;
 using Steamboat.Mobile.Helpers.Settings;
 using System.Threading.Tasks;
+using Steamboat.Mobile.Services.Logger;
 
 namespace Steamboat.Mobile
 {
@@ -39,6 +40,7 @@ namespace Steamboat.Mobile
             Locator.CurrentMutable.RegisterLazySingleton(() => new AccountService(), typeof(IAccountService));
             Locator.CurrentMutable.RegisterLazySingleton(() => new ParticipantService(), typeof(IParticipantService));
             Locator.CurrentMutable.RegisterLazySingleton(() => new ApplicationService(), typeof(IApplicationService));
+            Locator.CurrentMutable.RegisterLazySingleton(() => new LoggerService(), typeof(ILoggerService));
 
             //Repositories
             Locator.CurrentMutable.RegisterLazySingleton(() => new UserRepository(), typeof(IUserRepository));

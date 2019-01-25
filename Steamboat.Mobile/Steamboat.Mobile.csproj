@@ -21,6 +21,9 @@
     <PackageReference Include="Xamanimation" Version="1.2.0" />
     <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="2.6.3" />
     <PackageReference Include="Plugin.Permissions" Version="3.0.0.12" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.13.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.13.0" />
+    <PackageReference Include="Microsoft.AppCenter" Version="1.13.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="SharedResources\Spinner.gif" />
@@ -37,5 +40,6 @@
     <Folder Include="Views\Photojournaling\" />
     <Folder Include="Models\Camera\" />
     <Folder Include="Services\Orientation\" />
+    <Folder Include="Services\Logger\" />
   </ItemGroup>
 </Project>

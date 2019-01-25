@@ -10,6 +10,7 @@ using Steamboat.Mobile.Services.Modal;
 using Steamboat.Mobile.Exceptions;
 using Steamboat.Mobile.Managers.Account;
 using Steamboat.Mobile.Managers.Application;
+using Steamboat.Mobile.Services.Logger;
 
 namespace Steamboat.Mobile.ViewModels
 {
@@ -22,7 +23,8 @@ namespace Steamboat.Mobile.ViewModels
         protected readonly IDialogService DialogService;
         protected readonly INavigationService NavigationService;
         protected readonly IModalService ModalService;
-		private IApplicationManager _applicationManager;
+        private ILoggerService _loggerService;
+        private IApplicationManager _applicationManager;
 
         protected bool SetPropertyValue<T>(ref T storageField, T newValue, Expression<Func<T>> propExpr)
         {
@@ -80,6 +82,7 @@ namespace Steamboat.Mobile.ViewModels
             NavigationService = NavigationService ?? DependencyContainer.Resolve<INavigationService>();
             ModalService = ModalService ?? DependencyContainer.Resolve<IModalService>();
 			_applicationManager = _applicationManager ?? DependencyContainer.Resolve<IApplicationManager>();
+            _loggerService = _loggerService ?? DependencyContainer.Resolve<ILoggerService>();
         }
 
         public virtual Task InitializeAsync(object navigationData)
@@ -110,6 +113,8 @@ namespace Steamboat.Mobile.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    LogException(ex);
+
                     if (onCatch != null)
                         await onCatch(ex);
                     else
@@ -139,6 +144,8 @@ namespace Steamboat.Mobile.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    LogException(ex);
+
                     if (onCatch != null)
                         await onCatch(ex);
                     else
@@ -152,6 +159,11 @@ namespace Steamboat.Mobile.ViewModels
 
                 return result;
             });
+        }
+
+        private void LogException(Exception ex)
+        {
+            _loggerService.LogErrorAsync(ex);
         }
     }
 }
