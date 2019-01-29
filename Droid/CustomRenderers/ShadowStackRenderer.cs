@@ -67,7 +67,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             var radius = element.CornerRadius * 2;
             float[] corners = SetCorners(radius);
             backgroundDrawable.SetCornerRadii(corners);
-            backgroundDrawable.SetStroke(1, Android.Graphics.Color.White);
+            backgroundDrawable.SetStroke(1, Android.Graphics.Color.Transparent);
             this.SetBackground(backgroundDrawable);
         }
 
