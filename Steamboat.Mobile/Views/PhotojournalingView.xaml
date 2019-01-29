@@ -158,34 +158,6 @@
                                     <Grid Margin="0,8,0,12" VerticalOptions="Start" >
                                         <customControl:ShadowStack ShadowColor="#05666666" CornerRadius="10" Margin="0,4,0,-4" VerticalOptions="End" BackgroundColor="#084D4D4D" HeightRequest="40" />
                                         <Frame VerticalOptions="Start" Padding="0" CornerRadius="10" IsClippedToBounds="true" HeightRequest="218" BorderColor="Transparent" >
-                                            <!--<Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="FillAndExpand" >
-                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="140" />
-                                                    <RowDefinition Height="78" />
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="72" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                
-                                                <ffimageloading:CachedImage Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" CacheType="All" CacheDuration="30" Source="{Binding Url}" LoadingPlaceholder="imgPhotoPlaceholder.png" ErrorPlaceholder="imgPhotoPlaceholder.png" RetryCount="2" Aspect="AspectFill" />
-                                                <StackLayout Orientation="Vertical" Grid.Row="1" Grid.Column="0" Padding="0,12" Spacing="0" BackgroundColor="{StaticResource WhiteColor}" >
-                                                    <Label Text="{Binding SubmittedTimestamp, StringFormat='{0:dd}'}" HorizontalOptions="Center" FontFamily="{DynamicResource RalewayRegular}" TextColor="{StaticResource DarkBlueColor}" FontSize="34" />
-                                                    <Label Text="{Binding SubmittedTimestamp, Converter={StaticResource PhotoDate}}" HorizontalOptions="Center" FontFamily="{DynamicResource OpenSansSemiBold}" TextColor="{StaticResource StoneBlueColor}" FontSize="11" Margin="8,0,0,0" />
-                                                </StackLayout>
-                                                <StackLayout Grid.Row="1" Grid.Column="1" Padding="0,12" Spacing="0" BackgroundColor="{StaticResource WhiteColor}" Orientation="Horizontal" >
-                                                    <BoxView WidthRequest="1" BackgroundColor="#D8D8D8" HorizontalOptions="Start" HeightRequest="32" Margin="0,8,8,0"  />
-                                                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" Orientation="Horizontal" Spacing="0" IsVisible="{Binding Acknowledged, Converter={StaticResource InverseBoolConverter}}">                                                    
-                                                        <ffimageloading:CachedImage Style="{StaticResource EmojiImage}" IsVisible="{Binding ReviewPending, Converter={StaticResource InverseBoolConverter}}" />
-                                                        <Label Text="Review pending…" IsVisible="{Binding ReviewPending}" FontFamily="{DynamicResource OpenSansSemiBold}" TextColor="{StaticResource MomentumBlueColor}" FontSize="11" VerticalTextAlignment="Center" Margin="4,0,0,0" />
-                                                        <Label Text="{Binding ReviewerComment}" IsVisible="{Binding ReviewPending, Converter={StaticResource InverseBoolConverter}}" FontFamily="{DynamicResource OpenSansRegular}" TextColor="{StaticResource DarkGrayColor}" FontSize="14" VerticalTextAlignment="Center" LineBreakMode="TailTruncation" Margin="0,0,8,0" />
-                                                    </StackLayout>
-                                                </StackLayout>
-                                            
-                                                <Grid.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding Source={x:Reference PJView}, Path=BindingContext.OpenPhotoDetailCommand}}" CommandParameter="{Binding .}" />
-                                                </Grid.GestureRecognizers>
-                                            </Grid>-->
                                             <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="FillAndExpand" >
                                                  <Grid.RowDefinitions>
                                                     <RowDefinition Height="140" />
