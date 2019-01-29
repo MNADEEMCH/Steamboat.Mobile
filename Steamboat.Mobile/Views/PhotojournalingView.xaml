@@ -155,7 +155,8 @@
                         <customControl:RepeaterControl ItemsSource="{Binding PhotoCollection}" BackgroundColor="{StaticResource SubtleGrayColor}" Padding="24" IsVisible="{Binding ShowPhotos}" >
                             <customControl:RepeaterControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Margin="0,8,0,8" VerticalOptions="Start" >                                        
+                                    <Grid Margin="0,8,0,12" VerticalOptions="Start" >
+                                        <customControl:ShadowStack ShadowColor="#05666666" CornerRadius="10" Margin="0,4,0,-4" VerticalOptions="End" BackgroundColor="#084D4D4D" HeightRequest="40" />
                                         <Frame VerticalOptions="Start" Padding="0" CornerRadius="10" IsClippedToBounds="true" HeightRequest="218" BorderColor="Transparent" >
                                             <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="FillAndExpand" >
                                                  <Grid.RowDefinitions>
@@ -186,8 +187,6 @@
                                                 </Grid.GestureRecognizers>
                                             </Grid>
                                         </Frame>
-                                        <customControl:ShadowStack HasShadow="true" CornerRadius="10" Margin="0" VerticalOptions="End" Padding="0" BackgroundColor="Green" HeightRequest="20" />
-                                        <Grid IsVisible="false" />
                                     </Grid>
                                 </DataTemplate>
                             </customControl:RepeaterControl.ItemTemplate>

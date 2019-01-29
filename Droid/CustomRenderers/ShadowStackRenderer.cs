@@ -91,7 +91,8 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
         {
             var element = (ShadowStack)Element;
 
-            ViewCompat.SetElevation(this, element.ShadowOpacity > 0 ? 15 : 0);
+            //ViewCompat.SetElevation(this, element.ShadowOpacity > 0 ? 15 : 0);
+            ViewCompat.SetTranslationZ(this, -10f);
             if (Build.VERSION.SdkInt > BuildVersionCodes.Lollipop)
                 this.StateListAnimator = null;
         }

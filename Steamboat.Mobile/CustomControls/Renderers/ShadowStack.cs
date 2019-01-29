@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace Steamboat.Mobile.CustomControls
 {
-    public class ShadowStack : Frame
+    public class ShadowStack : StackLayout
     {
         public static readonly BindableProperty CornerRadiusProperty =
             BindableProperty.Create(nameof(CornerRadius), typeof(int), typeof(BubbleStack), 0);

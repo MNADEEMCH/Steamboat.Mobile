@@ -47,7 +47,7 @@ namespace Steamboat.Mobile.iOS.CustomRenderers
             var element = (ShadowStack)Element;
             Layer.BackgroundColor = element.BackgroundColor.ToCGColor();
             DrawBorder(element);
-            DrawShadow(element.ShadowColor, element.CornerRadius, element.ShadowOpacity);
+            //DrawShadow(element.ShadowColor, element.CornerRadius, element.ShadowOpacity);
         }
 
         private void DrawBorder(ShadowStack element)
