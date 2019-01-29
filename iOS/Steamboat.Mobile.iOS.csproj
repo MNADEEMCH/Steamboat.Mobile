@@ -522,6 +522,7 @@
     <Compile Include="Utilities\Camera\CameraManager.cs" />
     <Compile Include="Utilities\Files\ImageTransformations.cs" />
     <Compile Include="Services\Orientation\DeviceOrientationService.cs" />
+    <Compile Include="CustomRenderers\ShadowStackRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">
