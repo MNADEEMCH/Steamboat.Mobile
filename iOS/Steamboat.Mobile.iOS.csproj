@@ -451,9 +451,6 @@
     <BundleResource Include="Resources\imgPhotoPlaceholder%403x.png" />
     <BundleResource Include="Resources\imgPhotoPlaceholder.png" />
     <BundleResource Include="Resources\imgPhotoPlaceholder%402x.png" />
-    <BundleResource Include="Resources\imgBad%403x.png" />
-    <BundleResource Include="Resources\imgBad%402x.png" />
-    <BundleResource Include="Resources\imgBad.png" />
     <BundleResource Include="Resources\imgGood.png" />
     <BundleResource Include="Resources\imgGood%402x.png" />
     <BundleResource Include="Resources\imgGood%403x.png" />
@@ -461,21 +458,9 @@
     <BundleResource Include="Resources\imgNeutral%402x.png" />
     <BundleResource Include="Resources\imgNeutral%403x.png" />
     <BundleResource Include="Resources\icCamera.svg" />
-    <BundleResource Include="Resources\imgBad_normal.png" />
-    <BundleResource Include="Resources\imgBad_normal%402x.png" />
-    <BundleResource Include="Resources\imgBad_normal%403x.png" />
-    <BundleResource Include="Resources\imgBad_unselected.png" />
-    <BundleResource Include="Resources\imgBad_unselected%402x.png" />
-    <BundleResource Include="Resources\imgBad_unselected%403x.png" />
-    <BundleResource Include="Resources\imgGood_normal.png" />
-    <BundleResource Include="Resources\imgGood_normal%402x.png" />
-    <BundleResource Include="Resources\imgGood_normal%403x.png" />
     <BundleResource Include="Resources\imgGood_unselected.png" />
     <BundleResource Include="Resources\imgGood_unselected%402x.png" />
     <BundleResource Include="Resources\imgGood_unselected%403x.png" />
-    <BundleResource Include="Resources\imgNeutral_normal.png" />
-    <BundleResource Include="Resources\imgNeutral_normal%402x.png" />
-    <BundleResource Include="Resources\imgNeutral_normal%403x.png" />
     <BundleResource Include="Resources\imgNeutral_unselected.png" />
     <BundleResource Include="Resources\imgNeutral_unselected%402x.png" />
     <BundleResource Include="Resources\imgNeutral_unselected%403x.png" />
@@ -488,6 +473,12 @@
     <BundleResource Include="Resources\imgAchievement.png" />
     <BundleResource Include="Resources\imgAchievement%402x.png" />
     <BundleResource Include="Resources\imgAchievement%403x.png" />
+    <BundleResource Include="Resources\imgSad%403x.png" />
+    <BundleResource Include="Resources\imgSad%402x.png" />
+    <BundleResource Include="Resources\imgSad.png" />
+    <BundleResource Include="Resources\imgSad_unselected%403x.png" />
+    <BundleResource Include="Resources\imgSad_unselected%402x.png" />
+    <BundleResource Include="Resources\imgSad_unselected.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -531,6 +522,7 @@
     <Compile Include="Utilities\Camera\CameraManager.cs" />
     <Compile Include="Utilities\Files\ImageTransformations.cs" />
     <Compile Include="Services\Orientation\DeviceOrientationService.cs" />
+    <Compile Include="CustomRenderers\ShadowStackRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Steamboat.Mobile\Steamboat.Mobile.csproj">

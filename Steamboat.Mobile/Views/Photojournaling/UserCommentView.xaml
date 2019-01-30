@@ -34,9 +34,9 @@
                 <Setter Property="HorizontalOptions" Value="EndAndExpand" />
             </Style>
             <Style x:Key="Emoji" TargetType="ffimageloading:CachedImage">
-                <Setter Property="WidthRequest" Value="24" />
-                <Setter Property="HeightRequest" Value="24" />
-                <Setter Property="Margin" Value="24,14,0,0" />
+                <Setter Property="WidthRequest" Value="21" />
+                <Setter Property="HeightRequest" Value="21" />
+                <Setter Property="Margin" Value="24,15,0,0" />
                 <Setter Property="VerticalOptions" Value="Start" />
                 <Setter Property="HorizontalOptions" Value="Start" />
                 <Style.Triggers>
@@ -47,7 +47,7 @@
                         <Setter Property="Source" Value="imgNeutral.png" />
                     </DataTrigger>
                     <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding Emoji}" Value="Sad">
-                        <Setter Property="Source" Value="imgBad.png" />
+                        <Setter Property="Source" Value="imgSad.png" />
                     </DataTrigger>
                     <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding Text}" Value="">
                         <Setter Property="Margin" Value="24,16" />

@@ -54,7 +54,7 @@ namespace Steamboat.Mobile.Views
                 {
                     PhotosContent.Animate("IncreaseHeight", ChangeHeight, 0, main.ContentSize.Height, 16, 400, Easing.CubicIn);
                     ChevronIcon.RotateTo(-90);
-                    this.BackgroundColor = (Color)Xamarin.Forms.Application.Current.Resources["SubtleGrayColor"];
+                    this.BackgroundColor = (Color)Xamarin.Forms.Application.Current.Resources["LightGrayColor"];
                 }
                 else
                 {
