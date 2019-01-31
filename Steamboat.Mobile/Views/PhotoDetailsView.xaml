@@ -73,7 +73,7 @@
                 </StackLayout>
             </ScrollView>
             
-            <!--<views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />-->
+            <views:MomentumSpinnerView Grid.Row="0" IsVisible="{Binding IsLoading}" VerticalOptions="Center" />
         </Grid>
     </ContentPage.Content>
     

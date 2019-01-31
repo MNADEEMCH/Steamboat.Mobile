@@ -73,6 +73,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <ffimageloading:CachedImage Grid.Column="0" Source="imgMomentumProfile.png" Style="{StaticResource MomentumImage}" />
             <customControl:BubbleStack Grid.Column="1" Style="{StaticResource LabelBubbleStack}" Orientation="Horizontal" IsVisible="{Binding IsAcknowledged, Source={x:Reference CoachComment}, Converter={StaticResource InverseBoolConverter}}" >

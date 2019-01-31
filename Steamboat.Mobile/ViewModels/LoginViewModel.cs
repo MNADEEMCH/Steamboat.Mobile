@@ -54,7 +54,6 @@ namespace Steamboat.Mobile.ViewModels
 
 			Username = new ValidatableObject<string>();
 			Password = new ValidatableObject<string>();
-            Password.Value = "Passw0rd";
 
 			if (App.CurrentUser != null)
 				Username.Value = App.CurrentUser.Email ?? string.Empty;
