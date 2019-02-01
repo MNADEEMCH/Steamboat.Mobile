@@ -22,6 +22,7 @@ namespace Steamboat.Mobile.iOS
 	[Register("AppDelegate")]
 	public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IUNUserNotificationCenterDelegate, Firebase.CloudMessaging.IMessagingDelegate
 	{
+        private bool _ignorePush = false;
         private IDeviceOrientationService _deviceOrientationListener;
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
@@ -49,7 +50,8 @@ namespace Steamboat.Mobile.iOS
 				HttpClient = new HttpClient(new AuthenticatedHttpClient())
 			});
 			var ignore = typeof(SvgCachedImage);
-			LoadApplication(new App(pushNotification));
+            _ignorePush = pushNotification != null;
+            LoadApplication(new App(pushNotification));
 
 			//LoadApplication(UXDivers.Gorilla.iOS.Player.CreateApplication(
 			//  new UXDivers.Gorilla.Config("Good Gorilla")
@@ -124,9 +126,15 @@ namespace Steamboat.Mobile.iOS
 
 			PushNotification pushNotification = NotificationHelper.TryGetPushNotification(userInfo);
 
-			if (pushNotification != null)
-			{
-				await App.HandlePushNotification(IsApplicationInactive(), IsApplicationBackgrounded(), pushNotification);
+            if (_ignorePush)
+            {
+                //when the app starts it processes the push in the constructor but also here,
+                //so it get procesed twice, not with this flag
+                _ignorePush = !_ignorePush;
+            }
+            else if (pushNotification != null)
+            {
+                await App.HandlePushNotification(IsApplicationInactive(), IsApplicationBackgrounded(), pushNotification);
 				if (pushNotification.IsContentAvailablePresent)
 					completionHandler(UIBackgroundFetchResult.NewData);
 			}

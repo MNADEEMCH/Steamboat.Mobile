@@ -28,7 +28,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
 
             if (e.NewElement != null)
             {
-                Control.Touch += OnTouch;
+                Control.SetOnTouchListener(new TouchListener(this));
             }
 
             var button = this.Element as GradientRoundedButton;
@@ -100,23 +100,13 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
             }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (Control != null)
-            {
-                Control.Touch -= OnTouch;
-            }
-
-            base.Dispose(disposing);
-        }
-
-        private void OnTouch(object sender, TouchEventArgs e)
+        public void ButtonTouched(Android.Views.View v, MotionEvent e)
         {
             var button = this.Element as GradientRoundedButton;
             int[] colors;
             var background = Control.Background as GradientDrawable;
 
-            if (e.Event.Action == MotionEventActions.Down)
+            if (e.Action == MotionEventActions.Down)
             {
                 var startColor = Xamarin.Forms.Platform.Android.ColorExtensions.ToAndroid(button.ActiveColor);
                 var endColor = Xamarin.Forms.Platform.Android.ColorExtensions.ToAndroid(button.ActiveColor);
@@ -124,7 +114,7 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 ViewCompat.SetElevation(Control, 0);
                 background.SetColors(colors);
             }
-            else if (e.Event.Action == MotionEventActions.Up)
+            else if (e.Action == MotionEventActions.Up)
             {
                 var startColor = Xamarin.Forms.Platform.Android.ColorExtensions.ToAndroid(button.StartColor);
                 var endColor = Xamarin.Forms.Platform.Android.ColorExtensions.ToAndroid(button.EndColor);
@@ -133,6 +123,23 @@ namespace Steamboat.Mobile.Droid.CustomRenderers
                 background.SetColors(colors);
                 ((IButtonController)Element)?.SendClicked();
             }
+        }
+
+        private class TouchListener : Java.Lang.Object, IOnTouchListener
+        {
+            private GradientRoundedButtonRenderer _buttonRenderer;
+
+            public TouchListener(GradientRoundedButtonRenderer buttonRenderer)
+            {
+                _buttonRenderer = buttonRenderer;
+            }
+
+            public bool OnTouch(Android.Views.View v, MotionEvent e)
+            {
+                _buttonRenderer.ButtonTouched(v, e);
+                return true;
+            }
+
         }
     }
 }
