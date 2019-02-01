@@ -6,8 +6,6 @@
 	<string>Momentum</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.MomentumHealth</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.9</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -66,7 +64,9 @@
 	<string>This app needs access to the camera to take photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs to access the photo library.</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.0</string>
 	<key>CFBundleVersion</key>
-	<string>10</string>
+	<string>11</string>
 </dict>
 </plist>
