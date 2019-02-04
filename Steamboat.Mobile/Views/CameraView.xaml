@@ -39,6 +39,7 @@
                 <Setter Property="Margin" Value="8,0,0,0" />
             </Style>
             <Style x:Key="GalleryButton" TargetType="customControl:LinkButton">
+                <Setter Property="IsVisible" Value="false"/>
                 <Setter Property="ImageHeight" Value="32"/>
                 <Setter Property="ImageWidth" Value="32"/>
                 <Setter Property="HorizontalOptions" Value="EndAndExpand"/>

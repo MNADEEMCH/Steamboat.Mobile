@@ -60,10 +60,14 @@
 	</array>
 	<key>UIRequiresFullScreen</key>
 	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>This app needs access to the bluetooth for IOT integration.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app needs access to the calendar to check your availability</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs access to the camera to take photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs to access the photo library.</string>
+	<string>This app needs to access the photo library to get photos.</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.0</string>
 	<key>CFBundleVersion</key>
