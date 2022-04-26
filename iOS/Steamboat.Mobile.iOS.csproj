@@ -1,6 +1,6 @@
 ﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Xamarin.Forms.3.4.0.1008975\build\Xamarin.Forms.props" Condition="Exists('..\packages\Xamarin.Forms.3.4.0.1008975\build\Xamarin.Forms.props')" />
-  <Import Project="..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.props" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.props')" />
+  <Import Project="..\packages\Xamarin.Forms.5.0.0.2401\build\Xamarin.Forms.props" Condition="Exists('..\packages\Xamarin.Forms.5.0.0.2401\build\Xamarin.Forms.props')" />
+  <Import Project="..\packages\Xamarin.Build.Download.0.11.1\build\Xamarin.Build.Download.props" Condition="Exists('..\packages\Xamarin.Build.Download.0.11.1\build\Xamarin.Build.Download.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
@@ -80,20 +80,18 @@
     <CodesignProvision>Momentum Health Provisioning Profile Dev</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Production|iPhone' ">
-    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Production</OutputPath>
     <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Distribution: Momentum Health Employee Engagement Solutions, LLC (4M4MJAM7A7)</CodesignKey>
+    <CodesignKey>Apple Development: Scott Campbell (3HSX7P3T5W)</CodesignKey>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <BuildIpa>true</BuildIpa>
-    <CodesignProvision>Momentum Health Provisioning Profile Prod</CodesignProvision>
     <MtouchUseLlvm>true</MtouchUseLlvm>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Production|iPhoneSimulator' ">
@@ -134,140 +132,150 @@
     <Reference Include="OpenTK-1.0" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Collections.Immutable">
-      <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+      <HintPath>..\packages\System.Collections.Immutable.6.0.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ClientEngine">
-      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.9.0\lib\netstandard1.3\SuperSocket.ClientEngine.dll</HintPath>
+      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.10.0\lib\netstandard1.3\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
     <Reference Include="WebSocket4Net">
-      <HintPath>..\packages\WebSocket4Net.0.15.1\lib\netstandard1.3\WebSocket4Net.dll</HintPath>
+      <HintPath>..\packages\WebSocket4Net.0.15.2\lib\netstandard1.3\WebSocket4Net.dll</HintPath>
     </Reference>
     <Reference Include="SocketIoClientDotNet">
       <HintPath>..\packages\SocketIoClientDotNet.1.0.3\lib\netstandard1.3\SocketIoClientDotNet.dll</HintPath>
     </Reference>
     <Reference Include="UXDivers.Gorilla.SDK">
-      <HintPath>..\packages\UXDivers.GorillaPlayer.SDK.1.2.0\lib\Xamarin.iOS10\UXDivers.Gorilla.SDK.dll</HintPath>
+      <HintPath>..\packages\UXDivers.GorillaPlayer.SDK.1.5.5\lib\Xamarin.iOS10\UXDivers.Gorilla.SDK.dll</HintPath>
     </Reference>
     <Reference Include="UXDivers.Gorilla.SDK.iOS">
-      <HintPath>..\packages\UXDivers.GorillaPlayer.SDK.1.2.0\lib\Xamarin.iOS10\UXDivers.Gorilla.SDK.iOS.dll</HintPath>
+      <HintPath>..\packages\UXDivers.GorillaPlayer.SDK.1.5.5\lib\Xamarin.iOS10\UXDivers.Gorilla.SDK.iOS.dll</HintPath>
     </Reference>
     <Reference Include="Xamanimation">
-      <HintPath>..\packages\Xamanimation.1.2.0\lib\netstandard2.0\Xamanimation.dll</HintPath>
+      <HintPath>..\packages\Xamanimation.1.3.0\lib\netstandard2.0\Xamanimation.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.DeviceInfo">
-      <HintPath>..\packages\Xam.Plugin.DeviceInfo.4.0.0.13\lib\xamarinios10\Plugin.DeviceInfo.dll</HintPath>
+      <HintPath>..\packages\Xam.Plugin.DeviceInfo.4.1.1\lib\xamarinios10\Plugin.DeviceInfo.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.core">
-      <HintPath>..\packages\SQLitePCLRaw.core.1.1.11\lib\Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+      <HintPath>..\packages\SQLitePCLRaw.core.2.0.7\lib\netstandard2.0\SQLitePCLRaw.core.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.provider.sqlite3">
-      <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.ios_unified.1.1.11\lib\Xamarin.iOS10\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.batteries_green">
-      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.11\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+      <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.2.0.7\lib\netstandard2.0\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.batteries_v2">
-      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.11\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.2.0.7\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
     </Reference>
     <Reference Include="SQLite-net">
-      <HintPath>..\packages\sqlite-net-pcl.1.5.231\lib\netstandard1.1\SQLite-net.dll</HintPath>
+      <HintPath>..\packages\sqlite-net-pcl.1.8.116\lib\netstandard2.0\SQLite-net.dll</HintPath>
     </Reference>
     <Reference Include="BTProgressHUD">
-      <HintPath>..\packages\BTProgressHUD.1.2.0.6\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
+      <HintPath>..\packages\BTProgressHUD.1.3.5\lib\xamarinios10\BTProgressHUD.dll</HintPath>
     </Reference>
     <Reference Include="Splat">
-      <HintPath>..\packages\Splat.5.0.2\lib\xamarinios10\Splat.dll</HintPath>
+      <HintPath>..\packages\Splat.14.2.8\lib\netstandard2.0\Splat.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="SkiaSharp">
-      <HintPath>..\packages\SkiaSharp.1.60.3\lib\Xamarin.iOS\SkiaSharp.dll</HintPath>
+      <HintPath>..\packages\SkiaSharp.2.80.3\lib\xamarinios1.0\SkiaSharp.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="EngineIoClientDotNet">
       <HintPath>..\packages\EngineIoClientDotNet.1.0.3\lib\netstandard1.3\EngineIoClientDotNet.dll</HintPath>
     </Reference>
     <Reference Include="GetiOSModel">
-      <HintPath>..\packages\dannycabrera.GetiOSModel.1.5.0\lib\xamarinios10\GetiOSModel.dll</HintPath>
+      <HintPath>..\packages\dannycabrera.GetiOSModel.1.17.0\lib\xamarinios10\GetiOSModel.dll</HintPath>
     </Reference>
     <Reference Include="Acr.UserDialogs">
-      <HintPath>..\packages\Acr.UserDialogs.7.0.1\lib\xamarinios10\Acr.UserDialogs.dll</HintPath>
+      <HintPath>..\packages\Acr.UserDialogs.7.2.0.564\lib\xamarinios10\Acr.UserDialogs.dll</HintPath>
     </Reference>
    <Reference Include="Xamarin.Forms.Core">
-     <HintPath>..\packages\Xamarin.Forms.3.4.0.1008975\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
+     <HintPath>..\packages\Xamarin.Forms.5.0.0.2401\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
    </Reference>
    <Reference Include="Xamarin.Forms.Platform">
-     <HintPath>..\packages\Xamarin.Forms.3.4.0.1008975\lib\Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
+     <HintPath>..\packages\Xamarin.Forms.5.0.0.2401\lib\Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
    </Reference>
    <Reference Include="Xamarin.Forms.Platform.iOS">
-     <HintPath>..\packages\Xamarin.Forms.3.4.0.1008975\lib\Xamarin.iOS10\Xamarin.Forms.Platform.iOS.dll</HintPath>
+     <HintPath>..\packages\Xamarin.Forms.5.0.0.2401\lib\Xamarin.iOS10\Xamarin.Forms.Platform.iOS.dll</HintPath>
    </Reference>
    <Reference Include="Xamarin.Forms.Xaml">
-     <HintPath>..\packages\Xamarin.Forms.3.4.0.1008975\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
+     <HintPath>..\packages\Xamarin.Forms.5.0.0.2401\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
    </Reference>
    <Reference Include="Rg.Plugins.Popup">
-     <HintPath>..\packages\Rg.Plugins.Popup.1.1.5.180\lib\Xamarin.IOS\Rg.Plugins.Popup.dll</HintPath>
-   </Reference>
-   <Reference Include="Rg.Plugins.Popup.IOS">
-     <HintPath>..\packages\Rg.Plugins.Popup.1.1.5.180\lib\Xamarin.IOS\Rg.Plugins.Popup.IOS.dll</HintPath>
+     <HintPath>..\packages\Rg.Plugins.Popup.2.1.0\lib\xamarinios10\Rg.Plugins.Popup.dll</HintPath>
    </Reference>
    <Reference Include="FFImageLoading">
-     <HintPath>..\packages\Xamarin.FFImageLoading.2.4.4.859\lib\Xamarin.iOS10\FFImageLoading.dll</HintPath>
+     <HintPath>..\packages\Xamarin.FFImageLoading.2.4.11.982\lib\Xamarin.iOS10\FFImageLoading.dll</HintPath>
    </Reference>
    <Reference Include="FFImageLoading.Platform">
-     <HintPath>..\packages\Xamarin.FFImageLoading.2.4.4.859\lib\Xamarin.iOS10\FFImageLoading.Platform.dll</HintPath>
+     <HintPath>..\packages\Xamarin.FFImageLoading.2.4.11.982\lib\Xamarin.iOS10\FFImageLoading.Platform.dll</HintPath>
    </Reference>
    <Reference Include="FFImageLoading.Forms">
-     <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.4.4.859\lib\Xamarin.iOS10\FFImageLoading.Forms.dll</HintPath>
+     <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.4.11.982\lib\Xamarin.iOS10\FFImageLoading.Forms.dll</HintPath>
    </Reference>
    <Reference Include="FFImageLoading.Forms.Platform">
-     <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.4.4.859\lib\Xamarin.iOS10\FFImageLoading.Forms.Platform.dll</HintPath>
+     <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.4.11.982\lib\Xamarin.iOS10\FFImageLoading.Forms.Platform.dll</HintPath>
    </Reference>
    <Reference Include="FFImageLoading.Svg.Platform">
-     <HintPath>..\packages\Xamarin.FFImageLoading.Svg.2.4.4.859\lib\Xamarin.iOS10\FFImageLoading.Svg.Platform.dll</HintPath>
+     <HintPath>..\packages\Xamarin.FFImageLoading.Svg.2.4.11.982\lib\Xamarin.iOS10\FFImageLoading.Svg.Platform.dll</HintPath>
    </Reference>
    <Reference Include="FFImageLoading.Svg.Forms">
-     <HintPath>..\packages\Xamarin.FFImageLoading.Svg.Forms.2.4.4.859\lib\Xamarin.iOS10\FFImageLoading.Svg.Forms.dll</HintPath>
+     <HintPath>..\packages\Xamarin.FFImageLoading.Svg.Forms.2.4.11.982\lib\Xamarin.iOS10\FFImageLoading.Svg.Forms.dll</HintPath>
    </Reference>
    <Reference Include="Lottie.iOS">
-     <HintPath>..\packages\Com.Airbnb.iOS.Lottie.2.5.4\lib\xamarinios10\Lottie.iOS.dll</HintPath>
+     <HintPath>..\packages\Com.Airbnb.iOS.Lottie.2.5.13\lib\xamarinios10\Lottie.iOS.dll</HintPath>
    </Reference>
    <Reference Include="Lottie.Forms">
-     <HintPath>..\packages\Com.Airbnb.Xamarin.Forms.Lottie.2.6.3\lib\xamarinios10\Lottie.Forms.dll</HintPath>
+     <HintPath>..\packages\Com.Airbnb.Xamarin.Forms.Lottie.4.1.0\lib\xamarinios10\Lottie.Forms.dll</HintPath>
    </Reference>
    <Reference Include="Firebase.Core">
-     <HintPath>..\packages\Xamarin.Firebase.iOS.Core.4.0.13\lib\Xamarin.iOS10\Firebase.Core.dll</HintPath>
+     <HintPath>..\packages\Xamarin.Firebase.iOS.Core.8.10.0\lib\xamarinios10\Firebase.Core.dll</HintPath>
    </Reference>
    <Reference Include="Firebase.InstanceID">
-     <HintPath>..\packages\Xamarin.Firebase.iOS.InstanceID.2.0.8\lib\Xamarin.iOS10\Firebase.InstanceID.dll</HintPath>
+     <HintPath>..\packages\Xamarin.Firebase.iOS.InstanceID.4.8.0\lib\xamarinios10\Firebase.InstanceID.dll</HintPath>
    </Reference>
    <Reference Include="Firebase.Analytics">
-     <HintPath>..\packages\Xamarin.Firebase.iOS.Analytics.4.0.5\lib\Xamarin.iOS10\Firebase.Analytics.dll</HintPath>
+     <HintPath>..\packages\Xamarin.Firebase.iOS.Analytics.8.10.0\lib\xamarinios10\Firebase.Analytics.dll</HintPath>
    </Reference>
    <Reference Include="Firebase.CloudMessaging">
-     <HintPath>..\packages\Xamarin.Firebase.iOS.CloudMessaging.2.0.8\lib\Xamarin.iOS10\Firebase.CloudMessaging.dll</HintPath>
+     <HintPath>..\packages\Xamarin.Firebase.iOS.CloudMessaging.8.10.0\lib\xamarinios10\Firebase.CloudMessaging.dll</HintPath>
    </Reference>
    <Reference Include="Plugin.Permissions">
-     <HintPath>..\packages\Plugin.Permissions.3.0.0.12\lib\xamarinios10\Plugin.Permissions.dll</HintPath>
+     <HintPath>..\packages\Plugin.Permissions.6.0.1\lib\xamarinios10\Plugin.Permissions.dll</HintPath>
    </Reference>
    <Reference Include="Microsoft.AppCenter">
-     <HintPath>..\packages\Microsoft.AppCenter.1.13.0\lib\Xamarin.iOS10\Microsoft.AppCenter.dll</HintPath>
+     <HintPath>..\packages\Microsoft.AppCenter.4.5.0\lib\Xamarin.iOS10\Microsoft.AppCenter.dll</HintPath>
    </Reference>
    <Reference Include="Microsoft.AppCenter.iOS.Bindings">
-     <HintPath>..\packages\Microsoft.AppCenter.1.13.0\lib\Xamarin.iOS10\Microsoft.AppCenter.iOS.Bindings.dll</HintPath>
+     <HintPath>..\packages\Microsoft.AppCenter.4.5.0\lib\Xamarin.iOS10\Microsoft.AppCenter.iOS.Bindings.dll</HintPath>
    </Reference>
    <Reference Include="Microsoft.AppCenter.Crashes">
-     <HintPath>..\packages\Microsoft.AppCenter.Crashes.1.13.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.dll</HintPath>
+     <HintPath>..\packages\Microsoft.AppCenter.Crashes.4.5.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.dll</HintPath>
    </Reference>
    <Reference Include="Microsoft.AppCenter.Crashes.iOS.Bindings">
-     <HintPath>..\packages\Microsoft.AppCenter.Crashes.1.13.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.iOS.Bindings.dll</HintPath>
+     <HintPath>..\packages\Microsoft.AppCenter.Crashes.4.5.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.iOS.Bindings.dll</HintPath>
    </Reference>
    <Reference Include="Microsoft.AppCenter.Analytics">
-     <HintPath>..\packages\Microsoft.AppCenter.Analytics.1.13.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Analytics.dll</HintPath>
+     <HintPath>..\packages\Microsoft.AppCenter.Analytics.4.5.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Analytics.dll</HintPath>
    </Reference>
    <Reference Include="Microsoft.AppCenter.Analytics.iOS.Bindings">
-     <HintPath>..\packages\Microsoft.AppCenter.Analytics.1.13.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Analytics.iOS.Bindings.dll</HintPath>
+     <HintPath>..\packages\Microsoft.AppCenter.Analytics.4.5.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Analytics.iOS.Bindings.dll</HintPath>
+   </Reference>
+   <Reference Include="System.Drawing.Common.dll" />
+   <Reference Include="System.Buffers">
+     <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard2.0\System.Buffers.dll</HintPath>
+   </Reference>
+   <Reference Include="System.Runtime.CompilerServices.Unsafe">
+     <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+   </Reference>
+   <Reference Include="System.Memory">
+     <HintPath>..\packages\System.Memory.4.5.4\lib\netstandard2.0\System.Memory.dll</HintPath>
+   </Reference>
+   <Reference Include="Xamarin.Essentials">
+     <HintPath>..\packages\Xamarin.Essentials.1.5.2\lib\xamarinios10\Xamarin.Essentials.dll</HintPath>
+   </Reference>
+   <Reference Include="Firebase.Installations">
+     <HintPath>..\packages\Xamarin.Firebase.iOS.Installations.8.10.0\lib\xamarinios10\Firebase.Installations.dll</HintPath>
    </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -708,11 +716,10 @@
     <ITunesArtwork Include="iTunesArtwork%402x" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Import Project="..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets')" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
-  <Import Project="..\packages\Xamarin.Forms.3.4.0.1008975\build\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.3.4.0.1008975\build\Xamarin.Forms.targets')" />
-  <Import Project="..\packages\Xamarin.Firebase.iOS.Core.4.0.13\build\Xamarin.Firebase.iOS.Core.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Core.4.0.13\build\Xamarin.Firebase.iOS.Core.targets')" />
-  <Import Project="..\packages\Xamarin.Firebase.iOS.InstanceID.2.0.8\build\Xamarin.Firebase.iOS.InstanceID.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.InstanceID.2.0.8\build\Xamarin.Firebase.iOS.InstanceID.targets')" />
-  <Import Project="..\packages\Xamarin.Firebase.iOS.Analytics.4.0.5\build\Xamarin.Firebase.iOS.Analytics.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Analytics.4.0.5\build\Xamarin.Firebase.iOS.Analytics.targets')" />
-  <Import Project="..\packages\Xamarin.Firebase.iOS.CloudMessaging.2.0.8\build\Xamarin.Firebase.iOS.CloudMessaging.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.CloudMessaging.2.0.8\build\Xamarin.Firebase.iOS.CloudMessaging.targets')" />
+  <Import Project="..\packages\SkiaSharp.2.80.3\build\xamarinios1.0\SkiaSharp.targets" Condition="Exists('..\packages\SkiaSharp.2.80.3\build\xamarinios1.0\SkiaSharp.targets')" />
+  <Import Project="..\packages\Xamarin.Build.Download.0.11.1\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.11.1\build\Xamarin.Build.Download.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.Core.8.10.0\build\Xamarin.Firebase.iOS.Core.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Core.8.10.0\build\Xamarin.Firebase.iOS.Core.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.Analytics.8.10.0\build\Xamarin.Firebase.iOS.Analytics.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Analytics.8.10.0\build\Xamarin.Firebase.iOS.Analytics.targets')" />
+  <Import Project="..\packages\Xamarin.Forms.5.0.0.2401\build\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.5.0.0.2401\build\Xamarin.Forms.targets')" />
 </Project>

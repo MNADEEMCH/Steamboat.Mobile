@@ -25,6 +25,7 @@ namespace Steamboat.Mobile.CustomControls
             }
         }
 
+        [Obsolete]
         protected override SizeRequest OnSizeRequest(Double widthConstraint, Double heightConstraint)
         {
             // the returned sizeRequest contains the dimensions of the image
